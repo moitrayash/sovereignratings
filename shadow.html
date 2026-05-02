@@ -287,10 +287,10 @@ window.addEventListener('load', () => {
   }
   window.scrLoadExtras().then(j => {
     EXTRAS = j;
-    populate();
-    renderHeatmap();
+    try { populate(); } catch(e) { console.error('populate failed:', e); }
+    try { renderHeatmap(); } catch(e) { console.error('heatmap failed:', e); }
   }).catch(err => {
-    document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">Could not load extras.json: ' + err.message + '</p>');
+    if (!EXTRAS) document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">Could not load extras.json: ' + err.message + '</p>');
   });
 });
 
@@ -314,30 +314,40 @@ function renderShadow(country) {
     document.getElementById('sh-table').innerHTML = '';
     return;
   }
-  const cfg = window.scrChartConfig;
+  const cfg = window.scrChartConfig || {displayModeBar: true, responsive: true};
+  const baseFlat = {
+    plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
+    font:{family:'Helvetica Neue, Arial, sans-serif', size:11},
+    margin:{l:64,r:60,t:50,b:92},
+    legend:{orientation:'h', y:-0.32, x:0.5, xanchor:'center'}
+  };
   // Overlay chart
-  Plotly.newPlot('sh-overlay', [
-    {x: ols.map(r=>r.Year),   y: ols.map(r=>r.Actual),     name:'Actual',          mode:'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:4}},
-    {x: ols.map(r=>r.Year),   y: ols.map(r=>r.Shadow_OLS), name:'Shadow OLS',      mode:'lines',         line:{color:'#1B4F8A',width:1.8,dash:'dash'}},
-    {x: knn.map(r=>r.Year),   y: knn.map(r=>r.Shadow_kNN), name:'Shadow k-NN',     mode:'lines',         line:{color:'#C0392B',width:1.8,dash:'dot'}},
-    {x: bayes.map(r=>r.Year), y: bayes.map(r=>r.Shadow_Bayes), name:'Shadow Bayes', mode:'lines',         line:{color:'#2E7D32',width:1.8,dash:'dashdot'}}
-  ], window.scrBaseLayout({
-    title: {text: country + ' — actual vs three shadow predictions', font: {size: 13}},
-    xaxis: {title: 'Year'},
-    yaxis: {title: 'Composite (0–60)', range: [0, 65]}
-  }), cfg);
+  try {
+    Plotly.newPlot('sh-overlay', [
+      {x: ols.map(r=>r.Year),   y: ols.map(r=>r.Actual),         name:'Actual',          mode:'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:4}},
+      {x: ols.map(r=>r.Year),   y: ols.map(r=>r.Shadow_OLS),     name:'Shadow OLS',      mode:'lines',         line:{color:'#1B4F8A',width:1.8,dash:'dash'}},
+      {x: knn.map(r=>r.Year),   y: knn.map(r=>r.Shadow_kNN),     name:'Shadow k-NN',     mode:'lines',         line:{color:'#C0392B',width:1.8,dash:'dot'}},
+      {x: bayes.map(r=>r.Year), y: bayes.map(r=>r.Shadow_Bayes), name:'Shadow Bayes',    mode:'lines',         line:{color:'#2E7D32',width:1.8,dash:'dashdot'}}
+    ], Object.assign({}, baseFlat, {
+      title: {text: country + ' — actual vs three shadow predictions', font: {size: 13}},
+      xaxis: {title: 'Year', gridcolor:'rgba(128,128,128,0.2)'},
+      yaxis: {title: 'Composite (0–60)', gridcolor:'rgba(128,128,128,0.2)'}
+    }), cfg);
+  } catch(e) { console.error('sh-overlay failed:', e); }
 
   // Residuals
-  Plotly.newPlot('sh-residuals', [
-    {x: ols.map(r=>r.Year),   y: ols.map(r=>r.Residual),   name:'OLS residual',   type:'bar', marker:{color:'#1B4F8A'}, opacity:0.85},
-    {x: knn.map(r=>r.Year),   y: knn.map(r=>r.Residual),   name:'k-NN residual',  type:'bar', marker:{color:'#C0392B'}, opacity:0.85},
-    {x: bayes.map(r=>r.Year), y: bayes.map(r=>r.Residual), name:'Bayes residual', type:'bar', marker:{color:'#2E7D32'}, opacity:0.85}
-  ], window.scrBaseLayout({
-    title: {text: country + ' — Score − Shadow (positive = agencies generous vs model)', font: {size: 13}},
-    xaxis: {title: 'Year'},
-    yaxis: {title: 'Residual'},
-    barmode: 'group'
-  }), cfg);
+  try {
+    Plotly.newPlot('sh-residuals', [
+      {x: ols.map(r=>r.Year),   y: ols.map(r=>r.Residual),   name:'OLS residual',   type:'bar', marker:{color:'#1B4F8A'}, opacity:0.85},
+      {x: knn.map(r=>r.Year),   y: knn.map(r=>r.Residual),   name:'k-NN residual',  type:'bar', marker:{color:'#C0392B'}, opacity:0.85},
+      {x: bayes.map(r=>r.Year), y: bayes.map(r=>r.Residual), name:'Bayes residual', type:'bar', marker:{color:'#2E7D32'}, opacity:0.85}
+    ], Object.assign({}, baseFlat, {
+      title: {text: country + ' — Score − Shadow (positive = agencies generous vs model)', font: {size: 13}},
+      xaxis: {title: 'Year', gridcolor:'rgba(128,128,128,0.2)'},
+      yaxis: {title: 'Residual', gridcolor:'rgba(128,128,128,0.2)', zerolinecolor:'#1a1a1a', zerolinewidth:1.5},
+      barmode: 'group'
+    }), cfg);
+  } catch(e) { console.error('sh-residuals failed:', e); }
 
   // Raw data table head (first 12 rows)
   const head = ols.slice(0, 12);
@@ -376,16 +386,20 @@ function renderHeatmap() {
   });
   const xLabels = Array.from({length: Sn}, (_, i) => `${i*5}–${i*5+5}`);
   const yLabels = Array.from({length: Hn}, (_, i) => `${30+i*5}–${30+i*5+5}`);
-  Plotly.newPlot('heatmap', [{
-    z: grid, x: xLabels, y: yLabels,
-    type: 'heatmap', colorscale: 'YlOrRd',
-    hovertemplate: 'Score: %{x}<br>HDI×100: %{y}<br>Count: %{z}<extra></extra>'
-  }], window.scrBaseLayout({
-    title: {text: 'Composite credit score × HDI×100, all country-years 2010–2022', font: {size: 13}},
-    xaxis: {title: 'Composite credit score (0–60)'},
-    yaxis: {title: 'HDI × 100'},
-    margin: {l: 80, r: 60, t: 50, b: 70}
-  }), window.scrChartConfig);
+  try {
+    Plotly.newPlot('heatmap', [{
+      z: grid, x: xLabels, y: yLabels,
+      type: 'heatmap', colorscale: 'YlOrRd',
+      hovertemplate: 'Score: %{x}<br>HDI×100: %{y}<br>Count: %{z}<extra></extra>'
+    }], {
+      plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
+      font:{family:'Helvetica Neue, Arial, sans-serif', size:11},
+      title: {text: 'Composite credit score × HDI×100, all country-years 2010–2022', font: {size: 13}},
+      xaxis: {title: 'Composite credit score (0–60)'},
+      yaxis: {title: 'HDI × 100'},
+      margin: {l: 80, r: 60, t: 50, b: 70}
+    }, window.scrChartConfig || {displayModeBar: true, responsive: true});
+  } catch(e) { console.error('heatmap failed:', e); }
 }
 </script>
 </body>
