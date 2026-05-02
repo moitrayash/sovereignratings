@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paired, Grouped &amp; Regional Ratings &mdash; Sovereign Credit Rating Explorer</title>
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<style>
+  .controls { background: var(--bg-card); border: 1px solid var(--border); padding: 16px 18px; margin: 18px 0; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.86rem; }
+  .controls label { display: inline-block; font-weight: 700; font-size: 0.74rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft); margin-right: 6px; margin-bottom: 4px; }
+  .controls select { font-family: inherit; font-size: 0.86rem; padding: 4px 8px; border: 1px solid var(--border); background: var(--bg-card); color: var(--ink); margin-right: 14px; }
+  .stat-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin: 14px 0; }
+  .stat-strip .stat { background: var(--bg-card); border: 1px solid var(--border); padding: 10px 14px; font-family: 'Helvetica Neue', Arial, sans-serif; }
+  .stat-strip .stat .lbl { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 700; }
+  .stat-strip .stat .val { font-size: 1.1rem; color: var(--ink); margin-top: 4px; }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="head-row"><div class="head-text">
+    <h1>Sovereign Credit Rating Explorer</h1>
+    <div class="credit"><a href="mailto:ym522@cornell.edu">Yash Moitra</a>, Department of Applied Economics and Management, Cornell University</div>
+    <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
+  </div></div>
+</header>
+<nav class="site"></nav>
+
+<main>
+
+  <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Paired, Grouped &amp; Regional Ratings</h2>
+  <p>The relative-rating methods documented in <a href="methodology.html">&sect;4 of the Methodology</a> all use a peer-group benchmark&mdash;an unweighted average of N&minus;1 other countries. The <em>paired</em> measure on this page narrows the benchmark to a single counterfactual country; the <em>grouped</em> view points to the main <a href="index.html">Relative Ratings</a> explorer for the full M1&ndash;M4 family across 59 peer groups; the <em>regional</em> measure folds geographic neighbourhoods into a region-weighted benchmark.<sup class="note-ref"><a href="#note-1">1</a></sup></p>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2 id="paired"><span class="section-num">1</span> Paired: country-vs-country</h2>
+
+  <p>For any two countries <em>A</em> and <em>B</em> in any year <em>t</em>, the paired relative score is simply the difference of their composite scores:</p>
+
+  <div class="formula-block">
+    <span class="label">Paired relative score</span>
+    P<sub>ABt</sub> = Score<sub>At</sub> &minus; Score<sub>Bt</sub>
+  </div>
+
+  <p>This is the simplest relativization in the family surveyed by <a href="https://en.wikipedia.org/wiki/Supriyo_De" target="_blank" rel="noopener">Supriyo De</a>, Sanket Mohapatra and <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a> (2020),<sup class="note-ref"><a href="#note-2">2</a></sup> equivalent to <span class="term" data-term="rel_eq">rel_eq</span> evaluated against a one-country &ldquo;peer group&rdquo;. Paired series are less volatile than within-group methods because two countries' rating trajectories are usually persistent and correlated; reversals when they occur are therefore informative. The series also has a clean economic reading: a positive value means <em>A</em>'s rating sits N points above <em>B</em>'s on the 0&ndash;60 scale, equivalent to roughly N/3 letter-grade notches.</p>
+
+  <div class="controls">
+    <label for="paira">Country A</label>
+    <select id="paira"></select>
+    <label for="pairb">Country B</label>
+    <select id="pairb"></select>
+  </div>
+
+  <div class="stat-strip" id="pair-stats"></div>
+  <div class="chart-box"><div id="pair-chart" style="height:380px"></div></div>
+  <div class="chart-box"><div id="pair-spread" style="height:240px"></div></div>
+
+  <p>The two charts plot the absolute composite scores of the chosen pair (top) and their paired spread P<sub>ABt</sub> (bottom). Sustained widening of the spread is most often driven by one side's structural deterioration rather than the other's improvement; sustained narrowing typically reflects convergence after a crisis. When both lines move together, the spread is roughly invariant&mdash;the pair is co-rated within a common regional or income cluster.</p>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2 id="grouped"><span class="section-num">2</span> Grouped: M1&ndash;M4 across 59 peer groups</h2>
+  <p>The full grouped explorer&mdash;single country against any of the 59 peer groups, plus multi-country comparisons against a chosen reference group&mdash;lives on the main <a href="index.html">Relative Ratings</a> page. That page is the canonical interface for M1, M2, M3 and M4; the formulas are derived in <a href="methodology.html#sec4">Methodology &sect;4</a>. The paired view above and the distance-graded view on the next page are alternative ways to specify the benchmark when a single peer group does not capture the comparison set the analyst has in mind.</p>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2 id="regional"><span class="section-num">3</span> Regional: continent benchmark</h2>
+  <p>The regional benchmark is a special case of the grouped view, restricted to one of the six broad continents. Continent membership is the only geographic <span class="term" data-term="loo-mean">leave-one-out</span> partition in the data that is mutually exclusive and collectively exhaustive at the global level (every rated country lives in exactly one continent), so cross-continent comparisons are clean. To run a regional analysis, open the main <a href="index.html">Relative Ratings</a> explorer and choose the continent group from the peer-group dropdown. The fully spatially-weighted alternative&mdash;an inverse-distance kernel from each country's capital&mdash;is implemented on the <a href="distance_graded.html">Distance-graded Ratings</a> page.</p>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div class="endnotes" id="endnotes">
+    <h3>Endnotes</h3>
+    <ol>
+      <li id="note-1">The paired measure is the simplest case of the relative-risk-rating family introduced by Dr.&nbsp;<a href="https://en.wikipedia.org/wiki/Kaushik_Basu" target="_blank" rel="noopener">Kaushik Basu</a>, Supriyo De, Dilip Ratha and Hans Timmer in &ldquo;Sovereign Ratings in the Post-Crisis World,&rdquo; <em>World Bank Policy Research Working Paper</em> 6641 (2013); the distance-graded measure on the next page generalises their GDP-weighted average to a spatial kernel.</li>
+      <li id="note-2">Supriyo De, Sanket Mohapatra and Dilip Ratha, &ldquo;Sovereign Credit Ratings, Relative Risk Ratings, and Private Capital Flows,&rdquo; <em>World Bank Policy Research Working Paper</em> 9401 (Washington, DC: World Bank, 2020).</li>
+    </ol>
+  </div>
+
+  <p class="page-footer">Paired computations operate on the composite scores in <code>extras.json</code> (~1 MB). Charts are rendered client-side with Plotly.js; the toolbar in the upper-right of each chart lets you download as PNG/SVG.</p>
+
+</main>
+
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("paired_grouped_regional.html"));</script>
+<script defer src="shared.js"></script>
+<script>
+let EXTRAS = null;
+fetch('extras.json').then(r => r.json()).then(j => { EXTRAS = j; initPair(); }).catch(err => {
+  document.querySelectorAll('.chart-box').forEach(b => {
+    b.innerHTML = '<p style="padding:20px;color:#888;font-family:sans-serif">Could not load extras.json. Serve from a web server (file:// blocks fetch).</p>';
+  });
+});
+
+function initPair() {
+  const years = Object.keys(EXTRAS.score_matrix).map(Number).sort((a,b)=>a-b);
+  const all = new Set();
+  years.forEach(y => Object.keys(EXTRAS.score_matrix[y]).forEach(c => all.add(c)));
+  const countries = [...all].sort();
+  const A = document.getElementById('paira'), B = document.getElementById('pairb');
+  countries.forEach(c => { A.add(new Option(c,c)); B.add(new Option(c,c)); });
+  A.value = 'India'; B.value = 'Pakistan';
+  A.onchange = renderPair; B.onchange = renderPair;
+  renderPair();
+}
+
+function renderPair() {
+  const a = document.getElementById('paira').value;
+  const b = document.getElementById('pairb').value;
+  const years = Object.keys(EXTRAS.score_matrix).map(Number).sort((a,b)=>a-b);
+  const xs=[], ya=[], yb=[], spread=[];
+  years.forEach(y => {
+    const m = EXTRAS.score_matrix[y];
+    if (m[a]!=null && m[b]!=null) { xs.push(y); ya.push(m[a]); yb.push(m[b]); spread.push(m[a]-m[b]); }
+  });
+  const cfg = {displayModeBar: true, responsive: true, modeBarButtonsToRemove:['lasso2d','select2d']};
+  const baseLayout = {
+    plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
+    font:{family:'Helvetica Neue, Arial, sans-serif', size:11},
+    margin:{l:56,r:50,t:40,b:90},
+    legend:{orientation:'h', y:-0.32, x:0.5, xanchor:'center'}
+  };
+  Plotly.newPlot('pair-chart', [
+    {x:xs,y:ya,name:a,mode:'lines+markers',line:{color:'#1a1a1a',width:2},marker:{size:5}},
+    {x:xs,y:yb,name:b,mode:'lines+markers',line:{color:'#888',width:2,dash:'dash'},marker:{size:5}}
+  ], Object.assign({}, baseLayout, {
+    title:{text:a+' vs '+b+' — absolute composite score',font:{size:13}},
+    xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
+    yaxis:{title:'Composite (0–60)',range:[0,60],gridcolor:'rgba(128,128,128,0.2)'}
+  }), cfg);
+  Plotly.newPlot('pair-spread', [
+    {x:xs,y:spread,name:'Spread',type:'bar',marker:{color:spread.map(s=>s>=0?'#1a1a1a':'#888')}}
+  ], Object.assign({}, baseLayout, {
+    title:{text:'Paired spread P('+a+' − '+b+')',font:{size:13}},
+    xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
+    yaxis:{title:'Score difference',gridcolor:'rgba(128,128,128,0.2)',zerolinecolor:'#1a1a1a',zerolinewidth:1.5},
+    showlegend:false
+  }), cfg);
+  const mean = spread.reduce((s,v)=>s+v,0)/spread.length;
+  document.getElementById('pair-stats').innerHTML = `
+    <div class="stat"><div class="lbl">Mean spread</div><div class="val">${mean.toFixed(2)}</div></div>
+    <div class="stat"><div class="lbl">Min</div><div class="val">${Math.min(...spread).toFixed(2)}</div></div>
+    <div class="stat"><div class="lbl">Max</div><div class="val">${Math.max(...spread).toFixed(2)}</div></div>
+    <div class="stat"><div class="lbl">First → last</div><div class="val">${(spread[spread.length-1]-spread[0]>=0?'+':'')+(spread[spread.length-1]-spread[0]).toFixed(2)}</div></div>
+  `;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Distance-graded Ratings &mdash; Sovereign Credit Rating Explorer</title>
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<style>
+  .controls { background: var(--bg-card); border: 1px solid var(--border); padding: 16px 18px; margin: 18px 0; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.86rem; }
+  .controls label { display:inline-block; font-weight: 700; font-size: 0.74rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft); margin-right: 6px; }
+  .controls select { font-family: inherit; font-size: 0.86rem; padding: 4px 8px; border: 1px solid var(--border); background: var(--bg-card); color: var(--ink); margin-right: 14px; }
+  .slider-row { display: grid; grid-template-columns: 140px 1fr 70px; gap: 10px; align-items: center; margin: 10px 0; }
+  .slider-row input[type=range] { width: 100%; }
+  .slider-row .val { font-family: 'Courier New', monospace; font-size: 0.85rem; text-align: right; }
+  .slider-row .desc { grid-column: 1 / -1; font-size: 0.75rem; color: var(--muted); margin-top:-4px; }
+  .stat-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin: 14px 0; }
+  .stat-strip .stat { background: var(--bg-card); border: 1px solid var(--border); padding: 10px 14px; font-family: 'Helvetica Neue', Arial, sans-serif; }
+  .stat-strip .stat .lbl { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 700; }
+  .stat-strip .stat .val { font-size: 1.1rem; color: var(--ink); margin-top: 4px; }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="head-row"><div class="head-text">
+    <h1>Sovereign Credit Rating Explorer</h1>
+    <div class="credit"><a href="mailto:ym522@cornell.edu">Yash Moitra</a>, Department of Applied Economics and Management, Cornell University</div>
+    <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
+  </div></div>
+</header>
+<nav class="site"></nav>
+
+<main>
+  <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Distance-graded Ratings</h2>
+  <p>The paired measure compares two countries; a flat group average treats all peers equally. A distance-graded measure interpolates between these two extremes by weighting every other country by an inverse-distance kernel from the focal capital,<sup class="note-ref"><a href="#note-1">1</a></sup> using the <span class="term" data-term="haversine">haversine great-circle distance</span> between coordinates.</p>
+
+  <div class="formula-block">
+    <span class="label">Distance-weighted benchmark</span>
+    B<sub>it</sub><sup>(d)</sup> = (Σ<sub>j≠i</sub> w<sub>ij</sub> Score<sub>jt</sub>) / (Σ<sub>j≠i</sub> w<sub>ij</sub>)
+    <br><br>
+    <span class="label">Kernel</span>
+    w<sub>ij</sub> = exp(−λ · (d<sub>ij</sub> / 1000)<sup>p</sup>)
+    <br><br>
+    <span class="label">Distance-graded relative score</span>
+    R<sub>it</sub><sup>(d)</sup> = α · Score<sub>it</sub> − B<sub>it</sub><sup>(d)</sup>
+  </div>
+
+  <p>Three parameters control the kernel: <strong>λ</strong> (decay rate), <strong>p</strong> (distance exponent) and <strong>α</strong> (scaling on the focal country). Setting λ = 0 recovers the unweighted world average; setting λ very large recovers the nearest-neighbour paired score; intermediate values produce a regionally-weighted benchmark. The exponential-decay specification is the standard kernel discussed in spatial econometrics<sup class="note-ref"><a href="#note-2">2</a></sup> and is closely related to the geographically-weighted regression literature.</p>
+
+  <div class="controls">
+    <label for="distc">Country</label>
+    <select id="distc"></select>
+
+    <div class="slider-row">
+      <label for="lam">decay <span class="term" data-term="monotonic">λ</span></label>
+      <input type="range" id="lam" min="0" max="3" step="0.05" value="0.6">
+      <div class="val" id="lam-v">0.60</div>
+      <div class="desc">Higher = neighbours dominate. λ=0 reduces to the world average; λ≈1 puts most weight inside ~1500 km.</div>
+    </div>
+    <div class="slider-row">
+      <label for="exp">exponent p</label>
+      <input type="range" id="exp" min="0.4" max="2.5" step="0.05" value="1.0">
+      <div class="val" id="exp-v">1.00</div>
+      <div class="desc">Curvature of the kernel. p&lt;1 spreads weight further; p&gt;1 concentrates it sharply.</div>
+    </div>
+    <div class="slider-row">
+      <label for="alp">scaling α</label>
+      <input type="range" id="alp" min="0.5" max="2" step="0.05" value="1.0">
+      <div class="val" id="alp-v">1.00</div>
+      <div class="desc">Multiplier on the focal score. α=1 produces a centred difference; α&gt;1 amplifies absolute level vs benchmark.</div>
+    </div>
+  </div>
+
+  <div class="stat-strip" id="dist-stats"></div>
+  <div class="chart-box"><div id="dist-chart" style="height:380px"></div></div>
+  <div class="chart-box"><div id="dist-weights" style="height:300px"></div></div>
+
+  <h2 id="caveats"><span class="section-num">2</span> Caveats</h2>
+  <p>Capital coordinates approximate the geographic centre of a sovereign and ignore second cities, dispersed populations, or extra-territorial dependencies. The kernel does not distinguish overland from maritime distance. For most analytical purposes the distortion is small at the regional scale; for federations and archipelagos a population-weighted centroid would be a closer proxy and is left for future work. The kernel parameters (λ, p, α) are not estimated&mdash;they are user-chosen, exploratory. A formal fit would require a target variable (such as bond spreads or capital-flow elasticity) against which to optimise the kernel; that exercise is documented in De, Mohapatra and Ratha (2020) but is not reproduced here.</p>
+
+  <div class="endnotes" id="endnotes">
+    <h3>Endnotes</h3>
+    <ol>
+      <li id="note-1">Generalisation of the relative-risk-rating framework of Basu, De, Ratha and Timmer (2013) to a continuous spatial kernel. See <a href="citations.html">Citations</a>.</li>
+      <li id="note-2">For the standard kernel-weighted treatment see <a href="https://en.wikipedia.org/wiki/Spatial_analysis" target="_blank" rel="noopener">spatial analysis</a> and the geographically-weighted regression literature surveyed in Brunsdon, Fotheringham and Charlton (1996, <em>Geographical Analysis</em>).</li>
+    </ol>
+  </div>
+
+  <p class="page-footer">Sliders trigger a full recompute under the new kernel parameters in real time. Chart toolbar (top-right of each chart) lets you download as PNG/SVG.</p>
+</main>
+
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("distance_graded.html"));</script>
+<script defer src="shared.js"></script>
+<script>
+let EXTRAS = null;
+fetch('extras.json').then(r => r.json()).then(j => { EXTRAS = j; initDist(); }).catch(err => {
+  document.querySelectorAll('.chart-box').forEach(b => {
+    b.innerHTML = '<p style="padding:20px;color:#888;font-family:sans-serif">Could not load extras.json. Serve from a web server (file:// blocks fetch).</p>';
+  });
+});
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const toRad = x => x * Math.PI / 180;
+  const R = 6371;
+  const dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+  return 2*R*Math.asin(Math.sqrt(a));
+}
+
+function initDist() {
+  const caps = EXTRAS.capitals;
+  const sel = document.getElementById('distc');
+  const countries = Object.keys(caps).sort();
+  countries.forEach(c => sel.add(new Option(c, c)));
+  sel.value = 'India';
+  ['lam','exp','alp'].forEach(id => {
+    document.getElementById(id).oninput = () => {
+      document.getElementById(id+'-v').textContent = parseFloat(document.getElementById(id).value).toFixed(2);
+      renderDist();
+    };
+  });
+  sel.onchange = renderDist;
+  renderDist();
+}
+
+function renderDist() {
+  const c = document.getElementById('distc').value;
+  const lam = parseFloat(document.getElementById('lam').value);
+  const exp = parseFloat(document.getElementById('exp').value);
+  const alp = parseFloat(document.getElementById('alp').value);
+  const caps = EXTRAS.capitals;
+  if (!caps[c]) return;
+  const [lat0, lon0] = caps[c];
+  const others = Object.keys(caps).filter(x => x !== c && caps[x]);
+  const dists = others.map(o => ({country:o, dist:haversineKm(lat0,lon0,caps[o][0],caps[o][1])}));
+  const weights = dists.map(d => ({...d, w: Math.exp(-lam * Math.pow(d.dist/1000, exp))}));
+  const years = Object.keys(EXTRAS.score_matrix).map(Number).sort((a,b)=>a-b);
+  const xs=[], own=[], bench=[], rel=[];
+  years.forEach(y => {
+    const m = EXTRAS.score_matrix[y];
+    if (m[c] == null) return;
+    let num=0, den=0;
+    weights.forEach(w => { if (m[w.country]!=null) { num += w.w*m[w.country]; den += w.w; }});
+    if (den === 0) return;
+    const b = num/den;
+    xs.push(y); own.push(m[c]); bench.push(b); rel.push(alp*m[c] - b);
+  });
+  const cfg = {displayModeBar: true, responsive: true, modeBarButtonsToRemove:['lasso2d','select2d']};
+  const baseLayout = {
+    plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
+    font:{family:'Helvetica Neue, Arial, sans-serif', size:11},
+    margin:{l:56,r:56,t:40,b:90},
+    legend:{orientation:'h', y:-0.32, x:0.5, xanchor:'center'}
+  };
+  Plotly.newPlot('dist-chart', [
+    {x:xs,y:own,name:c,mode:'lines+markers',line:{color:'#1a1a1a',width:2},marker:{size:5}},
+    {x:xs,y:bench,name:'Distance-weighted benchmark',mode:'lines+markers',line:{color:'#888',width:2,dash:'dash'},marker:{size:4}},
+    {x:xs,y:rel,name:'Relative R(d)',mode:'lines',line:{color:'#444',width:2.5},yaxis:'y2'}
+  ], Object.assign({}, baseLayout, {
+    title:{text:c+' — absolute, distance-weighted benchmark, and relative R(d)',font:{size:13}},
+    xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
+    yaxis:{title:'Composite (0–60)',range:[0,60],gridcolor:'rgba(128,128,128,0.2)'},
+    yaxis2:{title:'R(d)',overlaying:'y',side:'right',gridcolor:'transparent',zeroline:false}
+  }), cfg);
+  weights.sort((a,b)=>b.w-a.w);
+  const top = weights.slice(0,30);
+  Plotly.newPlot('dist-weights', [
+    {x:top.map(t=>t.country), y:top.map(t=>t.w), type:'bar', marker:{color:'#1a1a1a'},
+     hovertemplate:'%{x}<br>distance: %{customdata:.0f} km<br>weight: %{y:.4f}<extra></extra>',
+     customdata:top.map(t=>t.dist)}
+  ], Object.assign({}, baseLayout, {
+    title:{text:'Top 30 peer weights (kernel: λ='+lam.toFixed(2)+', p='+exp.toFixed(2)+')', font:{size:13}},
+    xaxis:{tickangle:-45, tickfont:{size:9}},
+    yaxis:{title:'w(i,j)',gridcolor:'rgba(128,128,128,0.2)'},
+    margin:{l:50,r:20,t:40,b:120}
+  }), cfg);
+  const totW = weights.reduce((s,w)=>s+w.w,0);
+  const effN = totW*totW / weights.reduce((s,w)=>s+w.w*w.w,0);
+  const meanRel = rel.reduce((s,v)=>s+v,0)/rel.length;
+  document.getElementById('dist-stats').innerHTML = `
+    <div class="stat"><div class="lbl">Effective N</div><div class="val">${effN.toFixed(1)}</div></div>
+    <div class="stat"><div class="lbl">Σ weights</div><div class="val">${totW.toFixed(2)}</div></div>
+    <div class="stat"><div class="lbl">Mean R(d)</div><div class="val">${meanRel.toFixed(2)}</div></div>
+    <div class="stat"><div class="lbl">Latest R(d)</div><div class="val">${rel[rel.length-1].toFixed(2)}</div></div>
+  `;
+}
+</script>
+</body>
+</html>

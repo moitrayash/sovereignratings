@@ -306,20 +306,16 @@
 </head>
 <body>
 
-<header>
-  <h1>Sovereign Credit Rating Explorer</h1>
-  <p>151 countries &nbsp;·&nbsp; S&amp;P, Moody's, DBRS &nbsp;·&nbsp; 2000–2025 &nbsp;·&nbsp; Composite scores (0–60) &nbsp;·&nbsp; Relative rating methods M1–M4</p>
+<header class="site">
+  <div class="head-row">
+    <div class="head-text">
+      <h1>Sovereign Credit Rating Explorer</h1>
+      <div class="credit"><a href="mailto:ym522@cornell.edu">Yash Moitra</a>, Department of Applied Economics and Management, Cornell University</div>
+      <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
+    </div>
+  </div>
 </header>
-<nav>
-  <a href="index.html" class="active">Explorer</a>
-  <a href="methodology.html">Methodology</a>
-  <a href="pairwise.html">Pairwise &amp; Distance</a>
-  <a href="relative_hdi.html">Relative HDI</a>
-  <a href="relative_gini.html">Relative Gini</a>
-  <a href="stories.html">Stories</a>
-  <a href="glossary.html">Glossary</a>
-  <a href="citations.html">Citations</a>
-</nav>
+<nav class="site"></nav>
 
 <main>
 
@@ -1066,10 +1062,3 @@ function copyCSV() {
   const s = d.s;
   let csv = 'Year,Score,LOO_Mean,M1,M2,M3,M4,Delta_M1\n';
   s.years.forEach((yr, i) => {
-    csv += `${yr},${s.score[i]??''},${s.loo[i]??''},${s.m1[i]??''},${s.m2[i]??''},${s.m3[i]??''},${s.m4[i]??''},${s.dm1[i]??''}\n`;
-  });
-  navigator.clipboard.writeText(csv).then(() => alert('CSV copied to clipboard.'));
-}
-</script>
-</body>
-</html>

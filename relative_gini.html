@@ -16,19 +16,15 @@
 <body>
 
 <header class="site">
-  <h1>Sovereign Credit Rating Explorer</h1>
-  <p>151 countries &middot; S&amp;P, Moody's, DBRS &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
+  <div class="head-row">
+    <div class="head-text">
+      <h1>Sovereign Credit Rating Explorer</h1>
+      <div class="credit"><a href="mailto:ym522@cornell.edu">Yash Moitra</a>, Department of Applied Economics and Management, Cornell University</div>
+      <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
+    </div>
+  </div>
 </header>
-<nav class="site">
-  <a href="index.html">Explorer</a>
-  <a href="methodology.html">Methodology</a>
-  <a href="pairwise.html">Pairwise &amp; Distance</a>
-  <a href="relative_hdi.html">Relative HDI</a>
-  <a href="relative_gini.html" class="active">Relative Gini</a>
-  <a href="stories.html">Stories</a>
-  <a href="glossary.html">Glossary</a>
-  <a href="citations.html">Citations</a>
-</nav>
+<nav class="site"></nav>
 
 <main>
 
@@ -59,6 +55,14 @@
 
   <p>The first chart plots a country's raw Gini against the leave-one-out global mean of reporting countries; gaps in the line are years where the country did not report. The second shows the relative measures M1, M4 (percentile), and the pairwise gap (GiniInv &minus; LOO). The third overlays the inverted Gini against the credit composite score. The hypothesis sometimes advanced&mdash;that more equal countries enjoy better sovereign ratings&mdash;has weak support in this data: cross-sectional correlation between GiniInv and credit composite is positive but modest (r &asymp; 0.35), and within-country variation in Gini is too small over the panel window to drive credit movements.</p>
 
+
+  <h2 id="distribution"><span class="section-num">3</span> Distribution shape (latest year)</h2>
+  <p>Three views of how income Gini values are distributed across reporting countries in the most recent year of the panel: the <span class="term" data-term="cdf">empirical CDF</span>, the <a href="https://en.wikipedia.org/wiki/Lorenz_curve" target="_blank" rel="noopener">Lorenz-style curve</a> over the inverted Gini values with its inequality quotient, and a histogram with a fitted <span class="term" data-term="normal-distribution">normal density</span> overlay.</p>
+
+  <div class="chart-box"><div id="gini-cdf" style="height:340px"></div></div>
+  <div class="chart-box"><div id="gini-lorenz" style="height:340px"></div></div>
+  <div class="chart-box"><div id="gini-hist" style="height:340px"></div></div>
+
   <h2 id="caveats"><span class="section-num">3</span> Caveats</h2>
   <p>Income Gini is a <em>flow</em> measure, while wealth Gini (which tracks household balance-sheet inequality) is a <em>stock</em> measure; the two can diverge meaningfully and only the former is reported here. Survey methodology varies across countries (consumption vs disposable income, urban vs national coverage), and World Bank harmonisation is imperfect. The leave-one-out world mean implicitly weights every reporting country equally regardless of population, which over-represents small economies; a population-weighted variant is straightforward to compute but is not pre-bundled in <code>extras.json</code>. Sparseness means trend reads from this page should be treated as illustrative rather than confirmatory&mdash;serious cross-country inequality work uses harmonised micro-data sources such as the <a href="https://wid.world" target="_blank" rel="noopener">World Inequality Database</a> or the <a href="https://www.lisdatacenter.org" target="_blank" rel="noopener">Luxembourg Income Study</a>.</p>
 
@@ -74,77 +78,68 @@
 
 </main>
 
-<script defer src="shared.js"></script>
-<script>
-let EXTRAS = null;
-fetch('extras.json').then(r => r.json()).then(j => { EXTRAS = j; init(); }).catch(err => {
-  document.querySelectorAll('.chart-box').forEach(b => {
-    b.innerHTML = '<p style="padding:20px;color:#888;font-family:sans-serif">Could not load extras.json. Serve from a web server (file:// blocks fetch).</p>';
-  });
-});
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("relative_gini.html"));</script>
+<script defer src="shared.js">
+function renderDistributions() {
+  if (!EXTRAS) return;
+  const latestYear = Math.max(...EXTRAS.gini.map(r => r.Year));
+  const vals = EXTRAS.gini.filter(r => r.Year === latestYear).map(r => r.Gini).sort((a,b)=>a-b);
+  if (!vals.length) return;
+  const n = vals.length;
+  const cdfX = vals;
+  const cdfY = vals.map((_, i) => (i+1)/n);
+  const cfg = {displayModeBar: true, responsive: true, modeBarButtonsToRemove:['lasso2d','select2d']};
+  const baseLayout = {plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)', font:{family:'Helvetica Neue, Arial, sans-serif',size:11}, margin:{l:56,r:50,t:40,b:90}, legend:{orientation:'h',y:-0.32,x:0.5,xanchor:'center'}};
+  Plotly.newPlot('gini-cdf', [
+    {x:cdfX, y:cdfY, mode:'lines', line:{color:'#1a1a1a',width:2}, name:'Empirical CDF'}
+  ], Object.assign({}, baseLayout, {
+    title:{text:'Gini index empirical CDF (' + latestYear + ', n=' + n + ')', font:{size:13}},
+    xaxis:{title:'Gini index (0 = perfect equality, 100 = max inequality)', gridcolor:'rgba(128,128,128,0.2)'},
+    yaxis:{title:'Cumulative share of countries', gridcolor:'rgba(128,128,128,0.2)', range:[0,1]}
+  }), cfg);
 
-function init() {
-  const countries = [...new Set(EXTRAS.gini_rel.map(r => r.Country))].sort();
-  const sel = document.getElementById('country');
-  countries.forEach(c => sel.add(new Option(c, c)));
-  sel.value = countries.includes('Brazil') ? 'Brazil' : countries[0];
-  sel.onchange = render;
-  render();
-}
+  // Lorenz on inverted Gini (where higher = better)
+  const inv = vals.map(v => 100 - v).sort((a,b)=>a-b);
+  const total = inv.reduce((a,b)=>a+b,0);
+  let cum=0;
+  const lorenzX=[0], lorenzY=[0];
+  inv.forEach((v,i)=>{ cum+=v; lorenzX.push((i+1)/n); lorenzY.push(cum/total); });
+  let areaUnder=0;
+  for (let i=1;i<lorenzX.length;i++) areaUnder += (lorenzX[i]-lorenzX[i-1])*(lorenzY[i]+lorenzY[i-1])/2;
+  const inequality = 1 - 2*areaUnder;
+  Plotly.newPlot('gini-lorenz', [
+    {x:lorenzX, y:lorenzY, mode:'lines', line:{color:'#1a1a1a',width:2}, name:'Lorenz curve', fill:'tonexty', fillcolor:'rgba(150,150,150,0.18)'},
+    {x:[0,1], y:[0,1], mode:'lines', line:{color:'#666',width:1,dash:'dash'}, name:'45° equality line'}
+  ], Object.assign({}, baseLayout, {
+    title:{text:'Inverted Gini Lorenz-style curve — inequality quotient = ' + inequality.toFixed(3), font:{size:13}},
+    xaxis:{title:'Cumulative share of countries', gridcolor:'rgba(128,128,128,0.2)', range:[0,1]},
+    yaxis:{title:'Cumulative share of GiniInv mass', gridcolor:'rgba(128,128,128,0.2)', range:[0,1]}
+  }), cfg);
 
-function render() {
-  const c = document.getElementById('country').value;
-  const rel = EXTRAS.gini_rel.filter(r => r.Country === c).sort((a,b) => a.Year - b.Year);
-  const xs = rel.map(r => r.Year);
-
-  Plotly.newPlot('gini-abs', [
-    {x: xs, y: rel.map(r => 100 - r.Value), name: c + ' Gini', mode: 'lines+markers', line: {color: '#1a1a1a', width: 2.2}, marker: {size: 6}},
-    {x: xs, y: rel.map(r => 100 - r.LOO), name: 'World LOO mean Gini', mode: 'lines', line: {color: '#888', width: 2, dash: 'dash'}}
-  ], {
-    title: {text: c + ' — raw Gini index vs world mean of reporting countries', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
-    xaxis: {title: 'Year', gridcolor: '#eee'},
-    yaxis: {title: 'Gini', gridcolor: '#eee', range: [15, 70]},
-    plot_bgcolor: '#fff', paper_bgcolor: '#fff',
-    font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
-    margin: {l: 56, r: 20, t: 40, b: 90},
-    legend: {orientation: 'h', y: -0.32, x: 0.5, xanchor: 'center'}
-  }, {displayModeBar: false, responsive: true});
-
-  Plotly.newPlot('gini-rel', [
-    {x: xs, y: rel.map(r => r.M1), name: 'M1 (GiniInv²/LOO)', mode: 'lines+markers', line: {color: '#1a1a1a', width: 2}, marker: {size: 5}},
-    {x: xs, y: rel.map(r => r.Value - r.LOO), name: 'Pairwise gap', mode: 'lines+markers', line: {color: '#888', width: 2}, marker: {size: 5}, yaxis: 'y2'},
-    {x: xs, y: rel.map(r => r.M4 * 100), name: 'M4 × 100', mode: 'lines', line: {color: '#444', width: 1.8, dash: 'dot'}, yaxis: 'y2'}
-  ], {
-    title: {text: c + ' — Relative Gini: M1, pairwise gap, M4', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
-    xaxis: {title: 'Year', gridcolor: '#eee'},
-    yaxis: {title: 'M1', gridcolor: '#eee'},
-    yaxis2: {title: 'Pairwise / M4', overlaying: 'y', side: 'right', zeroline: false},
-    plot_bgcolor: '#fff', paper_bgcolor: '#fff',
-    font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
-    margin: {l: 56, r: 50, t: 40, b: 90},
-    legend: {orientation: 'h', y: -0.32, x: 0.5, xanchor: 'center'}
-  }, {displayModeBar: false, responsive: true});
-
-  // Credit overlay
-  const credit = [];
-  Object.keys(EXTRAS.score_matrix).forEach(y => {
-    if (EXTRAS.score_matrix[y][c] != null) {
-      credit.push({Year: +y, Score: EXTRAS.score_matrix[y][c]});
-    }
-  });
-  credit.sort((a,b) => a.Year - b.Year);
-  Plotly.newPlot('gini-vs-credit', [
-    {x: xs, y: rel.map(r => r.Value), name: 'GiniInv = 100 − Gini', mode: 'lines+markers', line: {color: '#1a1a1a', width: 2.2}, marker: {size: 6}},
-    {x: credit.map(c => c.Year), y: credit.map(c => c.Score * (100/60)), name: 'Credit score (rescaled to 0–100)', mode: 'lines+markers', line: {color: '#888', width: 2, dash: 'dash'}, marker: {size: 5}}
-  ], {
-    title: {text: c + ' — GiniInv vs credit composite', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
-    xaxis: {title: 'Year', gridcolor: '#eee'},
-    yaxis: {title: 'Common scale', gridcolor: '#eee', range: [0, 100]},
-    plot_bgcolor: '#fff', paper_bgcolor: '#fff',
-    font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
-    margin: {l: 56, r: 20, t: 40, b: 90},
-    legend: {orientation: 'h', y: -0.32, x: 0.5, xanchor: 'center'}
-  }, {displayModeBar: false, responsive: true});
+  // Histogram + normal
+  const mean = vals.reduce((a,b)=>a+b,0)/n;
+  const variance = vals.reduce((a,b)=>a+(b-mean)*(b-mean),0)/(n-1);
+  const sd = Math.sqrt(variance);
+  const binCount = 14;
+  const minV=Math.min(...vals), maxV=Math.max(...vals);
+  const binW = (maxV-minV)/binCount;
+  const bins = Array(binCount).fill(0);
+  vals.forEach(v => { let i = Math.min(binCount-1, Math.floor((v-minV)/binW)); bins[i]++; });
+  const binCenters = bins.map((_,i) => minV + (i+0.5)*binW);
+  const nPts = 80;
+  const xs=[], ys=[];
+  for (let i=0;i<=nPts;i++) { const x = minV + (maxV-minV)*i/nPts; xs.push(x); ys.push((1/(sd*Math.sqrt(2*Math.PI)))*Math.exp(-0.5*((x-mean)/sd)**2)*n*binW); }
+  Plotly.newPlot('gini-hist', [
+    {x:binCenters, y:bins, type:'bar', name:'Frequency', marker:{color:'#1a1a1a'}, opacity:0.85},
+    {x:xs, y:ys, mode:'lines', line:{color:'#888',width:2}, name:'Normal(μ='+mean.toFixed(1)+', σ='+sd.toFixed(1)+')'}
+  ], Object.assign({}, baseLayout, {
+    title:{text:'Gini index histogram with fitted normal density (' + latestYear + ')', font:{size:13}},
+    xaxis:{title:'Gini index', gridcolor:'rgba(128,128,128,0.2)'},
+    yaxis:{title:'Count', gridcolor:'rgba(128,128,128,0.2)'},
+    bargap:0.04
+  }), cfg);
 }
 </script>
 </body>

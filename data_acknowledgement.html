@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Acknowledgement &mdash; Sovereign Credit Rating Explorer</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<header class="site">
+  <div class="head-row"><div class="head-text">
+    <h1>Sovereign Credit Rating Explorer</h1>
+    <div class="credit"><a href="mailto:ym522@cornell.edu">Yash Moitra</a>, Department of Applied Economics and Management, Cornell University</div>
+    <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025</p>
+  </div></div>
+</header>
+<nav class="site"></nav>
+
+<main>
+  <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Data Acknowledgement</h2>
+  <p>This site stands on data and prior work assembled by other institutions. The author thanks the following sources and recommends consulting each for the most current vintage of the underlying series.</p>
+
+  <h2 id="ratings"><span class="section-num">1</span> Sovereign credit ratings</h2>
+  <ul>
+    <li><strong>S&amp;P Global Ratings</strong> &mdash; foreign-currency long-term sovereign issuer ratings, accessed via <a href="https://disclosure.spglobal.com/sri/" target="_blank" rel="noopener">disclosure.spglobal.com/sri</a>.</li>
+    <li><strong>Moody's Investors Service</strong> &mdash; sovereign-bond ratings and outlook history.</li>
+    <li><strong>DBRS Morningstar</strong> &mdash; sovereign ratings, accessed via the public sovereigns hub.</li>
+  </ul>
+
+  <h2 id="macro"><span class="section-num">2</span> Macroeconomic covariates</h2>
+  <ul>
+    <li><strong>World Bank, World Development Indicators</strong> &mdash; GDP, GDP per capita, FDI, population, inflation, external debt, reserves, government debt, current account, and the Gini index. <a href="https://databank.worldbank.org/source/world-development-indicators" target="_blank" rel="noopener">databank.worldbank.org</a>.</li>
+    <li><strong>World Bank, Worldwide Governance Indicators</strong> &mdash; the Rule of Law indicator. Methodology in Daniel Kaufmann, Aart Kraay and Massimo Mastruzzi, "The Worldwide Governance Indicators: Methodology and Analytical Issues," <em>World Bank Policy Research Working Paper</em> 5430 (2010).</li>
+    <li><strong>UNDP Human Development Report Office</strong> &mdash; the Human Development Index, accessed via the HDR composite-indices time series. Original framing by Mahbub ul Haq and Amartya Sen.</li>
+  </ul>
+
+  <h2 id="prior"><span class="section-num">3</span> Methodological lineage</h2>
+  <p>The relative-rating, CRIS and shadow-rating frameworks adapted in this project originate in three working papers from the World Bank's Development Prospects Group: Dilip Ratha, Supriyo De and Sanket Mohapatra (WP 4269, 2007); Kaushik Basu, Supriyo De, Dilip Ratha and Hans Timmer (WP 6641, 2013); and Supriyo De, Sanket Mohapatra and Dilip Ratha (WP 9401, 2020). The author is grateful to Dr.&nbsp;Kaushik Basu for guidance on the original CRIS construction, and to Supriyo De and Pedro Conce&iacute;&ccedil;&atilde;o for ongoing discussions about the relative-risk framework and its policy applications. Full bibliographic details are on the <a href="citations.html">Citations</a> page; the original PDFs are mirrored locally where licensing permits.</p>
+
+  <h2 id="bundle"><span class="section-num">4</span> Reproducibility bundle</h2>
+  <p>Every CSV consumed or produced by the analysis is mirrored in <a href="data_bundle.zip">data_bundle.zip</a>, with sequential index prefixes (00001_paper_panel.csv, 00002_paper_rel_all.csv, &hellip;) and an <code>00000_INDEX.md</code> describing each file. Pickled intermediates are not in the bundle but are reconstructible from the published Python scripts (<code>alt_scales.py</code>, <code>basu_cris.py</code>, <code>de_relative.py</code>, <code>shadow_ratings.py</code>, <code>relative_ratings_v2.py</code>, <code>panel_analysis.py</code>) against the source CSVs.</p>
+
+  <p class="page-footer">If you spot a data error or missing acknowledgement, please email <a href="mailto:ym522@cornell.edu">ym522@cornell.edu</a>.</p>
+</main>
+
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer src="shared.js"></script>
+<script defer>document.addEventListener('DOMContentLoaded', () => renderNav('data_acknowledgement.html'));</script>
+</body>
+</html>
