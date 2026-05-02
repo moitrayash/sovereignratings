@@ -72,7 +72,13 @@
 
   <h3>Visualising the kernel on the map</h3>
 
-  <p>Below: a world map with the focal country (selected from the explorer panel further down) plotted as a marker, with concentric rings showing the kernel weight at various distances. As the slider for <strong>λ</strong> changes, the rings expand or contract. The dot size of every other capital is proportional to its kernel weight at the current parameter setting: large dots are countries that &ldquo;count&rdquo; heavily in the focal country's distance-graded benchmark; small or invisible dots are countries that have negligible influence.</p>
+  <p>Below: a world map with the focal country plotted as a marker, with concentric rings showing the kernel weight at various distances. As the slider for <strong>λ</strong> (in the explorer panel further down) changes, the rings expand or contract. The dot size of every other capital is proportional to its kernel weight at the current parameter setting: large dots are countries that &ldquo;count&rdquo; heavily in the focal country's distance-graded benchmark; small or invisible dots are countries that have negligible influence. <strong>Pick any country as the focal point</strong> using the selector immediately below.</p>
+
+  <div class="controls" style="margin-bottom: 6px;">
+    <label for="map-focal">Focal country</label>
+    <select id="map-focal"></select>
+    <span style="font-size: 0.75rem; color: var(--muted); margin-left: 12px;">&larr; selects which country sits at the centre of the influence map.</span>
+  </div>
 
   <div class="chart-box"><div id="dist-map" style="height:520px"></div></div>
   <div class="chart-caption">Figure 1: Kernel-weight visualisation. Concentric blue rings = isodistance contours at weight 0.75, 0.50, 0.25, 0.10. Dot size = w<sub>ij</sub> at the current (λ, p) setting. Hover any dot for the country, distance, and exact weight.</div>
@@ -144,16 +150,28 @@ function haversineKm(lat1, lon1, lat2, lon2) {
 function initDist() {
   const caps = EXTRAS.capitals;
   const sel = document.getElementById('distc');
+  const mapSel = document.getElementById('map-focal');
   const countries = Object.keys(caps).sort();
-  countries.forEach(c => sel.add(new Option(c, c)));
+  countries.forEach(c => {
+    sel.add(new Option(c, c));
+    if (mapSel) mapSel.add(new Option(c, c));
+  });
   sel.value = 'India';
+  if (mapSel) {
+    mapSel.value = 'India';
+    // Mirror the two selectors: changing one updates the other and re-renders
+    mapSel.onchange = () => { sel.value = mapSel.value; renderDist(); };
+  }
   ['lam','exp','alp'].forEach(id => {
     document.getElementById(id).oninput = () => {
       document.getElementById(id+'-v').textContent = parseFloat(document.getElementById(id).value).toFixed(2);
       renderDist();
     };
   });
-  sel.onchange = renderDist;
+  sel.onchange = () => {
+    if (mapSel) mapSel.value = sel.value;
+    renderDist();
+  };
   renderDist();
 }
 
