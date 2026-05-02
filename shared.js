@@ -164,6 +164,15 @@
     `;
     headRow.appendChild(rail);
 
+    // Small advisory note immediately below the controls rail, styled like the
+    // sub-tagline so it sits unobtrusively in the top-right corner.
+    if (!document.querySelector('.scr-best-note')) {
+      const note = document.createElement('div');
+      note.className = 'scr-best-note';
+      note.textContent = 'For best results, use dark mode, on a computer.';
+      headRow.appendChild(note);
+    }
+
     rail.querySelector('[data-pill="theme"]').onclick = toggleTheme;
     rail.querySelector('[data-pill="tooltips"]').onclick = toggleTooltips;
     rail.querySelector('[data-pill="annot"]').onclick = toggleAnnot;

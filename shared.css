@@ -606,6 +606,40 @@ body.dark pre.code-block { box-shadow: 0 0 12px rgba(67, 255, 126, 0.18) inset; 
 body.dark .formula-block { box-shadow: 0 0 8px rgba(67, 255, 126, 0.12) inset; }
 body.dark .formula-block .label { color: #b0e8c0 !important; text-shadow: none; }
 
+/* ── Small advisory note under the controls rail (top-right) ─────── */
+.scr-best-note {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-align: right;
+  margin: 4px 18px 0 0;
+  letter-spacing: 0.02em;
+  font-style: italic;
+}
+@media (max-width: 700px) { .scr-best-note { display: none; } }
+
+/* ── Citations page dark-mode coverage ────────────────────────────── */
+body.dark .style-note {
+  background: var(--bg-soft) !important;
+  color: var(--ink) !important;
+  border-left-color: var(--accent) !important;
+}
+body.dark .style-note strong { color: var(--ink) !important; }
+body.dark #cite-search {
+  background: var(--bg-card) !important;
+  color: var(--ink) !important;
+  border-color: var(--border) !important;
+}
+body.dark #cite-search:focus { outline-color: var(--accent) !important; }
+body.dark .group-heading {
+  background: var(--bg-card) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--border) !important;
+}
+body.dark .cite-entry { border-bottom-color: var(--border) !important; }
+body.dark .cite-entry .meta { color: var(--muted) !important; }
+body.dark .cite-entry a.doi { color: var(--ink-soft) !important; }
+
 /* ── Plotly legend background — dark mode needs dark fill + light text ── */
 body.dark .js-plotly-plot .legend > rect.bg,
 body.dark .js-plotly-plot .legend rect:first-child {

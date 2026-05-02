@@ -264,57 +264,69 @@ function renderMap(focal, weights, lam, exp) {
     }
     return {lat: lats, lon: lons};
   }
+  // Sepia ring traces — warm umber instead of blue
   const ringTraces = ringDistances.map((km, i) => {
     const r = ringPoints(km);
     const opacity = [0.65, 0.50, 0.35, 0.22][i];
     return {
       type: 'scattergeo', mode: 'lines',
       lat: r.lat, lon: r.lon,
-      line: {color: '#1B4F8A', width: 1.4, dash: i ? 'dash' : 'solid'},
+      line: {color: '#704214', width: 1.4, dash: i ? 'dash' : 'solid'},
       opacity: opacity,
       name: `w = ${targetWeights[i].toFixed(2)} (d ≈ ${(km/1000).toFixed(2)}k km)`,
       hoverinfo: 'name'
     };
   });
-  // Peer dots: size scaled by kernel weight, capped
+  // Peer dots: peaceful X-marks (cross-thin) sized by kernel weight, sepia palette
   const peerPts = weights.filter(w => w.w > 0.005);
-  peerPts.sort((a,b) => a.w - b.w); // smaller first so bigger ones overlap on top
+  peerPts.sort((a,b) => a.w - b.w);
+  const sepiaScale = [
+    [0.0, '#f3e7c9'], [0.2, '#e0c896'], [0.4, '#c2a266'],
+    [0.6, '#9d7a3a'], [0.8, '#6e521e'], [1.0, '#3d2c0e']
+  ];
   const peerTrace = {
     type: 'scattergeo', mode: 'markers',
     lat: peerPts.map(p => caps[p.country][0]),
     lon: peerPts.map(p => caps[p.country][1]),
     text: peerPts.map(p => p.country),
     marker: {
-      size: peerPts.map(p => 10 + 38 * Math.sqrt(p.w)),
+      size: peerPts.map(p => 9 + 26 * Math.sqrt(p.w)),
+      symbol: 'x-thin',
       color: peerPts.map(p => p.w),
-      colorscale: 'YlOrRd', cmin: 0, cmax: 1,
-      line: {color: '#1a1a1a', width: 1.2},
-      opacity: 0.92,
-      colorbar: {title: 'Kernel weight', thickness: 14, len: 0.6, x: 1.02}
+      colorscale: sepiaScale, cmin: 0, cmax: 1,
+      line: {color: '#3d2c0e', width: 1.6},
+      opacity: 0.95,
+      colorbar: {title: 'Kernel weight', thickness: 14, len: 0.6, x: 1.02, tickfont: {color: '#3d2c0e'}}
     },
     customdata: peerPts.map(p => [p.dist, p.w]),
     hovertemplate: '<b>%{text}</b><br>distance: %{customdata[0]:.0f} km<br>weight: %{customdata[1]:.4f}<extra></extra>',
     name: 'Peer countries'
   };
-  // Focal marker — much larger, more prominent
+  // Focal marker — large peaceful cross in deep sepia, with name label
   const focalTrace = {
     type: 'scattergeo', mode: 'markers+text',
     lat: [lat0], lon: [lon0],
     text: [focal], textposition: 'top center',
-    textfont: {size: 13, color: '#1a1a1a', family: 'Helvetica Neue, Arial, sans-serif'},
-    marker: {size: 22, color: '#C0392B', symbol: 'star', line: {color: '#1a1a1a', width: 2}},
+    textfont: {size: 13, color: '#3d2c0e', family: 'Helvetica Neue, Arial, sans-serif'},
+    marker: {size: 26, color: '#7a3a2e', symbol: 'cross-thin', line: {color: '#3d2c0e', width: 3}},
     name: 'Focal country',
     hoverinfo: 'text'
   };
   const layout = {
-    title: {text: focal + ': kernel influence map (λ='+lam.toFixed(2)+', p='+exp.toFixed(2)+')', font: {size: 13}},
+    title: {text: focal + ': kernel influence map (λ='+lam.toFixed(2)+', p='+exp.toFixed(2)+')', font: {size: 13, color: '#3d2c0e'}},
     geo: {
-      projection: {type: 'natural earth'},
-      showland: true, landcolor: 'rgba(232,232,228,0.6)',
-      showocean: true, oceancolor: 'rgba(220,235,245,0.5)',
-      showcountries: true, countrycolor: 'rgba(140,140,140,0.35)',
-      showcoastlines: true, coastlinecolor: 'rgba(80,80,80,0.5)',
-      bgcolor: 'rgba(0,0,0,0)'
+      // Equirectangular = rectangular edge-to-edge projection
+      projection: {type: 'equirectangular'},
+      // Sepia palette: warm tan land, slightly darker ocean, deep umber outlines
+      showland: true,      landcolor: '#e7d6ae',
+      showocean: true,     oceancolor: '#d6c290',
+      showlakes: true,     lakecolor: '#cab078',
+      showcountries: true, countrycolor: 'rgba(80, 60, 30, 0.45)',
+      showcoastlines: true, coastlinecolor: '#5a3f1a',
+      framecolor: '#3d2c0e', framewidth: 1,
+      bgcolor: 'rgba(0,0,0,0)',
+      lonaxis: {range: [-180, 180]},
+      lataxis: {range: [-60, 85]}
     },
     paper_bgcolor: 'rgba(0,0,0,0)',
     margin: {l: 0, r: 0, t: 40, b: 0},
