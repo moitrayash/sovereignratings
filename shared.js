@@ -24,6 +24,8 @@
     LS.set('theme', t);
     const btn = document.querySelector('[data-pill="theme"]');
     if (btn) btn.classList.toggle('on', t === 'dark');
+    // Notify charts to re-skin
+    document.dispatchEvent(new CustomEvent('scrThemeChanged'));
   }
   function toggleTheme() { applyTheme(document.body.classList.contains('dark') ? 'light' : 'dark'); }
 
@@ -367,7 +369,11 @@
   };
   function copyChartToClipboard(gd) {
     if (!window.Plotly) return;
-    Plotly.toImage(gd, { format: 'png', height: 800, width: 1400, scale: 2 })
+    // Use chart's CURRENT rendered size + zoom state — captures the viewfinder
+    // window the user is looking at right now, not the default extent.
+    const w = (gd && gd.offsetWidth)  || 1100;
+    const h = (gd && gd.offsetHeight) || 600;
+    Plotly.toImage(gd, { format: 'png', width: w, height: h, scale: 2 })
       .then(dataUrl => fetch(dataUrl).then(r => r.blob()))
       .then(blob => {
         if (!navigator.clipboard || !window.ClipboardItem) {
@@ -376,7 +382,7 @@
         }
         return navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
       })
-      .then(() => flashToast('Chart copied as PNG'))
+      .then(() => flashToast('Chart copied as PNG (current view)'))
       .catch(err => alert('Copy failed: ' + err.message));
   }
   window.scrChartConfig = {
@@ -411,6 +417,143 @@
       yaxis: Object.assign({}, axisDef)
     }, extra || {});
   };
+  // ── Dark-mode chart palette: every dark/saturated trace color maps to
+  //    a clean pastel that pops against the dark background.
+  //    Sky blues, soft pinks, mint, lavender, peach. Light mode = unchanged.
+  const DARK_SWAPS = {
+    // Hero "main" dark line → bright clean sky blue
+    '#1a1a1a':'#a9d6f1', '#1A1A1A':'#a9d6f1',
+    '#000':'#a9d6f1',    '#000000':'#a9d6f1',
+    // Secondary greys → soft pastel greys (preserve subtlety)
+    '#222':'#dadada', '#222222':'#dadada',
+    '#333':'#d0d0d0', '#333333':'#d0d0d0',
+    '#444':'#c4c4c4', '#444444':'#c4c4c4',
+    '#555':'#b8b8b8', '#555555':'#b8b8b8',
+    '#666':'#acacac', '#666666':'#acacac',
+    '#777':'#a0a0a0', '#777777':'#a0a0a0',
+    '#888':'#dceaf3', '#888888':'#dceaf3',  // light powder-blue (was secondary line)
+    // Series brand colors → pastel twins
+    '#1B4F8A':'#88c4ee', '#1b4f8a':'#88c4ee',  // navy → sky blue
+    '#C0392B':'#f5b3b8', '#c0392b':'#f5b3b8',  // maroon → blush pink
+    '#2E7D32':'#a8e6c1', '#2e7d32':'#a8e6c1',  // forest → mint green
+    '#7B3F8F':'#dbb8f0', '#7b3f8f':'#dbb8f0',  // purple → lavender
+    '#B7642E':'#f8d29f', '#b7642e':'#f8d29f'   // brown → peach
+  };
+  const LIGHT_SWAPS = {};
+  Object.keys(DARK_SWAPS).forEach(k => { LIGHT_SWAPS[DARK_SWAPS[k].toLowerCase()] = k; });
+
+  function swapColor(c, dark) {
+    if (typeof c !== 'string') return c;
+    const norm = c.toLowerCase();
+    if (dark)  return DARK_SWAPS[c] || DARK_SWAPS[norm] || c;
+    else       return LIGHT_SWAPS[norm] || c;
+  }
+
+  // Apply dark/light theme to every Plotly chart on the page
+  window.scrApplyChartTheme = function() {
+    if (!window.Plotly) return;
+    const dark = document.body.classList.contains('dark');
+    document.querySelectorAll('.js-plotly-plot').forEach(div => {
+      if (!div.data) return;
+      const restyleUpdate = {};
+      const keys = ['line.color', 'marker.color', 'fillcolor'];
+      keys.forEach(k => restyleUpdate[k] = []);
+      let needsUpdate = false;
+      div.data.forEach((trace, i) => {
+        // Cache original colors on first encounter
+        if (!trace._scrOrig) {
+          trace._scrOrig = {
+            line: trace.line && trace.line.color,
+            marker: trace.marker && trace.marker.color,
+            fill: trace.fillcolor
+          };
+        }
+        const orig = trace._scrOrig;
+        const newLine   = swapColor(orig.line, dark);
+        const newMarker = swapColor(orig.marker, dark);
+        const newFill   = swapColor(orig.fill, dark);
+        restyleUpdate['line.color'][i]   = newLine !== undefined ? newLine : null;
+        restyleUpdate['marker.color'][i] = newMarker !== undefined ? newMarker : null;
+        restyleUpdate['fillcolor'][i]    = newFill !== undefined ? newFill : null;
+        if (newLine !== orig.line || newMarker !== orig.marker || newFill !== orig.fill) needsUpdate = true;
+      });
+      if (needsUpdate) {
+        try { window.Plotly.restyle(div, restyleUpdate); } catch(e) { console.warn('chart theme restyle failed:', e); }
+      }
+      // Also relayout font/axis colors
+      const fg = dark ? '#ececec' : '#1a1a1a';
+      const grid = dark ? 'rgba(220,220,220,0.18)' : 'rgba(60,60,60,0.18)';
+      try {
+        window.Plotly.relayout(div, {
+          'font.color': fg,
+          'xaxis.color': fg, 'xaxis.gridcolor': grid, 'xaxis.linecolor': fg, 'xaxis.tickcolor': fg, 'xaxis.zerolinecolor': fg,
+          'yaxis.color': fg, 'yaxis.gridcolor': grid, 'yaxis.linecolor': fg, 'yaxis.tickcolor': fg, 'yaxis.zerolinecolor': fg,
+          'yaxis2.color': fg, 'yaxis2.gridcolor': grid,
+          'legend.font.color': fg
+        });
+      } catch(e) {}
+    });
+  };
+
+  // Re-apply theme when toggle fires AND when new charts appear
+  document.addEventListener('scrThemeChanged', () => window.scrApplyChartTheme());
+
+  // Legend-click fade: clicking a legend item fades all OTHER traces to ~15%
+  // opacity so the clicked one stands out; clicking it again restores all.
+  // Works for both solid and dashed series independently. Plotly's default
+  // legend toggle is preserved via shift-click (handled inline below).
+  function wireChartHooks(gd) {
+    if (!gd || gd._scrHooksWired) return;
+    gd._scrHooksWired = true;
+    if (!window.Plotly || !gd.on) return;
+    let isolated = -1;
+    gd.on('plotly_legendclick', function(e) {
+      if (e && e.event && e.event.shiftKey) return true; // Shift-click → default toggle
+      const i = e.curveNumber;
+      if (isolated === i) {
+        // Restore: all opaque
+        const op = gd.data.map(() => 1);
+        window.Plotly.restyle(gd, { 'opacity': op });
+        isolated = -1;
+      } else {
+        const op = gd.data.map((_, k) => k === i ? 1 : 0.18);
+        window.Plotly.restyle(gd, { 'opacity': op });
+        isolated = i;
+      }
+      return false; // suppress default toggle
+    });
+    // Optional: zoom event — adjust glow scale via CSS variable
+    gd.on('plotly_relayout', function(ev) {
+      if (!ev) return;
+      const xa = gd._fullLayout && gd._fullLayout.xaxis;
+      if (!xa || !xa._rl || !xa._rl.length) return;
+      const fullSpan = xa._rl[1] - xa._rl[0];
+      const curRange = (xa.range && (xa.range[1] - xa.range[0])) || fullSpan;
+      const zoom = Math.max(0.6, Math.min(3, fullSpan / curRange));
+      gd.style.setProperty('--scr-zoom', zoom.toFixed(2));
+    });
+  }
+
+  // Watch for new chart-divs (charts get inserted asynchronously after page load)
+  const chartObserver = new MutationObserver(muts => {
+    let any = false;
+    muts.forEach(m => m.addedNodes.forEach(n => {
+      if (n.nodeType === 1 && (n.classList && n.classList.contains('js-plotly-plot'))) any = true;
+      else if (n.nodeType === 1 && n.querySelector && n.querySelector('.js-plotly-plot')) any = true;
+    }));
+    if (any) setTimeout(() => {
+      window.scrApplyChartTheme();
+      document.querySelectorAll('.js-plotly-plot').forEach(wireChartHooks);
+    }, 50);
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    chartObserver.observe(document.body, { childList: true, subtree: true });
+    setTimeout(() => {
+      window.scrApplyChartTheme();
+      document.querySelectorAll('.js-plotly-plot').forEach(wireChartHooks);
+    }, 200);
+  });
+
   // Cached fetch of extras.json (multiple consumers share one network call)
   let _extrasPromise = null;
   window.scrLoadExtras = function() {

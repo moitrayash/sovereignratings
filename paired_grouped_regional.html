@@ -145,9 +145,9 @@
   <div class="endnotes" id="endnotes">
     <h3>Endnotes</h3>
     <ol>
-      <li id="note-1">The paired measure is the simplest case of the relative-risk-rating family introduced by Dr.&nbsp;<a href="https://en.wikipedia.org/wiki/Kaushik_Basu" target="_blank" rel="noopener">Kaushik Basu</a>, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, Dilip Ratha and Hans Timmer in &ldquo;Sovereign Ratings in the Post-Crisis World,&rdquo; <em>World Bank Policy Research Working Paper</em> 6641 (2013); the distance-graded measure on the next page generalises their GDP-weighted average to a spatial kernel.</li>
-      <li id="note-2"><a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a> and Dilip Ratha, &ldquo;Sovereign Credit Ratings, Relative Risk Ratings, and Private Capital Flows,&rdquo; <em>World Bank Policy Research Working Paper</em> 9401 (Washington, DC: World Bank, 2020).</li>
-      <li id="note-3">For the political-economy background of the Nagorno-Karabakh disputes see Thomas de Waal, <em>Black Garden: Armenia and Azerbaijan Through Peace and War</em>, 10th anniv. ed. (New York: NYU Press, 2013), and the post-2020 update in International Crisis Group, <em>Improving Prospects for Peace after the Nagorno-Karabakh War</em>, Europe Briefing 91 (Brussels, 22 December 2020).</li>
+      <li id="note-1">The paired measure is the simplest case of the relative-risk-rating family introduced by Dr.&nbsp;<a href="https://en.wikipedia.org/wiki/Kaushik_Basu" target="_blank" rel="noopener">Kaushik Basu</a>, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a> and <a href="https://www.worldbank.org/en/about/people/h/hans-timmer" target="_blank" rel="noopener">Hans Timmer</a> in &ldquo;Sovereign Ratings in the Post-Crisis World,&rdquo; <em>World Bank Policy Research Working Paper</em> 6641 (2013); the distance-graded measure on the next page generalises their GDP-weighted average to a spatial kernel.</li>
+      <li id="note-2"><a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a> and <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a>, &ldquo;Sovereign Credit Ratings, Relative Risk Ratings, and Private Capital Flows,&rdquo; <em>World Bank Policy Research Working Paper</em> 9401 (Washington, DC: World Bank, 2020).</li>
+      <li id="note-3">For the political-economy background of the Nagorno-Karabakh disputes see <a href="https://en.wikipedia.org/wiki/Thomas_de_Waal" target="_blank" rel="noopener">Thomas de Waal</a>, <em>Black Garden: Armenia and Azerbaijan Through Peace and War</em>, 10th anniv. ed. (New York: NYU Press, 2013), and the post-2020 update in International Crisis Group, <em>Improving Prospects for Peace after the Nagorno-Karabakh War</em>, Europe Briefing 91 (Brussels, 22 December 2020).</li>
       <li id="note-4">For the Cypriot bail-in mechanics see <a href="https://www.imf.org/en/Publications/CR/Issues/2016/12/31/Cyprus-Request-for-Arrangement-Under-the-Extended-Fund-Facility-40624" target="_blank" rel="noopener">IMF Country Report 13/125</a> (May 2013), and the after-the-fact assessment in Athanasios Orphanides, &ldquo;What Happened in Cyprus? The Economic Consequences of the Last Communist Government in Europe,&rdquo; LSE Hellenic Observatory GreeSE Paper 79 (2014).</li>
     </ol>
   </div>
@@ -196,7 +196,7 @@ function renderCase(divId, a, b) {
     if (m[a]!=null && m[b]!=null) { xs.push(y); ya.push(m[a]); yb.push(m[b]); spread.push(m[a]-m[b]); }
   });
   if (!xs.length) { document.getElementById(divId).innerHTML = '<p style="padding:20px;color:#888">' + a + ' or ' + b + ' missing from dataset.</p>'; return; }
-  const cfg = window.scrChartConfig || {displayModeBar: true, responsive: true};
+  const cfg = window.scrChartConfig || (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true}));
   const layout = (window.scrBaseLayout || ((x)=>x))({
     title: {text: a + ' vs ' + b + ': composite scores and paired spread', font: {size: 13}},
     xaxis: {title: 'Year'},
@@ -219,7 +219,7 @@ function renderPair() {
     const m = EXTRAS.score_matrix[y];
     if (m[a]!=null && m[b]!=null) { xs.push(y); ya.push(m[a]); yb.push(m[b]); spread.push(m[a]-m[b]); }
   });
-  const cfg = {displayModeBar: true, responsive: true, modeBarButtonsToRemove:['lasso2d','select2d']};
+  const cfg = (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true}));
   const baseLayout = {
     plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
     font:{family:'Helvetica Neue, Arial, sans-serif', size:11},

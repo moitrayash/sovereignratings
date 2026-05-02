@@ -561,8 +561,7 @@ body:not(.dark) .js-plotly-plot text { fill: #1a1a1a !important; }
 body:not(.dark) .js-plotly-plot .xgrid path,
 body:not(.dark) .js-plotly-plot .ygrid path { stroke: rgba(60,60,60,0.18) !important; }
 
-/* Dark mode: text+axis to near-white, gridlines to light translucent.
-   Trace line/bar colors are swapped at runtime by shared.js (Plotly.restyle). */
+/* Dark mode: text+axis to near-white, gridlines to light translucent. */
 body.dark .js-plotly-plot text { fill: #ececec !important; }
 body.dark .js-plotly-plot .xgrid path,
 body.dark .js-plotly-plot .ygrid path,
@@ -571,6 +570,43 @@ body.dark .js-plotly-plot .xaxislayer-above path,
 body.dark .js-plotly-plot .yaxislayer-above path { stroke: #ececec !important; }
 body.dark .js-plotly-plot .modebar-btn path { fill: #d8d8d8 !important; }
 body.dark .modebar-group { background: rgba(40,40,40,0.4) !important; }
+
+/* Dark mode: swap dark trace fills/strokes for light ones so bars and lines
+   are visible against the dark background. Targets Plotly's inline rgb()
+   styles via CSS attribute substring match. */
+body.dark .js-plotly-plot path[style*="fill: rgb(26, 26, 26)"] { fill: rgb(232, 232, 232) !important; }
+body.dark .js-plotly-plot path[style*="stroke: rgb(26, 26, 26)"] { stroke: rgb(232, 232, 232) !important; }
+body.dark .js-plotly-plot path[style*="fill: rgb(0, 0, 0)"] { fill: rgb(232, 232, 232) !important; }
+body.dark .js-plotly-plot path[style*="stroke: rgb(0, 0, 0)"] { stroke: rgb(232, 232, 232) !important; }
+body.dark .js-plotly-plot path[style*="fill: rgb(68, 68, 68)"] { fill: rgb(204, 204, 204) !important; }
+body.dark .js-plotly-plot path[style*="stroke: rgb(68, 68, 68)"] { stroke: rgb(204, 204, 204) !important; }
+body.dark .js-plotly-plot path[style*="fill: rgb(85, 85, 85)"] { fill: rgb(192, 192, 192) !important; }
+body.dark .js-plotly-plot path[style*="stroke: rgb(85, 85, 85)"] { stroke: rgb(192, 192, 192) !important; }
+body.dark .js-plotly-plot path[style*="fill: rgb(136, 136, 136)"] { fill: rgb(180, 180, 180) !important; }
+body.dark .js-plotly-plot path[style*="stroke: rgb(136, 136, 136)"] { stroke: rgb(180, 180, 180) !important; }
+/* Annotation lines (dashed verticals on stories charts) */
+body.dark .js-plotly-plot .annotation path { stroke: #ececec !important; }
+body.dark .js-plotly-plot .infolayer .annotation-text-g text { fill: #ececec !important; }
+
+/* ── Dark mode: neon-glow hover halo on each trace line ──────── */
+/* Make traces hoverable as line strokes (Plotly disables pointer events by default) */
+body.dark .js-plotly-plot .scatterlayer .trace path.js-line {
+  pointer-events: stroke;
+  transition: filter 0.18s ease, stroke-width 0.18s ease;
+}
+/* Hovering any segment of a trace lights up its full path with a soft white halo */
+body.dark .js-plotly-plot .scatterlayer .trace:hover path.js-line {
+  filter:
+    drop-shadow(0 0 calc(3px * var(--scr-zoom, 1)) rgba(255,255,255,0.95))
+    drop-shadow(0 0 calc(8px * var(--scr-zoom, 1)) rgba(255,255,255,0.55));
+}
+/* Bar traces: glow on the visible bar */
+body.dark .js-plotly-plot .barlayer .trace .point path:hover {
+  filter:
+    drop-shadow(0 0 calc(3px * var(--scr-zoom, 1)) rgba(255,255,255,0.95))
+    drop-shadow(0 0 calc(8px * var(--scr-zoom, 1)) rgba(255,255,255,0.5));
+  pointer-events: all;
+}
 
 /* ── Copy-PNG overlay button (tables, examples, figures) ──────── */
 .copyable-wrap { position: relative; }

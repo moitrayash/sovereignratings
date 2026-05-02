@@ -264,7 +264,7 @@ print(f'Wrote {len(panel)} rows to each of shadow_ols.csv, shadow_knn.csv, shado
     <h3>Endnotes</h3>
     <ol>
       <li id="note-1">The shadow-rating concept goes back to Richard Cantor and Frank Packer's foundational 1996 paper for the New York Fed; for a recent survey of methodologies see Peter Reusens and Christophe Croux, &ldquo;Sovereign Credit Rating Determinants: A Comparison Before and After the European Debt Crisis,&rdquo; <em>Journal of Banking &amp; Finance</em> 77 (2017): 108–121, and the BIS Working Paper 856 (June 2020).</li>
-      <li id="note-2">For S&amp;P's published Sovereign Risk Indicators framework see <a href="https://www.spglobal.com/ratings/en/research-insights/topics/sovereign-risk-indicators" target="_blank" rel="noopener">spglobal.com</a>, and for an academic replication of the Cantor-Packer model on contemporary data see Dilip Ratha, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a> and <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a>, &ldquo;Shadow Sovereign Ratings for Unrated Developing Countries,&rdquo; <em>World Bank Policy Research Working Paper</em> 4269 (2007).</li>
+      <li id="note-2">For S&amp;P's published Sovereign Risk Indicators framework see <a href="https://www.spglobal.com/ratings/en/research-insights/topics/sovereign-risk-indicators" target="_blank" rel="noopener">spglobal.com</a>, and for an academic replication of the Cantor-Packer model on contemporary data see <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a>, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a> and <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a>, &ldquo;Shadow Sovereign Ratings for Unrated Developing Countries,&rdquo; <em>World Bank Policy Research Working Paper</em> 4269 (2007).</li>
       <li id="note-3">Ashok Vir Bhatia, &ldquo;Sovereign Credit Ratings Methodology: An Evaluation,&rdquo; <em>IMF Working Paper</em> 02/170 (October 2002), Section IV introduces the k-NN sanity-check as a robustness exercise on top of the agencies' headline ratings.</li>
       <li id="note-4">Peter Reusens and Christophe Croux, &ldquo;Sovereign Credit Rating Determinants: A Comparison Before and After the European Debt Crisis,&rdquo; <em>Journal of Banking &amp; Finance</em> 77 (2017): 108–121, and the methodological extension in the <a href="https://www.bis.org/publ/work856.htm" target="_blank" rel="noopener">BIS Working Paper 856</a> (June 2020) on machine-learning approaches to sovereign credit risk.</li>
     </ol>
@@ -314,7 +314,7 @@ function renderShadow(country) {
     document.getElementById('sh-table').innerHTML = '';
     return;
   }
-  const cfg = window.scrChartConfig || {displayModeBar: true, responsive: true};
+  const cfg = window.scrChartConfig || (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true}));
   const baseFlat = {
     plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
     font:{family:'Helvetica Neue, Arial, sans-serif',size:11,color:'#1a1a1a'},
@@ -398,7 +398,7 @@ function renderHeatmap() {
       xaxis: {title: 'Composite credit score (0–60)'},
       yaxis: {title: 'HDI × 100'},
       margin: {l: 80, r: 60, t: 50, b: 70}
-    }, window.scrChartConfig || {displayModeBar: true, responsive: true});
+    }, window.scrChartConfig || (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
   } catch(e) { console.error('heatmap failed:', e); }
 }
 </script>

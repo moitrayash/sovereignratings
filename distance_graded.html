@@ -179,7 +179,7 @@ function renderDist() {
     const b = num/den;
     xs.push(y); own.push(m[c]); bench.push(b); rel.push(alp*m[c] - b);
   });
-  const cfg = {displayModeBar: true, responsive: true, modeBarButtonsToRemove:['lasso2d','select2d']};
+  const cfg = (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true}));
   const baseLayout = {
     plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
     font:{family:'Helvetica Neue, Arial, sans-serif', size:11},
@@ -302,7 +302,7 @@ function renderMap(focal, weights, lam, exp) {
     legend: {orientation: 'h', y: -0.02, x: 0.5, xanchor: 'center', font: {size: 9}},
     showlegend: true
   };
-  Plotly.newPlot('dist-map', ringTraces.concat([peerTrace, focalTrace]), layout, window.scrChartConfig || {displayModeBar: true, responsive: true});
+  Plotly.newPlot('dist-map', ringTraces.concat([peerTrace, focalTrace]), layout, window.scrChartConfig || (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
 }
 </script>
 </body>

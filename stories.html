@@ -71,6 +71,16 @@
     font-size: 0.95rem;
   }
   .story-toc a { color: #1a1a1a; }
+
+  /* ── Dark mode overrides ─────────────────────────────────────── */
+  body.dark .story { border-bottom-color: #ececec; }
+  body.dark .story-meta { color: #aaa; }
+  body.dark .story .lede { color: #d8d8d8; border-left-color: #ececec; }
+  body.dark .chart-box { background: var(--bg-card); border-color: var(--border); }
+  body.dark .chart-caption { color: #b8b8b8; }
+  body.dark .story-toc { background: var(--bg-card); border-color: var(--border); }
+  body.dark .story-toc h3 { color: #aaa; }
+  body.dark .story-toc a { color: #ececec; }
 </style>
 </head>
 <body>
@@ -296,7 +306,7 @@ function renderAll() {
       {x:2014, y:58, text:'2014 default', showarrow:false, font:{size:10}, xshift:30},
       {x:2019, y:58, text:'2019 default', showarrow:false, font:{size:10}, xshift:30}
     ]
-  }), {displayModeBar: true, responsive: true});
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
 
   // Argentina pairwise spreads vs Brazil and Chile
   const sm = EXTRAS.score_matrix;
@@ -310,7 +320,7 @@ function renderAll() {
     title: {text: 'Pairwise spreads vs Argentina', font: {size: 13}},
     xaxis: {title:'Year', gridcolor:'#eee'},
     yaxis: {title:'Score difference', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
-  }), {displayModeBar: true, responsive: true});
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
 
   // ── Eurozone
   const ez = EXTRAS.stories.eurozone;
@@ -324,7 +334,7 @@ function renderAll() {
     title: {text: 'Eurozone composite scores, 2007–2018', font: {size: 13}},
     xaxis: {title:'Year', gridcolor:'#eee', range:[2007,2018]},
     yaxis: {title:'Composite (0–60)', range: [0, 62], gridcolor:'#eee'}
-  }), {displayModeBar: true, responsive: true});
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
 
   // Eurozone spread vs Germany
   Plotly.newPlot('euro-spread', ezCountries.filter(c=>c!=='Germany').map((c,i) => ({
@@ -335,7 +345,7 @@ function renderAll() {
     title: {text: 'Pairwise spreads: Germany minus periphery', font: {size: 13}},
     xaxis: {title:'Year', gridcolor:'#eee', range:[2007,2018]},
     yaxis: {title:'Germany − country', gridcolor:'#eee'}
-  }), {displayModeBar: true, responsive: true});
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
 
   // ── India-Pakistan
   const ip = EXTRAS.stories.india_pakistan;
@@ -348,7 +358,7 @@ function renderAll() {
     xaxis: {title:'Year', gridcolor:'#eee'},
     yaxis: {title:'Composite (0–60)', range: [0, 50], gridcolor:'#eee'},
     yaxis2: {title:'Spread', overlaying: 'y', side: 'right', range: [0, 30]}
-  }), {displayModeBar: true, responsive: true});
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
 
   // Cumulative change from 2000
   const baseI = ip[0].India, baseP = ip[0].Pakistan;
@@ -359,7 +369,7 @@ function renderAll() {
     title: {text: 'Cumulative change from 2000 baseline', font: {size: 13}},
     xaxis: {title:'Year', gridcolor:'#eee'},
     yaxis: {title:'Δ from 2000', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
-  }), {displayModeBar: true, responsive: true});
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
 
   // ── EMDC cluster
   const af = EXTRAS.stories.african_distress;
@@ -372,7 +382,7 @@ function renderAll() {
     title: {text: 'Six emerging-market sovereigns, 2018–2025', font: {size: 13}},
     xaxis: {title:'Year', gridcolor:'#eee'},
     yaxis: {title:'Composite (0–60)', range: [0, 35], gridcolor:'#eee'}
-  }), {displayModeBar: true, responsive: true});
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
 
   // Recovery: index from default trough (Year 0 = trough year)
   const defaults = {Ghana: 2022, Zambia: 2020, 'Sri Lanka': 2022, Ethiopia: 2023};
@@ -390,7 +400,7 @@ function renderAll() {
     title: {text: 'Recovery from default trough (years from default = 0)', font: {size: 13}},
     xaxis: {title:'Years from default', gridcolor:'#eee', range:[-2, 4], zerolinecolor:'#1a1a1a',zerolinewidth:1.5},
     yaxis: {title:'Δ score from trough', gridcolor:'#eee'}
-  }), {displayModeBar: true, responsive: true});
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
 
   // ── Iceland
   const ic = EXTRAS.stories.iceland_nordic;
@@ -403,7 +413,7 @@ function renderAll() {
     title: {text: 'Iceland and Nordic-Atlantic peers, 2006–2014', font: {size: 13}},
     xaxis: {title:'Year', gridcolor:'#eee', range:[2006,2014]},
     yaxis: {title:'Composite (0–60)', range: [25, 62], gridcolor:'#eee'}
-  }), {displayModeBar: true, responsive: true});
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
 
   // Recovery: Iceland and Ireland deviation from 2007
   const baseIce = ic.find(d=>d.Year===2007).Iceland;
@@ -415,7 +425,7 @@ function renderAll() {
     title: {text: 'Recovery: deviation from 2007 baseline', font: {size: 13}},
     xaxis: {title:'Year', gridcolor:'#eee'},
     yaxis: {title:'Δ from 2007', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
-  }), {displayModeBar: true, responsive: true});
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
 
   // ─────────────── Relative + Shadow charts (one pair per story) ───────────────
   renderStoryRel ('arg-relative',     'argentina',       ['Argentina'],                                   'Latin-America');
@@ -463,7 +473,7 @@ function renderStoryRel(divId, storyKey, focal, peerLabel) {
     yaxis: {title: 'M1 (score² / peer LOO)', gridcolor: '#eee'},
     yaxis2: {title: 'M2 percentile', overlaying: 'y', side: 'right', range: [0, 100], showgrid: false}
   });
-  const cfg = window.scrChartConfig || {displayModeBar: true, responsive: true};
+  const cfg = window.scrChartConfig || (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true}));
   Plotly.newPlot(divId, traces, layout, cfg);
 }
 
@@ -488,19 +498,4 @@ function renderStoryShad(divId, storyKey, focal, peerLabel) {
       line: {color: colour, width: 1.6, dash: 'dash'}
     });
   });
-  const useScr = !!window.scrBaseLayout;
-  const layout = useScr ? window.scrBaseLayout({
-    title: {text: 'Actual vs ' + peerLabel + '-shadow rating', font: {size: 13}},
-    xaxis: {title: 'Year'},
-    yaxis: {title: 'Composite (0–60)'}
-  }) : Object.assign({}, baseLayout, {
-    title: {text: 'Actual vs ' + peerLabel + '-shadow rating', font: {size: 13}},
-    xaxis: {title: 'Year', gridcolor: '#eee'},
-    yaxis: {title: 'Composite (0–60)', gridcolor: '#eee'}
-  });
-  const cfg = window.scrChartConfig || {displayModeBar: true, responsive: true};
-  Plotly.newPlot(divId, traces, layout, cfg);
-}
-</script>
-</body>
-</html>
+  cons
