@@ -748,6 +748,32 @@
     return Object.keys(window.SCR_REGION_OF).filter(c => window.SCR_REGION_OF[c] === region);
   };
 
+  // ── Preset peer groups (multilateral / political / economic groupings) ───
+  // Lists are intersected at render time with whichever indicator panel is
+  // active (HDI ∪ Gini countries), so a country in the official membership
+  // list that doesn't appear in the data is silently dropped.
+  // Order in SCR_PRESET_ORDER controls the order options appear in the
+  // "Compare against" dropdown.
+  window.SCR_PRESET_GROUPS = {
+    'OECD': ['Australia','Austria','Belgium','Canada','Chile','Colombia','Costa Rica','Czech Republic','Denmark','Estonia','Finland','France','Germany','Greece','Hungary','Iceland','Ireland','Israel','Italy','Japan','Latvia','Lithuania','Luxembourg','Mexico','Netherlands','New Zealand','Norway','Poland','Portugal','Slovakia','Slovenia','South Korea','Spain','Sweden','Switzerland','Turkey','United Kingdom','United States'],
+    'BRICS+': ['Brazil','Russia','India','China','South Africa','Iran','Egypt','United Arab Emirates','Ethiopia','Saudi Arabia','Indonesia'],
+    'EU (27)': ['Austria','Belgium','Bulgaria','Croatia','Cyprus','Czech Republic','Denmark','Estonia','Finland','France','Germany','Greece','Hungary','Ireland','Italy','Latvia','Lithuania','Luxembourg','Malta','Netherlands','Poland','Portugal','Romania','Slovakia','Slovenia','Spain','Sweden'],
+    'Eurozone': ['Austria','Belgium','Croatia','Cyprus','Estonia','Finland','France','Germany','Greece','Ireland','Italy','Latvia','Lithuania','Luxembourg','Malta','Netherlands','Portugal','Slovakia','Slovenia','Spain'],
+    'ASEAN': ['Indonesia','Malaysia','Philippines','Singapore','Thailand','Vietnam','Cambodia','Laos','Myanmar','Brunei'],
+    'G7': ['Canada','France','Germany','Italy','Japan','United Kingdom','United States'],
+    'G20': ['Argentina','Australia','Brazil','Canada','China','France','Germany','India','Indonesia','Italy','Japan','Mexico','Russia','Saudi Arabia','South Africa','South Korea','Turkey','United Kingdom','United States'],
+    'GCC': ['Bahrain','Kuwait','Oman','Qatar','Saudi Arabia','United Arab Emirates'],
+    'NATO': ['Albania','Belgium','Bulgaria','Canada','Croatia','Czech Republic','Denmark','Estonia','Finland','France','Germany','Greece','Hungary','Iceland','Italy','Latvia','Lithuania','Luxembourg','Montenegro','Netherlands','Norway','Poland','Portugal','Romania','Slovakia','Slovenia','Spain','Sweden','Turkey','United Kingdom','United States'],
+    'SIDS': ['Bahamas','Barbados','Belize','Cape Verde','Cuba','Dominican Republic','Fiji','Jamaica','Maldives','Mauritius','Papua New Guinea','Singapore','Solomon Islands','St Vincent and The Grenadines','Suriname','Trinidad and Tobago'],
+    'LDCs (UN)': ['Bangladesh','Benin','Burkina Faso','Cambodia','Chad','Ethiopia','Guinea','Laos','Madagascar','Mali','Mozambique','Niger','Rwanda','Senegal','Solomon Islands','Tanzania','Togo','Uganda','Zambia'],
+    'Visegrád Four': ['Czech Republic','Hungary','Poland','Slovakia'],
+    'MERCOSUR': ['Argentina','Bolivia','Brazil','Paraguay','Uruguay','Venezuela'],
+    'Pacific Alliance': ['Chile','Colombia','Mexico','Peru'],
+    'Nordic': ['Denmark','Finland','Iceland','Norway','Sweden'],
+    'CIS': ['Armenia','Azerbaijan','Belarus','Kazakhstan','Kyrgyzstan','Moldova','Russia','Tajikistan','Uzbekistan']
+  };
+  window.SCR_PRESET_ORDER = ['OECD','BRICS+','EU (27)','Eurozone','G7','G20','ASEAN','GCC','NATO','Nordic','SIDS','LDCs (UN)','Visegrád Four','MERCOSUR','Pacific Alliance','CIS'];
+
   // Compute leave-one-out mean + M1/M2/M4 for a country in a year, restricted
   // to a peerSet (Set<string> of country names). Used by relative_hdi/gini.html
   // when the user picks a non-world comparison set.

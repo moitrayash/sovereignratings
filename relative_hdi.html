@@ -75,9 +75,16 @@
     <select id="country"></select>
     <label for="peerset" style="margin-left:14px">Compare against</label>
     <select id="peerset">
-      <option value="world">World (all reporting countries)</option>
-      <option value="region">Same continent</option>
-      <option value="custom">Custom subset…</option>
+      <optgroup label="Geographic">
+        <option value="world">World (all reporting countries)</option>
+        <option value="region">Same continent</option>
+      </optgroup>
+      <optgroup label="Multilateral / political / economic" id="peerset-presets">
+        <!-- presets injected at runtime from SCR_PRESET_ORDER -->
+      </optgroup>
+      <optgroup label="Custom">
+        <option value="custom">Custom subset…</option>
+      </optgroup>
     </select>
     <span id="peer-info" style="margin-left:10px;color:#888;font-size:0.78rem"></span>
   </div>
@@ -165,6 +172,19 @@ function wirePeerControls() {
   const all = Array.from(new Set(EXTRAS.hdi_rel.map(r => r.Country))).sort();
   customSel.innerHTML = '';
   all.forEach(c => customSel.appendChild(new Option(c, c)));
+  // Inject preset peer-group options (OECD, BRICS+, EU, etc.) into the dropdown
+  const presetOg = document.getElementById('peerset-presets');
+  if (presetOg && window.SCR_PRESET_ORDER) {
+    presetOg.innerHTML = '';
+    window.SCR_PRESET_ORDER.forEach(name => {
+      // Pre-compute size of the intersection with the panel so the user can see
+      // how many countries are actually in the comparison
+      const members = (window.SCR_PRESET_GROUPS[name] || []).filter(c => all.includes(c));
+      if (!members.length) return;
+      const opt = new Option(name + ' (' + members.length + ')', 'preset:' + name);
+      presetOg.appendChild(opt);
+    });
+  }
   peerSel.onchange = () => {
     customBox.style.display = (peerSel.value === 'custom') ? 'block' : 'none';
     if (peerSel.value !== 'custom') {
@@ -201,6 +221,13 @@ function currentPeerSet(focal) {
     const peers = new Set(window.SCR_COUNTRIES_IN(reg).filter(c => all.has(c)));
     peers.add(focal);
     return {set: peers, label: reg + ' (' + peers.size + ' countries)'};
+  }
+  if (mode.startsWith('preset:')) {
+    const name = mode.slice(7);
+    const members = (window.SCR_PRESET_GROUPS[name] || []).filter(c => all.has(c));
+    const peers = new Set(members);
+    peers.add(focal);   // include focal so its own series renders even if not formally in the group
+    return {set: peers, label: name + ' (' + peers.size + ' countries)'};
   }
   // custom
   const peers = new Set(CUSTOM_PEERS.length ? CUSTOM_PEERS : [focal]);
