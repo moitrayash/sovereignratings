@@ -173,29 +173,36 @@ header.site .sub-tagline {
 
 nav.site {
   background: var(--accent);
-  padding: 0 18px;
+  padding: 0 12px;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0;
   align-items: stretch;
   position: sticky;
   top: 0;
   z-index: 50;
-  min-height: 36px; /* Don't collapse to zero height while renderNav is loading */
+  min-height: 36px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: thin;
 }
 body.dark nav.site { background: #0a0a0a; }
+nav.site::-webkit-scrollbar { height: 4px; }
+nav.site::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 2px; }
 nav.site a {
   display: inline-block;
-  padding: 9px 12px;
+  padding: 9px 9px;
   font-family: 'Helvetica Neue', Arial, sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.62rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: #bbbbbb;
   text-decoration: none;
   border-bottom: 3px solid transparent;
   transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 nav.site a:hover { color: #ffffff; background: transparent; }
 nav.site a.active { color: #ffffff; border-bottom-color: #ffffff; }
