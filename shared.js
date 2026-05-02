@@ -575,16 +575,30 @@
       }
       return false;
     });
-    // Hover-glow: Plotly's own hover system blocks CSS :hover on the
-    // <g.trace> element, so we add a class on plotly_hover and remove on unhover.
+    // Hover glow: triggered via plotly_hover event because Plotly's own hover
+    // capture overlay blocks CSS :hover from firing on the trace SVG group.
     gd.on('plotly_hover', function(ev) {
       if (!ev || !ev.points || !ev.points.length) return;
       const i = ev.points[0].curveNumber;
+      // Mark all traces — set the glow class on the hovered one
       const traces = gd.querySelectorAll('.scatterlayer .trace, .barlayer .trace');
       traces.forEach((t, k) => t.classList.toggle('scr-trace-glow', k === i));
+      // Belt-and-suspenders: also bump the line width via restyle so the
+      // hovered series visibly thickens even if the CSS filter can't paint
+      try {
+        const widths = gd.data.map((t, k) => {
+          if (!t._scrOrigWidth) t._scrOrigWidth = (t.line && t.line.width) || 2;
+          return k === i ? Math.max(3.5, t._scrOrigWidth + 1.5) : t._scrOrigWidth;
+        });
+        window.Plotly.restyle(gd, { 'line.width': widths });
+      } catch(e) {}
     });
     gd.on('plotly_unhover', function() {
       gd.querySelectorAll('.scr-trace-glow').forEach(el => el.classList.remove('scr-trace-glow'));
+      try {
+        const widths = gd.data.map(t => t._scrOrigWidth || 2);
+        window.Plotly.restyle(gd, { 'line.width': widths });
+      } catch(e) {}
     });
     // Optional: zoom event — adjust glow scale via CSS variable
     gd.on('plotly_relayout', function(ev) {
@@ -612,10 +626,13 @@
   });
   document.addEventListener('DOMContentLoaded', () => {
     chartObserver.observe(document.body, { childList: true, subtree: true });
-    setTimeout(() => {
+    // Multiple delayed retries — first 200ms catches early-rendered charts,
+    // 1500ms catches charts that wait for fetch('extras.json'),
+    // 4000ms is a final safety net for slow loaders.
+    [200, 1500, 4000].forEach(d => setTimeout(() => {
       window.scrApplyChartTheme();
       document.querySelectorAll('.js-plotly-plot').forEach(wireChartHooks);
-    }, 200);
+    }, d));
   });
 
   // Cached fetch of extras.json (multiple consumers share one network call)
