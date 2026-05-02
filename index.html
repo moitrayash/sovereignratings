@@ -4,60 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sovereign Credit Rating Explorer</title>
+<link rel="stylesheet" href="shared.css">
 <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
 <script src="data.js"></script>
 <style>
-  /* ── Reset & base ──────────────────────────────────────────────────────── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 15px; }
-  body {
-    font-family: 'Georgia', 'Times New Roman', serif;
-    background: #f5f5f3;
-    color: #1a1a1a;
-    min-height: 100vh;
-  }
-  a { color: #2a5999; }
+  /* Page-specific overrides for explorer width */
+  main { max-width: 1180px !important; }
 
-  /* ── Layout ────────────────────────────────────────────────────────────── */
-  header {
-    background: #fff;
-    border-bottom: 2px solid #1a1a1a;
-    padding: 18px 32px 10px;
-  }
-  header h1 {
-    font-size: 1.45rem;
-    font-weight: bold;
-    letter-spacing: 0.01em;
-  }
-  header p {
-    font-size: 0.82rem;
-    color: #555;
-    margin-top: 4px;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-  }
-  nav {
-    background: #1a1a1a;
-    padding: 0 32px;
-    display: flex;
-    gap: 0;
-  }
-  nav a {
-    display: inline-block;
-    padding: 9px 18px;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: #bbb;
-    text-decoration: none;
-    border-bottom: 3px solid transparent;
-    transition: color 0.15s, border-color 0.15s;
-  }
-  nav a:hover { color: #fff; }
-  nav a.active { color: #fff; border-bottom-color: #fff; }
 
-  main { max-width: 1180px; margin: 0 auto; padding: 24px 24px 60px; }
 
   /* ── Controls card ─────────────────────────────────────────────────────── */
   .controls-card {
@@ -310,8 +264,7 @@
   <div class="head-row">
     <div class="head-text">
       <h1>Sovereign Credit Rating Explorer</h1>
-      <div class="credit"><a href="mailto:ym522@cornell.edu">Yash Moitra</a>, Department of Applied Economics and Management, Cornell University</div>
-      <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
+            <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
     </div>
   </div>
 </header>

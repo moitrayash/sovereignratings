@@ -68,8 +68,7 @@
   <div class="head-row">
     <div class="head-text">
       <h1>Sovereign Credit Rating Explorer</h1>
-      <div class="credit"><a href="mailto:ym522@cornell.edu">Yash Moitra</a>, Department of Applied Economics and Management, Cornell University</div>
-      <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
+            <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
     </div>
   </div>
 </header>
@@ -228,55 +227,4 @@
     </div>
 
     <div class="cite-entry" data-text="world bank wgi worldwide governance indicators rule of law data360">
-      <div>World Bank. 2024. <em>Worldwide Governance Indicators.</em> Washington, DC: World Bank Group, served via the data360 API. <a class="doi" href="https://www.worldbank.org/en/publication/worldwide-governance-indicators" target="_blank" rel="noopener">worldbank.org/&hellip;/worldwide-governance-indicators</a></div>
-      <div class="meta">Source of the Rule of Law indicator (range &minus;2.5 to +2.5) used in shadow rating Spec S2.</div>
-    </div>
-  </div>
-
-  <!-- ─────────────────────── METHODOLOGY REFERENCES ─────────────────────── -->
-  <div class="group-section" id="g-methods">
-    <div class="group-heading">Statistical &amp; methodological references</div>
-
-    <div class="cite-entry" data-text="gini coefficient inequality measure 1912">
-      <div><a href="https://en.wikipedia.org/wiki/Corrado_Gini" target="_blank" rel="noopener">Gini</a>, Corrado. 1912. <em>Variabilit&agrave; e Mutabilit&agrave;.</em> Bologna: Tipografia di Paolo Cuppini.</div>
-      <div class="meta">Original definition of the Gini coefficient used to measure within-group inequality in credit scores.</div>
-    </div>
-
-    <div class="cite-entry" data-text="haversine great circle distance formula sinnott">
-      <div>Sinnott, Roger W. 1984. &ldquo;Virtues of the Haversine.&rdquo; <em>Sky and Telescope</em> 68 (2): 158.</div>
-      <div class="meta">Great-circle distance formula used to compute inter-capital distances for the distance-graded relative rating.</div>
-    </div>
-
-    <div class="cite-entry" data-text="arellano bond gmm dynamic panel">
-      <div>Arellano, Manuel, and Stephen Bond. 1991. &ldquo;Some Tests of Specification for Panel Data: Monte Carlo Evidence and an Application to Employment Equations.&rdquo; <em>Review of Economic Studies</em> 58 (2): 277&ndash;297. <a class="doi" href="https://doi.org/10.2307/2297968" target="_blank" rel="noopener">doi.org/10.2307/2297968</a></div>
-      <div class="meta">Cited as the planned next step for endogeneity-corrected panel estimates.</div>
-    </div>
-  </div>
-
-  <p class="page-footer">Last updated May 2026. PDFs marked &ldquo;View PDF&rdquo; are mirrored locally; remaining sources link to the publishing institution. Citations follow Chicago author&ndash;date format.</p>
-
-</main>
-
-<script defer src="nav.js"></script>
-<script defer src="tips.js"></script>
-<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("citations.html"));</script>
-<script defer src="shared.js"></script>
-<script>
-function filterCitations() {
-  const q = document.getElementById('cite-search').value.toLowerCase().trim();
-  const entries = document.querySelectorAll('.cite-entry');
-  let visible = 0;
-  entries.forEach(e => {
-    const t = (e.dataset.text || '') + ' ' + e.textContent.toLowerCase();
-    const match = !q || t.toLowerCase().includes(q);
-    e.classList.toggle('hidden', !match);
-    if (match) visible++;
-  });
-  document.querySelectorAll('.group-section').forEach(g => {
-    const any = [...g.querySelectorAll('.cite-entry')].some(e => !e.classList.contains('hidden'));
-    g.classList.toggle('hidden', !any);
-  });
-}
-</script>
-</body>
-</html>
+      <div>World Bank. 2024. <em>Worldwide Governance Indicators.</em> Washington, DC: World Bank Group, served via the data360 API. <a class="doi" href="https://www.worldbank.org/en/publication/worldwide-governance-indicators" target="_blank" re

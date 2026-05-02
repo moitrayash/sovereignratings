@@ -70,20 +70,29 @@ header.site h1 {
   font-weight: bold;
   letter-spacing: 0.01em;
 }
-header.site .credit {
-  font-size: 0.7rem;
-  font-style: italic;
-  color: var(--muted);
+header.site .credit { display: none; } /* moved to bottom-left imprint */
+
+/* Tiny bottom-left attribution imprint */
+.imprint {
+  position: fixed;
+  bottom: 6px;
+  left: 8px;
+  z-index: 40;
   font-family: 'Georgia', serif;
-  margin-top: 2px;
-  letter-spacing: 0.01em;
+  font-style: italic;
+  font-size: 0.62rem;
+  color: var(--muted);
+  background: transparent;
+  pointer-events: auto;
+  line-height: 1.3;
+  max-width: 220px;
+  opacity: 0.55;
+  transition: opacity 0.15s;
 }
-header.site .credit a {
-  color: inherit;
-  text-decoration: none;
-  border-bottom: 1px dotted var(--muted-2);
-}
-header.site .credit a:hover { color: var(--ink); background: transparent; border-bottom-color: var(--ink); }
+.imprint:hover { opacity: 1; }
+.imprint a { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--muted-2); }
+.imprint a:hover { color: var(--ink); background: transparent; border-bottom-color: var(--ink); }
+@media (max-width: 600px) { .imprint { font-size: 0.56rem; max-width: 160px; } }
 header.site .sub-tagline {
   font-size: 0.78rem;
   color: var(--ink-soft);
@@ -172,6 +181,7 @@ nav.site {
   position: sticky;
   top: 0;
   z-index: 50;
+  min-height: 36px; /* Don't collapse to zero height while renderNav is loading */
 }
 body.dark nav.site { background: #0a0a0a; }
 nav.site a {

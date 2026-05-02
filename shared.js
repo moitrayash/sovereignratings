@@ -146,6 +146,15 @@
     });
   }
 
+  // ── Inject the bottom-left attribution imprint ────────────────────
+  function injectImprint() {
+    if (document.querySelector('.imprint')) return;
+    const im = document.createElement('div');
+    im.className = 'imprint';
+    im.innerHTML = '<a href="mailto:ym522@cornell.edu" title="Yash Moitra · Department of Applied Economics and Management · Cornell University">Y. Moitra · DAEM, Cornell</a>';
+    document.body.appendChild(im);
+  }
+
   // ── Inject a standard footer if page didn't include one ───────────
   function injectFooter() {
     if (document.querySelector('footer.site')) return;
@@ -318,6 +327,7 @@
   // ── Init ───────────────────────────────────────────────────────────
   function init() {
     buildControls();
+    injectImprint();
     injectFooter();
     decorateTerms();
     const toc = buildToc();
