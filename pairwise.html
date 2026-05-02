@@ -254,9 +254,9 @@ function renderPairwise() {
     {x: xs, y: ya, name: a, mode: 'lines+markers', line: {color: '#1a1a1a', width: 2}, marker: {size: 5}},
     {x: xs, y: yb, name: b, mode: 'lines+markers', line: {color: '#888', width: 2, dash: 'dash'}, marker: {size: 5}}
   ], {
-    title: {text: a + ' vs ' + b + ' &mdash; absolute composite score', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
+    title: {text: a + ' vs ' + b + ' — absolute composite score', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
     xaxis: {title: 'Year', gridcolor: '#eee'},
-    yaxis: {title: 'Composite score (0&ndash;60)', gridcolor: '#eee', range: [0, 60]},
+    yaxis: {title: 'Composite score (0–60)', gridcolor: '#eee', range: [0, 60]},
     plot_bgcolor: '#fff', paper_bgcolor: '#fff',
     font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
     margin: {l: 50, r: 20, t: 40, b: 40},
@@ -266,7 +266,7 @@ function renderPairwise() {
   Plotly.newPlot('pair-spread', [
     {x: xs, y: spread, name: 'Spread', type: 'bar', marker: {color: spread.map(s => s >= 0 ? '#1a1a1a' : '#888')}}
   ], {
-    title: {text: 'Pairwise spread P(' + a + ' &minus; ' + b + ')', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
+    title: {text: 'Pairwise spread P(' + a + ' − ' + b + ')', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
     xaxis: {title: 'Year', gridcolor: '#eee'},
     yaxis: {title: 'Score difference', gridcolor: '#eee', zerolinecolor: '#1a1a1a', zerolinewidth: 1.5},
     plot_bgcolor: '#fff', paper_bgcolor: '#fff',
@@ -355,9 +355,9 @@ function renderDistance() {
     {x: xs, y: bench, name: 'Distance-weighted benchmark', mode: 'lines+markers', line: {color: '#888', width: 2, dash: 'dash'}, marker: {size: 4}},
     {x: xs, y: rel, name: 'Relative R(d)', mode: 'lines', line: {color: '#444', width: 2.5}, yaxis: 'y2'}
   ], {
-    title: {text: c + ' &mdash; absolute, distance-weighted benchmark, and relative R(d)', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
+    title: {text: c + ' — absolute, distance-weighted benchmark, and relative R(d)', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
     xaxis: {title: 'Year', gridcolor: '#eee'},
-    yaxis: {title: 'Composite score (0&ndash;60)', gridcolor: '#eee', range: [0, 60]},
+    yaxis: {title: 'Composite score (0–60)', gridcolor: '#eee', range: [0, 60]},
     yaxis2: {title: 'R(d)', overlaying: 'y', side: 'right', gridcolor: 'transparent', zeroline: false},
     plot_bgcolor: '#fff', paper_bgcolor: '#fff',
     font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
@@ -374,7 +374,7 @@ function renderDistance() {
      hovertemplate: '%{x}<br>distance: %{customdata:.0f} km<br>weight: %{y:.4f}<extra></extra>',
      customdata: top.map(t => t.dist)}
   ], {
-    title: {text: 'Top 30 peer weights (kernel: &lambda;=' + lam.toFixed(2) + ', p=' + exp.toFixed(2) + ')', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
+    title: {text: 'Top 30 peer weights (kernel: λ=' + lam.toFixed(2) + ', p=' + exp.toFixed(2) + ')', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
     xaxis: {tickangle: -45, tickfont: {size: 9}},
     yaxis: {title: 'w(i,j)', gridcolor: '#eee'},
     plot_bgcolor: '#fff', paper_bgcolor: '#fff',
@@ -389,7 +389,7 @@ function renderDistance() {
   const lastRel = rel[rel.length-1];
   document.getElementById('dist-stats').innerHTML = `
     <div class="stat"><div class="lbl">Effective N (peers)</div><div class="val">${effN.toFixed(1)}</div></div>
-    <div class="stat"><div class="lbl">&Sigma; weights</div><div class="val">${totW.toFixed(2)}</div></div>
+    <div class="stat"><div class="lbl">Σ weights</div><div class="val">${totW.toFixed(2)}</div></div>
     <div class="stat"><div class="lbl">Mean R(d)</div><div class="val">${meanRel.toFixed(2)}</div></div>
     <div class="stat"><div class="lbl">Latest R(d)</div><div class="val">${lastRel.toFixed(2)}</div></div>
   `;

@@ -101,7 +101,7 @@ function render() {
     {x: xs, y: rel.map(r => 100 - r.Value), name: c + ' Gini', mode: 'lines+markers', line: {color: '#1a1a1a', width: 2.2}, marker: {size: 6}},
     {x: xs, y: rel.map(r => 100 - r.LOO), name: 'World LOO mean Gini', mode: 'lines', line: {color: '#888', width: 2, dash: 'dash'}}
   ], {
-    title: {text: c + ' &mdash; raw Gini index vs world mean of reporting countries', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
+    title: {text: c + ' — raw Gini index vs world mean of reporting countries', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
     xaxis: {title: 'Year', gridcolor: '#eee'},
     yaxis: {title: 'Gini', gridcolor: '#eee', range: [15, 70]},
     plot_bgcolor: '#fff', paper_bgcolor: '#fff',
@@ -111,11 +111,11 @@ function render() {
   }, {displayModeBar: false, responsive: true});
 
   Plotly.newPlot('gini-rel', [
-    {x: xs, y: rel.map(r => r.M1), name: 'M1 (GiniInv&sup2;/LOO)', mode: 'lines+markers', line: {color: '#1a1a1a', width: 2}, marker: {size: 5}},
+    {x: xs, y: rel.map(r => r.M1), name: 'M1 (GiniInv²/LOO)', mode: 'lines+markers', line: {color: '#1a1a1a', width: 2}, marker: {size: 5}},
     {x: xs, y: rel.map(r => r.Value - r.LOO), name: 'Pairwise gap', mode: 'lines+markers', line: {color: '#888', width: 2}, marker: {size: 5}, yaxis: 'y2'},
-    {x: xs, y: rel.map(r => r.M4 * 100), name: 'M4 &times; 100', mode: 'lines', line: {color: '#444', width: 1.8, dash: 'dot'}, yaxis: 'y2'}
+    {x: xs, y: rel.map(r => r.M4 * 100), name: 'M4 × 100', mode: 'lines', line: {color: '#444', width: 1.8, dash: 'dot'}, yaxis: 'y2'}
   ], {
-    title: {text: c + ' &mdash; Relative Gini: M1, pairwise gap, M4', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
+    title: {text: c + ' — Relative Gini: M1, pairwise gap, M4', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
     xaxis: {title: 'Year', gridcolor: '#eee'},
     yaxis: {title: 'M1', gridcolor: '#eee'},
     yaxis2: {title: 'Pairwise / M4', overlaying: 'y', side: 'right', zeroline: false},
@@ -134,10 +134,10 @@ function render() {
   });
   credit.sort((a,b) => a.Year - b.Year);
   Plotly.newPlot('gini-vs-credit', [
-    {x: xs, y: rel.map(r => r.Value), name: 'GiniInv = 100 &minus; Gini', mode: 'lines+markers', line: {color: '#1a1a1a', width: 2.2}, marker: {size: 6}},
-    {x: credit.map(c => c.Year), y: credit.map(c => c.Score * (100/60)), name: 'Credit score (rescaled to 0&ndash;100)', mode: 'lines+markers', line: {color: '#888', width: 2, dash: 'dash'}, marker: {size: 5}}
+    {x: xs, y: rel.map(r => r.Value), name: 'GiniInv = 100 − Gini', mode: 'lines+markers', line: {color: '#1a1a1a', width: 2.2}, marker: {size: 6}},
+    {x: credit.map(c => c.Year), y: credit.map(c => c.Score * (100/60)), name: 'Credit score (rescaled to 0–100)', mode: 'lines+markers', line: {color: '#888', width: 2, dash: 'dash'}, marker: {size: 5}}
   ], {
-    title: {text: c + ' &mdash; GiniInv vs credit composite', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
+    title: {text: c + ' — GiniInv vs credit composite', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
     xaxis: {title: 'Year', gridcolor: '#eee'},
     yaxis: {title: 'Common scale', gridcolor: '#eee', range: [0, 100]},
     plot_bgcolor: '#fff', paper_bgcolor: '#fff',

@@ -255,9 +255,9 @@ function renderAll() {
     name: 'Argentina', mode: 'lines+markers',
     line: {color: '#1a1a1a', width: 2.4}, marker: {size: 6}
   }], Object.assign({}, baseLayout, {
-    title: {text: 'Argentina composite score, 2000&ndash;2025', font: {size: 13}},
+    title: {text: 'Argentina composite score, 2000–2025', font: {size: 13}},
     xaxis: {title: 'Year', gridcolor: '#eee'},
-    yaxis: {title: 'Composite (0&ndash;60)', range: [0, 60], gridcolor: '#eee'},
+    yaxis: {title: 'Composite (0–60)', range: [0, 60], gridcolor: '#eee'},
     shapes: [
       {type:'line', x0:2001, x1:2001, y0:0, y1:60, line:{color:'#888',dash:'dot',width:1}},
       {type:'line', x0:2014, x1:2014, y0:0, y1:60, line:{color:'#888',dash:'dot',width:1}},
@@ -276,8 +276,8 @@ function renderAll() {
   const spreadBrAr = years.map(y => sm[y]['Brazil']!=null && sm[y]['Argentina']!=null ? sm[y]['Brazil']-sm[y]['Argentina'] : null);
   const spreadClAr = years.map(y => sm[y]['Chile']!=null && sm[y]['Argentina']!=null ? sm[y]['Chile']-sm[y]['Argentina'] : null);
   Plotly.newPlot('arg-pairwise', [
-    {x: years, y: spreadBrAr, name: 'Brazil &minus; Argentina', mode: 'lines+markers', line:{color:'#1a1a1a',width:2}, marker:{size:5}},
-    {x: years, y: spreadClAr, name: 'Chile &minus; Argentina', mode: 'lines+markers', line:{color:'#888',width:2,dash:'dash'}, marker:{size:5}}
+    {x: years, y: spreadBrAr, name: 'Brazil − Argentina', mode: 'lines+markers', line:{color:'#1a1a1a',width:2}, marker:{size:5}},
+    {x: years, y: spreadClAr, name: 'Chile − Argentina', mode: 'lines+markers', line:{color:'#888',width:2,dash:'dash'}, marker:{size:5}}
   ], Object.assign({}, baseLayout, {
     title: {text: 'Pairwise spreads vs Argentina', font: {size: 13}},
     xaxis: {title:'Year', gridcolor:'#eee'},
@@ -293,9 +293,9 @@ function renderAll() {
     line: {color: lineDash[i], width: i<5 ? 2.4 : 1.8, dash: i>=6 ? 'dash' : null},
     marker: {size: 4}
   })), Object.assign({}, baseLayout, {
-    title: {text: 'Eurozone composite scores, 2007&ndash;2018', font: {size: 13}},
+    title: {text: 'Eurozone composite scores, 2007–2018', font: {size: 13}},
     xaxis: {title:'Year', gridcolor:'#eee', range:[2007,2018]},
-    yaxis: {title:'Composite (0&ndash;60)', range: [0, 62], gridcolor:'#eee'}
+    yaxis: {title:'Composite (0–60)', range: [0, 62], gridcolor:'#eee'}
   }), {displayModeBar: false, responsive: true});
 
   // Eurozone spread vs Germany
@@ -306,7 +306,7 @@ function renderAll() {
   })), Object.assign({}, baseLayout, {
     title: {text: 'Pairwise spreads: Germany minus periphery', font: {size: 13}},
     xaxis: {title:'Year', gridcolor:'#eee', range:[2007,2018]},
-    yaxis: {title:'Germany &minus; country', gridcolor:'#eee'}
+    yaxis: {title:'Germany − country', gridcolor:'#eee'}
   }), {displayModeBar: false, responsive: true});
 
   // ── India-Pakistan
@@ -314,23 +314,23 @@ function renderAll() {
   Plotly.newPlot('ip-chart', [
     {x: ip.map(d=>d.Year), y: ip.map(d=>d.India), name: 'India', mode: 'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:5}},
     {x: ip.map(d=>d.Year), y: ip.map(d=>d.Pakistan), name: 'Pakistan', mode: 'lines+markers', line:{color:'#888',width:2.4,dash:'dash'}, marker:{size:5}},
-    {x: ip.map(d=>d.Year), y: ip.map(d=>d.Spread), name: 'Spread P(India&minus;Pakistan)', mode: 'lines', line:{color:'#444',width:2}, yaxis: 'y2'}
+    {x: ip.map(d=>d.Year), y: ip.map(d=>d.Spread), name: 'Spread P(India−Pakistan)', mode: 'lines', line:{color:'#444',width:2}, yaxis: 'y2'}
   ], Object.assign({}, baseLayout, {
     title: {text: 'India and Pakistan composite scores, with pairwise spread', font: {size: 13}},
     xaxis: {title:'Year', gridcolor:'#eee'},
-    yaxis: {title:'Composite (0&ndash;60)', range: [0, 50], gridcolor:'#eee'},
+    yaxis: {title:'Composite (0–60)', range: [0, 50], gridcolor:'#eee'},
     yaxis2: {title:'Spread', overlaying: 'y', side: 'right', range: [0, 30]}
   }), {displayModeBar: false, responsive: true});
 
   // Cumulative change from 2000
   const baseI = ip[0].India, baseP = ip[0].Pakistan;
   Plotly.newPlot('ip-rel', [
-    {x: ip.map(d=>d.Year), y: ip.map(d => d.India - baseI), name: 'India &Delta;', mode:'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:5}},
-    {x: ip.map(d=>d.Year), y: ip.map(d => d.Pakistan - baseP), name: 'Pakistan &Delta;', mode:'lines+markers', line:{color:'#888',width:2.4,dash:'dash'}, marker:{size:5}}
+    {x: ip.map(d=>d.Year), y: ip.map(d => d.India - baseI), name: 'India Δ', mode:'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:5}},
+    {x: ip.map(d=>d.Year), y: ip.map(d => d.Pakistan - baseP), name: 'Pakistan Δ', mode:'lines+markers', line:{color:'#888',width:2.4,dash:'dash'}, marker:{size:5}}
   ], Object.assign({}, baseLayout, {
     title: {text: 'Cumulative change from 2000 baseline', font: {size: 13}},
     xaxis: {title:'Year', gridcolor:'#eee'},
-    yaxis: {title:'&Delta; from 2000', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
+    yaxis: {title:'Δ from 2000', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
   }), {displayModeBar: false, responsive: true});
 
   // ── EMDC cluster
@@ -341,9 +341,9 @@ function renderAll() {
     name: c, mode: 'lines+markers',
     line: {color: lineDash[i], width: i<4 ? 2.4 : 1.8, dash: i>=5 ? 'dash' : null}, marker: {size: 4}
   })), Object.assign({}, baseLayout, {
-    title: {text: 'Six emerging-market sovereigns, 2018&ndash;2025', font: {size: 13}},
+    title: {text: 'Six emerging-market sovereigns, 2018–2025', font: {size: 13}},
     xaxis: {title:'Year', gridcolor:'#eee'},
-    yaxis: {title:'Composite (0&ndash;60)', range: [0, 35], gridcolor:'#eee'}
+    yaxis: {title:'Composite (0–60)', range: [0, 35], gridcolor:'#eee'}
   }), {displayModeBar: false, responsive: true});
 
   // Recovery: index from default trough (Year 0 = trough year)
@@ -361,7 +361,7 @@ function renderAll() {
   Plotly.newPlot('emdc-recovery', recovery, Object.assign({}, baseLayout, {
     title: {text: 'Recovery from default trough (years from default = 0)', font: {size: 13}},
     xaxis: {title:'Years from default', gridcolor:'#eee', range:[-2, 4], zerolinecolor:'#1a1a1a',zerolinewidth:1.5},
-    yaxis: {title:'&Delta; score from trough', gridcolor:'#eee'}
+    yaxis: {title:'Δ score from trough', gridcolor:'#eee'}
   }), {displayModeBar: false, responsive: true});
 
   // ── Iceland
@@ -372,9 +372,9 @@ function renderAll() {
     name: c, mode: 'lines+markers',
     line: {color: lineDash[i], width: i<2 ? 2.4 : 1.6, dash: i>=2 ? 'dash' : null}, marker: {size: 4}
   })), Object.assign({}, baseLayout, {
-    title: {text: 'Iceland and Nordic-Atlantic peers, 2006&ndash;2014', font: {size: 13}},
+    title: {text: 'Iceland and Nordic-Atlantic peers, 2006–2014', font: {size: 13}},
     xaxis: {title:'Year', gridcolor:'#eee', range:[2006,2014]},
-    yaxis: {title:'Composite (0&ndash;60)', range: [25, 62], gridcolor:'#eee'}
+    yaxis: {title:'Composite (0–60)', range: [25, 62], gridcolor:'#eee'}
   }), {displayModeBar: false, responsive: true});
 
   // Recovery: Iceland and Ireland deviation from 2007
@@ -386,7 +386,7 @@ function renderAll() {
   ], Object.assign({}, baseLayout, {
     title: {text: 'Recovery: deviation from 2007 baseline', font: {size: 13}},
     xaxis: {title:'Year', gridcolor:'#eee'},
-    yaxis: {title:'&Delta; from 2007', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
+    yaxis: {title:'Δ from 2007', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
   }), {displayModeBar: false, responsive: true});
 }
 </script>
