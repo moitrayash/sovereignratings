@@ -359,9 +359,35 @@
   //   transparent background (so dark-mode shines through), axis lines
   //   meeting at the origin, major + minor gridlines, full modebar
   //   visible (camera/zoom/pan/home), theme-aware colors.
+  // Plus a custom "Copy as PNG" modebar button that writes the chart
+  // image to the system clipboard (paste into Word, Slack, email, etc).
+  const COPY_ICON = {
+    width: 1000, height: 1000,
+    path: 'M666 0H125C56 0 0 56 0 125v541h83V125c0-23 19-42 42-42h541V0zm208 167H291c-69 0-125 56-125 125v541c0 69 56 125 125 125h583c69 0 125-56 125-125V292c0-69-56-125-125-125zm42 666c0 23-19 42-42 42H291c-23 0-42-19-42-42V292c0-23 19-42 42-42h583c23 0 42 19 42 42v541z'
+  };
+  function copyChartToClipboard(gd) {
+    if (!window.Plotly) return;
+    Plotly.toImage(gd, { format: 'png', height: 800, width: 1400, scale: 2 })
+      .then(dataUrl => fetch(dataUrl).then(r => r.blob()))
+      .then(blob => {
+        if (!navigator.clipboard || !window.ClipboardItem) {
+          alert('Your browser does not support copy-image-to-clipboard. Use the camera (download) button instead.');
+          return;
+        }
+        return navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+      })
+      .then(() => flashToast('Chart copied as PNG'))
+      .catch(err => alert('Copy failed: ' + err.message));
+  }
   window.scrChartConfig = {
     displayModeBar: true, displaylogo: false, responsive: true,
     modeBarButtonsToRemove: ['lasso2d', 'select2d'],
+    modeBarButtonsToAdd: [{
+      name: 'Copy as PNG',
+      title: 'Copy chart to clipboard',
+      icon: COPY_ICON,
+      click: copyChartToClipboard
+    }],
     toImageButtonOptions: { format: 'png', filename: 'sovereignratings_chart', scale: 2 }
   };
   window.scrBaseLayout = function(extra) {
@@ -395,4 +421,85 @@
     });
     return _extrasPromise;
   };
+
+  // ── Toast (small transient confirmation, e.g. "Copied") ───────────
+  let toastEl = null, toastTimer = null;
+  function flashToast(msg) {
+    if (!toastEl) {
+      toastEl = document.createElement('div');
+      toastEl.id = 'scr-toast';
+      document.body.appendChild(toastEl);
+    }
+    toastEl.textContent = msg;
+    toastEl.classList.add('visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('visible'), 1800);
+  }
+  window.flashToast = flashToast;
+
+  // ── html2canvas loader (one-shot, cached) ─────────────────────────
+  let _h2cPromise = null;
+  function loadHtml2Canvas() {
+    if (window.html2canvas) return Promise.resolve(window.html2canvas);
+    if (_h2cPromise) return _h2cPromise;
+    _h2cPromise = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      s.onload = () => resolve(window.html2canvas);
+      s.onerror = () => reject(new Error('html2canvas CDN failed'));
+      document.head.appendChild(s);
+    });
+    return _h2cPromise;
+  }
+
+  // ── Generic Copy-PNG overlay button for tables, examples, figures ─
+  function attachCopyButton(target) {
+    if (!target || target.dataset.copyAttached === '1') return;
+    target.dataset.copyAttached = '1';
+    // Wrap in a positioned container so the absolute button anchors right
+    let wrap;
+    if (target.parentNode && target.parentNode.classList.contains('copyable-wrap')) {
+      wrap = target.parentNode;
+    } else {
+      wrap = document.createElement('div');
+      wrap.className = 'copyable-wrap';
+      target.parentNode.insertBefore(wrap, target);
+      wrap.appendChild(target);
+    }
+    const btn = document.createElement('button');
+    btn.className = 'copy-png-btn';
+    btn.type = 'button';
+    btn.title = 'Copy as PNG';
+    btn.innerHTML = '<span aria-hidden="true">&#x29C9;</span> Copy PNG';
+    btn.onclick = function(ev) {
+      ev.preventDefault();
+      btn.disabled = true;
+      btn.textContent = 'Rendering…';
+      loadHtml2Canvas()
+        .then(h2c => h2c(target, { backgroundColor: getComputedStyle(document.body).backgroundColor || '#ffffff', scale: 2, logging: false, useCORS: true }))
+        .then(canvas => new Promise((resolve, reject) => canvas.toBlob(b => b ? resolve(b) : reject(new Error('toBlob returned null')), 'image/png')))
+        .then(blob => {
+          if (!navigator.clipboard || !window.ClipboardItem) throw new Error('clipboard API unavailable');
+          return navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+        })
+        .then(() => { flashToast('Copied as PNG'); btn.innerHTML = '<span>&#x2713;</span> Copied'; setTimeout(() => { btn.innerHTML = '<span>&#x29C9;</span> Copy PNG'; btn.disabled = false; }, 1500); })
+        .catch(err => { btn.innerHTML = '<span>&#x29C9;</span> Copy PNG'; btn.disabled = false; alert('Copy failed: ' + err.message); });
+    };
+    wrap.appendChild(btn);
+  }
+
+  // Sweep DOM for things worth a Copy-PNG button.
+  // Plotly chart-boxes already get a custom modebar button via scrChartConfig,
+  // so we skip them here. We attach overlays to standalone tables, the
+  // expandable worked-example blocks, and any explicitly-tagged .copyable.
+  function injectCopyButtons() {
+    document.querySelectorAll('main table').forEach(t => {
+      if (t.closest('.copyable-wrap, .controls, .controls-rail')) return;
+      attachCopyButton(t);
+    });
+    document.querySelectorAll('main details.example').forEach(d => attachCopyButton(d));
+    document.querySelectorAll('main .copyable').forEach(d => attachCopyButton(d));
+  }
+  // Wait for layout, then attach. Defers until after init() has built the page.
+  setTimeout(injectCopyButtons, 0);
 })();
