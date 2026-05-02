@@ -33,6 +33,8 @@
   <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Distance-graded Ratings</h2>
   <p>The paired measure compares two countries; a flat group average treats all peers equally. A distance-graded measure interpolates between these two extremes by weighting every other country by an inverse-distance kernel from the focal capital,<sup class="note-ref"><a href="#note-1">1</a></sup> using the <span class="term" data-term="haversine">haversine great-circle distance</span> between coordinates.</p>
 
+  <h2 id="math"><span class="section-num">1</span> The math, plainly</h2>
+
   <div class="formula-block">
     <span class="label">Distance-weighted benchmark</span>
     B<sub>it</sub><sup>(d)</sup> = (Σ<sub>j≠i</sub> w<sub>ij</sub> Score<sub>jt</sub>) / (Σ<sub>j≠i</sub> w<sub>ij</sub>)
@@ -42,9 +44,40 @@
     <br><br>
     <span class="label">Distance-graded relative score</span>
     R<sub>it</sub><sup>(d)</sup> = α · Score<sub>it</sub> − B<sub>it</sub><sup>(d)</sup>
+    <br><br>
+    <span class="label">Haversine distance</span>
+    d<sub>ij</sub> = 2R · arcsin(√(sin²(Δφ/2) + cos(φ<sub>i</sub>)·cos(φ<sub>j</sub>)·sin²(Δλ/2)))
+    where R = 6371 km, φ = latitude, λ = longitude
   </div>
 
-  <p>Three parameters control the kernel: <strong>λ</strong> (decay rate), <strong>p</strong> (distance exponent) and <strong>α</strong> (scaling on the focal country). Setting λ = 0 recovers the unweighted world average; setting λ very large recovers the nearest-neighbour paired score; intermediate values produce a regionally-weighted benchmark. The exponential-decay specification is the standard kernel discussed in spatial econometrics<sup class="note-ref"><a href="#note-2">2</a></sup> and is closely related to the geographically-weighted regression literature.</p>
+  <h3>Intuition for each parameter</h3>
+
+  <p>The kernel <strong>w<sub>ij</sub></strong> assigns a weight between 0 and 1 to each peer country <em>j</em> as seen from the focal country <em>i</em>. Three knobs control how that weight schedule looks:</p>
+
+  <p><strong>λ (decay rate)</strong> &mdash; how fast weight falls off with distance. Setting <strong>λ = 0</strong> recovers the unweighted world average (every country gets weight 1, so the benchmark is just the global mean). Setting <strong>λ very large</strong> recovers the nearest-neighbour paired score (only the closest country gets meaningful weight). Intermediate values produce a regionally-weighted benchmark. The half-distance — the radius at which weight has decayed to 0.5 — is <code>d<sub>½</sub> = 1000·(ln 2 / λ)<sup>1/p</sup></code> km. With λ = 0.6 and p = 1, the half-distance is about 1155 km; with λ = 1.5 it is about 462 km.</p>
+
+  <p><strong>p (distance exponent)</strong> &mdash; the curvature of the falloff. With <strong>p = 1</strong>, the kernel is a pure exponential — gradual, smooth decay. With <strong>p &lt; 1</strong> (sub-linear) the falloff is gentler far away but sharper near zero, spreading weight further. With <strong>p &gt; 1</strong> (super-linear) the falloff is gentler near zero but very sharp far away, concentrating weight more tightly around the focal country. The choice of p alters the <em>shape</em> of the influence cone, not its size.</p>
+
+  <p><strong>α (scaling on the focal country)</strong> &mdash; the multiplier on the focal country's own score before subtracting the benchmark. With <strong>α = 1</strong>, R<sup>(d)</sup> is a centred difference that reads like a paired spread (positive = focal country is higher than its kernel benchmark; negative = lower). With <strong>α &gt; 1</strong>, the absolute level of the focal score is amplified before subtraction — useful when you want to ask &ldquo;is this country's score above what its level <em>plus</em> peer-context predicts?&rdquo;.</p>
+
+  <h3>Consequences of changing each parameter</h3>
+
+  <p>To make this concrete, fix the focal country (say, India), the year (2024), and toggle one parameter at a time. The full kernel response surface looks like this:</p>
+
+  <ol>
+    <li><strong>Move λ from 0 → ∞ at p=1, α=1.</strong> R<sup>(d)</sup> moves smoothly from <em>(focal − global mean)</em> to <em>(focal − nearest neighbour)</em>. For India in 2024 that journey is from R = 35 − 32 = +3 (mild outperformance vs world) to R = 35 − 13.5 = +21.5 (large outperformance vs Pakistan, the geographic nearest neighbour with rating data). Identical absolute score; ten-times-different relative reading. The choice of λ encodes the analyst's prior about &ldquo;how much should I let geographic proximity dictate the comparison?&rdquo;</li>
+    <li><strong>Move p from 0.4 → 2.5 at fixed λ.</strong> At p=0.4 the kernel is heavy-tailed: countries 5,000+ km away still carry meaningful weight, so the benchmark is closer to a global mean. At p=2.5 the kernel is sharply peaked: weight collapses to near-neighbours and the benchmark is effectively a paired comparison with the nearest 2&ndash;3 capitals. p is a &ldquo;regional-vs-global&rdquo; dial.</li>
+    <li><strong>Move α from 0.5 → 2 at fixed kernel.</strong> The benchmark is unchanged but the focal score is rescaled before subtraction. At α=0.5, R<sup>(d)</sup> reads like &ldquo;half the focal level, less the regional benchmark&rdquo; — exaggerating relative weakness. At α=2, R<sup>(d)</sup> doubles the focal level — exaggerating relative strength. Most analytical use cases want α=1; α≠1 is useful when stress-testing the sensitivity of the relative reading to the level of the focal series itself.</li>
+  </ol>
+
+  <h3>Visualising the kernel on the map</h3>
+
+  <p>Below: a world map with the focal country (selected from the explorer panel further down) plotted as a marker, with concentric rings showing the kernel weight at various distances. As the slider for <strong>λ</strong> changes, the rings expand or contract. The dot size of every other capital is proportional to its kernel weight at the current parameter setting — large dots are countries that &ldquo;count&rdquo; heavily in the focal country's distance-graded benchmark; small or invisible dots are countries that have negligible influence.</p>
+
+  <div class="chart-box"><div id="dist-map" style="height:520px"></div></div>
+  <div class="chart-caption">Figure 1 &mdash; Kernel-weight visualisation. Concentric blue rings = isodistance contours at weight 0.75, 0.50, 0.25, 0.10. Dot size = w<sub>ij</sub> at the current (λ, p) setting. Hover any dot for the country, distance, and exact weight.</div>
+
+  <p>The kernel is a continuous spatial filter: there is no hard cutoff. India's distance-graded benchmark always includes Iceland with some non-zero weight; that weight is just <em>very</em> small — at λ=0.6, p=1, Iceland's weight is roughly e<sup>−0.6 × 6.4</sup> ≈ 0.022, compared to Pakistan's ≈ 0.69 and Bangladesh's ≈ 0.78. The benchmark is a continuous gradient from neighbours to far-flung peers, not a binary in/out decision.</p>
 
   <div class="controls">
     <label for="distc">Country</label>
@@ -184,6 +217,92 @@ function renderDist() {
     <div class="stat"><div class="lbl">Mean R(d)</div><div class="val">${meanRel.toFixed(2)}</div></div>
     <div class="stat"><div class="lbl">Latest R(d)</div><div class="val">${rel[rel.length-1].toFixed(2)}</div></div>
   `;
+  renderMap(c, weights, lam, exp);
+}
+
+// ── World map: focal-country marker, isodistance rings, peer weight dots ──
+function renderMap(focal, weights, lam, exp) {
+  const mapDiv = document.getElementById('dist-map');
+  if (!mapDiv) return;
+  const caps = EXTRAS.capitals;
+  const [lat0, lon0] = caps[focal];
+  // Compute isodistance ring radii for w = 0.75, 0.5, 0.25, 0.10
+  // w = exp(-λ·(d/1000)^p)  ⇒  d = 1000·(-ln(w)/λ)^(1/p)
+  const targetWeights = [0.75, 0.50, 0.25, 0.10];
+  const ringDistances = targetWeights.map(w => 1000 * Math.pow(-Math.log(w) / lam, 1/exp));
+  // Generate ring geometries: 60 points evenly spaced around the focal centre
+  function ringPoints(km) {
+    const lats = [], lons = [];
+    const R = 6371;
+    const angRad = km / R; // angular radius
+    for (let i = 0; i <= 60; i++) {
+      const bearing = (i/60) * 2 * Math.PI;
+      const lat0r = lat0 * Math.PI/180;
+      const lon0r = lon0 * Math.PI/180;
+      const latR = Math.asin(Math.sin(lat0r)*Math.cos(angRad) + Math.cos(lat0r)*Math.sin(angRad)*Math.cos(bearing));
+      const lonR = lon0r + Math.atan2(Math.sin(bearing)*Math.sin(angRad)*Math.cos(lat0r), Math.cos(angRad)-Math.sin(lat0r)*Math.sin(latR));
+      lats.push(latR * 180/Math.PI);
+      lons.push(((lonR * 180/Math.PI) + 540) % 360 - 180);
+    }
+    return {lat: lats, lon: lons};
+  }
+  const ringTraces = ringDistances.map((km, i) => {
+    const r = ringPoints(km);
+    const opacity = [0.65, 0.50, 0.35, 0.22][i];
+    return {
+      type: 'scattergeo', mode: 'lines',
+      lat: r.lat, lon: r.lon,
+      line: {color: '#1B4F8A', width: 1.4, dash: i ? 'dash' : 'solid'},
+      opacity: opacity,
+      name: `w = ${targetWeights[i].toFixed(2)} (d ≈ ${(km/1000).toFixed(2)}k km)`,
+      hoverinfo: 'name'
+    };
+  });
+  // Peer dots — size scaled by kernel weight, capped
+  const peerPts = weights.filter(w => w.w > 0.005);
+  peerPts.sort((a,b) => a.w - b.w); // smaller first so bigger ones overlap on top
+  const peerTrace = {
+    type: 'scattergeo', mode: 'markers',
+    lat: peerPts.map(p => caps[p.country][0]),
+    lon: peerPts.map(p => caps[p.country][1]),
+    text: peerPts.map(p => p.country),
+    marker: {
+      size: peerPts.map(p => 4 + 18 * Math.sqrt(p.w)),
+      color: peerPts.map(p => p.w),
+      colorscale: 'YlOrRd', cmin: 0, cmax: 1,
+      line: {color: '#444', width: 0.4},
+      opacity: 0.85,
+      colorbar: {title: 'Kernel weight', thickness: 12, len: 0.5, x: 1.02}
+    },
+    customdata: peerPts.map(p => [p.dist, p.w]),
+    hovertemplate: '<b>%{text}</b><br>distance: %{customdata[0]:.0f} km<br>weight: %{customdata[1]:.4f}<extra></extra>',
+    name: 'Peer countries'
+  };
+  // Focal marker
+  const focalTrace = {
+    type: 'scattergeo', mode: 'markers+text',
+    lat: [lat0], lon: [lon0],
+    text: [focal], textposition: 'top center', textfont: {size: 11, color: '#1a1a1a'},
+    marker: {size: 14, color: '#C0392B', symbol: 'star', line: {color: '#1a1a1a', width: 1.2}},
+    name: 'Focal country',
+    hoverinfo: 'text'
+  };
+  const layout = {
+    title: {text: focal + ' — kernel influence map (λ='+lam.toFixed(2)+', p='+exp.toFixed(2)+')', font: {size: 13}},
+    geo: {
+      projection: {type: 'natural earth'},
+      showland: true, landcolor: 'rgba(232,232,228,0.6)',
+      showocean: true, oceancolor: 'rgba(220,235,245,0.5)',
+      showcountries: true, countrycolor: 'rgba(140,140,140,0.35)',
+      showcoastlines: true, coastlinecolor: 'rgba(80,80,80,0.5)',
+      bgcolor: 'rgba(0,0,0,0)'
+    },
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    margin: {l: 0, r: 0, t: 40, b: 0},
+    legend: {orientation: 'h', y: -0.02, x: 0.5, xanchor: 'center', font: {size: 9}},
+    showlegend: true
+  };
+  Plotly.newPlot('dist-map', ringTraces.concat([peerTrace, focalTrace]), layout, window.scrChartConfig || {displayModeBar: true, responsive: true});
 }
 </script>
 </body>

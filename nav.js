@@ -12,6 +12,7 @@
     {href:'index.html',                       label:'Relative Ratings',              side:'right'},
     {href:'paired_grouped_regional.html',     label:'Paired, Grouped & Regional Ratings', side:'right'},
     {href:'distance_graded.html',             label:'Distance-graded Ratings',       side:'right'},
+    {href:'shadow.html',                      label:'Shadow Ratings',                side:'right'},
     {href:'relative_hdi.html',                label:'Relative HDI',                  side:'right'},
     {href:'relative_gini.html',               label:'Relative Gini',                 side:'right'},
     {href:'stories.html',                     label:'Stories',                       side:'right'},
