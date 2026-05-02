@@ -547,6 +547,16 @@ body.no-tooltips .term { border-bottom: none; cursor: inherit; }
 }
 body.no-tooltips #tip-box { display: none; }
 
+/* ── NOTES toggle: hides every secondary annotation layer ─────── */
+body.no-notes .meta,
+body.no-notes .endnotes,
+body.no-notes sup.note-ref,
+body.no-notes .chart-note { display: none !important; }
+
+/* ── Dark-mode chart text ─────────────────────────────────────── */
+body.dark .js-plotly-plot .main-svg text { fill: #e8e8e8 !important; }
+body.dark .modebar-btn path { fill: #ccc !important; }
+
 /* ── expandable details (worked examples) ─────────────────────── */
 details.example {
   background: var(--bg-card);

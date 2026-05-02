@@ -38,16 +38,23 @@
     applyTooltips(document.body.classList.contains('no-tooltips') ? 'on' : 'off');
   }
 
-  // ── Annotation toggle for chart highlights ─────────────────────────
+  // ── NOTES toggle: hides every secondary annotation layer on the page ─
+  //   .meta            citation meta text, chart captions / "what to look for"
+  //   .endnotes        endnote block at bottom of long-form pages
+  //   sup.note-ref     in-text footnote superscripts
+  //   .chart-note      per-chart highlighted-event callouts
+  // Pages may also define window.applyChartAnnotations(on) for extras.
   function applyAnnot(state) {
-    document.body.classList.toggle('no-chart-annot', state === 'off');
+    const off = state === 'off';
+    document.body.classList.toggle('no-chart-annot', off);
+    document.body.classList.toggle('no-notes', off);
     LS.set('annot', state);
     const btn = document.querySelector('[data-pill="annot"]');
     if (btn) btn.classList.toggle('on', state === 'on');
     if (window.applyChartAnnotations) window.applyChartAnnotations(state === 'on');
   }
   function toggleAnnot() {
-    applyAnnot(document.body.classList.contains('no-chart-annot') ? 'on' : 'off');
+    applyAnnot(document.body.classList.contains('no-notes') ? 'on' : 'off');
   }
 
   // ── Language picker ────────────────────────────────────────────────
@@ -338,7 +345,7 @@
     wireTips();
     applyTheme(LS.get('theme', 'light'));
     applyTooltips(LS.get('tooltips', 'on'));
-    applyAnnot(LS.get('annot', 'off'));
+    applyAnnot(LS.get('annot', 'on'));
     applyLang(LS.get('lang', 'en'));
   }
   if (document.readyState === 'loading') {
@@ -346,4 +353,46 @@
   } else {
     init();
   }
+
+  // ── Centralised Plotly chart helpers (formatting standard) ────────
+  // Apply the project's chart formatting requirements consistently:
+  //   transparent background (so dark-mode shines through), axis lines
+  //   meeting at the origin, major + minor gridlines, full modebar
+  //   visible (camera/zoom/pan/home), theme-aware colors.
+  window.scrChartConfig = {
+    displayModeBar: true, displaylogo: false, responsive: true,
+    modeBarButtonsToRemove: ['lasso2d', 'select2d'],
+    toImageButtonOptions: { format: 'png', filename: 'sovereignratings_chart', scale: 2 }
+  };
+  window.scrBaseLayout = function(extra) {
+    const dark = document.body.classList.contains('dark');
+    const fg = dark ? '#e8e8e8' : '#1a1a1a';
+    const grid = dark ? 'rgba(220,220,220,0.16)' : 'rgba(60,60,60,0.16)';
+    const minor = dark ? 'rgba(220,220,220,0.08)' : 'rgba(60,60,60,0.08)';
+    const axisDef = {
+      gridcolor: grid, gridwidth: 1,
+      zeroline: true, zerolinecolor: fg, zerolinewidth: 1.2,
+      showline: true, linecolor: fg, linewidth: 1,
+      ticks: 'outside', tickcolor: fg, ticklen: 5,
+      minor: { showgrid: true, gridcolor: minor, ticks: 'outside', ticklen: 3 }
+    };
+    return Object.assign({
+      plot_bgcolor: 'rgba(0,0,0,0)', paper_bgcolor: 'rgba(0,0,0,0)',
+      font: { family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: fg },
+      margin: { l: 64, r: 60, t: 50, b: 92 },
+      legend: { orientation: 'h', y: -0.32, x: 0.5, xanchor: 'center', font: {color: fg} },
+      xaxis: Object.assign({}, axisDef),
+      yaxis: Object.assign({}, axisDef)
+    }, extra || {});
+  };
+  // Cached fetch of extras.json (multiple consumers share one network call)
+  let _extrasPromise = null;
+  window.scrLoadExtras = function() {
+    if (_extrasPromise) return _extrasPromise;
+    _extrasPromise = fetch('extras.json').then(r => {
+      if (!r.ok) throw new Error('extras.json HTTP ' + r.status);
+      return r.json();
+    });
+    return _extrasPromise;
+  };
 })();

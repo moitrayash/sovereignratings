@@ -104,6 +104,75 @@
 <script defer>document.addEventListener("DOMContentLoaded", () => renderNav("relative_hdi.html"));</script>
 <script defer src="shared.js"></script>
 <script defer>
+let EXTRAS = null;
+window.addEventListener('load', () => {
+  if (!window.scrLoadExtras) {
+    document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">shared.js failed to load.</p>');
+    return;
+  }
+  window.scrLoadExtras().then(j => {
+    EXTRAS = j;
+    populateCountries();
+    renderDistributions();
+  }).catch(err => {
+    document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">Could not load extras.json: ' + err.message + '</p>');
+  });
+});
+
+function populateCountries() {
+  const sel = document.getElementById('country');
+  if (!sel) return;
+  const countries = Array.from(new Set(EXTRAS.hdi_rel.map(r => r.Country))).sort();
+  sel.innerHTML = '';
+  countries.forEach(c => sel.appendChild(new Option(c, c)));
+  const def = countries.includes('Norway') ? 'Norway' : countries[0];
+  sel.value = def;
+  sel.onchange = () => renderExplorer(sel.value);
+  renderExplorer(def);
+}
+
+function renderExplorer(country) {
+  const rows = EXTRAS.hdi_rel.filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
+  if (!rows.length) return;
+  const cfg = window.scrChartConfig;
+  // Chart 1: HDI100 vs LOO mean
+  Plotly.newPlot('hdi-abs', [
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.Value), name: country + ' HDI×100', mode:'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:5}},
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.LOO),   name:'World LOO mean',       mode:'lines',         line:{color:'#888',width:1.6,dash:'dash'}}
+  ], window.scrBaseLayout({
+    title:{text: country + ' &mdash; HDI×100 vs world LOO mean', font:{size:13}},
+    xaxis:{title:'Year'},
+    yaxis:{title:'HDI × 100'}
+  }), cfg);
+  // Chart 2: M1, M2 (percentile), M4
+  Plotly.newPlot('hdi-rel', [
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M1), name: 'M1: Value² / LOO',     mode:'lines+markers', line:{color:'#1B4F8A',width:2}, marker:{size:4}},
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M2), name: 'M2: Within-group %ile', mode:'lines+markers', line:{color:'#C0392B',width:2}, marker:{size:4}, yaxis:'y2'},
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M4), name: 'M4: Value · z-score',   mode:'lines+markers', line:{color:'#2E7D32',width:2}, marker:{size:4}}
+  ], window.scrBaseLayout({
+    title:{text: country + ' &mdash; relative HDI measures', font:{size:13}},
+    xaxis:{title:'Year'},
+    yaxis:{title:'M1, M4'},
+    yaxis2:{title:'M2 percentile', overlaying:'y', side:'right', range:[0,100], showgrid:false}
+  }), cfg);
+  // Chart 3: HDI vs credit composite
+  const credit = [];
+  for (const yr of Object.keys(EXTRAS.score_matrix)) {
+    const row = EXTRAS.score_matrix[yr][country];
+    if (row != null) credit.push({Year: parseInt(yr), Score: row});
+  }
+  credit.sort((a,b) => a.Year - b.Year);
+  Plotly.newPlot('hdi-vs-credit', [
+    {x: rows.map(r=>r.Year),    y: rows.map(r=>r.Value), name:'HDI × 100',                      mode:'lines+markers', line:{color:'#1a1a1a',width:2}, marker:{size:4}},
+    {x: credit.map(r=>r.Year),  y: credit.map(r=>r.Score), name:'Composite credit score (0–60)', mode:'lines+markers', line:{color:'#1B4F8A',width:2}, marker:{size:4}, yaxis:'y2'}
+  ], window.scrBaseLayout({
+    title:{text: country + ' &mdash; HDI vs credit composite', font:{size:13}},
+    xaxis:{title:'Year'},
+    yaxis:{title:'HDI × 100'},
+    yaxis2:{title:'Composite (0–60)', overlaying:'y', side:'right', range:[0,60], showgrid:false}
+  }), cfg);
+}
+
 function renderDistributions() {
   if (!EXTRAS) return;
   // Latest-year HDI cross-section
