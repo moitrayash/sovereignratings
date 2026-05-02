@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Relative HDI &mdash; Sovereign Credit Rating Explorer</title>
+<title>Relative HDI — Sovereign Credit Rating Explorer</title>
 <link rel="stylesheet" href="shared.css">
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
 <style>
@@ -49,7 +49,7 @@
 <main>
 
   <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Relative Human Development Index</h2>
-  <p>The Human Development Index, developed by Mahbub ul Haq for the <a href="https://hdr.undp.org" target="_blank" rel="noopener">United Nations Development Programme</a> in 1990 and refined by Amartya Sen, is a composite of life expectancy, education, and gross national income per capita.<sup class="note-ref"><a href="#note-1">1</a></sup> It is published annually for roughly 190 countries on a 0&ndash;1 scale, with higher values indicating greater &ldquo;human development.&rdquo; This page applies the same relative-rating logic as &sect;4 of the <a href="methodology.html#sec4">Methodology</a> to a re-scaled HDI&mdash;HDI multiplied by 100 to align with the credit-rating scale&mdash;and asks the natural question: how does a country's standing in the human-development distribution compare to its standing in the credit-rating distribution?</p>
+  <p>The Human Development Index, developed by Mahbub ul Haq for the <a href="https://hdr.undp.org" target="_blank" rel="noopener">United Nations Development Programme</a> in 1990 and refined by Amartya Sen, is a composite of life expectancy, education, and gross national income per capita.<sup class="note-ref"><a href="#note-1">1</a></sup> It is published annually for roughly 190 countries on a 0&ndash;1 scale, with higher values indicating greater &ldquo;human development.&rdquo; This page applies the same relative-rating logic as &sect;4 of the <a href="methodology.html#sec4">Methodology</a> to a re-scaled HDI—HDI multiplied by 100 to align with the credit-rating scale—and asks the natural question: how does a country's standing in the human-development distribution compare to its standing in the credit-rating distribution?</p>
 
   <h2 id="construction"><span class="section-num">1</span> Construction</h2>
   <p>The 2023/24 UNDP HDR composite-indices file<sup class="note-ref"><a href="#note-2">2</a></sup> provides annual HDI values from 1990 through 2022 for 191 entities. Each value is multiplied by 100 to produce <code>HDI100</code> (range 0&ndash;100). For each country&ndash;year, the leave-one-out world mean is computed, and four relative measures follow the same definitions as the credit-rating M1&ndash;M4:</p>
@@ -73,7 +73,7 @@
   <div class="chart-box"><div id="hdi-rel" style="height:340px"></div></div>
   <div class="chart-box"><div id="hdi-vs-credit" style="height:340px"></div></div>
 
-  <p>The first chart shows absolute HDI100 over time alongside the leave-one-out world mean. The second plots the M1, M4, and pairwise (HDI &minus; world mean) trajectories. The third overlays HDI100 on the credit composite score for the same country, both on the 0&ndash;100 scale (credit scaled up by 5/3) so the two are visually comparable. Most countries' HDI evolves slowly and monotonically; the credit score is more reactive and can fall sharply on a default. Where the two diverge sharply within a short window, the underlying story is almost always a financial crisis whose human-development consequences are absorbed only over several subsequent years&mdash;Argentina 2001, Iceland 2009, Greece 2012, Ghana 2022.<sup class="note-ref"><a href="#note-3">3</a></sup></p>
+  <p>The first chart shows absolute HDI100 over time alongside the leave-one-out world mean. The second plots the M1, M4, and pairwise (HDI &minus; world mean) trajectories. The third overlays HDI100 on the credit composite score for the same country, both on the 0&ndash;100 scale (credit scaled up by 5/3) so the two are visually comparable. Most countries' HDI evolves slowly and monotonically; the credit score is more reactive and can fall sharply on a default. Where the two diverge sharply within a short window, the underlying story is almost always a financial crisis whose human-development consequences are absorbed only over several subsequent years—Argentina 2001, Iceland 2009, Greece 2012, Ghana 2022.<sup class="note-ref"><a href="#note-3">3</a></sup></p>
 
 
   <h2 id="distribution"><span class="section-num">3</span> Distribution shape (latest year)</h2>
@@ -90,7 +90,7 @@
     <h3>Endnotes</h3>
     <ol>
       <li id="note-1">Mahbub ul Haq's original 1990 framing of the HDI is documented in the inaugural <em>Human Development Report</em>; subsequent refinements (the inequality-adjusted HDI, the gender development index) are surveyed in UNDP's <a href="https://hdr.undp.org/data-center/documentation-and-downloads" target="_blank" rel="noopener">Documentation &amp; Downloads</a> page. For Amartya Sen's contribution to the underlying capabilities approach see Sen (1977), cited on the <a href="citations.html">Citations</a> page.</li>
-      <li id="note-2">United Nations Development Programme, <em>Human Development Report 2023/2024 &mdash; Composite Indices Time Series</em>, accessed via the HDRO data centre.</li>
+      <li id="note-2">United Nations Development Programme, <em>Human Development Report 2023/2024 — Composite Indices Time Series</em>, accessed via the HDRO data centre.</li>
       <li id="note-3">See the <a href="stories.html">Stories</a> page for narrative reconstructions of these episodes.</li>
     </ol>
   </div>
@@ -140,7 +140,7 @@ function renderExplorer(country) {
     {x: rows.map(r=>r.Year), y: rows.map(r=>r.Value), name: country + ' HDI×100', mode:'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:5}},
     {x: rows.map(r=>r.Year), y: rows.map(r=>r.LOO),   name:'World LOO mean',       mode:'lines',         line:{color:'#888',width:1.6,dash:'dash'}}
   ], window.scrBaseLayout({
-    title:{text: country + ' &mdash; HDI×100 vs world LOO mean', font:{size:13}},
+    title:{text: country + ' — HDI×100 vs world LOO mean', font:{size:13}},
     xaxis:{title:'Year'},
     yaxis:{title:'HDI × 100'}
   }), cfg);
@@ -150,7 +150,7 @@ function renderExplorer(country) {
     {x: rows.map(r=>r.Year), y: rows.map(r=>r.M2), name: 'M2: Within-group %ile', mode:'lines+markers', line:{color:'#C0392B',width:2}, marker:{size:4}, yaxis:'y2'},
     {x: rows.map(r=>r.Year), y: rows.map(r=>r.M4), name: 'M4: Value · z-score',   mode:'lines+markers', line:{color:'#2E7D32',width:2}, marker:{size:4}}
   ], window.scrBaseLayout({
-    title:{text: country + ' &mdash; relative HDI measures', font:{size:13}},
+    title:{text: country + ' — relative HDI measures', font:{size:13}},
     xaxis:{title:'Year'},
     yaxis:{title:'M1, M4'},
     yaxis2:{title:'M2 percentile', overlaying:'y', side:'right', range:[0,100], showgrid:false}
@@ -166,7 +166,7 @@ function renderExplorer(country) {
     {x: rows.map(r=>r.Year),    y: rows.map(r=>r.Value), name:'HDI × 100',                      mode:'lines+markers', line:{color:'#1a1a1a',width:2}, marker:{size:4}},
     {x: credit.map(r=>r.Year),  y: credit.map(r=>r.Score), name:'Composite credit score (0–60)', mode:'lines+markers', line:{color:'#1B4F8A',width:2}, marker:{size:4}, yaxis:'y2'}
   ], window.scrBaseLayout({
-    title:{text: country + ' &mdash; HDI vs credit composite', font:{size:13}},
+    title:{text: country + ' — HDI vs credit composite', font:{size:13}},
     xaxis:{title:'Year'},
     yaxis:{title:'HDI × 100'},
     yaxis2:{title:'Composite (0–60)', overlaying:'y', side:'right', range:[0,60], showgrid:false}

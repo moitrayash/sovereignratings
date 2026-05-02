@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Relative Gini &mdash; Sovereign Credit Rating Explorer</title>
+<title>Relative Gini — Sovereign Credit Rating Explorer</title>
 <link rel="stylesheet" href="shared.css">
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
 <style>
@@ -39,7 +39,7 @@
     <br><span class="label">M4 (Gini)</span>M2 / N<sub>t</sub>
   </div>
 
-  <p>The world used for the leave-one-out mean is the set of countries reporting in that year only&mdash;there is no plausible imputation strategy at country&times;year resolution&mdash;so N<sub>t</sub> varies between roughly 25 and 95 across the panel. This sparse-and-unbalanced structure makes inter-year comparisons noisier than for the credit-rating or HDI panels; the explorer below shows the underlying observation density alongside the relative measures.</p>
+  <p>The world used for the leave-one-out mean is the set of countries reporting in that year only—there is no plausible imputation strategy at country&times;year resolution—so N<sub>t</sub> varies between roughly 25 and 95 across the panel. This sparse-and-unbalanced structure makes inter-year comparisons noisier than for the credit-rating or HDI panels; the explorer below shows the underlying observation density alongside the relative measures.</p>
 
   <h2 id="explorer"><span class="section-num">2</span> Country explorer</h2>
 
@@ -52,7 +52,7 @@
   <div class="chart-box"><div id="gini-rel" style="height:340px"></div></div>
   <div class="chart-box"><div id="gini-vs-credit" style="height:340px"></div></div>
 
-  <p>The first chart plots a country's raw Gini against the leave-one-out global mean of reporting countries; gaps in the line are years where the country did not report. The second shows the relative measures M1, M4 (percentile), and the pairwise gap (GiniInv &minus; LOO). The third overlays the inverted Gini against the credit composite score. The hypothesis sometimes advanced&mdash;that more equal countries enjoy better sovereign ratings&mdash;has weak support in this data: cross-sectional correlation between GiniInv and credit composite is positive but modest (r &asymp; 0.35), and within-country variation in Gini is too small over the panel window to drive credit movements.</p>
+  <p>The first chart plots a country's raw Gini against the leave-one-out global mean of reporting countries; gaps in the line are years where the country did not report. The second shows the relative measures M1, M4 (percentile), and the pairwise gap (GiniInv &minus; LOO). The third overlays the inverted Gini against the credit composite score. The hypothesis sometimes advanced—that more equal countries enjoy better sovereign ratings—has weak support in this data: cross-sectional correlation between GiniInv and credit composite is positive but modest (r &asymp; 0.35), and within-country variation in Gini is too small over the panel window to drive credit movements.</p>
 
 
   <h2 id="distribution"><span class="section-num">3</span> Distribution shape (latest year)</h2>
@@ -63,7 +63,7 @@
   <div class="chart-box"><div id="gini-hist" style="height:340px"></div></div>
 
   <h2 id="caveats"><span class="section-num">3</span> Caveats</h2>
-  <p>Income Gini is a <em>flow</em> measure, while wealth Gini (which tracks household balance-sheet inequality) is a <em>stock</em> measure; the two can diverge meaningfully and only the former is reported here. Survey methodology varies across countries (consumption vs disposable income, urban vs national coverage), and World Bank harmonisation is imperfect. The leave-one-out world mean implicitly weights every reporting country equally regardless of population, which over-represents small economies; a population-weighted variant is straightforward to compute but is not pre-bundled in <code>extras.json</code>. Sparseness means trend reads from this page should be treated as illustrative rather than confirmatory&mdash;serious cross-country inequality work uses harmonised micro-data sources such as the <a href="https://wid.world" target="_blank" rel="noopener">World Inequality Database</a> or the <a href="https://www.lisdatacenter.org" target="_blank" rel="noopener">Luxembourg Income Study</a>.</p>
+  <p>Income Gini is a <em>flow</em> measure, while wealth Gini (which tracks household balance-sheet inequality) is a <em>stock</em> measure; the two can diverge meaningfully and only the former is reported here. Survey methodology varies across countries (consumption vs disposable income, urban vs national coverage), and World Bank harmonisation is imperfect. The leave-one-out world mean implicitly weights every reporting country equally regardless of population, which over-represents small economies; a population-weighted variant is straightforward to compute but is not pre-bundled in <code>extras.json</code>. Sparseness means trend reads from this page should be treated as illustrative rather than confirmatory—serious cross-country inequality work uses harmonised micro-data sources such as the <a href="https://wid.world" target="_blank" rel="noopener">World Inequality Database</a> or the <a href="https://www.lisdatacenter.org" target="_blank" rel="noopener">Luxembourg Income Study</a>.</p>
 
   <div class="endnotes" id="endnotes">
     <h3>Endnotes</h3>
@@ -118,7 +118,7 @@ function renderExplorer(country) {
     {x: rows.map(r=>r.Year), y: rows.map(r=>r.Value), name: country + ' Gini', mode:'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:5}, connectgaps:false},
     {x: rows.map(r=>r.Year), y: rows.map(r=>r.LOO),   name: 'World LOO mean (reporters)', mode:'lines',         line:{color:'#888',width:1.6,dash:'dash'}}
   ], window.scrBaseLayout({
-    title:{text: country + ' &mdash; Gini vs world LOO mean', font:{size:13}},
+    title:{text: country + ' — Gini vs world LOO mean', font:{size:13}},
     xaxis:{title:'Year'},
     yaxis:{title:'Gini index (higher = more unequal)'}
   }), cfg);
@@ -129,7 +129,7 @@ function renderExplorer(country) {
     {x: rows.map(r=>r.Year), y: rows.map(r=>r.M2), name: 'M2: Within-group %ile', mode:'lines+markers', line:{color:'#C0392B',width:2}, marker:{size:4}, yaxis:'y2'},
     {x: rows.map(r=>r.Year), y: rows.map(r=>r.M4), name: 'M4: Value · z-score', mode:'lines+markers', line:{color:'#2E7D32',width:2}, marker:{size:4}}
   ], window.scrBaseLayout({
-    title:{text: country + ' &mdash; relative Gini measures', font:{size:13}},
+    title:{text: country + ' — relative Gini measures', font:{size:13}},
     xaxis:{title:'Year'},
     yaxis:{title:'M1, M4'},
     yaxis2:{title:'M2 percentile', overlaying:'y', side:'right', range:[0,100], showgrid:false}
@@ -148,7 +148,7 @@ function renderExplorer(country) {
     {x: invSeries.map(r=>r.Year), y: invSeries.map(r=>r.GiniInv), name:'Inverted Gini (higher = more equal)', mode:'lines+markers', line:{color:'#1a1a1a',width:2}, marker:{size:4}},
     {x: credit.map(r=>r.Year),    y: credit.map(r=>r.Score),       name:'Composite credit score (0–60)',     mode:'lines+markers', line:{color:'#1B4F8A',width:2}, marker:{size:4}, yaxis:'y2'}
   ], window.scrBaseLayout({
-    title:{text: country + ' &mdash; inverted Gini vs credit composite', font:{size:13}},
+    title:{text: country + ' — inverted Gini vs credit composite', font:{size:13}},
     xaxis:{title:'Year'},
     yaxis:{title:'GiniInv (0–100)'},
     yaxis2:{title:'Composite (0–60)', overlaying:'y', side:'right', range:[0,60], showgrid:false}
