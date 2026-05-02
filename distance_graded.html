@@ -118,4 +118,192 @@
     </ol>
   </div>
 
-  <p class="page-footer">Sliders trigger a full recompute under the new kernel parameters in real time. Chart toolba
+  <p class="page-footer">Sliders trigger a full recompute under the new kernel parameters in real time. Chart toolbar (top-right of each chart) lets you download as PNG/SVG.</p>
+</main>
+
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("distance_graded.html"));</script>
+<script defer src="shared.js"></script>
+<script>
+let EXTRAS = null;
+fetch('extras.json').then(r => r.json()).then(j => { EXTRAS = j; initDist(); }).catch(err => {
+  document.querySelectorAll('.chart-box').forEach(b => {
+    b.innerHTML = '<p style="padding:20px;color:#888;font-family:sans-serif">Could not load extras.json. Serve from a web server (file:// blocks fetch).</p>';
+  });
+});
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const toRad = x => x * Math.PI / 180;
+  const R = 6371;
+  const dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+  return 2*R*Math.asin(Math.sqrt(a));
+}
+
+function initDist() {
+  const caps = EXTRAS.capitals;
+  const sel = document.getElementById('distc');
+  const countries = Object.keys(caps).sort();
+  countries.forEach(c => sel.add(new Option(c, c)));
+  sel.value = 'India';
+  ['lam','exp','alp'].forEach(id => {
+    document.getElementById(id).oninput = () => {
+      document.getElementById(id+'-v').textContent = parseFloat(document.getElementById(id).value).toFixed(2);
+      renderDist();
+    };
+  });
+  sel.onchange = renderDist;
+  renderDist();
+}
+
+function renderDist() {
+  const c = document.getElementById('distc').value;
+  const lam = parseFloat(document.getElementById('lam').value);
+  const exp = parseFloat(document.getElementById('exp').value);
+  const alp = parseFloat(document.getElementById('alp').value);
+  const caps = EXTRAS.capitals;
+  if (!caps[c]) return;
+  const [lat0, lon0] = caps[c];
+  const others = Object.keys(caps).filter(x => x !== c && caps[x]);
+  const dists = others.map(o => ({country:o, dist:haversineKm(lat0,lon0,caps[o][0],caps[o][1])}));
+  const weights = dists.map(d => ({...d, w: Math.exp(-lam * Math.pow(d.dist/1000, exp))}));
+  const years = Object.keys(EXTRAS.score_matrix).map(Number).sort((a,b)=>a-b);
+  const xs=[], own=[], bench=[], rel=[];
+  years.forEach(y => {
+    const m = EXTRAS.score_matrix[y];
+    if (m[c] == null) return;
+    let num=0, den=0;
+    weights.forEach(w => { if (m[w.country]!=null) { num += w.w*m[w.country]; den += w.w; }});
+    if (den === 0) return;
+    const b = num/den;
+    xs.push(y); own.push(m[c]); bench.push(b); rel.push(alp*m[c] - b);
+  });
+  const cfg = {displayModeBar: true, responsive: true, modeBarButtonsToRemove:['lasso2d','select2d']};
+  const baseLayout = {
+    plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
+    font:{family:'Helvetica Neue, Arial, sans-serif', size:11},
+    margin:{l:56,r:56,t:40,b:90},
+    legend:{orientation:'h', y:-0.32, x:0.5, xanchor:'center'}
+  };
+  Plotly.newPlot('dist-chart', [
+    {x:xs,y:own,name:c,mode:'lines+markers',line:{color:'#1a1a1a',width:2},marker:{size:5}},
+    {x:xs,y:bench,name:'Distance-weighted benchmark',mode:'lines+markers',line:{color:'#888',width:2,dash:'dash'},marker:{size:4}},
+    {x:xs,y:rel,name:'Relative R(d)',mode:'lines',line:{color:'#444',width:2.5},yaxis:'y2'}
+  ], Object.assign({}, baseLayout, {
+    title:{text:c+': absolute, distance-weighted benchmark, and relative R(d)',font:{size:13}},
+    xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
+    yaxis:{title:'Composite (0–60)',range:[0,60],gridcolor:'rgba(128,128,128,0.2)'},
+    yaxis2:{title:'R(d)',overlaying:'y',side:'right',gridcolor:'transparent',zeroline:false}
+  }), cfg);
+  weights.sort((a,b)=>b.w-a.w);
+  const top = weights.slice(0,30);
+  Plotly.newPlot('dist-weights', [
+    {x:top.map(t=>t.country), y:top.map(t=>t.w), type:'bar', marker:{color:'#1a1a1a'},
+     hovertemplate:'%{x}<br>distance: %{customdata:.0f} km<br>weight: %{y:.4f}<extra></extra>',
+     customdata:top.map(t=>t.dist)}
+  ], Object.assign({}, baseLayout, {
+    title:{text:'Top 30 peer weights (kernel: λ='+lam.toFixed(2)+', p='+exp.toFixed(2)+')', font:{size:13}},
+    xaxis:{tickangle:-45, tickfont:{size:9}},
+    yaxis:{title:'w(i,j)',gridcolor:'rgba(128,128,128,0.2)'},
+    margin:{l:50,r:20,t:40,b:120}
+  }), cfg);
+  const totW = weights.reduce((s,w)=>s+w.w,0);
+  const effN = totW*totW / weights.reduce((s,w)=>s+w.w*w.w,0);
+  const meanRel = rel.reduce((s,v)=>s+v,0)/rel.length;
+  document.getElementById('dist-stats').innerHTML = `
+    <div class="stat"><div class="lbl">Effective N</div><div class="val">${effN.toFixed(1)}</div></div>
+    <div class="stat"><div class="lbl">Σ weights</div><div class="val">${totW.toFixed(2)}</div></div>
+    <div class="stat"><div class="lbl">Mean R(d)</div><div class="val">${meanRel.toFixed(2)}</div></div>
+    <div class="stat"><div class="lbl">Latest R(d)</div><div class="val">${rel[rel.length-1].toFixed(2)}</div></div>
+  `;
+  renderMap(c, weights, lam, exp);
+}
+
+// ── World map: focal-country marker, isodistance rings, peer weight dots ──
+function renderMap(focal, weights, lam, exp) {
+  const mapDiv = document.getElementById('dist-map');
+  if (!mapDiv) return;
+  const caps = EXTRAS.capitals;
+  const [lat0, lon0] = caps[focal];
+  // Compute isodistance ring radii for w = 0.75, 0.5, 0.25, 0.10
+  // w = exp(-λ·(d/1000)^p)  ⇒  d = 1000·(-ln(w)/λ)^(1/p)
+  const targetWeights = [0.75, 0.50, 0.25, 0.10];
+  const ringDistances = targetWeights.map(w => 1000 * Math.pow(-Math.log(w) / lam, 1/exp));
+  // Generate ring geometries: 60 points evenly spaced around the focal centre
+  function ringPoints(km) {
+    const lats = [], lons = [];
+    const R = 6371;
+    const angRad = km / R; // angular radius
+    for (let i = 0; i <= 60; i++) {
+      const bearing = (i/60) * 2 * Math.PI;
+      const lat0r = lat0 * Math.PI/180;
+      const lon0r = lon0 * Math.PI/180;
+      const latR = Math.asin(Math.sin(lat0r)*Math.cos(angRad) + Math.cos(lat0r)*Math.sin(angRad)*Math.cos(bearing));
+      const lonR = lon0r + Math.atan2(Math.sin(bearing)*Math.sin(angRad)*Math.cos(lat0r), Math.cos(angRad)-Math.sin(lat0r)*Math.sin(latR));
+      lats.push(latR * 180/Math.PI);
+      lons.push(((lonR * 180/Math.PI) + 540) % 360 - 180);
+    }
+    return {lat: lats, lon: lons};
+  }
+  const ringTraces = ringDistances.map((km, i) => {
+    const r = ringPoints(km);
+    const opacity = [0.65, 0.50, 0.35, 0.22][i];
+    return {
+      type: 'scattergeo', mode: 'lines',
+      lat: r.lat, lon: r.lon,
+      line: {color: '#1B4F8A', width: 1.4, dash: i ? 'dash' : 'solid'},
+      opacity: opacity,
+      name: `w = ${targetWeights[i].toFixed(2)} (d ≈ ${(km/1000).toFixed(2)}k km)`,
+      hoverinfo: 'name'
+    };
+  });
+  // Peer dots: size scaled by kernel weight, capped
+  const peerPts = weights.filter(w => w.w > 0.005);
+  peerPts.sort((a,b) => a.w - b.w); // smaller first so bigger ones overlap on top
+  const peerTrace = {
+    type: 'scattergeo', mode: 'markers',
+    lat: peerPts.map(p => caps[p.country][0]),
+    lon: peerPts.map(p => caps[p.country][1]),
+    text: peerPts.map(p => p.country),
+    marker: {
+      size: peerPts.map(p => 4 + 18 * Math.sqrt(p.w)),
+      color: peerPts.map(p => p.w),
+      colorscale: 'YlOrRd', cmin: 0, cmax: 1,
+      line: {color: '#444', width: 0.4},
+      opacity: 0.85,
+      colorbar: {title: 'Kernel weight', thickness: 12, len: 0.5, x: 1.02}
+    },
+    customdata: peerPts.map(p => [p.dist, p.w]),
+    hovertemplate: '<b>%{text}</b><br>distance: %{customdata[0]:.0f} km<br>weight: %{customdata[1]:.4f}<extra></extra>',
+    name: 'Peer countries'
+  };
+  // Focal marker
+  const focalTrace = {
+    type: 'scattergeo', mode: 'markers+text',
+    lat: [lat0], lon: [lon0],
+    text: [focal], textposition: 'top center', textfont: {size: 11, color: '#1a1a1a'},
+    marker: {size: 14, color: '#C0392B', symbol: 'star', line: {color: '#1a1a1a', width: 1.2}},
+    name: 'Focal country',
+    hoverinfo: 'text'
+  };
+  const layout = {
+    title: {text: focal + ': kernel influence map (λ='+lam.toFixed(2)+', p='+exp.toFixed(2)+')', font: {size: 13}},
+    geo: {
+      projection: {type: 'natural earth'},
+      showland: true, landcolor: 'rgba(232,232,228,0.6)',
+      showocean: true, oceancolor: 'rgba(220,235,245,0.5)',
+      showcountries: true, countrycolor: 'rgba(140,140,140,0.35)',
+      showcoastlines: true, coastlinecolor: 'rgba(80,80,80,0.5)',
+      bgcolor: 'rgba(0,0,0,0)'
+    },
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    margin: {l: 0, r: 0, t: 40, b: 0},
+    legend: {orientation: 'h', y: -0.02, x: 0.5, xanchor: 'center', font: {size: 9}},
+    showlegend: true
+  };
+  Plotly.newPlot('dist-map', ringTraces.concat([peerTrace, focalTrace]), layout, window.scrChartConfig || {displayModeBar: true, responsive: true});
+}
+</script>
+</body>
+</html>

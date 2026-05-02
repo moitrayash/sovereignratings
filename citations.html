@@ -238,4 +238,44 @@
 
     <div class="cite-entry" data-text="gini coefficient inequality measure 1912">
       <div><a href="https://en.wikipedia.org/wiki/Corrado_Gini" target="_blank" rel="noopener">Gini, Corrado</a>. 1912. <em>Variabilit&agrave; e Mutabilit&agrave;.</em> Bologna: Tipografia di Paolo Cuppini.</div>
- 
+      <div class="meta">Original definition of the Gini coefficient used to measure within-group inequality in credit scores.</div>
+    </div>
+
+    <div class="cite-entry" data-text="haversine great circle distance formula sinnott">
+      <div><a href="https://en.wikipedia.org/wiki/Roger_W._Sinnott" target="_blank" rel="noopener">Sinnott, Roger W.</a> 1984. &ldquo;Virtues of the Haversine.&rdquo; <em>Sky and Telescope</em> 68 (2): 158.</div>
+      <div class="meta">Great-circle distance formula used to compute inter-capital distances for the distance-graded relative rating.</div>
+    </div>
+
+    <div class="cite-entry" data-text="arellano bond gmm dynamic panel">
+      <div><a href="https://en.wikipedia.org/wiki/Manuel_Arellano" target="_blank" rel="noopener">Arellano, Manuel</a>, and <a href="https://www.economics.ox.ac.uk/people/stephen-bond" target="_blank" rel="noopener">Stephen Bond</a>. 1991. &ldquo;Some Tests of Specification for Panel Data: Monte Carlo Evidence and an Application to Employment Equations.&rdquo; <em>Review of Economic Studies</em> 58 (2): 277&ndash;297. <a class="doi" href="https://doi.org/10.2307/2297968" target="_blank" rel="noopener">doi.org/10.2307/2297968</a></div>
+      <div class="meta">Cited as the planned next step for endogeneity-corrected panel estimates.</div>
+    </div>
+  </div>
+
+  <p class="page-footer">Last updated May 2026. PDFs marked &ldquo;View PDF&rdquo; are mirrored locally; remaining sources link to the publishing institution. Citations follow Chicago author&ndash;date format.</p>
+
+</main>
+
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("citations.html"));</script>
+<script defer src="shared.js"></script>
+<script>
+function filterCitations() {
+  const q = document.getElementById('cite-search').value.toLowerCase().trim();
+  const entries = document.querySelectorAll('.cite-entry');
+  let visible = 0;
+  entries.forEach(e => {
+    const t = (e.dataset.text || '') + ' ' + e.textContent.toLowerCase();
+    const match = !q || t.toLowerCase().includes(q);
+    e.classList.toggle('hidden', !match);
+    if (match) visible++;
+  });
+  document.querySelectorAll('.group-section').forEach(g => {
+    const any = [...g.querySelectorAll('.cite-entry')].some(e => !e.classList.contains('hidden'));
+    g.classList.toggle('hidden', !any);
+  });
+}
+</script>
+</body>
+</html>

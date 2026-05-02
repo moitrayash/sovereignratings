@@ -555,20 +555,22 @@ body.no-notes .endnotes,
 body.no-notes sup.note-ref,
 body.no-notes .chart-note { display: none !important; }
 
-/* ── Plotly chart contrast — light mode: ensure axis/legend text is properly black ─ */
-.js-plotly-plot .main-svg text { fill: #1a1a1a; }
-.js-plotly-plot .xtick text,
-.js-plotly-plot .ytick text,
-.js-plotly-plot .gtitle,
-.js-plotly-plot .legend text,
-.js-plotly-plot .annotation-text { fill: #1a1a1a !important; }
+/* ── Plotly chart contrast — both modes ─────────────────────────── */
+/* Light mode: force axis/legend text to true black (Plotly's default is grey #444) */
+body:not(.dark) .js-plotly-plot text { fill: #1a1a1a !important; }
+body:not(.dark) .js-plotly-plot .xgrid path,
+body:not(.dark) .js-plotly-plot .ygrid path { stroke: rgba(60,60,60,0.18) !important; }
 
-/* ── Dark mode: invert SVG so dark trace lines/bars become light against dark bg ── */
-body.dark .chart-box .main-svg { filter: invert(0.92) hue-rotate(180deg); }
-/* But keep the modebar icons un-inverted (cancel the parent filter) */
-body.dark .chart-box .modebar { filter: invert(0.92) hue-rotate(180deg); }
-/* Force chart text white in dark mode (post-filter, this renders as readable light) */
-body.dark .chart-box .js-plotly-plot text { fill: #1a1a1a !important; }
+/* Dark mode: text+axis to near-white, gridlines to light translucent.
+   Trace line/bar colors are swapped at runtime by shared.js (Plotly.restyle). */
+body.dark .js-plotly-plot text { fill: #ececec !important; }
+body.dark .js-plotly-plot .xgrid path,
+body.dark .js-plotly-plot .ygrid path,
+body.dark .js-plotly-plot .zerolinelayer path { stroke: rgba(230,230,230,0.22) !important; }
+body.dark .js-plotly-plot .xaxislayer-above path,
+body.dark .js-plotly-plot .yaxislayer-above path { stroke: #ececec !important; }
+body.dark .js-plotly-plot .modebar-btn path { fill: #d8d8d8 !important; }
+body.dark .modebar-group { background: rgba(40,40,40,0.4) !important; }
 
 /* ── Copy-PNG overlay button (tables, examples, figures) ──────── */
 .copyable-wrap { position: relative; }

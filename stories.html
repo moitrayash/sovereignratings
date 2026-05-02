@@ -344,4 +344,163 @@ function renderAll() {
     {x: ip.map(d=>d.Year), y: ip.map(d=>d.Pakistan), name: 'Pakistan', mode: 'lines+markers', line:{color:'#888',width:2.4,dash:'dash'}, marker:{size:5}},
     {x: ip.map(d=>d.Year), y: ip.map(d=>d.Spread), name: 'Spread P(India−Pakistan)', mode: 'lines', line:{color:'#444',width:2}, yaxis: 'y2'}
   ], Object.assign({}, baseLayout, {
-  
+    title: {text: 'India and Pakistan composite scores, with pairwise spread', font: {size: 13}},
+    xaxis: {title:'Year', gridcolor:'#eee'},
+    yaxis: {title:'Composite (0–60)', range: [0, 50], gridcolor:'#eee'},
+    yaxis2: {title:'Spread', overlaying: 'y', side: 'right', range: [0, 30]}
+  }), {displayModeBar: true, responsive: true});
+
+  // Cumulative change from 2000
+  const baseI = ip[0].India, baseP = ip[0].Pakistan;
+  Plotly.newPlot('ip-rel', [
+    {x: ip.map(d=>d.Year), y: ip.map(d => d.India - baseI), name: 'India Δ', mode:'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:5}},
+    {x: ip.map(d=>d.Year), y: ip.map(d => d.Pakistan - baseP), name: 'Pakistan Δ', mode:'lines+markers', line:{color:'#888',width:2.4,dash:'dash'}, marker:{size:5}}
+  ], Object.assign({}, baseLayout, {
+    title: {text: 'Cumulative change from 2000 baseline', font: {size: 13}},
+    xaxis: {title:'Year', gridcolor:'#eee'},
+    yaxis: {title:'Δ from 2000', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
+  }), {displayModeBar: true, responsive: true});
+
+  // ── EMDC cluster
+  const af = EXTRAS.stories.african_distress;
+  const afCountries = ['Sri Lanka','Ghana','Zambia','Ethiopia','Kenya','Nigeria','South Africa'];
+  Plotly.newPlot('emdc-chart', afCountries.map((c,i) => ({
+    x: af.map(d=>d.Year), y: af.map(d=>d[c]),
+    name: c, mode: 'lines+markers',
+    line: {color: lineDash[i], width: i<4 ? 2.4 : 1.8, dash: i>=5 ? 'dash' : null}, marker: {size: 4}
+  })), Object.assign({}, baseLayout, {
+    title: {text: 'Six emerging-market sovereigns, 2018–2025', font: {size: 13}},
+    xaxis: {title:'Year', gridcolor:'#eee'},
+    yaxis: {title:'Composite (0–60)', range: [0, 35], gridcolor:'#eee'}
+  }), {displayModeBar: true, responsive: true});
+
+  // Recovery: index from default trough (Year 0 = trough year)
+  const defaults = {Ghana: 2022, Zambia: 2020, 'Sri Lanka': 2022, Ethiopia: 2023};
+  const recovery = Object.entries(defaults).map(([c, dy], i) => {
+    const ys = af.map(d => d.Year - dy).filter(_ => true);
+    const trough = af.find(d => d.Year === dy)?.[c];
+    return {
+      x: af.map(d => d.Year - dy),
+      y: af.map(d => (d[c] != null && trough != null) ? d[c] - trough : null),
+      name: c + ' (default ' + dy + ')',
+      mode: 'lines+markers', line: {color: lineDash[i], width: 2}, marker: {size: 5}
+    };
+  });
+  Plotly.newPlot('emdc-recovery', recovery, Object.assign({}, baseLayout, {
+    title: {text: 'Recovery from default trough (years from default = 0)', font: {size: 13}},
+    xaxis: {title:'Years from default', gridcolor:'#eee', range:[-2, 4], zerolinecolor:'#1a1a1a',zerolinewidth:1.5},
+    yaxis: {title:'Δ score from trough', gridcolor:'#eee'}
+  }), {displayModeBar: true, responsive: true});
+
+  // ── Iceland
+  const ic = EXTRAS.stories.iceland_nordic;
+  const icCountries = ['Iceland','Ireland','United Kingdom','Norway','Denmark'];
+  Plotly.newPlot('iceland-chart', icCountries.map((c,i) => ({
+    x: ic.map(d=>d.Year), y: ic.map(d=>d[c]),
+    name: c, mode: 'lines+markers',
+    line: {color: lineDash[i], width: i<2 ? 2.4 : 1.6, dash: i>=2 ? 'dash' : null}, marker: {size: 4}
+  })), Object.assign({}, baseLayout, {
+    title: {text: 'Iceland and Nordic-Atlantic peers, 2006–2014', font: {size: 13}},
+    xaxis: {title:'Year', gridcolor:'#eee', range:[2006,2014]},
+    yaxis: {title:'Composite (0–60)', range: [25, 62], gridcolor:'#eee'}
+  }), {displayModeBar: true, responsive: true});
+
+  // Recovery: Iceland and Ireland deviation from 2007
+  const baseIce = ic.find(d=>d.Year===2007).Iceland;
+  const baseIrl = ic.find(d=>d.Year===2007).Ireland;
+  Plotly.newPlot('iceland-recovery', [
+    {x: ic.map(d=>d.Year), y: ic.map(d => d.Iceland - baseIce), name:'Iceland', mode:'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:5}},
+    {x: ic.map(d=>d.Year), y: ic.map(d => d.Ireland - baseIrl), name:'Ireland', mode:'lines+markers', line:{color:'#888',width:2.4,dash:'dash'}, marker:{size:5}}
+  ], Object.assign({}, baseLayout, {
+    title: {text: 'Recovery: deviation from 2007 baseline', font: {size: 13}},
+    xaxis: {title:'Year', gridcolor:'#eee'},
+    yaxis: {title:'Δ from 2007', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
+  }), {displayModeBar: true, responsive: true});
+
+  // ─────────────── Relative + Shadow charts (one pair per story) ───────────────
+  renderStoryRel ('arg-relative',     'argentina',       ['Argentina'],                                   'Latin-America');
+  renderStoryShad('arg-shadow',       'argentina',       ['Argentina'],                                   'Latin-America');
+  renderStoryRel ('euro-relative',    'eurozone',        ['Greece','Spain','Italy','Portugal','Ireland'], 'Eurozone');
+  renderStoryShad('euro-shadow',      'eurozone',        ['Greece','Spain','Italy','Portugal','Ireland'], 'Eurozone');
+  renderStoryRel ('ip-relative',      'india_pakistan',  ['India','Pakistan'],                            'South-Asia');
+  renderStoryShad('ip-shadow',        'india_pakistan',  ['India','Pakistan'],                            'South-Asia');
+  renderStoryRel ('emdc-relative',    'african_distress',['Ghana','Sri Lanka','Zambia','Ethiopia'],       'Frontier');
+  renderStoryShad('emdc-shadow',      'african_distress',['Ghana','Sri Lanka','Zambia','Ethiopia'],       'Frontier');
+  renderStoryRel ('iceland-relative', 'iceland_nordic',  ['Iceland','Ireland'],                           'Nordic-Atlantic');
+  renderStoryShad('iceland-shadow',   'iceland_nordic',  ['Iceland','Ireland'],                           'Nordic-Atlantic');
+}
+
+// ── Relative-measures chart per story (M1, M2 percentile, M4) ────────────────
+function renderStoryRel(divId, storyKey, focal, peerLabel) {
+  if (!EXTRAS.stories_rel || !EXTRAS.stories_rel[storyKey]) return;
+  const palette = ['#1B4F8A','#C0392B','#2E7D32','#7B3F8F','#B7642E','#444','#888'];
+  const allRows = EXTRAS.stories_rel[storyKey];
+  const traces = [];
+  focal.forEach((c, i) => {
+    const rs = allRows.filter(r => r.Country === c).sort((a,b) => a.Year - b.Year);
+    if (!rs.length) return;
+    traces.push({
+      x: rs.map(r => r.Year), y: rs.map(r => r.M1),
+      name: c + ' M1', mode: 'lines+markers',
+      line: {color: palette[i % palette.length], width: 2}, marker: {size: 4}
+    });
+    traces.push({
+      x: rs.map(r => r.Year), y: rs.map(r => r.M2),
+      name: c + ' M2 %ile', mode: 'lines',
+      line: {color: palette[i % palette.length], width: 1.4, dash: 'dot'},
+      yaxis: 'y2'
+    });
+  });
+  const useScr = !!window.scrBaseLayout;
+  const layout = useScr ? window.scrBaseLayout({
+    title: {text: 'Relative measures vs ' + peerLabel + ' peer set', font: {size: 13}},
+    xaxis: {title: 'Year'},
+    yaxis: {title: 'M1 (score² / peer LOO)'},
+    yaxis2: {title: 'M2 percentile', overlaying: 'y', side: 'right', range: [0, 100], showgrid: false}
+  }) : Object.assign({}, baseLayout, {
+    title: {text: 'Relative measures vs ' + peerLabel + ' peer set', font: {size: 13}},
+    xaxis: {title: 'Year', gridcolor: '#eee'},
+    yaxis: {title: 'M1 (score² / peer LOO)', gridcolor: '#eee'},
+    yaxis2: {title: 'M2 percentile', overlaying: 'y', side: 'right', range: [0, 100], showgrid: false}
+  });
+  const cfg = window.scrChartConfig || {displayModeBar: true, responsive: true};
+  Plotly.newPlot(divId, traces, layout, cfg);
+}
+
+// ── Actual-vs-shadow chart per story (with shaded gap) ───────────────────────
+function renderStoryShad(divId, storyKey, focal, peerLabel) {
+  if (!EXTRAS.stories_shadow || !EXTRAS.stories_shadow[storyKey]) return;
+  const palette = ['#1a1a1a','#C0392B','#2E7D32','#7B3F8F','#B7642E'];
+  const allRows = EXTRAS.stories_shadow[storyKey];
+  const traces = [];
+  focal.forEach((c, i) => {
+    const rs = allRows.filter(r => r.Country === c).sort((a,b) => a.Year - b.Year);
+    if (!rs.length) return;
+    const colour = palette[i % palette.length];
+    traces.push({
+      x: rs.map(r => r.Year), y: rs.map(r => r.Actual),
+      name: c + ' actual', mode: 'lines+markers',
+      line: {color: colour, width: 2.2}, marker: {size: 4}
+    });
+    traces.push({
+      x: rs.map(r => r.Year), y: rs.map(r => r.Shadow),
+      name: c + ' shadow', mode: 'lines',
+      line: {color: colour, width: 1.6, dash: 'dash'}
+    });
+  });
+  const useScr = !!window.scrBaseLayout;
+  const layout = useScr ? window.scrBaseLayout({
+    title: {text: 'Actual vs ' + peerLabel + '-shadow rating', font: {size: 13}},
+    xaxis: {title: 'Year'},
+    yaxis: {title: 'Composite (0–60)'}
+  }) : Object.assign({}, baseLayout, {
+    title: {text: 'Actual vs ' + peerLabel + '-shadow rating', font: {size: 13}},
+    xaxis: {title: 'Year', gridcolor: '#eee'},
+    yaxis: {title: 'Composite (0–60)', gridcolor: '#eee'}
+  });
+  const cfg = window.scrChartConfig || {displayModeBar: true, responsive: true};
+  Plotly.newPlot(divId, traces, layout, cfg);
+}
+</script>
+</body>
+</html>
