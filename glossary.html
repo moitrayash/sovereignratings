@@ -120,7 +120,7 @@
     <dl>
 
       <div class="entry" data-terms="basu rr relative risk rating basu de ratha timmer">
-        <dt>Basu RR <span class="abbr">Relative Risk Rating</span></dt>
+        <dt>Basu et al. method <span class="abbr">Relative Risk Rating</span></dt>
         <dd>
           <p>Introduced by Kaushik Basu, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a>, and <a href="https://www.worldbank.org/en/about/people/h/hans-timmer" target="_blank" rel="noopener">Hans Timmer</a> in <a href="https://documents.worldbank.org/en/publication/documents-reports/documentdetail/441621468331879217" target="_blank" rel="noopener">World Bank Policy Research Working Paper 6641</a> (2013). Defined as a country's score minus a GDP-weighted world benchmark, isolating each country's standing relative to the global cycle:</p>
           <span class="formula">RR<sub>it</sub> = r<sub>it</sub> &minus; &Sigma;<sub>j</sub> w<sub>jt</sub> &middot; r<sub>jt</sub></span>
@@ -156,7 +156,7 @@
       <div class="entry" data-terms="cris country level risk indexing system ratio index basu">
         <dt>CRIS <span class="abbr">Country-level Risk-Indexing System</span></dt>
         <dd>
-          <p>A ratio-form companion to Basu RR (Basu et al. 2013): each country's score expressed as a percentage of the GDP-weighted world average. CRIS = 100 means a country sits exactly at the world benchmark; &gt; 100 means above-average, &lt; 100 below-average. Useful for cross-time and cross-country comparison without depending on the level of the rating scale.</p>
+          <p>A ratio-form companion to Basu et al. method (Basu et al. 2013): each country's score expressed as a percentage of the GDP-weighted world average. CRIS = 100 means a country sits exactly at the world benchmark; &gt; 100 means above-average, &lt; 100 below-average. Useful for cross-time and cross-country comparison without depending on the level of the rating scale.</p>
           <span class="formula">CRIS<sub>it</sub> = 100 &times; r<sub>it</sub> / (&Sigma;<sub>j</sub> w<sub>jt</sub> &middot; r<sub>jt</sub>)</span>
         </dd>
       </div>
@@ -170,7 +170,7 @@
     <dl>
 
       <div class="entry" data-terms="de relativizations de mohapatra ratha rel_eq rel_gdp z_eq z_gdp pct_rank norm_max norm_min">
-        <dt>De Relativizations</dt>
+        <dt>De et al. method</dt>
         <dd>
           <p>A family of ten linear relativizations of the composite score, following <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a>, and <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a> in <a href="https://openknowledge.worldbank.org/handle/10986/34413" target="_blank" rel="noopener">World Bank Policy Research Working Paper 9401</a> (2020). Constructed by (a) subtracting a benchmark&mdash;equal-weighted, GDP-weighted (time-varying or 2008-fixed), population-weighted, or median; (b) standardising as a z-score (equal- or GDP-weighted); (c) ranking within year; or (d) anchoring to the maximum or to the min-max range.</p>
           <p>Cross-method correlations on raw measures are r &ge; 0.97&mdash;the choice of weighting and centring is largely cosmetic for time-series shape, though levels and units differ. Correlates at r &ge; 0.93 with this project's M1&ndash;M4. Saved in <code>de_relative_panel.csv</code>. See <a href="methodology.html#sec11">Methodology &sect;11</a>.</p>
@@ -441,7 +441,7 @@
         <dt>Relative Rating</dt>
         <dd>
           <p>A measure of a country's credit standing <em>within</em> a peer group, as opposed to its absolute score on the 0&ndash;60 scale. Four relative rating methods are implemented (M1&ndash;M4). Relative ratings can change even when absolute scores are unchanged&mdash;for instance, when the peer group mean deteriorates, a country with a fixed score improves in relative terms. See <a href="methodology.html#sec4">Methodology &sect;4</a>.</p>
-          <p>Beyond M1&ndash;M4, the dataset implements three literature-standard families: <strong>Basu RR / CRIS</strong> (GDP-weighted benchmark), the <strong>De relativizations</strong> (ten variants spanning subtraction, standardisation, ranking, and anchoring), and <strong>pairwise / distance-graded</strong> measures. All families correlate at r &ge; 0.93 with one another.</p>
+          <p>Beyond M1&ndash;M4, the dataset implements three literature-standard families: <strong>Basu et al. method / CRIS</strong> (GDP-weighted benchmark), the <strong>De et al. method</strong> (ten variants spanning subtraction, standardisation, ranking, and anchoring), and <strong>pairwise / distance-graded</strong> measures. All families correlate at r &ge; 0.93 with one another.</p>
         </dd>
       </div>
 
