@@ -129,8 +129,8 @@ function render() {
     yaxis: {title: 'HDI × 100', gridcolor: '#eee', range: [20, 100]},
     plot_bgcolor: '#fff', paper_bgcolor: '#fff',
     font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
-    margin: {l: 50, r: 20, t: 40, b: 40},
-    legend: {orientation: 'h', y: -0.2}
+    margin: {l: 56, r: 20, t: 40, b: 90},
+    legend: {orientation: 'h', y: -0.32, x: 0.5, xanchor: 'center'}
   }, {displayModeBar: false, responsive: true});
 
   // Chart 2: M1, M4 (scaled), pairwise (HDI - LOO)
@@ -145,8 +145,8 @@ function render() {
     yaxis2: {title: 'Pairwise gap / M4 percentile', overlaying: 'y', side: 'right', zeroline: false},
     plot_bgcolor: '#fff', paper_bgcolor: '#fff',
     font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
-    margin: {l: 50, r: 50, t: 40, b: 40},
-    legend: {orientation: 'h', y: -0.2}
+    margin: {l: 56, r: 50, t: 40, b: 90},
+    legend: {orientation: 'h', y: -0.32, x: 0.5, xanchor: 'center'}
   }, {displayModeBar: false, responsive: true});
 
   // Chart 3: HDI vs credit on common 0-100
@@ -166,8 +166,8 @@ function render() {
     yaxis: {title: 'Common scale (0–100)', gridcolor: '#eee', range: [0, 100]},
     plot_bgcolor: '#fff', paper_bgcolor: '#fff',
     font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
-    margin: {l: 50, r: 20, t: 40, b: 40},
-    legend: {orientation: 'h', y: -0.2}
+    margin: {l: 56, r: 20, t: 40, b: 90},
+    legend: {orientation: 'h', y: -0.32, x: 0.5, xanchor: 'center'}
   }, {displayModeBar: false, responsive: true});
 }
 </script>
