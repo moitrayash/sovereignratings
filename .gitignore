@@ -1,4 +1,4 @@
-# OS / editor cruft only
+# OS / editor cruft
 .DS_Store
 Thumbs.db
 *.swp
@@ -6,3 +6,7 @@ Thumbs.db
 __pycache__/
 .ipynb_checkpoints/
 *.tmp
+
+# Local helper scripts (Cowork artifacts; not part of the project)
+_*.bat
+push_log.txt
