@@ -533,49 +533,19 @@
       const fg = dark ? '#ececec' : '#1a1a1a';
       const grid = dark ? 'rgba(220,220,220,0.18)' : 'rgba(60,60,60,0.18)';
       const minorGrid = dark ? 'rgba(220,220,220,0.08)' : 'rgba(60,60,60,0.08)';
+      // Guard: don't recurse if we're already mid-relayout for this div
+      if (div._scrThemingNow) return;
+      div._scrThemingNow = true;
       try {
         window.Plotly.relayout(div, {
           'font.color': fg,
-          'xaxis.color': fg, 'xaxis.gridcolor': grid,
-          'xaxis.linecolor': fg, 'xaxis.linewidth': 1.2, 'xaxis.showline': true, 'xaxis.mirror': false,
-          'xaxis.tickcolor': fg, 'xaxis.ticks': 'outside', 'xaxis.ticklen': 5,
-          'xaxis.zeroline': true, 'xaxis.zerolinecolor': fg, 'xaxis.zerolinewidth': 1.2,
-          'xaxis.minor.showgrid': true, 'xaxis.minor.gridcolor': minorGrid,
-          'xaxis.minor.ticks': 'outside', 'xaxis.minor.ticklen': 3,
-          'yaxis.color': fg, 'yaxis.gridcolor': grid,
-          'yaxis.linecolor': fg, 'yaxis.linewidth': 1.2, 'yaxis.showline': true, 'yaxis.mirror': false,
-          'yaxis.tickcolor': fg, 'yaxis.ticks': 'outside', 'yaxis.ticklen': 5,
-          'yaxis.zeroline': true, 'yaxis.zerolinecolor': fg, 'yaxis.zerolinewidth': 1.2,
-          'yaxis.minor.showgrid': true, 'yaxis.minor.gridcolor': minorGrid,
-          'yaxis.minor.ticks': 'outside', 'yaxis.minor.ticklen': 3,
+          'xaxis.color': fg, 'xaxis.gridcolor': grid, 'xaxis.linecolor': fg, 'xaxis.tickcolor': fg, 'xaxis.zerolinecolor': fg,
+          'yaxis.color': fg, 'yaxis.gridcolor': grid, 'yaxis.linecolor': fg, 'yaxis.tickcolor': fg, 'yaxis.zerolinecolor': fg,
           'yaxis2.color': fg, 'yaxis2.gridcolor': grid,
           'legend.font.color': fg
         });
-        // Inject directional arrow annotations at axis ends if not already present.
-        // Both arrows touch the axis line; both carry their unit text; an additional
-        // "0,0" annotation at the chart origin marks the axes' union.
-        const lo = div._fullLayout || {};
-        const titleX = (lo.xaxis && lo.xaxis.title && (lo.xaxis.title.text || '')) || '';
-        const titleY = (lo.yaxis && lo.yaxis.title && (lo.yaxis.title.text || '')) || '';
-        const existing = (lo.annotations || []).filter(a => !a._scrAxisArrow);
-        const arrows = [
-          // X-axis: arrow at the right end of the axis, touching the line, with unit
-          { _scrAxisArrow:true, xref:'paper', yref:'paper', x:1, y:0,
-            xanchor:'left', yanchor:'middle', xshift:2, yshift:0,
-            showarrow:false, text:'→ ' + (titleX || ''), font:{size:10, color:fg}, opacity:0.9 },
-          // Y-axis: arrow at the top end of the axis, touching the line, with unit (rotated)
-          { _scrAxisArrow:true, xref:'paper', yref:'paper', x:0, y:1,
-            xanchor:'middle', yanchor:'bottom', xshift:0, yshift:2,
-            showarrow:false, text:'↑ ' + (titleY || ''), font:{size:10, color:fg}, opacity:0.9,
-            textangle:0 },
-          // Origin label: explicit "0,0" union marker just outside the chart corner
-          { _scrAxisArrow:true, xref:'paper', yref:'paper', x:0, y:0,
-            xanchor:'right', yanchor:'top', xshift:-4, yshift:-4,
-            showarrow:false, text:'0,0', font:{size:10, color:fg, family:'Helvetica Neue, Arial, sans-serif'},
-            opacity:0.95 }
-        ];
-        window.Plotly.relayout(div, { annotations: existing.concat(arrows) });
       } catch(e) {}
+      setTimeout(() => { div._scrThemingNow = false; }, 200);
     });
   };
 

@@ -267,23 +267,24 @@ function renderMap(focal, weights, lam, exp) {
     lon: peerPts.map(p => caps[p.country][1]),
     text: peerPts.map(p => p.country),
     marker: {
-      size: peerPts.map(p => 4 + 18 * Math.sqrt(p.w)),
+      size: peerPts.map(p => 10 + 38 * Math.sqrt(p.w)),
       color: peerPts.map(p => p.w),
       colorscale: 'YlOrRd', cmin: 0, cmax: 1,
-      line: {color: '#444', width: 0.4},
-      opacity: 0.85,
-      colorbar: {title: 'Kernel weight', thickness: 12, len: 0.5, x: 1.02}
+      line: {color: '#1a1a1a', width: 1.2},
+      opacity: 0.92,
+      colorbar: {title: 'Kernel weight', thickness: 14, len: 0.6, x: 1.02}
     },
     customdata: peerPts.map(p => [p.dist, p.w]),
     hovertemplate: '<b>%{text}</b><br>distance: %{customdata[0]:.0f} km<br>weight: %{customdata[1]:.4f}<extra></extra>',
     name: 'Peer countries'
   };
-  // Focal marker
+  // Focal marker — much larger, more prominent
   const focalTrace = {
     type: 'scattergeo', mode: 'markers+text',
     lat: [lat0], lon: [lon0],
-    text: [focal], textposition: 'top center', textfont: {size: 11, color: '#1a1a1a'},
-    marker: {size: 14, color: '#C0392B', symbol: 'star', line: {color: '#1a1a1a', width: 1.2}},
+    text: [focal], textposition: 'top center',
+    textfont: {size: 13, color: '#1a1a1a', family: 'Helvetica Neue, Arial, sans-serif'},
+    marker: {size: 22, color: '#C0392B', symbol: 'star', line: {color: '#1a1a1a', width: 2}},
     name: 'Focal country',
     hoverinfo: 'text'
   };

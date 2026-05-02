@@ -588,6 +588,32 @@ body.dark .js-plotly-plot path[style*="stroke: rgb(136, 136, 136)"] { stroke: rg
 body.dark .js-plotly-plot .annotation path { stroke: #ececec !important; }
 body.dark .js-plotly-plot .infolayer .annotation-text-g text { fill: #ececec !important; }
 
+/* ── Plotly legend background — dark mode needs dark fill + light text ── */
+body.dark .js-plotly-plot .legend > rect.bg,
+body.dark .js-plotly-plot .legend rect:first-child {
+  fill: rgba(20, 24, 32, 0.92) !important;
+  stroke: rgba(180, 190, 200, 0.4) !important;
+  stroke-width: 1px !important;
+}
+body.dark .js-plotly-plot .legend text { fill: #ececec !important; }
+
+/* Light mode: white bg, dark text (Plotly defaults are usually OK) */
+body:not(.dark) .js-plotly-plot .legend > rect.bg {
+  fill: rgba(255, 255, 255, 0.96) !important;
+  stroke: rgba(60, 60, 60, 0.4) !important;
+}
+
+/* ── Mobile responsive: trim chart-box margins on narrow screens ──── */
+@media (max-width: 700px) {
+  .chart-box { padding: 4px 2px !important; margin: 12px 0 !important; }
+  .chart-box > div { min-height: 280px; }
+  .js-plotly-plot .gtitle { font-size: 11px !important; }
+  .js-plotly-plot .legend text { font-size: 9px !important; }
+  .js-plotly-plot .xtick text, .js-plotly-plot .ytick text { font-size: 9px !important; }
+  /* Move legend below chart on mobile to avoid overlapping the title */
+  .js-plotly-plot .legend { transform: translate(0, 0); }
+}
+
 /* ── Hover labels: uniform high-contrast bg + readable text ─────── */
 /* Cover all the SVG element types Plotly uses for hover bubble:
    - hovertext > path  (scatter trace hover)
