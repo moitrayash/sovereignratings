@@ -264,14 +264,14 @@ function renderMap(focal, weights, lam, exp) {
     }
     return {lat: lats, lon: lons};
   }
-  // Sepia ring traces — warm umber instead of blue
+  // Sepia ring traces — deep near-black umber, much darker for definition
   const ringTraces = ringDistances.map((km, i) => {
     const r = ringPoints(km);
-    const opacity = [0.65, 0.50, 0.35, 0.22][i];
+    const opacity = [0.92, 0.78, 0.62, 0.45][i];
     return {
       type: 'scattergeo', mode: 'lines',
       lat: r.lat, lon: r.lon,
-      line: {color: '#704214', width: 1.4, dash: i ? 'dash' : 'solid'},
+      line: {color: '#1a1200', width: 1.6, dash: i ? 'dash' : 'solid'},
       opacity: opacity,
       name: `w = ${targetWeights[i].toFixed(2)} (d ≈ ${(km/1000).toFixed(2)}k km)`,
       hoverinfo: 'name'
