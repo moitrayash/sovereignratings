@@ -256,6 +256,58 @@
     header { padding: 14px 16px; }
     main { padding: 16px 12px 40px; }
   }
+
+  /* ── Dark-mode overrides for this page's hardcoded light surfaces ─────── */
+  body.dark .controls-card,
+  body.dark .chart-wrap,
+  body.dark .modal,
+  body.dark table {
+    background: var(--bg-card);
+    border-color: var(--border);
+    color: var(--ink);
+  }
+  body.dark .mode-tab {
+    background: var(--bg-soft);
+    color: var(--ink-soft);
+    border-color: var(--border);
+  }
+  body.dark .mode-tab.active {
+    background: var(--bg-card);
+    color: var(--ink);
+    border-color: var(--ink);
+    border-bottom-color: var(--bg-card);
+  }
+  body.dark .mode-tabs { border-bottom-color: var(--ink); }
+  body.dark .control-group label,
+  body.dark .hint,
+  body.dark .section-title { color: var(--ink-soft); }
+  body.dark select, body.dark input {
+    background: var(--bg-card);
+    color: var(--ink);
+    border-color: var(--border);
+  }
+  body.dark .btn {
+    background: var(--ink);
+    color: var(--bg-card);
+    border-color: var(--ink);
+  }
+  body.dark .btn:hover { background: var(--bg-card); color: var(--ink); }
+  body.dark .btn-secondary {
+    background: var(--bg-card);
+    color: var(--ink);
+    border-color: var(--muted-2);
+  }
+  body.dark .btn-secondary:hover { background: var(--bg-soft); border-color: var(--ink); }
+  body.dark thead th { background: var(--ink); color: var(--bg-card); }
+  body.dark tbody tr:nth-child(even) { background: var(--bg-soft); }
+  body.dark tbody tr:hover { background: rgba(80,140,220,0.18); }
+  body.dark tbody td { border-bottom-color: var(--border); }
+  body.dark tfoot td { background: var(--bg-soft); border-top-color: var(--ink); }
+  body.dark .modal-body pre { background: var(--bg-soft); border-color: var(--border); color: var(--ink); }
+  body.dark .empty-state { color: var(--muted); }
+
+  /* Plotly chart bg should be dark in dark mode (charts have transparent bg, so chart-wrap shines through) */
+  body.dark .chart-wrap .js-plotly-plot { background: transparent; }
 </style>
 </head>
 <body>
@@ -426,8 +478,8 @@ const PALETTE = [
 ];
 
 const BASE_LAYOUT = {
-  paper_bgcolor: '#ffffff',
-  plot_bgcolor:  '#ffffff',
+  paper_bgcolor: 'rgba(0,0,0,0)',
+  plot_bgcolor:  'rgba(0,0,0,0)',
   font: { family: FONT_FAMILY, size: 11, color: '#1a1a1a' },
   margin: { l: 56, r: 24, t: 44, b: 52 },
   xaxis: {
