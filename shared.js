@@ -770,26 +770,58 @@
       target.parentNode.insertBefore(wrap, target);
       wrap.appendChild(target);
     }
-    const btn = document.createElement('button');
-    btn.className = 'copy-png-btn';
-    btn.type = 'button';
-    btn.title = 'Copy as PNG';
-    btn.innerHTML = '<span aria-hidden="true">&#x29C9;</span> Copy PNG';
-    btn.onclick = function(ev) {
-      ev.preventDefault();
-      btn.disabled = true;
-      btn.textContent = 'Rendering…';
-      loadHtml2Canvas()
-        .then(h2c => h2c(target, { backgroundColor: getComputedStyle(document.body).backgroundColor || '#ffffff', scale: 2, logging: false, useCORS: true }))
-        .then(canvas => new Promise((resolve, reject) => canvas.toBlob(b => b ? resolve(b) : reject(new Error('toBlob returned null')), 'image/png')))
+    // Toolbar with Copy PNG, Download PNG, Fullscreen — matches the Plotly modebar
+    const bar = document.createElement('div');
+    bar.className = 'copy-png-bar';
+    function makeBtn(label, title, glyph, handler) {
+      const b = document.createElement('button');
+      b.className = 'copy-png-btn';
+      b.type = 'button';
+      b.title = title;
+      b.innerHTML = '<span aria-hidden="true">' + glyph + '</span> ' + label;
+      b.onclick = handler;
+      return b;
+    }
+    function renderToCanvas() {
+      return loadHtml2Canvas().then(h2c => h2c(target, {
+        backgroundColor: getComputedStyle(document.body).backgroundColor || '#ffffff',
+        scale: 2, logging: false, useCORS: true
+      }));
+    }
+    const btnCopy = makeBtn('Copy', 'Copy as PNG', '&#x29C9;', function(ev) {
+      ev.preventDefault(); btnCopy.disabled = true; btnCopy.innerHTML = 'Rendering…';
+      renderToCanvas()
+        .then(c => new Promise((res, rej) => c.toBlob(b => b ? res(b) : rej(new Error('toBlob null')), 'image/png')))
         .then(blob => {
           if (!navigator.clipboard || !window.ClipboardItem) throw new Error('clipboard API unavailable');
           return navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
         })
-        .then(() => { flashToast('Copied as PNG'); btn.innerHTML = '<span>&#x2713;</span> Copied'; setTimeout(() => { btn.innerHTML = '<span>&#x29C9;</span> Copy PNG'; btn.disabled = false; }, 1500); })
-        .catch(err => { btn.innerHTML = '<span>&#x29C9;</span> Copy PNG'; btn.disabled = false; alert('Copy failed: ' + err.message); });
-    };
-    wrap.appendChild(btn);
+        .then(() => { flashToast('Copied as PNG'); btnCopy.innerHTML = '<span>&#x2713;</span> Copied'; setTimeout(() => { btnCopy.innerHTML = '<span>&#x29C9;</span> Copy'; btnCopy.disabled = false; }, 1500); })
+        .catch(err => { btnCopy.innerHTML = '<span>&#x29C9;</span> Copy'; btnCopy.disabled = false; alert('Copy failed: ' + err.message); });
+    });
+    const btnDl = makeBtn('PNG', 'Download as PNG', '&#x21E9;', function(ev) {
+      ev.preventDefault(); btnDl.disabled = true; btnDl.innerHTML = 'Rendering…';
+      renderToCanvas().then(c => {
+        const a = document.createElement('a');
+        a.href = c.toDataURL('image/png');
+        a.download = 'sovereignratings_' + (target.id || 'figure') + '.png';
+        document.body.appendChild(a); a.click(); a.remove();
+        flashToast('Downloaded PNG');
+        btnDl.innerHTML = '<span>&#x2713;</span> Saved'; setTimeout(() => { btnDl.innerHTML = '<span>&#x21E9;</span> PNG'; btnDl.disabled = false; }, 1500);
+      }).catch(err => { btnDl.innerHTML = '<span>&#x21E9;</span> PNG'; btnDl.disabled = false; alert('Download failed: ' + err.message); });
+    });
+    const btnFs = makeBtn('Full', 'Toggle fullscreen', '&#x26F6;', function(ev) {
+      ev.preventDefault();
+      if (!document.fullscreenElement) {
+        const req = wrap.requestFullscreen || wrap.webkitRequestFullscreen || wrap.mozRequestFullScreen;
+        if (req) req.call(wrap).catch(e => alert('Fullscreen failed: ' + e.message));
+      } else {
+        const exit = document.exitFullscreen || document.webkitExitFullscreen;
+        if (exit) exit.call(document);
+      }
+    });
+    bar.appendChild(btnFs); bar.appendChild(btnDl); bar.appendChild(btnCopy);
+    wrap.appendChild(bar);
   }
 
   // Sweep DOM for things worth a Copy-PNG button.

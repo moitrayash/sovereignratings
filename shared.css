@@ -742,6 +742,16 @@ body.dark .js-plotly-plot .barlayer .trace.scr-trace-glow .point path {
 
 /* ── Copy-PNG overlay button (tables, examples, figures) ──────── */
 .copyable-wrap { position: relative; }
+.copy-png-bar {
+  position: absolute;
+  top: 6px; right: 6px;
+  display: flex; gap: 4px;
+  opacity: 0;
+  transition: opacity 0.18s;
+  z-index: 12;
+}
+.copyable-wrap:hover .copy-png-bar { opacity: 0.96; }
+.copy-png-bar .copy-png-btn { position: static !important; }
 .copy-png-btn {
   position: absolute;
   top: 8px;
