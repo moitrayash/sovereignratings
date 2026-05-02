@@ -657,7 +657,10 @@
     }));
     if (any) setTimeout(() => {
       window.scrApplyChartTheme();
-      document.querySelectorAll('.js-plotly-plot').forEach(wireChartHooks);
+      document.querySelectorAll('.js-plotly-plot').forEach(el => {
+        wireChartHooks(el);
+        applyAxisArrows(el);
+      });
     }, 50);
   });
   document.addEventListener('DOMContentLoaded', () => {
@@ -667,7 +670,10 @@
     // 4000ms is a final safety net for slow loaders.
     [200, 1500, 4000].forEach(d => setTimeout(() => {
       window.scrApplyChartTheme();
-      document.querySelectorAll('.js-plotly-plot').forEach(wireChartHooks);
+      document.querySelectorAll('.js-plotly-plot').forEach(el => {
+        wireChartHooks(el);
+        applyAxisArrows(el);
+      });
     }, d));
   });
 
