@@ -119,7 +119,7 @@
 
   <p>One reading of the shadow-rating residuals is that they correlate with development-and-governance indicators not directly in the OLS regression. Here is the joint distribution of composite credit score and the UN Human Development Index across all country-years (2010&ndash;2022, n ≈ 1,800). Cell colour = count of country-years falling in that bin. The diagonal-ish concentration confirms the strong positive correlation between rating and HDI (Spearman ρ ≈ 0.81); off-diagonal cells are countries the agencies treat very differently from what their HDI level would predict — candidate cases for further shadow-rating diagnostic.</p>
 
-  <div class="chart-box"><div id="heatmap" style="height:520px"></div></div>
+  <div class="chart-box"><div id="heatmap-chart" style="height:520px"></div></div>
   <div class="chart-caption">Figure 5.1 — Joint frequency heatmap of composite credit score (x-axis, 0–60) and HDI×100 (y-axis). Hot cells = many country-years cluster there; cool cells = unusual combinations of rating and human-development outcomes.</div>
 
   <h2 id="reproducibility"><span class="section-num">6</span> Reproducibility — the raw computation</h2>
@@ -387,7 +387,7 @@ function renderHeatmap() {
   const xLabels = Array.from({length: Sn}, (_, i) => `${i*5}–${i*5+5}`);
   const yLabels = Array.from({length: Hn}, (_, i) => `${30+i*5}–${30+i*5+5}`);
   try {
-    Plotly.newPlot('heatmap', [{
+    Plotly.newPlot('heatmap-chart', [{
       z: grid, x: xLabels, y: yLabels,
       type: 'heatmap', colorscale: 'YlOrRd',
       hovertemplate: 'Score: %{x}<br>HDI×100: %{y}<br>Count: %{z}<extra></extra>'
