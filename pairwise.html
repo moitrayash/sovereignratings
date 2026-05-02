@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pairwise &amp; Distance-Graded Relative Ratings &mdash; Sovereign Credit Rating Explorer</title>
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<style>
+  .controls {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 16px 18px;
+    margin: 18px 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.86rem;
+  }
+  .controls label {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #555;
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+  .controls select, .controls input[type="number"] {
+    font-family: inherit;
+    font-size: 0.86rem;
+    padding: 4px 8px;
+    border: 1px solid #aaa;
+    background: #fff;
+    margin-right: 14px;
+  }
+  .slider-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 70px;
+    gap: 10px;
+    align-items: center;
+    margin: 10px 0;
+  }
+  .slider-row input[type="range"] { width: 100%; }
+  .slider-row .val {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    text-align: right;
+    color: #333;
+  }
+  .slider-row .desc {
+    grid-column: 1 / -1;
+    font-size: 0.75rem;
+    color: #777;
+    margin-top: -4px;
+    line-height: 1.4;
+  }
+  .chart-box {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 8px;
+    margin: 14px 0;
+  }
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+    margin: 14px 0;
+  }
+  .stat-strip .stat {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px 14px;
+    text-align: left;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .stat-strip .stat .lbl {
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #888;
+    font-weight: 700;
+  }
+  .stat-strip .stat .val {
+    font-size: 1.1rem;
+    color: #1a1a1a;
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <h1>Sovereign Credit Rating Explorer</h1>
+  <p>151 countries &middot; S&amp;P, Moody's, DBRS &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
+</header>
+<nav class="site">
+  <a href="index.html">Explorer</a>
+  <a href="methodology.html">Methodology</a>
+  <a href="pairwise.html" class="active">Pairwise &amp; Distance</a>
+  <a href="relative_hdi.html">Relative HDI</a>
+  <a href="relative_gini.html">Relative Gini</a>
+  <a href="stories.html">Stories</a>
+  <a href="glossary.html">Glossary</a>
+  <a href="citations.html">Citations</a>
+</nav>
+
+<main>
+
+  <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Pairwise &amp; Distance-Graded Ratings</h2>
+  <p>The relative rating methods documented in <a href="methodology.html">&sect;4 of the Methodology</a> all use a peer-group benchmark&mdash;an unweighted average of N&minus;1 other countries. Two finer-grained variants extend the same idea: a <strong>pairwise</strong> measure that compares one country directly against another, and a <strong>distance-graded</strong> measure that weights every other country by inverse-distance from the focal capital.<sup class="note-ref"><a href="#note-1">1</a></sup> Both are continuous functions of the same underlying composite scores, so the qualitative narrative carries over; both isolate finer signal than a flat group average.</p>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2 id="pairwise"><span class="section-num">1</span> Pairwise: country-vs-country</h2>
+
+  <p>For any two countries <em>A</em> and <em>B</em> in any year <em>t</em>, the pairwise relative score is simply the difference of their composite scores:</p>
+
+  <div class="formula-block">
+    <span class="label">Pairwise relative score</span>
+    P<sub>ABt</sub> = Score<sub>At</sub> &minus; Score<sub>Bt</sub>
+  </div>
+
+  <p>This is the simplest relativization in the De, Mohapatra, and Ratha (2020) family<sup class="note-ref"><a href="#note-2">2</a></sup>&mdash;<code>rel_eq</code> with a one-country &ldquo;peer group&rdquo;. Pairwise series are less volatile than within-group methods because two countries' rating trajectories are usually persistent and correlated; reversals when they occur are therefore informative. The series also has a clean economic reading: a positive value means <em>A</em>'s rating sits N points above <em>B</em>'s on the 0&ndash;60 scale, equivalent to roughly N/3 letter-grade notches.</p>
+
+  <div class="controls">
+    <label for="paira">Country A</label>
+    <select id="paira"></select>
+    <label for="pairb">Country B</label>
+    <select id="pairb"></select>
+  </div>
+
+  <div class="stat-strip" id="pair-stats"></div>
+  <div class="chart-box"><div id="pair-chart" style="height:380px"></div></div>
+  <div class="chart-box"><div id="pair-spread" style="height:240px"></div></div>
+
+  <p>The two charts above plot the absolute composite scores of the chosen pair (top) and their pairwise spread P<sub>ABt</sub> (bottom). Sustained widening of the spread is most often driven by one side's structural deterioration rather than the other's improvement; sustained narrowing typically reflects convergence after a crisis. When both lines move together, the spread is roughly invariant&mdash;the pair is co-rated within a common regional or income cluster.</p>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2 id="distance"><span class="section-num">2</span> Distance-graded relative ratings</h2>
+
+  <p>The pairwise measure compares two countries; a flat group average treats all peers equally. A distance-graded measure interpolates between these two extremes by weighting every other country by an inverse-distance kernel:<sup class="note-ref"><a href="#note-3">3</a></sup></p>
+
+  <div class="formula-block">
+    <span class="label">Distance-weighted benchmark</span>
+    B<sub>it</sub><sup>(d)</sup> = (&Sigma;<sub>j&ne;i</sub> w<sub>ij</sub> Score<sub>jt</sub>) / (&Sigma;<sub>j&ne;i</sub> w<sub>ij</sub>)
+    <br><br>
+    <span class="label">Kernel</span>
+    w<sub>ij</sub> = exp(&minus;&lambda; &middot; (d<sub>ij</sub> / 1000)<sup>p</sup>)
+    <br><br>
+    <span class="label">Distance-graded relative score</span>
+    R<sub>it</sub><sup>(d)</sup> = &alpha; &middot; Score<sub>it</sub> &minus; B<sub>it</sub><sup>(d)</sup>
+  </div>
+
+  <p>where <em>d<sub>ij</sub></em> is the great-circle distance (kilometres) between the capitals of <em>i</em> and <em>j</em>, computed via the <a href="https://en.wikipedia.org/wiki/Haversine_formula" target="_blank" rel="noopener">haversine formula</a>. Three parameters control the shape of the kernel: <strong>&lambda;</strong> (decay rate), <strong>p</strong> (distance exponent), and <strong>&alpha;</strong> (scaling on the focal score). Setting &lambda; = 0 recovers the unweighted world average; setting &lambda; very large recovers the nearest-neighbour pairwise score; intermediate values produce a regionally-weighted benchmark.</p>
+
+  <div class="controls">
+    <label for="distc">Country</label>
+    <select id="distc"></select>
+
+    <div class="slider-row">
+      <label for="lam">decay &lambda;</label>
+      <input type="range" id="lam" min="0" max="3" step="0.05" value="0.6">
+      <div class="val" id="lam-v">0.60</div>
+      <div class="desc">Higher = neighbours dominate. &lambda;=0 reduces to the world average; &lambda;&asymp;1 puts most weight inside ~1500 km.</div>
+    </div>
+
+    <div class="slider-row">
+      <label for="exp">exponent p</label>
+      <input type="range" id="exp" min="0.4" max="2.5" step="0.05" value="1.0">
+      <div class="val" id="exp-v">1.00</div>
+      <div class="desc">Curvature of the kernel. p&lt;1 spreads weight further; p&gt;1 concentrates it sharply on the closest peers.</div>
+    </div>
+
+    <div class="slider-row">
+      <label for="alp">scaling &alpha;</label>
+      <input type="range" id="alp" min="0.5" max="2" step="0.05" value="1.0">
+      <div class="val" id="alp-v">1.00</div>
+      <div class="desc">Multiplier on the focal score. &alpha;=1 produces a centred difference; &alpha;&gt;1 amplifies absolute level relative to the regional benchmark.</div>
+    </div>
+  </div>
+
+  <div class="stat-strip" id="dist-stats"></div>
+  <div class="chart-box"><div id="dist-chart" style="height:380px"></div></div>
+  <div class="chart-box"><div id="dist-weights" style="height:300px"></div></div>
+
+  <p>The bottom chart visualises the kernel for the current parameter choice: each bar is one peer country, ordered by distance from the focal capital, with bar height equal to <em>w<sub>ij</sub></em>. As &lambda; rises, the kernel collapses leftward&mdash;more weight on the immediate neighbourhood. The relative-rating chart above shows R<sub>it</sub><sup>(d)</sup> over time: a country whose neighbours are deteriorating faster than itself will see its distance-graded relative rating climb even when its absolute score is flat&mdash;the same <em>latent drift</em> phenomenon documented for the M1 method in &sect;4 of the Methodology, but now spatially weighted.</p>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2 id="caveats"><span class="section-num">3</span> Caveats</h2>
+  <p>Capital coordinates approximate the geographic centre of a sovereign and ignore second cities, dispersed populations, or extra-territorial dependencies. The kernel is rotation-invariant and does not distinguish overland from maritime distance&mdash;Singapore and Jakarta are 1,150 km apart, but no road connects them. For most analytical purposes the distortion is small at the regional scale; for federations and archipelagos (United States, Indonesia, Russia) a population-weighted centroid would be a closer proxy and is left for future work. The kernel parameters (&lambda;, p, &alpha;) are not estimated&mdash;they are user-chosen, exploratory. A formal fit would require a target variable (such as bond spreads or capital-flow elasticity) against which to optimise the kernel; that exercise is documented in De, Mohapatra, and Ratha (2020) but is not reproduced here.</p>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div class="endnotes" id="endnotes">
+    <h3>Endnotes</h3>
+    <ol>
+      <li id="note-1">The pairwise measure is the simplest case of the relative-risk-rating family introduced by Kaushik Basu, Supriyo De, Dilip Ratha, and Hans Timmer (2013, &ldquo;Sovereign Ratings in the Post-Crisis World,&rdquo; <em>World Bank Policy Research Working Paper</em> 6641); the distance-graded measure generalises their GDP-weighted average to a spatial kernel. Both are documented in the <a href="citations.html">Citations</a> page.</li>
+      <li id="note-2">Supriyo De, Sanket Mohapatra, and Dilip Ratha, &ldquo;Sovereign Credit Ratings, Relative Risk Ratings, and Private Capital Flows,&rdquo; <em>World Bank Policy Research Working Paper</em> 9401 (Washington, DC: World Bank, 2020).</li>
+      <li id="note-3">The exponential-decay specification follows the standard spatial-weighting kernel discussed in <a href="https://en.wikipedia.org/wiki/Spatial_analysis" target="_blank" rel="noopener">spatial econometrics</a> and used, for example, in geographically-weighted regression. The closest published analogue in the sovereign-rating literature is the regional-spillover specification in Cantor and Packer (1996), although they used continent dummies rather than a continuous distance kernel.</li>
+    </ol>
+  </div>
+
+  <p class="page-footer">Pairwise and distance-graded computations operate on the composite scores in <code>extras.json</code> (~1 MB). All charts are rendered client-side with <a href="https://plotly.com/javascript/" target="_blank" rel="noopener">Plotly.js</a>; sliders trigger a full recompute under the new kernel parameters in real time.</p>
+
+</main>
+
+<script defer src="shared.js"></script>
+<script>
+// ── Load extras.json ────────────────────────────────────────────────
+let EXTRAS = null;
+
+fetch('extras.json').then(r => r.json()).then(j => {
+  EXTRAS = j;
+  initPairwise();
+  initDistance();
+}).catch(err => {
+  console.error('Failed to load extras.json:', err);
+  document.querySelectorAll('.chart-box').forEach(b => {
+    b.innerHTML = '<p style="padding:20px;color:#888;font-family:sans-serif">Could not load extras.json. Place this file alongside the HTML and serve from a web server (file:// blocks fetch).</p>';
+  });
+});
+
+// ── Pairwise UI ─────────────────────────────────────────────────────
+function initPairwise() {
+  const years = Object.keys(EXTRAS.score_matrix).map(Number).sort((a,b)=>a-b);
+  const allCountries = new Set();
+  years.forEach(y => Object.keys(EXTRAS.score_matrix[y]).forEach(c => allCountries.add(c)));
+  const countries = [...allCountries].sort();
+
+  const A = document.getElementById('paira');
+  const B = document.getElementById('pairb');
+  countries.forEach(c => {
+    A.add(new Option(c, c));
+    B.add(new Option(c, c));
+  });
+  A.value = 'India';
+  B.value = 'Pakistan';
+  A.onchange = renderPairwise;
+  B.onchange = renderPairwise;
+  renderPairwise();
+}
+
+function renderPairwise() {
+  const a = document.getElementById('paira').value;
+  const b = document.getElementById('pairb').value;
+  const years = Object.keys(EXTRAS.score_matrix).map(Number).sort((a,b)=>a-b);
+  const xs = [], ya = [], yb = [], spread = [];
+  years.forEach(y => {
+    const m = EXTRAS.score_matrix[y];
+    if (m[a] != null && m[b] != null) {
+      xs.push(y); ya.push(m[a]); yb.push(m[b]); spread.push(m[a] - m[b]);
+    }
+  });
+
+  Plotly.newPlot('pair-chart', [
+    {x: xs, y: ya, name: a, mode: 'lines+markers', line: {color: '#1a1a1a', width: 2}, marker: {size: 5}},
+    {x: xs, y: yb, name: b, mode: 'lines+markers', line: {color: '#888', width: 2, dash: 'dash'}, marker: {size: 5}}
+  ], {
+    title: {text: a + ' vs ' + b + ' &mdash; absolute composite score', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
+    xaxis: {title: 'Year', gridcolor: '#eee'},
+    yaxis: {title: 'Composite score (0&ndash;60)', gridcolor: '#eee', range: [0, 60]},
+    plot_bgcolor: '#fff', paper_bgcolor: '#fff',
+    font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
+    margin: {l: 50, r: 20, t: 40, b: 40},
+    legend: {orientation: 'h', y: -0.2}
+  }, {displayModeBar: false, responsive: true});
+
+  Plotly.newPlot('pair-spread', [
+    {x: xs, y: spread, name: 'Spread', type: 'bar', marker: {color: spread.map(s => s >= 0 ? '#1a1a1a' : '#888')}}
+  ], {
+    title: {text: 'Pairwise spread P(' + a + ' &minus; ' + b + ')', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
+    xaxis: {title: 'Year', gridcolor: '#eee'},
+    yaxis: {title: 'Score difference', gridcolor: '#eee', zerolinecolor: '#1a1a1a', zerolinewidth: 1.5},
+    plot_bgcolor: '#fff', paper_bgcolor: '#fff',
+    font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
+    margin: {l: 50, r: 20, t: 40, b: 40},
+    showlegend: false
+  }, {displayModeBar: false, responsive: true});
+
+  // Stats
+  const meanSpread = spread.reduce((s,v)=>s+v,0) / spread.length;
+  const minSpread = Math.min(...spread);
+  const maxSpread = Math.max(...spread);
+  const widening = spread[spread.length-1] - spread[0];
+  document.getElementById('pair-stats').innerHTML = `
+    <div class="stat"><div class="lbl">Mean spread</div><div class="val">${meanSpread.toFixed(2)}</div></div>
+    <div class="stat"><div class="lbl">Min spread</div><div class="val">${minSpread.toFixed(2)}</div></div>
+    <div class="stat"><div class="lbl">Max spread</div><div class="val">${maxSpread.toFixed(2)}</div></div>
+    <div class="stat"><div class="lbl">First &rarr; last</div><div class="val">${widening>=0?'+':''}${widening.toFixed(2)}</div></div>
+  `;
+}
+
+// ── Distance-graded UI ──────────────────────────────────────────────
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const toRad = x => x * Math.PI / 180;
+  const R = 6371;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat/2)**2 +
+            Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2)**2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+
+function initDistance() {
+  const caps = EXTRAS.capitals;
+  const sel = document.getElementById('distc');
+  const countries = Object.keys(caps).sort();
+  countries.forEach(c => sel.add(new Option(c, c)));
+  sel.value = 'India';
+
+  ['lam','exp','alp'].forEach(id => {
+    document.getElementById(id).oninput = () => {
+      document.getElementById(id+'-v').textContent = parseFloat(document.getElementById(id).value).toFixed(2);
+      renderDistance();
+    };
+  });
+  sel.onchange = renderDistance;
+  renderDistance();
+}
+
+function renderDistance() {
+  const c = document.getElementById('distc').value;
+  const lam = parseFloat(document.getElementById('lam').value);
+  const exp = parseFloat(document.getElementById('exp').value);
+  const alp = parseFloat(document.getElementById('alp').value);
+
+  const caps = EXTRAS.capitals;
+  if (!caps[c]) return;
+  const [lat0, lon0] = caps[c];
+
+  // Compute distances and kernel weights
+  const others = Object.keys(caps).filter(x => x !== c && caps[x]);
+  const dists = others.map(o => ({
+    country: o,
+    dist: haversineKm(lat0, lon0, caps[o][0], caps[o][1])
+  }));
+  const weights = dists.map(d => ({
+    ...d,
+    w: Math.exp(-lam * Math.pow(d.dist / 1000, exp))
+  }));
+
+  // Time series
+  const years = Object.keys(EXTRAS.score_matrix).map(Number).sort((a,b)=>a-b);
+  const xs = [], own = [], bench = [], rel = [];
+  years.forEach(y => {
+    const m = EXTRAS.score_matrix[y];
+    if (m[c] == null) return;
+    let num = 0, den = 0;
+    weights.forEach(w => { if (m[w.country] != null) { num += w.w * m[w.country]; den += w.w; }});
+    if (den === 0) return;
+    const b = num / den;
+    xs.push(y); own.push(m[c]); bench.push(b); rel.push(alp * m[c] - b);
+  });
+
+  Plotly.newPlot('dist-chart', [
+    {x: xs, y: own, name: c, mode: 'lines+markers', line: {color: '#1a1a1a', width: 2}, marker: {size: 5}},
+    {x: xs, y: bench, name: 'Distance-weighted benchmark', mode: 'lines+markers', line: {color: '#888', width: 2, dash: 'dash'}, marker: {size: 4}},
+    {x: xs, y: rel, name: 'Relative R(d)', mode: 'lines', line: {color: '#444', width: 2.5}, yaxis: 'y2'}
+  ], {
+    title: {text: c + ' &mdash; absolute, distance-weighted benchmark, and relative R(d)', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
+    xaxis: {title: 'Year', gridcolor: '#eee'},
+    yaxis: {title: 'Composite score (0&ndash;60)', gridcolor: '#eee', range: [0, 60]},
+    yaxis2: {title: 'R(d)', overlaying: 'y', side: 'right', gridcolor: 'transparent', zeroline: false},
+    plot_bgcolor: '#fff', paper_bgcolor: '#fff',
+    font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
+    margin: {l: 50, r: 50, t: 40, b: 40},
+    legend: {orientation: 'h', y: -0.2}
+  }, {displayModeBar: false, responsive: true});
+
+  // Weights bar chart, top 30 by weight
+  weights.sort((a,b) => b.w - a.w);
+  const top = weights.slice(0, 30);
+  Plotly.newPlot('dist-weights', [
+    {x: top.map(t => t.country), y: top.map(t => t.w),
+     type: 'bar', marker: {color: '#1a1a1a'},
+     hovertemplate: '%{x}<br>distance: %{customdata:.0f} km<br>weight: %{y:.4f}<extra></extra>',
+     customdata: top.map(t => t.dist)}
+  ], {
+    title: {text: 'Top 30 peer weights (kernel: &lambda;=' + lam.toFixed(2) + ', p=' + exp.toFixed(2) + ')', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
+    xaxis: {tickangle: -45, tickfont: {size: 9}},
+    yaxis: {title: 'w(i,j)', gridcolor: '#eee'},
+    plot_bgcolor: '#fff', paper_bgcolor: '#fff',
+    font: {family: 'Helvetica Neue, Arial, sans-serif', size: 10, color: '#333'},
+    margin: {l: 50, r: 20, t: 40, b: 90}
+  }, {displayModeBar: false, responsive: true});
+
+  // Stats
+  const totW = weights.reduce((s,w) => s + w.w, 0);
+  const effN = totW * totW / weights.reduce((s,w) => s + w.w*w.w, 0);
+  const meanRel = rel.reduce((s,v)=>s+v,0) / rel.length;
+  const lastRel = rel[rel.length-1];
+  document.getElementById('dist-stats').innerHTML = `
+    <div class="stat"><div class="lbl">Effective N (peers)</div><div class="val">${effN.toFixed(1)}</div></div>
+    <div class="stat"><div class="lbl">&Sigma; weights</div><div class="val">${totW.toFixed(2)}</div></div>
+    <div class="stat"><div class="lbl">Mean R(d)</div><div class="val">${meanRel.toFixed(2)}</div></div>
+    <div class="stat"><div class="lbl">Latest R(d)</div><div class="val">${lastRel.toFixed(2)}</div></div>
+  `;
+}
+</script>
+</body>
+</html>

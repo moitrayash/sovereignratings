@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "861009361913",
+    "project_id": "dawai-in",
+    "storage_bucket": "dawai-in.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861009361913:android:ed47344a5879c59b7d1b28",
+        "android_client_info": {
+          "package_name": "in.dawai.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDK5c5rV7ufy_PiABOPRqsQgocmZBhkmNg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

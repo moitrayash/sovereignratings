@@ -1,0 +1,36 @@
+PANEL FE REGRESSIONS UNDER ALTERNATIVE RATING SCALES
+===========================================================================
+Each model is country FE + year FE, clustered SE.
+
+--- COEFFICIENTS ---
+scale                             score_16  score_17  score_20  score_21  score_60  score_basu60  score_logPD  score_norm01
+spec              regressor                                                                                                
+A_growth_fdi      FDI_pct_GDP      -0.0004   -0.0004   -0.0005   -0.0005   -0.0013        0.0013      -0.0003       -0.0000
+                  GDP_growth_pct   -0.0035   -0.0022   -0.0005   -0.0005   -0.0051        0.0051      -0.0014       -0.0001
+B_loggdppc        log_GDPpc         6.3498    6.8328    7.5115    7.5115   22.5676      -22.5676       4.4691        0.3761
+C_growth_loggdppc GDP_growth_pct   -0.0134   -0.0129   -0.0124   -0.0124   -0.0408        0.0408      -0.0085       -0.0007
+                  log_GDPpc         6.5608    7.0372    7.7092    7.7092   23.2136      -23.2136       4.6036        0.3869
+D_full            FDI_pct_GDP      -0.0004   -0.0004   -0.0005   -0.0005   -0.0014        0.0014      -0.0003       -0.0000
+                  GDP_growth_pct   -0.0134   -0.0129   -0.0123   -0.0123   -0.0405        0.0405      -0.0084       -0.0007
+                  log_GDPpc         6.5323    7.0179    7.7218    7.7218   23.2521      -23.2521       4.5923        0.3875
+
+--- P-VALUES ---
+scale                             score_16  score_17  score_20  score_21  score_60  score_basu60  score_logPD  score_norm01
+spec              regressor                                                                                                
+A_growth_fdi      FDI_pct_GDP       0.1808    0.1696    0.1514    0.1514    0.1196        0.1196       0.1775        0.1196
+                  GDP_growth_pct    0.2451    0.4948    0.8747    0.8747    0.6015        0.6015       0.4660        0.6015
+B_loggdppc        log_GDPpc         0.0000    0.0000    0.0000    0.0000    0.0000        0.0000       0.0000        0.0000
+C_growth_loggdppc GDP_growth_pct    0.0002    0.0007    0.0016    0.0016    0.0003        0.0003       0.0002        0.0003
+                  log_GDPpc         0.0000    0.0000    0.0000    0.0000    0.0000        0.0000       0.0000        0.0000
+D_full            FDI_pct_GDP       0.0863    0.0751    0.0601    0.0601    0.0407        0.0407       0.0857        0.0407
+                  GDP_growth_pct    0.0002    0.0007    0.0018    0.0018    0.0004        0.0004       0.0002        0.0004
+                  log_GDPpc         0.0000    0.0000    0.0000    0.0000    0.0000        0.0000       0.0000        0.0000
+
+--- WITHIN R² ---
+scale              score_16  score_17  score_20  score_21  score_60  score_basu60  score_logPD  score_norm01
+spec                                                                                                        
+A_growth_fdi        -0.0021   -0.0013   -0.0005   -0.0005   -0.0011       -0.0011      -0.0013       -0.0011
+B_loggdppc          -0.2571   -0.2880   -0.3246   -0.3246   -0.3393       -0.3393      -0.2793       -0.3393
+C_growth_loggdppc   -0.3097   -0.3380   -0.3710   -0.3710   -0.3919       -0.3919      -0.3305       -0.3919
+D_full              -0.2859   -0.3149   -0.3491   -0.3491   -0.3700       -0.3700      -0.3061       -0.3700
+

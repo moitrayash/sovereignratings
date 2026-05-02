@@ -1,0 +1,360 @@
+---
+title: ""
+output:
+  pdf_document:
+    keep_tex: true
+    latex_engine: pdflatex
+    number_sections: false
+    toc: false
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{array}
+  - \usepackage{multirow}
+  - \usepackage{float}
+  - \usepackage{xcolor}
+  - \usepackage{graphicx}
+  - \usepackage{caption}
+  - \usepackage{amsmath}
+  - \usepackage{tabularray}
+  - \usepackage{codehigh}
+  - \usepackage[normalem]{ulem}
+  - \usepackage{placeins}
+  - \UseTblrLibrary{booktabs, siunitx}
+  - \NewTableCommand{\tinytableDefineColor}[3]{\definecolor{#1}{#2}{#3}}
+  - \NewTableCommand{\tinytableTabularrayUnderline}[1]{\underline{#1}}
+  - \NewTableCommand{\tinytableTabularrayStrikeout}[1]{\sout{#1}}
+geometry: margin=1in
+fontsize: 11pt
+classoption: oneside
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      fig.align = "center", fig.pos = "H", out.extra = "")
+TAB_DIR <- "out/tables"
+FIG_DIR <- "out/figures"
+
+library(readr); library(dplyr)
+options(knitr.table.format = "latex", knitr.kable.NA = "")
+
+# Helper: centered single-item page with title + subtitle
+slide <- function(title, subtitle, body) {
+  cat("\\clearpage\\thispagestyle{empty}\\null\\vfill\n")
+  cat("\\begin{center}\n")
+  cat(sprintf("{\\Large\\bfseries %s}\\\\[0.4em]\n", title))
+  if (nzchar(subtitle))
+    cat(sprintf("{\\itshape %s}\\\\[1.5em]\n", subtitle))
+  cat(body, "\n")
+  cat("\\end{center}\n")
+  cat("\\vfill\\clearpage\n")
+}
+
+slide_fig <- function(title, subtitle, fig, w = "0.85") {
+  body <- sprintf("\\includegraphics[width=%s\\linewidth,height=0.65\\textheight,keepaspectratio]{%s}",
+                  w, file.path(FIG_DIR, fig))
+  slide(title, subtitle, body)
+}
+
+slide_tex <- function(title, subtitle, tex_path) {
+  body <- sprintf("\\input{%s}", tex_path)
+  slide(title, subtitle, body)
+}
+
+# Helper: appendix long table
+appendix_table <- function(df, caption, label, font_size = 7) {
+  df %>%
+    mutate(across(where(is.numeric), ~ ifelse(is.na(.x), "",
+                                              ifelse(abs(.x) > 1e6,
+                                                     formatC(.x, format = "e", digits = 2),
+                                                     formatC(.x, format = "f", digits = 3))))) %>%
+    knitr::kable(format = "latex", booktabs = TRUE, longtable = TRUE,
+                 caption = caption, label = label, linesep = "") %>%
+    cat()
+}
+```
+
+\begin{titlepage}
+\thispagestyle{empty}
+\null\vfill
+\begin{center}
+{\Huge\bfseries Sovereign Credit Ratings:}\\[0.5em]
+{\Huge\bfseries Alternative Scales, Relative-Risk Indices,}\\[0.3em]
+{\Huge\bfseries and Shadow Ratings}\\[3em]
+{\Large An empirical analysis of 150 countries, 2000--2025}\\[6em]
+{\Large Yash Moitra}\\[0.5em]
+{\large Cornell University}\\[3em]
+{\large `r format(Sys.Date(), '%B %Y')`}
+\end{center}
+\vfill
+\end{titlepage}
+
+```{r figs, results='asis'}
+slide_fig("Score distribution overview",
+          "Histogram of agency scores, by-agency boxplot, events/year, and up vs down counts.",
+          "fig01_distribution_overview.pdf", w = "0.95")
+
+slide_fig("Top and bottom 25 sovereigns",
+          "Latest year per country, ranked by composite score (0--60 scale, higher = better).",
+          "fig02_country_rankings.pdf", w = "0.95")
+
+slide_fig("Average rating per agency over time",
+          "Annual mean of S\\&P, Moody's, and DBRS scores across all rated countries.",
+          "fig03_trends.pdf", w = "0.85")
+
+slide_fig("S\\&P vs Moody's latest scores",
+          "Each point is a country; dashed line is 45\\textdegree, solid line is OLS fit.",
+          "fig04_agency_scatter.pdf", w = "0.65")
+
+slide_fig("Top 30 most volatile sovereigns",
+          "Standard deviation of composite score across years, countries with $\\geq$10 obs.",
+          "fig06_volatility.pdf", w = "0.85")
+```
+
+```{r tab1, results='asis'}
+slide_tex("Main panel-FE regressions (Models A--D)",
+          "Dependent variable: composite score. Country and year fixed effects, cluster-robust SE on country.",
+          file.path(TAB_DIR, "tab_main_panel.tex"))
+
+slide_tex("Coefficients across alternative rating scales (Spec D)",
+          "Same model, eight different numerical scales for the dependent variable. Sign and significance are invariant.",
+          file.path(TAB_DIR, "tab_alt_scales_coefs.tex"))
+
+slide_tex("Within-$R^2$ across spec $\\times$ scale combinations",
+          "Two-way FE within-$R^2$ for each (specification, scale) pair.",
+          file.path(TAB_DIR, "tab_alt_scales_within_r2.tex"))
+```
+
+```{r fig15, results='asis'}
+slide_fig("Macro coefficients across rating scales",
+          "Coefficient on log GDP per capita and GDP growth (Spec D), with 95\\% CIs, under each of the eight scales.",
+          "fig15_alt_scales_coefs.pdf", w = "0.95")
+```
+
+```{r tab_basu_world, results='asis'}
+slide_tex("World-average sovereign rating, 2000--2025",
+          "GDP-weighted under two scoring conventions and two weighting choices (time-varying vs fixed-2008 weights).",
+          file.path(TAB_DIR, "tab_basu_world_avg.tex"))
+```
+
+```{r fig_basu_world, results='asis'}
+slide_fig("World-average rating, 2000--2025 (graph)",
+          "Same data as the previous table, plotted across years.",
+          "fig20_basu_world_average.pdf", w = "0.95")
+```
+
+```{r tab_basu_mov, results='asis'}
+slide_tex("Top 10 improvers \\& deteriorators in Basu RR (2008$\\to$2024)",
+          "Change in Relative Risk Rating between 2008 and 2024. Negative $\\Delta$ = relative improvement.",
+          file.path(TAB_DIR, "tab_basu_movers.tex"))
+```
+
+```{r fig_basu_mov, results='asis'}
+slide_fig("Largest 2008--2024 movers in Basu RR",
+          "Same 20 countries as the previous table, plotted as a horizontal bar chart.",
+          "fig21_basu_movers.pdf", w = "0.85")
+```
+
+```{r fig_basu_dist, results='asis'}
+slide_fig("Distribution of Basu Relative Risk Rating",
+          "Cross-country density of RR for selected years; negative values = better than world average.",
+          "fig22_basu_rr_distribution.pdf", w = "0.85")
+```
+
+```{r tab_de, results='asis'}
+slide_tex("Correlation among 10 De-style relativizations",
+          "Pairwise correlations across equal-, GDP-, and population-weighted relative measures, plus z-scores and percentile rank.",
+          file.path(TAB_DIR, "tab_de_correlation.tex"))
+
+slide_tex("De-style relativizations vs M1--M4",
+          "Correlation of four representative De measures with our existing M1--M4 (World group).",
+          file.path(TAB_DIR, "tab_de_vs_m1m4.tex"))
+```
+
+```{r fig_de, results='asis'}
+slide_fig("Cross-method correlation heatmap",
+          "Visualization of the De-style relativization correlation matrix.",
+          "fig23_de_correlation_heat.pdf", w = "0.7")
+
+slide_fig("Existing M1 vs De-style measures",
+          "Scatter of our M1 against four De-style relativizations (World group); red line is OLS fit.",
+          "fig24_de_vs_m1m4_scatter.pdf", w = "0.95")
+```
+
+```{r tab_shadow, results='asis'}
+slide_tex("Shadow rating model --- five specifications",
+          "Cluster-robust SE on country. Dependent variable: composite score (0--60). S2 is our preferred benchmark.",
+          file.path(TAB_DIR, "tab_shadow_models.tex"))
+
+slide_tex("Shadow tracking diagnostics",
+          "How well does each spec's predicted shadow rating track the actual composite score? RMSE, MAE, R$^2$, etc.",
+          file.path(TAB_DIR, "tab_shadow_tracking.tex"))
+
+slide_tex("Average shadow residual by continent",
+          "Mean of (Actual $-$ Shadow) under benchmark spec S2.",
+          file.path(TAB_DIR, "tab_shadow_continent.tex"))
+```
+
+```{r fig_shadow, results='asis'}
+slide_fig("Actual vs Shadow rating, full panel",
+          "Each dot is a (country, year). Dashed 45\\textdegree\\ line = perfect tracking.",
+          "fig25_shadow_actual_scatter.pdf", w = "0.7")
+
+slide_fig("Most over- and under-rated countries",
+          "Countries with the largest residual (Actual $-$ Shadow) in their latest year.",
+          "fig26_shadow_residuals_topbot.pdf", w = "0.95")
+
+slide_fig("Average residual by continent and year",
+          "Heatmap of mean (Actual $-$ Shadow). Red = actual harsher than fundamentals; green = friendlier.",
+          "fig27_shadow_resid_continent_heatmap.pdf", w = "0.95")
+```
+
+```{r tab_per_ag, results='asis'}
+slide_tex("Per-agency shadow regressions",
+          "Same Spec S2 fit separately for S\\&P, Moody's, and DBRS. Cluster-robust SE on country.",
+          file.path(TAB_DIR, "tab_per_agency_models.tex"))
+
+slide_tex("Per-agency tracking diagnostics",
+          "How tightly does each agency's actual rating track its own fundamentals-based shadow?",
+          file.path(TAB_DIR, "tab_per_agency_tracking.tex"))
+
+slide_tex("Continent $\\times$ agency rating gap",
+          "Average (Actual $-$ Shadow) by continent and agency, conditional on the country actually being rated.",
+          file.path(TAB_DIR, "tab_per_agency_gap_continent.tex"))
+```
+
+```{r fig_per_ag, results='asis'}
+slide_fig("Shadow coefficients by agency",
+          "Same regressors, different agency. Forest plot of coefficients with 95\\% CIs.",
+          "fig28_per_agency_coefs.pdf", w = "0.95")
+
+slide_fig("Average rating gap by continent and agency",
+          "Bar chart of the per-agency $\\times$ continent gap shown in the previous table.",
+          "fig29_per_agency_gap_continent.pdf", w = "0.95")
+```
+
+```{r tab_ord, results='asis'}
+slide_tex("Ordered-response models for rating change",
+          "Ordered logit and probit, dependent variable = direction of rating change (Downgrade $<$ Stable $<$ Upgrade).",
+          file.path(TAB_DIR, "tab_ordered_models.tex"))
+```
+
+```{r fig_ord, results='asis'}
+slide_fig("Ordered-response coefficients",
+          "Forest plot of lagged-regressor coefficients in the ordered logit and probit models.",
+          "fig30_ordered_coefs.pdf", w = "0.85")
+```
+
+```{r tab_gini, results='asis'}
+slide_tex("Most unequal grouping ladders",
+          "Latest-year Gini coefficient of composite scores within each MECE country group.",
+          file.path(TAB_DIR, "tab_gini_top_groups.tex"))
+```
+
+```{r fig_gini, results='asis'}
+slide_fig("Rating-Gini heatmap by group $\\times$ year",
+          "Within-group Gini for each MECE country grouping over time.",
+          "fig14_gini_heatmap.pdf", w = "0.95")
+
+slide_fig("World Gini trend",
+          "Cross-country Gini coefficient of composite scores. Rising = wider rating dispersion.",
+          "fig14b_world_gini.pdf", w = "0.85")
+```
+
+\clearpage
+\thispagestyle{empty}
+\null\vfill
+\begin{center}
+{\Huge\bfseries Appendix}\\[1em]
+{\Large Full numerical tables underlying the analysis}
+\end{center}
+\vfill\clearpage
+
+# Appendix A1. Master annual panel (`paper_panel.csv`)
+
+```{r app1, results='asis'}
+df <- read_csv(file.path("..", "paper_panel.csv"), show_col_types = FALSE)
+appendix_table(df,
+  "Country $\\times$ year master panel: composite score, M1--M4 + deltas, and macro covariates.",
+  "tab:app_panel", font_size = 6)
+```
+
+\clearpage
+
+# Appendix A2. Eight-scale conversions (`panel_scales.csv`)
+
+```{r app2, results='asis'}
+df <- read_csv(file.path("..", "panel_scales.csv"), show_col_types = FALSE) %>%
+  select(Country, ISO3, Year, CompositeScore,
+         starts_with("score_"), letter)
+appendix_table(df,
+  "Composite score expressed on each of the eight alternative numerical scales.",
+  "tab:app_scales", font_size = 6)
+```
+
+\clearpage
+
+# Appendix A3. Basu / CRIS panel (`basu_cris_panel.csv`)
+
+```{r app3, results='asis'}
+df <- read_csv(file.path("..", "basu_cris_panel.csv"), show_col_types = FALSE) %>%
+  select(Country, ISO3, Year, score_60, score_basu60,
+         RR_basu_t, RR_basu_2008, CRIS_basu_t, CRIS_basu_2008,
+         RR_score60_t, RR_score60_2008,
+         world_avg_basu_t, world_avg_basu_2008)
+appendix_table(df,
+  "Basu Relative Risk Rating and CRIS index for every country-year, two weighting choices.",
+  "tab:app_basu", font_size = 6)
+```
+
+\clearpage
+
+# Appendix A4. De-style relativizations (`de_relative_panel.csv`)
+
+```{r app4, results='asis'}
+df <- read_csv(file.path("..", "de_relative_panel.csv"), show_col_types = FALSE) %>%
+  select(Country, ISO3, Year, score_60,
+         rel_eq, rel_gdp, rel_gdp2008, rel_pop, rel_median,
+         z_eq, z_gdp, pct_rank, norm_max, norm_min)
+appendix_table(df,
+  "Ten De-style relativization variants for every country-year.",
+  "tab:app_de", font_size = 6)
+```
+
+\clearpage
+
+# Appendix A5. Shadow rating panel (`shadow_panel.csv`)
+
+```{r app5, results='asis'}
+df <- read_csv(file.path("..", "shadow_panel.csv"), show_col_types = FALSE) %>%
+  select(Country, ISO3, Year, CompositeScore,
+         starts_with("Shadow_"), Actual_minus_Shadow,
+         Actual_minus_Shadow_S4)
+appendix_table(df,
+  "Actual composite score, predicted shadow scores from each spec (S0--S4), and residuals.",
+  "tab:app_shadow", font_size = 6)
+```
+
+\clearpage
+
+# Appendix A6. Gini panel (`paper_gini.csv`)
+
+```{r app6, results='asis'}
+df <- read_csv(file.path("..", "paper_gini.csv"), show_col_types = FALSE)
+appendix_table(df,
+  "Within-group Gini coefficient and distributional statistics by group $\\times$ year.",
+  "tab:app_gini", font_size = 6)
+```
+
+\clearpage
+
+# Appendix A7. Relative ratings, all 59 groups (`paper_rel_all.csv`)
+
+This is the big one — every country crossed with every membership group, ~23,000 rows.
+
+```{r app7, results='asis'}
+df <- read_csv(file.path("..", "paper_rel_all.csv"), show_col_types = FALSE)
+appendix_table(df,
+  "M1--M4 relative ratings (and deltas) for every country-year-group combination across all 59 groups.",
+  "tab:app_relall", font_size = 5)
+```

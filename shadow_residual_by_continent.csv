@@ -1,0 +1,7 @@
+Continent,Avg_Actual,Avg_Shadow,Avg_Residual,RMSE
+Africa,20.15,20.84,-0.69,5.8
+Asia,32.97,31.63,1.34,6.69
+Europe,43.52,42.92,0.6,6.9
+North_America,31.27,34.68,-3.4,8.77
+Oceania,34.7,35.43,-0.72,7.03
+South_America,24.18,26.61,-2.43,7.82

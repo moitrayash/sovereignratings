@@ -1,0 +1,2179 @@
+Country,Agency,Rating,Outlook,Date,Obs,ISO2,Score,Year,PrevScore,Change,Direction
+Albania,Moody's,B1,Stable,2007-06-29,1604,AL,21.0,2007,,,No Change
+Albania,Moody's,Ba3,Stable,2024-10-18,1595,AL,24.0,2024,21.0,3.0,Upgrade
+Albania,S&P,B+,Stable,2010-04-19,878,AL,21.0,2010,,,No Change
+Albania,S&P,B,Stable,2014-04-11,173,AL,18.0,2014,21.0,-3.0,Downgrade
+Albania,S&P,B+,Stable,2016-02-05,876,AL,21.0,2016,18.0,3.0,Upgrade
+Albania,S&P,BB-,Stable,2024-03-22,1640,AL,24.0,2024,21.0,3.0,Upgrade
+Albania,S&P,BB,Stable,2025-03-21,1418,AL,27.0,2025,24.0,3.0,Upgrade
+Andorra,Moody's,Baa2,Stable,2022-02-04,292,AD,36.0,2022,,,No Change
+Andorra,Moody's,Baa1,Stable,2024-01-19,289,AD,39.0,2024,36.0,3.0,Upgrade
+Andorra,S&P,AA-,Stable,2003-05-06,4090,AD,51.0,2003,,,No Change
+Andorra,S&P,AA,Stable,2004-08-11,3914,AD,54.0,2004,51.0,3.0,Upgrade
+Andorra,S&P,A+,Stable,2009-05-26,3777,AD,48.0,2009,54.0,-6.0,Downgrade
+Andorra,S&P,BBB+,Stable,2014-10-03,2674,AD,39.0,2014,48.0,-9.0,Downgrade
+Andorra,S&P,BBB-,Stable,2016-07-29,2339,AD,33.0,2016,39.0,-6.0,Downgrade
+Andorra,S&P,BBB,Stable,2017-07-28,2105,AD,36.0,2017,33.0,3.0,Upgrade
+Andorra,S&P,BBB,Stable,2020-04-24,2102,AD,36.0,2020,36.0,0.0,No Change
+Andorra,S&P,BBB+,Stable,2022-07-15,2672,AD,39.0,2022,36.0,3.0,Upgrade
+Andorra,S&P,A-,Stable,2025-05-09,3476,AD,42.0,2025,39.0,3.0,Upgrade
+Angola,Moody's,Ba3,Stable,2011-06-03,2234,AO,24.0,2011,,,No Change
+Angola,Moody's,Ba2,Stable,2014-08-08,2231,AO,27.0,2014,24.0,3.0,Upgrade
+Angola,Moody's,B2,Stable,2017-10-20,2222,AO,18.0,2017,27.0,-9.0,Downgrade
+Angola,Moody's,B2,,2018-02-07,2221,AO,18.0,2018,18.0,0.0,No Change
+Angola,Moody's,B3,Stable,2018-04-28,2220,AO,15.0,2018,18.0,-3.0,Downgrade
+Angola,Moody's,B3,,2020-03-31,2217,AO,15.0,2020,15.0,0.0,No Change
+Angola,Moody's,Caa1,Stable,2020-09-08,2216,AO,12.0,2020,15.0,-3.0,Downgrade
+Angola,Moody's,B3,Stable,2021-09-13,2215,AO,15.0,2021,12.0,3.0,Upgrade
+Angola,Moody's,B3,Stable,2024-11-29,2212,AO,15.0,2024,15.0,0.0,No Change
+Angola,S&P,B+,Stable,2010-05-19,1083,AO,21.0,2010,,,No Change
+Angola,S&P,BB-,Stable,2011-07-12,1735,AO,24.0,2011,21.0,3.0,Upgrade
+Angola,S&P,B+,Stable,2015-02-13,1079,AO,21.0,2015,24.0,-3.0,Downgrade
+Angola,S&P,B,Stable,2016-02-12,323,AO,18.0,2016,21.0,-3.0,Downgrade
+Angola,S&P,B-,Stable,2017-08-11,623,AO,15.0,2017,18.0,-3.0,Downgrade
+Angola,S&P,CCC+,Stable,2020-03-26,2966,AO,12.0,2020,15.0,-3.0,Downgrade
+Angola,S&P,B-,Stable,2022-02-04,620,AO,15.0,2022,12.0,3.0,Upgrade
+Argentina,DBRS,B (low),Stable,2007-09-06,205,AR,15.0,2007,,,No Change
+Argentina,DBRS,B,Stable,2011-10-05,190,AR,18.0,2011,15.0,3.0,Upgrade
+Argentina,DBRS,B,,2012-11-12,187,AR,18.0,2012,18.0,0.0,No Change
+Argentina,DBRS,B (low),,2013-08-30,197,AR,15.0,2013,18.0,-3.0,Downgrade
+Argentina,DBRS,CC,,2014-06-20,2727,AR,3.0,2014,15.0,-12.0,Downgrade
+Argentina,DBRS,SD,,2014-07-31,2768,AR,0.0,2014,3.0,-3.0,Downgrade
+Argentina,DBRS,B,Stable,2016-05-13,186,AR,18.0,2016,0.0,18.0,Upgrade
+Argentina,DBRS,CC,,2019-08-30,2721,AR,3.0,2019,18.0,-15.0,Downgrade
+Argentina,DBRS,SD,,2019-12-23,2764,AR,0.0,2019,3.0,-3.0,Downgrade
+Argentina,DBRS,CCC,Stable,2020-09-10,2741,AR,9.0,2020,0.0,9.0,Upgrade
+Argentina,DBRS,B (low),Stable,2024-11-25,196,AR,15.0,2024,9.0,6.0,Upgrade
+Argentina,Moody's,Ba3,Stable,1985-11-18,2805,AR,24.0,1985,,,No Change
+Argentina,Moody's,Ba3,Stable,1997-10-02,2796,AR,24.0,1997,24.0,0.0,No Change
+Argentina,Moody's,B1,Stable,1999-10-06,2792,AR,21.0,1999,24.0,-3.0,Downgrade
+Argentina,Moody's,Caa3,Stable,2001-10-12,2778,AR,6.0,2001,21.0,-15.0,Downgrade
+Argentina,Moody's,Ca,Stable,2001-12-21,2775,AR,3.0,2001,6.0,-3.0,Downgrade
+Argentina,Moody's,Caa1,Stable,2003-08-20,2774,AR,12.0,2003,3.0,9.0,Upgrade
+Argentina,Moody's,B3,Stable,2005-06-29,2772,AR,15.0,2005,12.0,3.0,Upgrade
+Argentina,Moody's,B3,Stable,2008-08-14,2765,AR,15.0,2008,15.0,0.0,No Change
+Argentina,Moody's,Caa1,Stable,2014-03-17,2752,AR,12.0,2014,15.0,-3.0,Downgrade
+Argentina,Moody's,Caa1,Stable,2015-11-02,2745,AR,12.0,2015,12.0,0.0,No Change
+Argentina,Moody's,B3,Stable,2016-04-15,2743,AR,15.0,2016,12.0,3.0,Upgrade
+Argentina,Moody's,B2,Stable,2017-11-29,2737,AR,18.0,2017,15.0,3.0,Upgrade
+Argentina,Moody's,Caa2,,2019-08-30,2731,AR,9.0,2019,18.0,-9.0,Downgrade
+Argentina,Moody's,Ca,Stable,2020-09-28,2720,AR,3.0,2020,9.0,-6.0,Downgrade
+Argentina,Moody's,Caa1,Stable,2025-07-17,2714,AR,12.0,2025,3.0,9.0,Upgrade
+Argentina,S&P,BB-,Stable,1993-08-25,1754,AR,24.0,1993,,,No Change
+Argentina,S&P,BB-,Stable,1995-03-08,1750,AR,24.0,1995,24.0,0.0,No Change
+Argentina,S&P,BB,Stable,1997-04-02,1470,AR,27.0,1997,24.0,3.0,Upgrade
+Argentina,S&P,BB,Stable,2000-02-10,1468,AR,27.0,2000,27.0,0.0,No Change
+Argentina,S&P,BB-,Stable,2000-11-14,1748,AR,24.0,2000,27.0,-3.0,Downgrade
+Argentina,S&P,SD,,2001-11-06,3153,AR,0.0,2001,24.0,-24.0,Downgrade
+Argentina,S&P,B-,Stable,2005-06-01,746,AR,15.0,2005,0.0,15.0,Upgrade
+Argentina,S&P,B,Stable,2006-03-23,422,AR,18.0,2006,15.0,3.0,Upgrade
+Argentina,S&P,B+,Stable,2006-10-02,1148,AR,21.0,2006,18.0,3.0,Upgrade
+Argentina,S&P,B,Stable,2008-08-11,421,AR,18.0,2008,21.0,-3.0,Downgrade
+Argentina,S&P,B-,Stable,2008-10-31,745,AR,15.0,2008,18.0,-3.0,Downgrade
+Argentina,S&P,B,Stable,2010-09-13,420,AR,18.0,2010,15.0,3.0,Upgrade
+Argentina,S&P,SD,,2014-07-30,3151,AR,0.0,2014,18.0,-18.0,Downgrade
+Argentina,S&P,B-,Stable,2016-05-06,741,AR,15.0,2016,0.0,15.0,Upgrade
+Argentina,S&P,B,Stable,2017-04-04,416,AR,18.0,2017,15.0,3.0,Upgrade
+Argentina,S&P,B+,Stable,2017-10-30,1143,AR,21.0,2017,18.0,3.0,Upgrade
+Argentina,S&P,B,Stable,2018-11-12,414,AR,18.0,2018,21.0,-3.0,Downgrade
+Argentina,S&P,SD,,2019-08-29,3150,AR,0.0,2019,18.0,-18.0,Downgrade
+Argentina,S&P,SD,,2020-04-07,3148,AR,0.0,2020,0.0,0.0,No Change
+Argentina,S&P,CCC+,Stable,2020-09-07,3040,AR,12.0,2020,0.0,12.0,Upgrade
+Argentina,S&P,CCC,Stable,2024-03-15,2871,AR,9.0,2024,12.0,-3.0,Downgrade
+Argentina,S&P,CCC+,Stable,2025-12-17,3038,AR,12.0,2025,9.0,3.0,Upgrade
+Armenia,Moody's,Ba2,Stable,2006-07-25,1619,AM,27.0,2006,,,No Change
+Armenia,Moody's,Ba2,Stable,2013-08-20,1617,AM,27.0,2013,27.0,0.0,No Change
+Armenia,Moody's,B1,Stable,2016-03-18,1615,AM,21.0,2016,27.0,-6.0,Downgrade
+Armenia,Moody's,Ba3,Stable,2019-08-27,1613,AM,24.0,2019,21.0,3.0,Upgrade
+Armenia,Moody's,Ba3,Stable,2023-06-22,1607,AM,24.0,2023,24.0,0.0,No Change
+Armenia,S&P,B+,Stable,2022-04-08,885,AM,21.0,2022,,,No Change
+Armenia,S&P,BB-,Stable,2023-08-25,1643,AM,24.0,2023,21.0,3.0,Upgrade
+Aruba,Moody's,Baa3,Stable,2024-05-24,730,AW,33.0,2024,,,No Change
+Aruba,S&P,A-,Stable,2011-11-17,3535,AW,42.0,2011,,,No Change
+Aruba,S&P,BBB+,Stable,2013-06-14,2730,AW,39.0,2013,42.0,-3.0,Downgrade
+Aruba,S&P,BBB+,Stable,2017-06-14,2726,AW,39.0,2017,39.0,0.0,No Change
+Aruba,S&P,BBB+,Stable,2019-08-06,2723,AW,39.0,2019,39.0,0.0,No Change
+Aruba,S&P,BBB,Stable,2021-03-15,2175,AW,36.0,2021,39.0,-3.0,Downgrade
+Aruba,S&P,BBB+,Stable,2025-03-24,2719,AW,39.0,2025,36.0,3.0,Upgrade
+Australia,DBRS,AAA,Stable,2014-07-31,4172,AU,60.0,2014,,,No Change
+Australia,Moody's,A,Stable,1962-01-15,3196,AU,45.0,1962,,,No Change
+Australia,Moody's,Aaa,Stable,1974-10-15,3195,AU,60.0,1974,45.0,15.0,Upgrade
+Australia,Moody's,Aa1,Stable,1986-09-10,3193,AU,57.0,1986,60.0,-3.0,Downgrade
+Australia,Moody's,Aa2,Stable,1989-09-10,3190,AU,54.0,1989,57.0,-3.0,Downgrade
+Australia,Moody's,Aaa,Stable,2002-10-20,3185,AU,60.0,2002,54.0,6.0,Upgrade
+Australia,S&P,BBB,,1957-02-27,2023,AU,36.0,1957,,,No Change
+Australia,S&P,AAA,,1975-06-06,9,AU,60.0,1975,36.0,24.0,Upgrade
+Australia,S&P,AA+,,1986-12-02,4099,AU,57.0,1986,60.0,-3.0,Downgrade
+Australia,S&P,AA,Stable,1993-09-03,3792,AU,54.0,1993,57.0,-3.0,Downgrade
+Australia,S&P,AA+,Stable,1999-05-17,4094,AU,57.0,1999,54.0,3.0,Upgrade
+Australia,S&P,AAA,Stable,2003-02-16,8,AU,60.0,2003,57.0,3.0,Upgrade
+Australia,S&P,AAA,Stable,2018-09-21,5,AU,60.0,2018,60.0,0.0,No Change
+Australia,S&P,AAA,Stable,2021-06-06,1,AU,60.0,2021,60.0,0.0,No Change
+Austria,DBRS,AAA,Stable,2011-06-21,93,AT,60.0,2011,,,No Change
+Austria,Moody's,Aaa,Stable,1977-06-26,3404,AT,60.0,1977,,,No Change
+Austria,Moody's,Aa1,Stable,2016-06-24,3397,AT,57.0,2016,60.0,-3.0,Downgrade
+Austria,S&P,AAA,,1975-07-09,98,AT,60.0,1975,,,No Change
+Austria,S&P,AAA,Stable,1989-06-26,96,AT,60.0,1989,60.0,0.0,No Change
+Austria,S&P,AA+,Stable,2013-01-29,4177,AT,57.0,2013,60.0,-3.0,Downgrade
+Austria,S&P,AA+,Stable,2022-08-26,4173,AT,57.0,2022,57.0,0.0,No Change
+Austria,S&P,AA+,Stable,2025-02-14,4168,AT,57.0,2025,57.0,0.0,No Change
+Azerbaijan,Moody's,Ba1,Stable,2006-09-15,1081,AZ,30.0,2006,,,No Change
+Azerbaijan,Moody's,Ba1,Stable,2009-06-19,1078,AZ,30.0,2009,30.0,0.0,No Change
+Azerbaijan,Moody's,Baa3,Stable,2012-04-19,1074,AZ,33.0,2012,30.0,3.0,Upgrade
+Azerbaijan,Moody's,Ba2,Stable,2017-08-18,1067,AZ,27.0,2017,33.0,-6.0,Downgrade
+Azerbaijan,Moody's,Ba1,Stable,2022-08-05,1062,AZ,30.0,2022,27.0,3.0,Upgrade
+Azerbaijan,S&P,BB+,Stable,2008-12-16,1924,AZ,30.0,2008,,,No Change
+Azerbaijan,S&P,BBB-,Stable,2011-12-23,2482,AZ,33.0,2011,30.0,3.0,Upgrade
+Azerbaijan,S&P,BB+,Stable,2016-01-29,1922,AZ,30.0,2016,33.0,-3.0,Downgrade
+Azerbaijan,S&P,BB+,Stable,2018-01-26,1920,AZ,30.0,2018,30.0,0.0,No Change
+Azerbaijan,S&P,BB+,Stable,2021-01-22,1916,AZ,30.0,2021,30.0,0.0,No Change
+Azerbaijan,S&P,-,,2025-12-05,3180,AZ,,2025,30.0,,No Change
+Bahamas,Moody's,A3,Stable,1997-01-24,1855,BS,42.0,1997,,,No Change
+Bahamas,Moody's,A3,Stable,2003-06-26,1853,BS,42.0,2003,42.0,0.0,No Change
+Bahamas,Moody's,Baa2,Stable,2014-09-02,1843,BS,36.0,2014,42.0,-6.0,Downgrade
+Bahamas,Moody's,Baa3,Stable,2016-08-22,1839,BS,33.0,2016,36.0,-3.0,Downgrade
+Bahamas,Moody's,Baa3,Stable,2019-02-21,1835,BS,33.0,2019,33.0,0.0,No Change
+Bahamas,Moody's,Baa3,,2020-04-09,1833,BS,33.0,2020,33.0,0.0,No Change
+Bahamas,Moody's,B1,Stable,2022-10-06,1827,BS,21.0,2022,33.0,-12.0,Downgrade
+Bahamas,S&P,A-,Stable,2003-12-03,3568,BS,42.0,2003,,,No Change
+Bahamas,S&P,A-,Stable,2008-01-28,3565,BS,42.0,2008,42.0,0.0,No Change
+Bahamas,S&P,BBB+,Stable,2009-12-23,2784,BS,39.0,2009,42.0,-3.0,Downgrade
+Bahamas,S&P,BBB,Stable,2011-10-31,2244,BS,36.0,2011,39.0,-3.0,Downgrade
+Bahamas,S&P,BB+,Stable,2016-12-20,2001,BS,30.0,2016,36.0,-6.0,Downgrade
+Bahamas,S&P,B+,Stable,2021-11-12,953,BS,21.0,2021,30.0,-9.0,Downgrade
+Bahamas,S&P,BB-,Stable,2025-09-26,1692,BS,24.0,2025,21.0,3.0,Upgrade
+Bahrain,Moody's,Ba1,Stable,1996-01-29,1995,BH,30.0,1996,,,No Change
+Bahrain,Moody's,Baa3,Stable,2002-08-15,1993,BH,33.0,2002,30.0,3.0,Upgrade
+Bahrain,Moody's,Baa1,Stable,2003-12-11,1991,BH,39.0,2003,33.0,6.0,Upgrade
+Bahrain,Moody's,A2,Stable,2007-07-25,1987,BH,45.0,2007,39.0,6.0,Upgrade
+Bahrain,Moody's,A3,Stable,2010-08-23,1985,BH,42.0,2010,45.0,-3.0,Downgrade
+Bahrain,Moody's,B2,Stable,2018-12-17,1965,BH,18.0,2018,42.0,-24.0,Downgrade
+Bahrain,Moody's,B2,Stable,2022-04-22,1959,BH,18.0,2022,18.0,0.0,No Change
+Bahrain,S&P,A-,Stable,2002-07-15,3574,BH,42.0,2002,,,No Change
+Bahrain,S&P,A,Stable,2006-04-05,3372,BH,45.0,2006,42.0,3.0,Upgrade
+Bahrain,S&P,BBB,Stable,2013-01-28,2248,BH,36.0,2013,45.0,-9.0,Downgrade
+Bahrain,S&P,BB,Stable,2016-02-17,1456,BH,27.0,2016,36.0,-9.0,Downgrade
+Bahrain,S&P,BB-,Stable,2016-12-09,1722,BH,24.0,2016,27.0,-3.0,Downgrade
+Bahrain,S&P,B+,Stable,2017-12-01,1019,BH,21.0,2017,24.0,-3.0,Downgrade
+Bahrain,S&P,B+,Stable,2020-03-26,1005,BH,21.0,2020,21.0,0.0,No Change
+Bahrain,S&P,B+,Stable,2021-11-26,1001,BH,21.0,2021,21.0,0.0,No Change
+Bahrain,S&P,B+,Stable,2023-11-24,997,BH,21.0,2023,21.0,0.0,No Change
+Bahrain,S&P,B,Stable,2025-11-21,269,BH,18.0,2025,21.0,-3.0,Downgrade
+Bangladesh,Moody's,Ba3,Stable,2012-04-19,1871,BD,24.0,2012,,,No Change
+Bangladesh,Moody's,Ba3,,2022-12-09,1870,BD,24.0,2022,24.0,0.0,No Change
+Bangladesh,Moody's,B1,Stable,2023-05-30,1869,BD,21.0,2023,24.0,-3.0,Downgrade
+Bangladesh,S&P,BB-,Stable,2010-04-05,1704,BD,24.0,2010,,,No Change
+Bangladesh,S&P,B+,Stable,2024-07-30,967,BD,21.0,2024,24.0,-3.0,Downgrade
+Barbados,Moody's,Ba2,Stable,1994-10-05,2033,BB,27.0,1994,,,No Change
+Barbados,Moody's,Ba1,Stable,1997-04-18,2031,BB,30.0,1997,27.0,3.0,Upgrade
+Barbados,Moody's,Baa2,Stable,2000-02-08,2028,BB,36.0,2000,30.0,6.0,Upgrade
+Barbados,Moody's,Baa3,Stable,2009-10-13,2020,BB,33.0,2009,36.0,-3.0,Downgrade
+Barbados,Moody's,Caa1,Stable,2016-04-04,2008,BB,12.0,2016,33.0,-21.0,Downgrade
+Barbados,Moody's,Caa3,Stable,2017-03-09,2005,BB,6.0,2017,12.0,-6.0,Downgrade
+Barbados,Moody's,Caa1,Stable,2019-07-03,2003,BB,12.0,2019,6.0,6.0,Upgrade
+Barbados,Moody's,B3,Stable,2023-08-03,2000,BB,15.0,2023,12.0,3.0,Upgrade
+Barbados,Moody's,B2,Stable,2025-04-14,1997,BB,18.0,2025,15.0,3.0,Upgrade
+Barbados,S&P,A-,Stable,1999-12-17,3582,BB,42.0,1999,,,No Change
+Barbados,S&P,BBB+,Stable,2004-08-05,2790,BB,39.0,2004,42.0,-3.0,Downgrade
+Barbados,S&P,BBB+,Stable,2006-07-26,2787,BB,39.0,2006,39.0,0.0,No Change
+Barbados,S&P,BBB,Stable,2009-06-10,2253,BB,36.0,2009,39.0,-3.0,Downgrade
+Barbados,S&P,BBB-,Stable,2010-10-22,2581,BB,33.0,2010,36.0,-3.0,Downgrade
+Barbados,S&P,BB+,Stable,2012-07-17,2004,BB,30.0,2012,33.0,-3.0,Downgrade
+Barbados,S&P,SD,,2018-06-06,3118,BB,0.0,2018,30.0,-30.0,Downgrade
+Barbados,S&P,B-,Stable,2019-12-11,565,BB,15.0,2019,0.0,15.0,Upgrade
+Barbados,S&P,B-,Stable,2020-01-13,560,BB,15.0,2020,15.0,0.0,No Change
+Barbados,S&P,B+,Stable,2025-10-24,1021,BB,21.0,2025,15.0,6.0,Upgrade
+Belarus,Moody's,Ba2,Stable,2007-08-22,2999,BY,27.0,2007,,,No Change
+Belarus,Moody's,B1,Stable,2010-07-09,2996,BY,21.0,2010,27.0,-6.0,Downgrade
+Belarus,Moody's,Caa1,Stable,2016-06-17,2984,BY,12.0,2016,21.0,-9.0,Downgrade
+Belarus,Moody's,B3,Stable,2018-03-16,2982,BY,15.0,2018,12.0,3.0,Upgrade
+Belarus,Moody's,C,Stable,2023-06-02,2975,BY,1.0,2023,15.0,-14.0,Downgrade
+Belarus,S&P,B+,Stable,2007-08-21,1188,BY,21.0,2007,,,No Change
+Belarus,S&P,B-,Stable,2012-04-18,772,BY,15.0,2012,21.0,-6.0,Downgrade
+Belarus,S&P,B-,Stable,2013-10-18,769,BY,15.0,2013,15.0,0.0,No Change
+Belarus,S&P,B,Stable,2017-10-06,453,BY,18.0,2017,15.0,3.0,Upgrade
+Belarus,S&P,SD,,2022-08-03,3161,BY,0.0,2022,18.0,-18.0,Downgrade
+Belarus,S&P,,,2023-09-08,3097,BY,,2023,0.0,,No Change
+Belgium,DBRS,AA (high),Stable,2014-03-21,4100,BE,57.0,2014,,,No Change
+Belgium,DBRS,AA,Stable,2022-08-12,4017,BE,54.0,2022,57.0,-3.0,Downgrade
+Belgium,Moody's,Aa1,Stable,1988-03-22,3595,BE,57.0,1988,,,No Change
+Belgium,Moody's,Aa1,Stable,2009-01-13,3590,BE,57.0,2009,57.0,0.0,No Change
+Belgium,Moody's,Aa3,Stable,2014-03-07,3581,BE,51.0,2014,57.0,-6.0,Downgrade
+Belgium,S&P,AA+,,1988-10-26,4209,BE,57.0,1988,,,No Change
+Belgium,S&P,AA+,Stable,1992-07-01,4204,BE,57.0,1992,57.0,0.0,No Change
+Belgium,S&P,AA,Stable,2014-02-28,3846,BE,54.0,2014,57.0,-3.0,Downgrade
+Belize,Moody's,Ba2,Stable,1999-01-21,2647,BZ,27.0,1999,,,No Change
+Belize,Moody's,Caa3,Stable,2005-10-26,2632,BZ,6.0,2005,27.0,-21.0,Downgrade
+Belize,Moody's,Caa1,Stable,2007-02-13,2629,BZ,12.0,2007,6.0,6.0,Upgrade
+Belize,Moody's,B3,Stable,2009-02-10,2627,BZ,15.0,2009,12.0,3.0,Upgrade
+Belize,Moody's,Ca,Stable,2012-06-01,2620,BZ,3.0,2012,15.0,-12.0,Downgrade
+Belize,Moody's,Caa2,Stable,2013-04-15,2616,BZ,9.0,2013,3.0,6.0,Upgrade
+Belize,Moody's,B3,Stable,2017-04-11,2608,BZ,15.0,2017,9.0,6.0,Upgrade
+Belize,Moody's,Caa3,Stable,2020-11-24,2602,BZ,6.0,2020,15.0,-9.0,Downgrade
+Belize,Moody's,Caa2,Stable,2022-11-16,2598,BZ,9.0,2022,6.0,3.0,Upgrade
+Belize,Moody's,Caa1,Stable,2024-10-15,2597,BZ,12.0,2024,9.0,3.0,Upgrade
+Belize,S&P,BB,Stable,2000-08-22,1466,BZ,27.0,2000,,,No Change
+Belize,S&P,BB-,Stable,2001-10-23,1745,BZ,24.0,2001,27.0,-3.0,Downgrade
+Belize,S&P,B+,Stable,2002-12-30,1134,BZ,21.0,2002,24.0,-3.0,Downgrade
+Belize,S&P,SD,,2006-12-07,3141,BZ,0.0,2006,21.0,-21.0,Downgrade
+Belize,S&P,B,Stable,2007-02-20,394,BZ,18.0,2007,0.0,18.0,Upgrade
+Belize,S&P,B-,Stable,2011-08-04,724,BZ,15.0,2011,18.0,-3.0,Downgrade
+Belize,S&P,CCC+,Stable,2012-02-06,3020,BZ,12.0,2012,15.0,-3.0,Downgrade
+Belize,S&P,SD,,2012-08-21,3140,BZ,0.0,2012,12.0,-12.0,Downgrade
+Belize,S&P,B-,Stable,2013-03-20,722,BZ,15.0,2013,0.0,15.0,Upgrade
+Belize,S&P,B-,Stable,2015-11-25,720,BZ,15.0,2015,15.0,0.0,No Change
+Belize,S&P,SD,,2017-03-17,3138,BZ,0.0,2017,15.0,-15.0,Downgrade
+Belize,S&P,B-,Stable,2017-03-23,719,BZ,15.0,2017,0.0,15.0,Upgrade
+Belize,S&P,SD,,2020-08-12,3136,BZ,0.0,2020,15.0,-15.0,Downgrade
+Belize,S&P,CCC+,Stable,2020-08-21,3016,BZ,12.0,2020,0.0,12.0,Upgrade
+Belize,S&P,SD,,2021-05-24,3135,BZ,0.0,2021,12.0,-12.0,Downgrade
+Belize,S&P,B-,Stable,2021-11-09,718,BZ,15.0,2021,0.0,15.0,Upgrade
+Benin,Moody's,B1,Stable,2021-03-09,1861,BJ,21.0,2021,,,No Change
+Benin,S&P,B,Stable,2012-02-20,232,BJ,18.0,2012,,,No Change
+Benin,S&P,,,2013-11-01,3081,BJ,,2013,18.0,,No Change
+Benin,S&P,B+,Stable,2018-07-05,956,BJ,21.0,2018,,,No Change
+Benin,S&P,BB-,Stable,2024-04-19,1702,BJ,24.0,2024,21.0,3.0,Upgrade
+Benin,S&P,BB-,Stable,2025-12-19,1697,BJ,24.0,2025,24.0,0.0,No Change
+Bermuda,DBRS,A (high),Stable,2025-06-26,3515,BM,48.0,2025,,,No Change
+Bermuda,Moody's,Aa1,Stable,1994-01-10,3982,BM,57.0,1994,,,No Change
+Bermuda,Moody's,Aa2,Stable,2009-04-29,3980,BM,54.0,2009,57.0,-3.0,Downgrade
+Bermuda,Moody's,A1,Stable,2014-05-19,3974,BM,48.0,2014,54.0,-6.0,Downgrade
+Bermuda,Moody's,A2,Stable,2016-06-03,3972,BM,45.0,2016,48.0,-3.0,Downgrade
+Bermuda,S&P,AA,Stable,2010-09-07,3889,BM,54.0,2010,,,No Change
+Bermuda,S&P,AA-,Stable,2011-12-29,4046,BM,51.0,2011,54.0,-3.0,Downgrade
+Bermuda,S&P,A+,Stable,2015-04-28,3706,BM,48.0,2015,51.0,-3.0,Downgrade
+Bermuda,S&P,A+,Stable,2020-04-16,3702,BM,48.0,2020,48.0,0.0,No Change
+Bolivia,Moody's,B1,Stable,1998-05-29,3031,BO,21.0,1998,,,No Change
+Bolivia,Moody's,B3,Stable,2003-04-16,3030,BO,15.0,2003,21.0,-6.0,Downgrade
+Bolivia,Moody's,B2,Stable,2009-09-28,3029,BO,18.0,2009,15.0,3.0,Upgrade
+Bolivia,Moody's,Ba3,Stable,2012-06-08,3023,BO,24.0,2012,18.0,6.0,Upgrade
+Bolivia,Moody's,Ba3,Stable,2017-08-01,3019,BO,24.0,2017,24.0,0.0,No Change
+Bolivia,Moody's,Ba3,,2019-12-05,3017,BO,24.0,2019,24.0,0.0,No Change
+Bolivia,Moody's,B2,Stable,2020-09-22,3013,BO,18.0,2020,24.0,-6.0,Downgrade
+Bolivia,Moody's,Caa1,,2023-03-24,3008,BO,12.0,2023,18.0,-6.0,Downgrade
+Bolivia,Moody's,Caa3,Stable,2024-04-26,3004,BO,6.0,2024,12.0,-6.0,Downgrade
+Bolivia,Moody's,Ca,Stable,2025-04-17,3003,BO,3.0,2025,6.0,-3.0,Downgrade
+Bolivia,S&P,B+,Stable,2011-05-19,1199,BO,21.0,2011,,,No Change
+Bolivia,S&P,BB-,Stable,2012-05-18,1770,BO,24.0,2012,21.0,3.0,Upgrade
+Bolivia,S&P,BB,Stable,2014-05-15,1473,BO,27.0,2014,24.0,3.0,Upgrade
+Bolivia,S&P,BB-,Stable,2018-05-23,1769,BO,24.0,2018,27.0,-3.0,Downgrade
+Bolivia,S&P,B+,Stable,2020-04-17,1195,BO,21.0,2020,24.0,-3.0,Downgrade
+Bolivia,S&P,B,Stable,2022-12-06,459,BO,18.0,2022,21.0,-3.0,Downgrade
+Bosnia and Herzegovina,Moody's,B3,Stable,2004-03-29,2130,BA,15.0,2004,,,No Change
+Bosnia and Herzegovina,Moody's,B2,Stable,2006-05-17,2128,BA,18.0,2006,15.0,3.0,Upgrade
+Bosnia and Herzegovina,Moody's,B3,Stable,2012-07-10,2121,BA,15.0,2012,18.0,-3.0,Downgrade
+Bosnia and Herzegovina,S&P,B+,Stable,2008-12-22,1045,BA,21.0,2008,,,No Change
+Bosnia and Herzegovina,S&P,B,Stable,2012-03-28,298,BA,18.0,2012,21.0,-3.0,Downgrade
+Bosnia and Herzegovina,S&P,B,Stable,2020-04-30,296,BA,18.0,2020,18.0,0.0,No Change
+Bosnia and Herzegovina,S&P,B+,Stable,2023-08-04,1042,BA,21.0,2023,18.0,3.0,Upgrade
+Botswana,Moody's,A2,Stable,2001-03-12,469,BW,45.0,2001,,,No Change
+Botswana,Moody's,A2,Stable,2009-03-12,465,BW,45.0,2009,45.0,0.0,No Change
+Botswana,Moody's,A2,Stable,2011-11-24,461,BW,45.0,2011,45.0,0.0,No Change
+Botswana,Moody's,A3,Stable,2021-04-23,455,BW,42.0,2021,45.0,-3.0,Downgrade
+Botswana,S&P,A,Stable,2001-04-02,3336,BW,45.0,2001,,,No Change
+Botswana,S&P,A-,Stable,2010-02-15,3533,BW,42.0,2010,45.0,-3.0,Downgrade
+Botswana,S&P,A-,Stable,2017-10-27,3530,BW,42.0,2017,42.0,0.0,No Change
+Botswana,S&P,BBB+,Stable,2020-03-27,2698,BW,39.0,2020,42.0,-3.0,Downgrade
+Botswana,S&P,BBB+,Stable,2021-09-17,2694,BW,39.0,2021,39.0,0.0,No Change
+Brazil,DBRS,BB,Stable,2006-07-06,373,BR,27.0,2006,,,No Change
+Brazil,DBRS,BBB (low),Stable,2008-05-28,1687,BR,33.0,2008,27.0,6.0,Upgrade
+Brazil,DBRS,BBB,Stable,2011-11-18,872,BR,36.0,2011,33.0,3.0,Upgrade
+Brazil,DBRS,BBB,Stable,2014-08-01,870,BR,36.0,2014,36.0,0.0,No Change
+Brazil,DBRS,BBB (low),Stable,2015-08-07,1400,BR,33.0,2015,36.0,-3.0,Downgrade
+Brazil,DBRS,BB (low),Stable,2018-03-16,698,BR,24.0,2018,33.0,-9.0,Downgrade
+Brazil,DBRS,BB,Stable,2023-07-28,365,BR,27.0,2023,24.0,3.0,Upgrade
+Brazil,Moody's,Ba1,Stable,1986-10-18,1430,BR,30.0,1986,,,No Change
+Brazil,Moody's,B1,Stable,1987-12-04,1429,BR,21.0,1987,30.0,-9.0,Downgrade
+Brazil,Moody's,B2,Stable,1989-03-28,1428,BR,18.0,1989,21.0,-3.0,Downgrade
+Brazil,Moody's,B1,Stable,1994-11-30,1426,BR,21.0,1994,18.0,3.0,Upgrade
+Brazil,Moody's,B2,Stable,1998-09-03,1421,BR,18.0,1998,21.0,-3.0,Downgrade
+Brazil,Moody's,B1,Stable,2000-10-16,1415,BR,21.0,2000,18.0,3.0,Upgrade
+Brazil,Moody's,B1,Stable,2002-06-04,1411,BR,21.0,2002,21.0,0.0,No Change
+Brazil,Moody's,B2,Stable,2002-08-12,1408,BR,18.0,2002,21.0,-3.0,Downgrade
+Brazil,Moody's,B1,Stable,2004-09-09,1405,BR,21.0,2004,18.0,3.0,Upgrade
+Brazil,Moody's,Ba3,Stable,2005-10-12,1403,BR,24.0,2005,21.0,3.0,Upgrade
+Brazil,Moody's,Ba2,Stable,2006-08-31,1398,BR,27.0,2006,24.0,3.0,Upgrade
+Brazil,Moody's,Ba1,Stable,2007-08-23,1393,BR,30.0,2007,27.0,3.0,Upgrade
+Brazil,Moody's,Baa2,Stable,2013-10-02,1383,BR,36.0,2013,30.0,6.0,Upgrade
+Brazil,Moody's,Baa3,Stable,2015-08-11,1377,BR,33.0,2015,36.0,-3.0,Downgrade
+Brazil,Moody's,Ba2,Stable,2017-03-15,1369,BR,27.0,2017,33.0,-6.0,Downgrade
+Brazil,Moody's,Ba2,Stable,2018-04-09,1363,BR,27.0,2018,27.0,0.0,No Change
+Brazil,Moody's,Ba1,Stable,2025-05-30,1355,BR,30.0,2025,27.0,3.0,Upgrade
+Brazil,S&P,B+,Stable,1995-07-18,848,BR,21.0,1995,,,No Change
+Brazil,S&P,BB-,Stable,1997-04-02,1600,BR,24.0,1997,21.0,3.0,Upgrade
+Brazil,S&P,B+,Stable,1999-11-10,845,BR,21.0,1999,24.0,-3.0,Downgrade
+Brazil,S&P,BB-,Stable,2001-01-03,1598,BR,24.0,2001,21.0,3.0,Upgrade
+Brazil,S&P,B+,Stable,2003-04-29,842,BR,21.0,2003,24.0,-3.0,Downgrade
+Brazil,S&P,BB-,Stable,2004-09-17,1594,BR,24.0,2004,21.0,3.0,Upgrade
+Brazil,S&P,BB,Stable,2006-02-28,1360,BR,27.0,2006,24.0,3.0,Upgrade
+Brazil,S&P,BBB-,Stable,2008-04-30,2562,BR,33.0,2008,27.0,6.0,Upgrade
+Brazil,S&P,BBB,Stable,2011-11-17,2230,BR,36.0,2011,33.0,3.0,Upgrade
+Brazil,S&P,BBB-,Stable,2014-03-24,2558,BR,33.0,2014,36.0,-3.0,Downgrade
+Brazil,S&P,BB-,Stable,2018-01-11,1591,BR,24.0,2018,33.0,-9.0,Downgrade
+Brazil,S&P,BB-,Stable,2020-04-06,1587,BR,24.0,2020,24.0,0.0,No Change
+Brazil,S&P,BB,Stable,2023-12-19,1350,BR,27.0,2023,24.0,3.0,Upgrade
+Bulgaria,DBRS,BBB (high),Stable,2025-05-02,903,BG,39.0,2025,,,No Change
+Bulgaria,Moody's,B3,Stable,1996-09-27,505,BG,15.0,1996,,,No Change
+Bulgaria,Moody's,B2,Stable,1997-12-26,504,BG,18.0,1997,15.0,3.0,Upgrade
+Bulgaria,Moody's,B1,Stable,2001-12-19,500,BG,21.0,2001,18.0,3.0,Upgrade
+Bulgaria,Moody's,Ba1,Stable,2004-11-17,493,BG,30.0,2004,21.0,9.0,Upgrade
+Bulgaria,Moody's,Baa3,Stable,2006-03-01,489,BG,33.0,2006,30.0,3.0,Upgrade
+Bulgaria,Moody's,Baa2,Stable,2011-07-22,483,BG,36.0,2011,33.0,3.0,Upgrade
+Bulgaria,Moody's,Baa1,Stable,2020-10-09,473,BG,39.0,2020,36.0,3.0,Upgrade
+Bulgaria,S&P,BB-,Stable,2001-11-07,1483,BG,24.0,2001,,,No Change
+Bulgaria,S&P,BB+,Stable,2003-05-22,1816,BG,30.0,2003,24.0,6.0,Upgrade
+Bulgaria,S&P,BBB-,Stable,2004-06-24,2364,BG,33.0,2004,30.0,3.0,Upgrade
+Bulgaria,S&P,BBB+,Stable,2006-10-26,2703,BG,39.0,2006,33.0,6.0,Upgrade
+Bulgaria,S&P,BBB,Stable,2009-12-01,2142,BG,36.0,2009,39.0,-3.0,Downgrade
+Bulgaria,S&P,BBB-,Stable,2014-06-13,2362,BG,33.0,2014,36.0,-3.0,Downgrade
+Bulgaria,S&P,BB+,Stable,2014-12-12,1815,BG,30.0,2014,33.0,-3.0,Downgrade
+Bulgaria,S&P,BBB-,Stable,2017-12-01,2361,BG,33.0,2017,30.0,3.0,Upgrade
+Bulgaria,S&P,BBB,Stable,2020-05-29,2134,BG,36.0,2020,33.0,3.0,Upgrade
+Bulgaria,S&P,BBB+,Stable,2025-07-10,2699,BG,39.0,2025,36.0,3.0,Upgrade
+Burkina Faso,S&P,B,Stable,2004-03-05,407,BF,18.0,2004,,,No Change
+Burkina Faso,S&P,B,Stable,2008-08-06,402,BF,18.0,2008,18.0,0.0,No Change
+Burkina Faso,S&P,B-,Stable,2014-12-05,731,BF,15.0,2014,18.0,-3.0,Downgrade
+Burkina Faso,S&P,B,Stable,2017-05-26,397,BF,18.0,2017,15.0,3.0,Upgrade
+Burkina Faso,S&P,CCC+,,2022-01-26,3024,BF,12.0,2022,18.0,-6.0,Downgrade
+Burkina Faso,S&P,CCC+,Stable,2022-05-13,3022,BF,12.0,2022,12.0,0.0,No Change
+Cambodia,Moody's,B2,Stable,2007-05-21,2039,KH,18.0,2007,,,No Change
+Cambodia,Moody's,B2,Stable,2024-05-16,2035,KH,18.0,2024,18.0,0.0,No Change
+Cambodia,S&P,B,Stable,2012-02-20,273,KH,18.0,2012,,,No Change
+Cambodia,S&P,,,2014-09-29,3083,KH,,2014,18.0,,No Change
+Cameroon,Moody's,B2,Stable,2016-08-05,2392,CM,18.0,2016,,,No Change
+Cameroon,Moody's,B2,Stable,2019-06-14,2389,CM,18.0,2019,18.0,0.0,No Change
+Cameroon,Moody's,B2,,2020-05-27,2387,CM,18.0,2020,18.0,0.0,No Change
+Cameroon,Moody's,B2,Stable,2020-08-07,2386,CM,18.0,2020,18.0,0.0,No Change
+Cameroon,Moody's,Caa1,Stable,2023-07-27,2385,CM,12.0,2023,18.0,-6.0,Downgrade
+Cameroon,S&P,B,Stable,2003-11-26,353,CM,18.0,2003,,,No Change
+Cameroon,S&P,CCC,Stable,2004-12-03,2857,CM,9.0,2004,18.0,-9.0,Downgrade
+Cameroon,S&P,B-,Stable,2006-05-03,665,CM,15.0,2006,9.0,6.0,Upgrade
+Cameroon,S&P,B,Stable,2007-02-26,351,CM,18.0,2007,15.0,3.0,Upgrade
+Cameroon,S&P,B-,Stable,2020-04-10,662,CM,15.0,2020,18.0,-3.0,Downgrade
+Cameroon,S&P,SD,,2023-08-08,3125,CM,0.0,2023,15.0,-15.0,Downgrade
+Cameroon,S&P,CCC+,Stable,2023-08-10,2987,CM,12.0,2023,0.0,12.0,Upgrade
+Cameroon,S&P,B-,Stable,2024-03-22,661,CM,15.0,2024,12.0,3.0,Upgrade
+Canada,DBRS,AAA,,1987-10-16,4184,CA,60.0,1987,,,No Change
+Canada,DBRS,AA (high),Stable,1994-03-21,4070,CA,57.0,1994,60.0,-3.0,Downgrade
+Canada,DBRS,AA (high),Stable,1997-10-22,4064,CA,57.0,1997,57.0,0.0,No Change
+Canada,DBRS,AAA,Stable,2002-12-16,4174,CA,60.0,2002,57.0,3.0,Upgrade
+Canada,Moody's,Aa2,Stable,1968-05-22,3216,CA,54.0,1968,,,No Change
+Canada,Moody's,Aaa,Stable,1974-04-12,3215,CA,60.0,1974,54.0,6.0,Upgrade
+Canada,Moody's,Aa1,Stable,1994-06-02,3209,CA,57.0,1994,60.0,-3.0,Downgrade
+Canada,Moody's,Aa2,Stable,1995-04-12,3205,CA,54.0,1995,57.0,-3.0,Downgrade
+Canada,Moody's,Aa1,Stable,2000-06-21,3201,CA,57.0,2000,54.0,3.0,Upgrade
+Canada,Moody's,Aaa,Stable,2002-05-03,3200,CA,60.0,2002,57.0,3.0,Upgrade
+Canada,S&P,AA,,1949-08-24,3794,CA,54.0,1949,,,No Change
+Canada,S&P,AAA,,1951-11-03,16,CA,60.0,1951,54.0,6.0,Upgrade
+Canada,S&P,AAA,Stable,1989-06-26,14,CA,60.0,1989,60.0,0.0,No Change
+Canada,S&P,AA+,Stable,1992-10-14,4108,CA,57.0,1992,60.0,-3.0,Downgrade
+Canada,S&P,AA+,Stable,1997-02-24,4102,CA,57.0,1997,57.0,0.0,No Change
+Canada,S&P,AAA,Stable,2002-07-29,10,CA,60.0,2002,57.0,3.0,Upgrade
+Cape Verde,S&P,B+,Stable,2008-12-04,1031,CV,21.0,2008,,,No Change
+Cape Verde,S&P,B+,Stable,2011-05-24,1028,CV,21.0,2011,21.0,0.0,No Change
+Cape Verde,S&P,B,Stable,2013-12-13,285,CV,18.0,2013,21.0,-3.0,Downgrade
+Cape Verde,S&P,B,Stable,2016-10-07,283,CV,18.0,2016,18.0,0.0,No Change
+Cape Verde,S&P,B,Stable,2017-05-05,281,CV,18.0,2017,18.0,0.0,No Change
+Cape Verde,S&P,B-,Stable,2021-02-19,588,CV,15.0,2021,18.0,-3.0,Downgrade
+Cape Verde,S&P,B,Stable,2024-08-16,277,CV,18.0,2024,15.0,3.0,Upgrade
+Cayman Islands,Moody's,Aa3,Stable,1997-12-16,3693,KY,51.0,1997,,,No Change
+Chad,S&P,B-,Stable,2024-10-28,624,TD,15.0,2024,,,No Change
+Chile,DBRS,A (high),Stable,2006-05-30,3587,CL,48.0,2006,,,No Change
+Chile,DBRS,AA (low),Stable,2013-02-08,4134,CL,51.0,2013,48.0,3.0,Upgrade
+Chile,DBRS,,,2017-04-12,2760,CL,,2017,51.0,,No Change
+Chile,Moody's,Baa2,Stable,1994-02-17,4191,CL,36.0,1994,,,No Change
+Chile,Moody's,Baa1,Stable,1995-06-29,4189,CL,39.0,1995,36.0,3.0,Upgrade
+Chile,Moody's,A2,Stable,2006-07-07,4183,CL,45.0,2006,39.0,6.0,Upgrade
+Chile,Moody's,A1,Stable,2009-03-23,4179,CL,48.0,2009,45.0,3.0,Upgrade
+Chile,Moody's,Aa3,Stable,2010-06-16,4178,CL,51.0,2010,48.0,3.0,Upgrade
+Chile,Moody's,A1,Stable,2018-07-26,4169,CL,48.0,2018,51.0,-3.0,Downgrade
+Chile,Moody's,A2,Stable,2022-09-15,4165,CL,45.0,2022,48.0,-3.0,Downgrade
+Chile,S&P,BBB,Stable,1992-08-17,2055,CL,36.0,1992,,,No Change
+Chile,S&P,BBB+,Stable,1993-12-20,2625,CL,39.0,1993,36.0,3.0,Upgrade
+Chile,S&P,A-,Stable,1995-07-11,3425,CL,42.0,1995,39.0,3.0,Upgrade
+Chile,S&P,A,Stable,2004-01-14,3293,CL,45.0,2004,42.0,3.0,Upgrade
+Chile,S&P,A+,Stable,2007-12-18,3742,CL,48.0,2007,45.0,3.0,Upgrade
+Chile,S&P,AA-,Stable,2012-12-26,4072,CL,51.0,2012,48.0,3.0,Upgrade
+Chile,S&P,A+,Stable,2017-07-13,3738,CL,48.0,2017,51.0,-3.0,Downgrade
+Chile,S&P,A,Stable,2021-03-24,3290,CL,45.0,2021,48.0,-3.0,Downgrade
+Chile,S&P,A,Stable,2024-10-15,3286,CL,45.0,2024,45.0,0.0,No Change
+China,DBRS,A (high),Stable,2014-09-29,3503,CN,48.0,2014,,,No Change
+China,DBRS,A (high),Stable,2020-11-13,3498,CN,48.0,2020,48.0,0.0,No Change
+China,DBRS,A,Stable,2023-11-09,3206,CN,45.0,2023,48.0,-3.0,Downgrade
+China,Moody's,A3,Stable,1988-05-18,3917,CN,42.0,1988,,,No Change
+China,Moody's,Baa1,Stable,1989-11-08,3916,CN,39.0,1989,42.0,-3.0,Downgrade
+China,Moody's,A3,Stable,1993-09-10,3913,CN,42.0,1993,39.0,3.0,Upgrade
+China,Moody's,A3,Stable,2001-08-14,3908,CN,42.0,2001,42.0,0.0,No Change
+China,Moody's,A2,Stable,2003-10-15,3905,CN,45.0,2003,42.0,3.0,Upgrade
+China,Moody's,A1,Stable,2007-07-26,3900,CN,48.0,2007,45.0,3.0,Upgrade
+China,Moody's,Aa3,Stable,2013-04-16,3894,CN,51.0,2013,48.0,3.0,Upgrade
+China,Moody's,A1,Stable,2017-05-24,3890,CN,48.0,2017,51.0,-3.0,Downgrade
+China,S&P,BBB,Stable,1992-02-20,2043,CN,36.0,1992,,,No Change
+China,S&P,BBB+,Stable,1997-05-14,2614,CN,39.0,1997,36.0,3.0,Upgrade
+China,S&P,BBB,Stable,1999-07-20,2041,CN,36.0,1999,39.0,-3.0,Downgrade
+China,S&P,A,Stable,2006-07-27,3246,CN,45.0,2006,36.0,9.0,Upgrade
+China,S&P,A+,Stable,2008-07-31,3688,CN,48.0,2008,45.0,3.0,Upgrade
+China,S&P,AA-,Stable,2010-12-16,4033,CN,51.0,2010,48.0,3.0,Upgrade
+China,S&P,A+,Stable,2017-09-21,3687,CN,48.0,2017,51.0,-3.0,Downgrade
+Colombia,DBRS,BB (high),Stable,2006-12-11,391,CO,30.0,2006,,,No Change
+Colombia,DBRS,BBB (low),Stable,2009-06-11,1391,CO,33.0,2009,30.0,3.0,Upgrade
+Colombia,DBRS,BBB,Stable,2013-03-28,867,CO,36.0,2013,33.0,3.0,Upgrade
+Colombia,DBRS,BBB (low),Stable,2021-06-24,1381,CO,33.0,2021,36.0,-3.0,Downgrade
+Colombia,Moody's,Ba1,Stable,1993-08-04,1211,CO,30.0,1993,,,No Change
+Colombia,Moody's,Baa3,Stable,1995-09-19,1208,CO,33.0,1995,30.0,3.0,Upgrade
+Colombia,Moody's,Ba2,Stable,1999-08-11,1204,CO,27.0,1999,33.0,-6.0,Downgrade
+Colombia,Moody's,Ba2,Stable,2006-03-09,1197,CO,27.0,2006,27.0,0.0,No Change
+Colombia,Moody's,Ba1,Stable,2008-06-19,1193,CO,30.0,2008,27.0,3.0,Upgrade
+Colombia,Moody's,Baa3,Stable,2011-05-31,1187,CO,33.0,2011,30.0,3.0,Upgrade
+Colombia,Moody's,Baa2,Stable,2014-07-28,1181,CO,36.0,2014,33.0,3.0,Upgrade
+Colombia,Moody's,Baa2,Stable,2019-05-23,1177,CO,36.0,2019,36.0,0.0,No Change
+Colombia,Moody's,Baa2,Stable,2021-10-06,1171,CO,36.0,2021,36.0,0.0,No Change
+Colombia,Moody's,Baa3,Stable,2025-06-26,1166,CO,33.0,2025,36.0,-3.0,Downgrade
+Colombia,S&P,BBB-,Stable,1993-06-21,2520,CO,33.0,1993,,,No Change
+Colombia,S&P,BBB-,Stable,1997-10-07,2516,CO,33.0,1997,33.0,0.0,No Change
+Colombia,S&P,BB+,Stable,1999-09-21,1947,CO,30.0,1999,33.0,-3.0,Downgrade
+Colombia,S&P,BB,Stable,2003-07-14,1315,CO,27.0,2003,30.0,-3.0,Downgrade
+Colombia,S&P,BB+,Stable,2007-03-05,1944,CO,30.0,2007,27.0,3.0,Upgrade
+Colombia,S&P,BBB-,Stable,2011-03-16,2512,CO,33.0,2011,30.0,3.0,Upgrade
+Colombia,S&P,BBB,Stable,2013-04-24,2223,CO,36.0,2013,33.0,3.0,Upgrade
+Colombia,S&P,BBB-,Stable,2017-12-12,2509,CO,33.0,2017,36.0,-3.0,Downgrade
+Colombia,S&P,BB+,Stable,2021-05-19,1942,CO,30.0,2021,33.0,-3.0,Downgrade
+Congo,Moody's,B3,Stable,2013-09-06,2251,CG,15.0,2013,,,No Change
+Congo,Moody's,Caa1,Stable,2019-06-18,2246,CG,12.0,2019,15.0,-3.0,Downgrade
+Congo,Moody's,B3,Stable,2022-11-11,2240,CG,15.0,2022,12.0,3.0,Upgrade
+Congo,S&P,B-,Stable,2013-12-13,628,CG,15.0,2013,,,No Change
+Congo,S&P,CCC+,Stable,2017-08-04,2974,CG,12.0,2017,15.0,-3.0,Downgrade
+Congo,S&P,CCC+,Stable,2020-07-31,2971,CG,12.0,2020,12.0,0.0,No Change
+Congo,S&P,B-,Stable,2022-01-28,626,CG,15.0,2022,12.0,3.0,Upgrade
+Costa Rica,Moody's,Ba1,Stable,1997-05-08,1510,CR,30.0,1997,,,No Change
+Costa Rica,Moody's,Ba1,Stable,2006-06-27,1502,CR,30.0,2006,30.0,0.0,No Change
+Costa Rica,Moody's,Baa3,Stable,2010-09-09,1498,CR,33.0,2010,30.0,3.0,Upgrade
+Costa Rica,Moody's,Ba1,Stable,2014-09-16,1496,CR,30.0,2014,33.0,-3.0,Downgrade
+Costa Rica,Moody's,B2,Stable,2020-02-10,1489,CR,18.0,2020,30.0,-12.0,Downgrade
+Costa Rica,Moody's,B2,Stable,2021-12-08,1486,CR,18.0,2021,18.0,0.0,No Change
+Costa Rica,Moody's,Ba2,Stable,2025-09-24,1479,CR,27.0,2025,18.0,9.0,Upgrade
+Costa Rica,S&P,BB,Stable,1997-07-16,1402,CR,27.0,1997,,,No Change
+Costa Rica,S&P,BB,Stable,2002-01-02,1397,CR,27.0,2002,27.0,0.0,No Change
+Costa Rica,S&P,BB,Stable,2005-06-10,1392,CR,27.0,2005,27.0,0.0,No Change
+Costa Rica,S&P,BB,Stable,2008-10-10,1386,CR,27.0,2008,27.0,0.0,No Change
+Costa Rica,S&P,B,Stable,2022-03-17,168,CR,18.0,2022,27.0,-9.0,Downgrade
+Costa Rica,S&P,B+,Stable,2023-02-23,865,CR,21.0,2023,18.0,3.0,Upgrade
+Costa Rica,S&P,BB-,Stable,2023-10-27,1609,CR,24.0,2023,21.0,3.0,Upgrade
+Costa Rica,S&P,BB,Stable,2025-10-22,1384,CR,27.0,2025,24.0,3.0,Upgrade
+Croatia,DBRS,A,Stable,2025-04-25,3402,HR,45.0,2025,,,No Change
+Croatia,Moody's,Baa3,Stable,1997-01-27,171,HR,33.0,1997,,,No Change
+Croatia,Moody's,Baa3,Stable,2002-01-14,167,HR,33.0,2002,33.0,0.0,No Change
+Croatia,Moody's,Baa3,Stable,2008-11-19,162,HR,33.0,2008,33.0,0.0,No Change
+Croatia,Moody's,Ba1,Stable,2013-02-01,158,HR,30.0,2013,33.0,-3.0,Downgrade
+Croatia,Moody's,Ba2,Stable,2017-03-10,151,HR,27.0,2017,30.0,-3.0,Downgrade
+Croatia,Moody's,Ba1,Stable,2020-11-13,145,HR,30.0,2020,27.0,3.0,Upgrade
+Croatia,Moody's,Ba1,,2022-06-24,144,HR,30.0,2022,30.0,0.0,No Change
+Croatia,Moody's,Baa2,Stable,2022-07-15,142,HR,36.0,2022,30.0,6.0,Upgrade
+Croatia,Moody's,A3,Stable,2024-11-08,138,HR,42.0,2024,36.0,6.0,Upgrade
+Croatia,S&P,BBB-,Stable,1997-01-17,2326,HR,33.0,1997,,,No Change
+Croatia,S&P,BBB-,Stable,2001-02-09,2323,HR,33.0,2001,33.0,0.0,No Change
+Croatia,S&P,BBB,Stable,2004-12-22,2088,HR,36.0,2004,33.0,3.0,Upgrade
+Croatia,S&P,BB+,Stable,2012-12-14,1805,HR,30.0,2012,36.0,-6.0,Downgrade
+Croatia,S&P,BB,Stable,2014-01-24,1247,HR,27.0,2014,30.0,-3.0,Downgrade
+Croatia,S&P,BB,Stable,2016-12-16,1244,HR,27.0,2016,27.0,0.0,No Change
+Croatia,S&P,BB+,Stable,2018-03-23,1801,HR,30.0,2018,27.0,3.0,Upgrade
+Croatia,S&P,BBB-,Stable,2019-03-22,2320,HR,33.0,2019,30.0,3.0,Upgrade
+Croatia,S&P,BBB+,Stable,2022-07-14,2655,HR,39.0,2022,33.0,6.0,Upgrade
+Croatia,S&P,A,Stable,2026-03-13,3311,HR,45.0,2026,39.0,6.0,Upgrade
+Cuba,Moody's,Caa1,Stable,1999-04-05,3176,CU,12.0,1999,,,No Change
+Cuba,Moody's,Caa2,Stable,2014-04-23,3175,CU,9.0,2014,12.0,-3.0,Downgrade
+Cuba,Moody's,Caa2,Stable,2017-11-08,3173,CU,9.0,2017,9.0,0.0,No Change
+Cuba,Moody's,Ca,Stable,2021-11-18,3172,CU,3.0,2021,9.0,-6.0,Downgrade
+Cuba,Moody's,,,2023-12-07,3171,CU,,2023,3.0,,No Change
+Cyprus,DBRS,B (low),Stable,2014-06-27,193,CY,15.0,2014,,,No Change
+Cyprus,DBRS,B,Stable,2015-12-04,137,CY,18.0,2015,15.0,3.0,Upgrade
+Cyprus,DBRS,BB (low),Stable,2017-06-02,564,CY,24.0,2017,18.0,6.0,Upgrade
+Cyprus,DBRS,BBB (low),Stable,2018-11-23,974,CY,33.0,2018,24.0,9.0,Upgrade
+Cyprus,DBRS,BBB (low),Stable,2020-05-15,970,CY,33.0,2020,33.0,0.0,No Change
+Cyprus,DBRS,BBB,Stable,2022-04-08,742,CY,36.0,2022,33.0,3.0,Upgrade
+Cyprus,DBRS,BBB (high),Stable,2023-09-29,886,CY,39.0,2023,36.0,3.0,Upgrade
+Cyprus,DBRS,A,Stable,2025-09-19,3479,CY,45.0,2025,39.0,6.0,Upgrade
+Cyprus,Moody's,A2,Stable,1996-02-28,249,CY,45.0,1996,,,No Change
+Cyprus,Moody's,A2,Stable,2001-03-12,245,CY,45.0,2001,45.0,0.0,No Change
+Cyprus,Moody's,A1,Stable,2007-07-10,242,CY,48.0,2007,45.0,3.0,Upgrade
+Cyprus,Moody's,Aa3,Stable,2008-01-03,241,CY,51.0,2008,48.0,3.0,Upgrade
+Cyprus,Moody's,A2,Stable,2011-02-24,236,CY,45.0,2011,51.0,-6.0,Downgrade
+Cyprus,Moody's,B3,Stable,2014-11-14,209,CY,15.0,2014,45.0,-30.0,Downgrade
+Cyprus,Moody's,B1,Stable,2015-11-13,206,CY,21.0,2015,15.0,6.0,Upgrade
+Cyprus,Moody's,Ba2,Stable,2018-07-27,195,CY,27.0,2018,21.0,6.0,Upgrade
+Cyprus,Moody's,Ba1,Stable,2021-07-23,189,CY,30.0,2021,27.0,3.0,Upgrade
+Cyprus,Moody's,Baa2,Stable,2023-09-29,181,CY,36.0,2023,30.0,6.0,Upgrade
+Cyprus,Moody's,A3,Stable,2024-11-22,177,CY,42.0,2024,36.0,6.0,Upgrade
+Cyprus,S&P,AA-,Stable,1994-02-14,4082,CY,51.0,1994,,,No Change
+Cyprus,S&P,A+,Stable,1998-11-09,3772,CY,48.0,1998,51.0,-3.0,Downgrade
+Cyprus,S&P,A,Stable,1999-12-03,3314,CY,45.0,1999,48.0,-3.0,Downgrade
+Cyprus,S&P,A+,Stable,2008-04-24,3771,CY,48.0,2008,45.0,3.0,Upgrade
+Cyprus,S&P,CCC,Stable,2013-04-10,2843,CY,9.0,2013,48.0,-39.0,Downgrade
+Cyprus,S&P,SD,,2013-06-28,3104,CY,0.0,2013,9.0,-9.0,Downgrade
+Cyprus,S&P,CCC+,Stable,2013-07-03,2934,CY,12.0,2013,0.0,12.0,Upgrade
+Cyprus,S&P,B-,Stable,2013-11-29,492,CY,15.0,2013,12.0,3.0,Upgrade
+Cyprus,S&P,B+,Stable,2014-10-24,803,CY,21.0,2014,15.0,6.0,Upgrade
+Cyprus,S&P,BB+,Stable,2017-03-17,1808,CY,30.0,2017,21.0,9.0,Upgrade
+Cyprus,S&P,BBB-,Stable,2018-09-14,2329,CY,33.0,2018,30.0,3.0,Upgrade
+Cyprus,S&P,BBB,Stable,2022-09-02,2095,CY,36.0,2022,33.0,3.0,Upgrade
+Cyprus,S&P,A-,Stable,2024-12-13,3466,CY,42.0,2024,36.0,6.0,Upgrade
+Czech Republic,DBRS,AA,Stable,2025-04-25,4020,CZ,54.0,2025,,,No Change
+Czech Republic,Moody's,Baa3,Stable,1993-03-10,3713,CZ,33.0,1993,,,No Change
+Czech Republic,Moody's,Baa2,Stable,1994-05-25,3711,CZ,36.0,1994,33.0,3.0,Upgrade
+Czech Republic,Moody's,Baa1,Stable,1995-09-18,3708,CZ,39.0,1995,36.0,3.0,Upgrade
+Czech Republic,Moody's,A1,Stable,2002-11-12,3705,CZ,48.0,2002,39.0,9.0,Upgrade
+Czech Republic,Moody's,A1,Stable,2008-12-08,3701,CZ,48.0,2008,48.0,0.0,No Change
+Czech Republic,Moody's,Aa3,Stable,2019-10-04,3697,CZ,51.0,2019,48.0,3.0,Upgrade
+Czech Republic,Moody's,Aa3,Stable,2023-11-24,3695,CZ,51.0,2023,51.0,0.0,No Change
+Czech Republic,S&P,A,Stable,1995-11-06,3207,CZ,45.0,1995,,,No Change
+Czech Republic,S&P,A-,Stable,1998-11-05,3381,CZ,42.0,1998,45.0,-3.0,Downgrade
+Czech Republic,S&P,A,Stable,2007-10-02,3204,CZ,45.0,2007,42.0,3.0,Upgrade
+Czech Republic,S&P,AA-,Stable,2011-08-24,3979,CZ,51.0,2011,45.0,6.0,Upgrade
+Denmark,DBRS,AAA,Stable,2012-09-20,4194,DK,60.0,2012,,,No Change
+Denmark,Moody's,Aa2,Stable,1967-09-06,3231,DK,54.0,1967,,,No Change
+Denmark,Moody's,Aa1,Stable,1986-08-15,3228,DK,57.0,1986,54.0,3.0,Upgrade
+Denmark,Moody's,Aaa,Stable,1999-08-23,3221,DK,60.0,1999,57.0,3.0,Upgrade
+Denmark,S&P,AAA,,1981-03-01,20,DK,60.0,1981,,,No Change
+Denmark,S&P,AA+,,1983-01-06,4115,DK,57.0,1983,60.0,-3.0,Downgrade
+Denmark,S&P,AA,,1987-03-16,3798,DK,54.0,1987,57.0,-3.0,Downgrade
+Denmark,S&P,AA,Stable,1989-06-26,3797,DK,54.0,1989,54.0,0.0,No Change
+Denmark,S&P,AA+,Stable,1991-10-08,4113,DK,57.0,1991,54.0,3.0,Upgrade
+Denmark,S&P,AAA,Stable,2001-02-27,17,DK,60.0,2001,57.0,3.0,Upgrade
+Dominican Republic,Moody's,B1,Stable,1997-05-30,1539,DO,21.0,1997,,,No Change
+Dominican Republic,Moody's,Ba2,Stable,2001-08-29,1537,DO,27.0,2001,21.0,6.0,Upgrade
+Dominican Republic,Moody's,B1,Stable,2003-10-07,1535,DO,21.0,2003,27.0,-6.0,Downgrade
+Dominican Republic,Moody's,B3,Stable,2005-05-24,1532,DO,15.0,2005,21.0,-6.0,Downgrade
+Dominican Republic,Moody's,B3,,2006-10-18,1531,DO,15.0,2006,15.0,0.0,No Change
+Dominican Republic,Moody's,B2,Stable,2007-05-02,1530,DO,18.0,2007,15.0,3.0,Upgrade
+Dominican Republic,Moody's,B1,Stable,2010-04-22,1529,DO,21.0,2010,18.0,3.0,Upgrade
+Dominican Republic,Moody's,Ba3,Stable,2017-07-20,1525,DO,24.0,2017,21.0,3.0,Upgrade
+Dominican Republic,Moody's,Ba2,Stable,2025-08-01,1520,DO,27.0,2025,24.0,3.0,Upgrade
+Dominican Republic,S&P,B+,Stable,2011-06-13,871,DO,21.0,2011,,,No Change
+Dominican Republic,S&P,BB-,Stable,2015-05-20,1625,DO,24.0,2015,21.0,3.0,Upgrade
+Dominican Republic,S&P,BB-,Stable,2021-12-02,1622,DO,24.0,2021,24.0,0.0,No Change
+Dominican Republic,S&P,BB,Stable,2022-12-19,1406,DO,27.0,2022,24.0,3.0,Upgrade
+Ecuador,Moody's,B1,Stable,1997-07-24,2447,EC,21.0,1997,,,No Change
+Ecuador,Moody's,Caa2,Stable,1999-10-05,2443,EC,9.0,1999,21.0,-12.0,Downgrade
+Ecuador,Moody's,Caa1,Stable,2004-02-24,2435,EC,12.0,2004,9.0,3.0,Upgrade
+Ecuador,Moody's,Caa1,Stable,2007-01-08,2428,EC,12.0,2007,12.0,0.0,No Change
+Ecuador,Moody's,B3,Stable,2008-03-20,2424,EC,15.0,2008,12.0,3.0,Upgrade
+Ecuador,Moody's,Caa1,Stable,2008-11-14,2423,EC,12.0,2008,15.0,-3.0,Downgrade
+Ecuador,Moody's,Ca,Stable,2008-12-16,2419,EC,3.0,2008,12.0,-9.0,Downgrade
+Ecuador,Moody's,Caa3,Stable,2009-09-24,2417,EC,6.0,2009,3.0,3.0,Upgrade
+Ecuador,Moody's,Caa2,Stable,2011-02-01,2415,EC,9.0,2011,6.0,3.0,Upgrade
+Ecuador,Moody's,Caa1,Stable,2012-09-13,2412,EC,12.0,2012,9.0,3.0,Upgrade
+Ecuador,Moody's,B3,Stable,2014-12-19,2409,EC,15.0,2014,12.0,3.0,Upgrade
+Ecuador,Moody's,Caa1,Stable,2020-02-06,2405,EC,12.0,2020,15.0,-3.0,Downgrade
+Ecuador,Moody's,Caa3,Stable,2021-02-26,2400,EC,6.0,2021,12.0,-6.0,Downgrade
+Ecuador,Moody's,Caa1,Stable,2026-01-26,2397,EC,12.0,2026,6.0,6.0,Upgrade
+Ecuador,S&P,SD,,2000-07-31,3130,EC,0.0,2000,,,No Change
+Ecuador,S&P,SD,,2000-08-01,3128,EC,0.0,2000,0.0,0.0,No Change
+Ecuador,S&P,B-,Stable,2000-08-25,682,EC,15.0,2000,0.0,15.0,Upgrade
+Ecuador,S&P,CCC+,Stable,2001-12-04,3000,EC,12.0,2001,15.0,-3.0,Downgrade
+Ecuador,S&P,CCC+,Stable,2003-09-18,2995,EC,12.0,2003,12.0,0.0,No Change
+Ecuador,S&P,B-,Stable,2005-01-24,680,EC,15.0,2005,12.0,3.0,Upgrade
+Ecuador,S&P,CCC+,Stable,2005-06-20,2993,EC,12.0,2005,15.0,-3.0,Downgrade
+Ecuador,S&P,CCC+,Stable,2005-10-04,2989,EC,12.0,2005,12.0,0.0,No Change
+Ecuador,S&P,B-,Stable,2007-11-20,676,EC,15.0,2007,12.0,3.0,Upgrade
+Ecuador,S&P,SD,,2008-12-15,3127,EC,0.0,2008,15.0,-15.0,Downgrade
+Ecuador,S&P,CCC+,Stable,2009-06-15,2988,EC,12.0,2009,0.0,12.0,Upgrade
+Ecuador,S&P,B-,Stable,2010-08-02,674,EC,15.0,2010,12.0,3.0,Upgrade
+Ecuador,S&P,B,Stable,2012-06-07,360,EC,18.0,2012,15.0,3.0,Upgrade
+Ecuador,S&P,B+,Stable,2014-08-20,1100,EC,21.0,2014,18.0,3.0,Upgrade
+Ecuador,S&P,B,Stable,2015-08-12,354,EC,18.0,2015,21.0,-3.0,Downgrade
+Ecuador,S&P,B-,Stable,2017-06-29,669,EC,15.0,2017,18.0,-3.0,Downgrade
+Ecuador,S&P,SD,,2020-04-13,3126,EC,0.0,2020,15.0,-15.0,Downgrade
+Ecuador,S&P,B-,Stable,2020-09-01,668,EC,15.0,2020,0.0,15.0,Upgrade
+Ecuador,S&P,B-,Stable,2025-08-20,666,EC,15.0,2025,15.0,0.0,No Change
+Egypt,Moody's,Ba2,Stable,1996-10-09,2302,EG,27.0,1996,,,No Change
+Egypt,Moody's,Ba1,Stable,1997-11-14,2298,EG,30.0,1997,27.0,3.0,Upgrade
+Egypt,Moody's,Ba1,Stable,2003-11-15,2293,EG,30.0,2003,30.0,0.0,No Change
+Egypt,Moody's,Ba1,Stable,2009-08-19,2290,EG,30.0,2009,30.0,0.0,No Change
+Egypt,Moody's,Caa1,Stable,2014-10-20,2272,EG,12.0,2014,30.0,-18.0,Downgrade
+Egypt,Moody's,B3,Stable,2015-04-07,2271,EG,15.0,2015,12.0,3.0,Upgrade
+Egypt,Moody's,B2,Stable,2019-04-17,2263,EG,18.0,2019,15.0,3.0,Upgrade
+Egypt,Moody's,B3,Stable,2023-02-07,2261,EG,15.0,2023,18.0,-3.0,Downgrade
+Egypt,Moody's,B3,,2023-05-09,2259,EG,15.0,2023,15.0,0.0,No Change
+Egypt,Moody's,Caa1,Stable,2023-10-05,2258,EG,12.0,2023,15.0,-3.0,Downgrade
+Egypt,S&P,BBB-,Stable,1997-01-15,2583,EG,33.0,1997,,,No Change
+Egypt,S&P,BB+,Stable,2002-05-22,2009,EG,30.0,2002,33.0,-3.0,Downgrade
+Egypt,S&P,BB+,Stable,2005-03-14,2006,EG,30.0,2005,30.0,0.0,No Change
+Egypt,S&P,CCC+,Stable,2013-05-09,2976,EG,12.0,2013,30.0,-18.0,Downgrade
+Egypt,S&P,B-,Stable,2013-11-15,639,EG,15.0,2013,12.0,3.0,Upgrade
+Egypt,S&P,B-,Stable,2015-11-13,636,EG,15.0,2015,15.0,0.0,No Change
+Egypt,S&P,B-,Stable,2016-11-11,633,EG,15.0,2016,15.0,0.0,No Change
+Egypt,S&P,B,Stable,2018-05-11,328,EG,18.0,2018,15.0,3.0,Upgrade
+Egypt,S&P,B-,Stable,2023-10-20,631,EG,15.0,2023,18.0,-3.0,Downgrade
+Egypt,S&P,B-,Stable,2025-04-11,629,EG,15.0,2025,15.0,0.0,No Change
+Egypt,S&P,B,Stable,2025-10-10,324,EG,18.0,2025,15.0,3.0,Upgrade
+El Salvador,Moody's,Baa3,Stable,1997-07-07,2343,SV,33.0,1997,,,No Change
+El Salvador,Moody's,Ba2,Stable,2011-03-24,2335,SV,27.0,2011,33.0,-6.0,Downgrade
+El Salvador,Moody's,Ba3,Stable,2012-11-05,2334,SV,24.0,2012,27.0,-3.0,Downgrade
+El Salvador,Moody's,Caa1,Stable,2017-04-13,2324,SV,12.0,2017,24.0,-12.0,Downgrade
+El Salvador,Moody's,B3,Stable,2018-02-23,2318,SV,15.0,2018,12.0,3.0,Upgrade
+El Salvador,Moody's,B3,,2020-11-16,2315,SV,15.0,2020,15.0,0.0,No Change
+El Salvador,Moody's,Caa3,Stable,2023-02-03,2309,SV,6.0,2023,15.0,-9.0,Downgrade
+El Salvador,Moody's,Caa1,Stable,2024-05-23,2305,SV,12.0,2024,6.0,6.0,Upgrade
+El Salvador,Moody's,B3,Stable,2024-11-26,2304,SV,15.0,2024,12.0,3.0,Upgrade
+El Salvador,S&P,BB+,Stable,1999-04-29,2013,SV,30.0,1999,,,No Change
+El Salvador,S&P,BB,Stable,2009-05-12,1462,SV,27.0,2009,30.0,-3.0,Downgrade
+El Salvador,S&P,BB-,Stable,2011-01-14,1740,SV,24.0,2011,27.0,-3.0,Downgrade
+El Salvador,S&P,B+,Stable,2014-12-22,1089,SV,21.0,2014,24.0,-3.0,Downgrade
+El Salvador,S&P,SD,,2017-04-20,3124,SV,0.0,2017,21.0,-21.0,Downgrade
+El Salvador,S&P,SD,,2017-10-02,3123,SV,0.0,2017,0.0,0.0,No Change
+El Salvador,S&P,CCC+,Stable,2017-10-03,2983,SV,12.0,2017,0.0,12.0,Upgrade
+El Salvador,S&P,B-,Stable,2018-12-28,645,SV,15.0,2018,12.0,3.0,Upgrade
+El Salvador,S&P,SD,,2023-05-09,3121,SV,0.0,2023,15.0,-15.0,Downgrade
+El Salvador,S&P,CCC+,Stable,2023-05-10,2977,SV,12.0,2023,0.0,12.0,Upgrade
+El Salvador,S&P,B-,Stable,2023-11-07,642,SV,15.0,2023,12.0,3.0,Upgrade
+Estonia,DBRS,AA (low),Stable,2017-07-14,4129,EE,51.0,2017,,,No Change
+Estonia,Moody's,Baa1,Stable,1997-09-11,3799,EE,39.0,1997,,,No Change
+Estonia,Moody's,A1,Stable,2002-11-12,3795,EE,48.0,2002,39.0,9.0,Upgrade
+Estonia,Moody's,A1,Stable,2007-09-12,3788,EE,48.0,2007,48.0,0.0,No Change
+Estonia,Moody's,A1,Stable,2010-03-31,3781,EE,48.0,2010,48.0,0.0,No Change
+Estonia,S&P,BBB+,Stable,1997-12-11,2610,EE,39.0,1997,,,No Change
+Estonia,S&P,A-,Stable,2001-11-20,3387,EE,42.0,2001,39.0,3.0,Upgrade
+Estonia,S&P,A,Stable,2004-11-17,3226,EE,45.0,2004,42.0,3.0,Upgrade
+Estonia,S&P,A,Stable,2006-07-17,3224,EE,45.0,2006,45.0,0.0,No Change
+Estonia,S&P,A-,Stable,2010-02-11,3382,EE,42.0,2010,45.0,-3.0,Downgrade
+Estonia,S&P,A,Stable,2010-06-10,3217,EE,45.0,2010,42.0,3.0,Upgrade
+Estonia,S&P,AA-,Stable,2011-08-09,4014,EE,51.0,2011,45.0,6.0,Upgrade
+Estonia,S&P,AA-,Stable,2012-10-19,4007,EE,51.0,2012,51.0,0.0,No Change
+Estonia,S&P,AA-,Stable,2020-08-21,4005,EE,51.0,2020,51.0,0.0,No Change
+Estonia,S&P,AA-,Stable,2022-03-31,4002,EE,51.0,2022,51.0,0.0,No Change
+Estonia,S&P,A+,Stable,2024-05-31,3652,EE,48.0,2024,51.0,-3.0,Downgrade
+Estonia,S&P,,,2024-12-31,3092,EE,,2024,48.0,,No Change
+Ethiopia,Moody's,B1,Stable,2014-05-09,2893,ET,21.0,2014,,,No Change
+Ethiopia,Moody's,B2,,2020-05-07,2889,ET,18.0,2020,21.0,-3.0,Downgrade
+Ethiopia,Moody's,B2,,2021-03-10,2886,ET,18.0,2021,18.0,0.0,No Change
+Ethiopia,Moody's,Caa1,,2021-05-17,2885,ET,12.0,2021,18.0,-6.0,Downgrade
+Ethiopia,Moody's,Caa3,Stable,2023-09-15,2881,ET,6.0,2023,12.0,-6.0,Downgrade
+Ethiopia,S&P,B,Stable,2014-05-09,448,ET,18.0,2014,,,No Change
+Ethiopia,S&P,SD,,2023-12-15,3159,ET,0.0,2023,18.0,-18.0,Downgrade
+European Union,DBRS,AAA,Stable,2014-07-11,15,EU,60.0,2014,,,No Change
+European Union,Moody's,Aaa,Stable,2014-03-14,3308,EU,60.0,2014,,,No Change
+European Union,S&P,AAA,,1976-09-16,70,EU,60.0,1976,,,No Change
+European Union,S&P,AAA,Stable,1990-04-11,68,EU,60.0,1990,60.0,0.0,No Change
+European Union,S&P,AA+,Stable,2013-12-20,4138,EU,57.0,2013,60.0,-3.0,Downgrade
+European Union,S&P,AA+,Stable,2013-12-20,4139,EU,57.0,2013,57.0,0.0,No Change
+European Union,S&P,AA,Stable,2016-06-30,3807,EU,54.0,2016,57.0,-3.0,Downgrade
+European Union,S&P,AA+,Stable,2022-05-20,4132,EU,57.0,2022,54.0,3.0,Upgrade
+Fiji,Moody's,Ba1,Stable,1999-03-31,1900,FJ,30.0,1999,,,No Change
+Fiji,Moody's,Ba2,Stable,2002-04-15,1897,FJ,27.0,2002,30.0,-3.0,Downgrade
+Fiji,Moody's,B1,Stable,2013-02-13,1883,FJ,21.0,2013,27.0,-6.0,Downgrade
+Fiji,Moody's,Ba3,Stable,2017-09-06,1879,FJ,24.0,2017,21.0,3.0,Upgrade
+Fiji,Moody's,B1,Stable,2022-10-07,1873,FJ,21.0,2022,24.0,-3.0,Downgrade
+Fiji,S&P,BB-,Stable,2006-08-24,1710,FJ,24.0,2006,,,No Change
+Fiji,S&P,B,Stable,2007-11-12,240,FJ,18.0,2007,24.0,-6.0,Downgrade
+Fiji,S&P,B-,Stable,2009-12-15,549,FJ,15.0,2009,18.0,-3.0,Downgrade
+Fiji,S&P,B,Stable,2011-08-04,238,FJ,18.0,2011,15.0,3.0,Upgrade
+Fiji,S&P,B+,Stable,2015-05-01,971,FJ,21.0,2015,18.0,3.0,Upgrade
+Fiji,S&P,BB-,Stable,2019-08-22,1706,FJ,24.0,2019,21.0,3.0,Upgrade
+Fiji,S&P,B+,Stable,2021-09-22,969,FJ,21.0,2021,24.0,-3.0,Downgrade
+Finland,DBRS,AAA,Stable,2012-08-14,87,FI,60.0,2012,,,No Change
+Finland,DBRS,AAA,Stable,2014-05-16,86,FI,60.0,2014,60.0,0.0,No Change
+Finland,DBRS,AA (high),Stable,2016-09-09,4095,FI,57.0,2016,60.0,-3.0,Downgrade
+Finland,Moody's,Aa2,Stable,1977-10-19,3389,FI,54.0,1977,,,No Change
+Finland,Moody's,Aaa,Stable,1986-02-07,3388,FI,60.0,1986,54.0,6.0,Upgrade
+Finland,Moody's,Aa1,Stable,1990-10-20,3386,FI,57.0,1990,60.0,-3.0,Downgrade
+Finland,Moody's,Aa2,Stable,1992-01-13,3384,FI,54.0,1992,57.0,-3.0,Downgrade
+Finland,Moody's,Aa1,Stable,1997-01-15,3378,FI,57.0,1997,54.0,3.0,Upgrade
+Finland,Moody's,Aaa,Stable,1998-05-04,3377,FI,60.0,1998,57.0,3.0,Upgrade
+Finland,Moody's,Aa1,Stable,2016-06-03,3362,FI,57.0,2016,60.0,-3.0,Downgrade
+Finland,S&P,AAA,,1972-04-01,91,FI,60.0,1972,,,No Change
+Finland,S&P,AAA,Stable,1989-06-26,88,FI,60.0,1989,60.0,0.0,No Change
+Finland,S&P,AA+,Stable,1992-03-03,4166,FI,57.0,1992,60.0,-3.0,Downgrade
+Finland,S&P,AA-,Stable,1993-03-10,3936,FI,51.0,1993,57.0,-6.0,Downgrade
+Finland,S&P,AA,Stable,1996-12-17,3819,FI,54.0,1996,51.0,3.0,Upgrade
+Finland,S&P,AA+,Stable,1999-09-01,4163,FI,57.0,1999,54.0,3.0,Upgrade
+Finland,S&P,AAA,Stable,2002-02-01,84,FI,60.0,2002,57.0,3.0,Upgrade
+Finland,S&P,AAA,Stable,2013-01-14,76,FI,60.0,2013,60.0,0.0,No Change
+Finland,S&P,AA+,Stable,2014-10-10,4160,FI,57.0,2014,60.0,-3.0,Downgrade
+Finland,S&P,AA+,Stable,2016-09-16,4158,FI,57.0,2016,57.0,0.0,No Change
+France,DBRS,AAA,Stable,2011-05-12,115,FR,60.0,2011,,,No Change
+France,DBRS,AAA,Stable,2014-05-30,111,FR,60.0,2014,60.0,0.0,No Change
+France,DBRS,AAA,Stable,2016-04-29,106,FR,60.0,2016,60.0,0.0,No Change
+France,DBRS,AA (high),Stable,2020-10-16,4114,FR,57.0,2020,60.0,-3.0,Downgrade
+France,DBRS,AA,Stable,2025-09-19,4022,FR,54.0,2025,57.0,-3.0,Downgrade
+France,Moody's,Aaa,Stable,1979-01-23,3741,FR,60.0,1979,,,No Change
+France,Moody's,Aa2,Stable,2015-09-18,3730,FR,54.0,2015,60.0,-6.0,Downgrade
+France,Moody's,Aa2,Stable,2020-02-21,3726,FR,54.0,2020,54.0,0.0,No Change
+France,Moody's,Aa3,Stable,2024-12-14,3719,FR,51.0,2024,54.0,-3.0,Downgrade
+France,S&P,AAA,,1975-06-25,131,FR,60.0,1975,,,No Change
+France,S&P,AAA,Stable,1989-06-26,130,FR,60.0,1989,60.0,0.0,No Change
+France,S&P,AA,Stable,2013-11-08,3869,FR,54.0,2013,60.0,-6.0,Downgrade
+France,S&P,AA,Stable,2013-11-08,3870,FR,54.0,2013,54.0,0.0,No Change
+France,S&P,AA,Stable,2016-10-21,3867,FR,54.0,2016,54.0,0.0,No Change
+France,S&P,AA-,Stable,2024-05-31,3988,FR,51.0,2024,54.0,-3.0,Downgrade
+France,S&P,AA-,Stable,2024-11-30,3985,FR,51.0,2024,51.0,0.0,No Change
+France,S&P,A+,Stable,2025-10-17,3645,FR,48.0,2025,51.0,-3.0,Downgrade
+Gabon,Moody's,Ba3,Stable,2014-12-12,2510,GA,24.0,2014,,,No Change
+Gabon,Moody's,Caa1,Stable,2018-06-08,2504,GA,12.0,2018,24.0,-12.0,Downgrade
+Gabon,Moody's,Caa1,Stable,2020-12-04,2502,GA,12.0,2020,12.0,0.0,No Change
+Gabon,Moody's,Caa2,Stable,2024-06-14,2500,GA,9.0,2024,12.0,-3.0,Downgrade
+Gabon,S&P,BB-,Stable,2012-02-20,1742,GA,24.0,2012,,,No Change
+Gabon,S&P,B,Stable,2016-01-29,367,GA,18.0,2016,24.0,-6.0,Downgrade
+Gabon,S&P,,,2016-04-01,3087,GA,,2016,18.0,,No Change
+Georgia,Moody's,Ba3,Stable,2010-10-06,1464,GE,24.0,2010,,,No Change
+Georgia,Moody's,Ba3,Stable,2016-03-11,1460,GE,24.0,2016,24.0,0.0,No Change
+Georgia,Moody's,Ba2,Stable,2017-09-11,1459,GE,27.0,2017,24.0,3.0,Upgrade
+Georgia,Moody's,Ba2,Stable,2024-03-26,1453,GE,27.0,2024,27.0,0.0,No Change
+Georgia,S&P,B+,Stable,2006-11-21,860,GE,21.0,2006,,,No Change
+Georgia,S&P,B+,Stable,2008-05-05,854,GE,21.0,2008,21.0,0.0,No Change
+Georgia,S&P,B,Stable,2008-09-25,165,GE,18.0,2008,21.0,-3.0,Downgrade
+Georgia,S&P,B+,Stable,2010-04-12,852,GE,21.0,2010,18.0,3.0,Upgrade
+Georgia,S&P,BB-,Stable,2011-11-22,1605,GE,24.0,2011,21.0,3.0,Upgrade
+Georgia,S&P,BB,Stable,2019-10-11,1374,GE,27.0,2019,24.0,3.0,Upgrade
+Georgia,S&P,BB,Stable,2022-02-25,1366,GE,27.0,2022,27.0,0.0,No Change
+Germany,DBRS,AAA,Stable,2011-06-16,4197,DE,60.0,2011,,,No Change
+Germany,Moody's,Aaa,Stable,1986-02-09,3238,DE,60.0,1986,,,No Change
+Germany,Moody's,Aaa,Stable,2014-02-28,3232,DE,60.0,2014,60.0,0.0,No Change
+Germany,S&P,AAA,,1983-08-17,26,DE,60.0,1983,,,No Change
+Germany,S&P,AAA,Stable,1989-06-26,25,DE,60.0,1989,60.0,0.0,No Change
+Germany,S&P,AAA,Stable,2012-01-13,21,DE,60.0,2012,60.0,0.0,No Change
+Ghana,Moody's,B1,Stable,2012-12-20,2535,GH,21.0,2012,,,No Change
+Ghana,Moody's,B3,Stable,2016-09-23,2528,GH,15.0,2016,21.0,-6.0,Downgrade
+Ghana,Moody's,Caa1,Stable,2022-02-04,2521,GH,12.0,2022,15.0,-3.0,Downgrade
+Ghana,Moody's,Caa2,,2022-09-30,2519,GH,9.0,2022,12.0,-3.0,Downgrade
+Ghana,Moody's,Ca,Stable,2022-11-29,2518,GH,3.0,2022,9.0,-6.0,Downgrade
+Ghana,Moody's,Caa1,Stable,2025-10-10,2513,GH,12.0,2025,3.0,9.0,Upgrade
+Ghana,S&P,B,Stable,2010-08-27,384,GH,18.0,2010,,,No Change
+Ghana,S&P,B,Stable,2011-11-29,378,GH,18.0,2011,18.0,0.0,No Change
+Ghana,S&P,B+,Stable,2013-09-04,1115,GH,21.0,2013,18.0,3.0,Upgrade
+Ghana,S&P,B-,Stable,2014-10-24,699,GH,15.0,2014,21.0,-6.0,Downgrade
+Ghana,S&P,B,Stable,2018-09-14,372,GH,18.0,2018,15.0,3.0,Upgrade
+Ghana,S&P,B-,Stable,2020-09-11,692,GH,15.0,2020,18.0,-3.0,Downgrade
+Ghana,S&P,SD,,2022-12-20,3131,GH,0.0,2022,15.0,-15.0,Downgrade
+Ghana,S&P,CCC+,Stable,2025-05-09,3007,GH,12.0,2025,0.0,12.0,Upgrade
+Ghana,S&P,B-,Stable,2025-11-07,691,GH,15.0,2025,12.0,3.0,Upgrade
+Greece,DBRS,B,Stable,2014-07-11,182,GR,18.0,2014,,,No Change
+Greece,DBRS,B,,2015-02-04,178,GR,18.0,2015,18.0,0.0,No Change
+Greece,DBRS,CC,,2015-07-01,2716,GR,3.0,2015,18.0,-15.0,Downgrade
+Greece,DBRS,CCC (high),Stable,2015-12-11,2750,GR,12.0,2015,3.0,9.0,Upgrade
+Greece,DBRS,BB (low),Stable,2019-05-03,696,GR,24.0,2019,12.0,12.0,Upgrade
+Greece,DBRS,BB (low),Stable,2020-04-24,572,GR,24.0,2020,24.0,0.0,No Change
+Greece,DBRS,BB (high),Stable,2022-03-18,379,GR,30.0,2022,24.0,6.0,Upgrade
+Greece,DBRS,BBB (low),Stable,2023-09-08,1191,GR,33.0,2023,30.0,3.0,Upgrade
+Greece,DBRS,BBB,Stable,2025-03-07,853,GR,36.0,2025,33.0,3.0,Upgrade
+Greece,Moody's,Baa1,Stable,1990-07-19,952,GR,39.0,1990,,,No Change
+Greece,Moody's,Baa3,Stable,1994-05-24,948,GR,33.0,1994,39.0,-6.0,Downgrade
+Greece,Moody's,Baa1,Stable,1996-12-23,946,GR,39.0,1996,33.0,6.0,Upgrade
+Greece,Moody's,A1,Stable,2002-11-04,938,GR,48.0,2002,39.0,9.0,Upgrade
+Greece,Moody's,A1,Stable,2009-02-25,931,GR,48.0,2009,48.0,0.0,No Change
+Greece,Moody's,Ba1,Stable,2010-06-14,922,GR,30.0,2010,48.0,-18.0,Downgrade
+Greece,Moody's,Caa3,Stable,2013-11-29,904,GR,6.0,2013,30.0,-24.0,Downgrade
+Greece,Moody's,Caa1,Stable,2014-08-01,902,GR,12.0,2014,6.0,6.0,Upgrade
+Greece,Moody's,Caa3,Stable,2015-09-25,887,GR,6.0,2015,12.0,-6.0,Downgrade
+Greece,Moody's,B1,Stable,2019-03-01,875,GR,21.0,2019,6.0,15.0,Upgrade
+Greece,Moody's,Ba3,Stable,2020-11-06,869,GR,24.0,2020,21.0,3.0,Upgrade
+Greece,Moody's,Ba1,Stable,2023-09-15,861,GR,30.0,2023,24.0,6.0,Upgrade
+Greece,Moody's,Baa3,Stable,2025-03-14,855,GR,33.0,2025,30.0,3.0,Upgrade
+Greece,S&P,BBB-,Stable,1991-08-14,2434,GR,33.0,1991,,,No Change
+Greece,S&P,BBB-,Stable,1994-03-08,2432,GR,33.0,1994,33.0,0.0,No Change
+Greece,S&P,A+,Stable,2003-06-10,3789,GR,48.0,2003,33.0,15.0,Upgrade
+Greece,S&P,A,Stable,2004-11-17,3341,GR,45.0,2004,48.0,-3.0,Downgrade
+Greece,S&P,A-,Stable,2009-01-14,3546,GR,42.0,2009,45.0,-3.0,Downgrade
+Greece,S&P,SD,,2012-02-27,3112,GR,0.0,2012,42.0,-42.0,Downgrade
+Greece,S&P,CCC,Stable,2012-05-02,2850,GR,9.0,2012,0.0,9.0,Upgrade
+Greece,S&P,SD,,2012-12-05,3110,GR,0.0,2012,9.0,-9.0,Downgrade
+Greece,S&P,B-,Stable,2012-12-18,507,GR,15.0,2012,0.0,15.0,Upgrade
+Greece,S&P,B,Stable,2014-12-12,154,GR,18.0,2014,15.0,3.0,Upgrade
+Greece,S&P,CCC+,Stable,2015-07-21,2952,GR,12.0,2015,18.0,-6.0,Downgrade
+Greece,S&P,B-,Stable,2016-01-22,503,GR,15.0,2016,12.0,3.0,Upgrade
+Greece,S&P,B+,Stable,2018-06-25,821,GR,21.0,2018,15.0,6.0,Upgrade
+Greece,S&P,BB-,Stable,2020-04-24,1511,GR,24.0,2020,21.0,3.0,Upgrade
+Greece,S&P,BB+,Stable,2022-04-22,1884,GR,30.0,2022,24.0,6.0,Upgrade
+Greece,S&P,BBB-,Stable,2023-10-20,2430,GR,33.0,2023,30.0,3.0,Upgrade
+Greece,S&P,BBB,Stable,2025-04-18,2198,GR,36.0,2025,33.0,3.0,Upgrade
+Guatemala,Moody's,Ba2,Stable,1997-07-08,1354,GT,27.0,1997,,,No Change
+Guatemala,Moody's,Ba2,Stable,2008-07-24,1347,GT,27.0,2008,27.0,0.0,No Change
+Guatemala,Moody's,Ba1,Stable,2010-06-01,1345,GT,30.0,2010,27.0,3.0,Upgrade
+Guatemala,Moody's,Ba1,Stable,2016-06-30,1341,GT,30.0,2016,30.0,0.0,No Change
+Guatemala,Moody's,Ba1,Stable,2022-06-15,1334,GT,30.0,2022,30.0,0.0,No Change
+Guatemala,S&P,BB,Stable,2001-10-18,1348,GT,27.0,2001,,,No Change
+Guatemala,S&P,BB-,Stable,2003-05-09,1583,GT,24.0,2003,27.0,-3.0,Downgrade
+Guatemala,S&P,BB,Stable,2006-07-17,1344,GT,27.0,2006,24.0,3.0,Upgrade
+Guatemala,S&P,BB,Stable,2008-11-18,1340,GT,27.0,2008,27.0,0.0,No Change
+Guatemala,S&P,BB,Stable,2012-09-06,1337,GT,27.0,2012,27.0,0.0,No Change
+Guatemala,S&P,BB-,Stable,2017-10-18,1582,GT,24.0,2017,27.0,-3.0,Downgrade
+Guatemala,S&P,BB-,Stable,2020-11-26,1575,GT,24.0,2020,24.0,0.0,No Change
+Guatemala,S&P,BB,Stable,2023-04-11,1335,GT,27.0,2023,24.0,3.0,Upgrade
+Guatemala,S&P,BB+,Stable,2025-05-23,1970,GT,30.0,2025,27.0,3.0,Upgrade
+Guinea,S&P,B+,Stable,2025-09-18,976,GN,21.0,2025,,,No Change
+Honduras,Moody's,B2,Stable,1998-09-29,1791,HN,18.0,1998,,,No Change
+Honduras,Moody's,B3,Stable,2014-02-27,1782,HN,15.0,2014,18.0,-3.0,Downgrade
+Honduras,Moody's,B1,Stable,2017-09-22,1776,HN,21.0,2017,15.0,6.0,Upgrade
+Honduras,S&P,B+,Stable,2008-10-08,939,HN,21.0,2008,,,No Change
+Honduras,S&P,B,Stable,2009-09-11,228,HN,18.0,2009,21.0,-3.0,Downgrade
+Honduras,S&P,B+,Stable,2012-06-07,936,HN,21.0,2012,18.0,3.0,Upgrade
+Honduras,S&P,B,Stable,2013-08-07,223,HN,18.0,2013,21.0,-3.0,Downgrade
+Honduras,S&P,B+,Stable,2015-07-20,933,HN,21.0,2015,18.0,3.0,Upgrade
+Honduras,S&P,BB-,Stable,2017-07-19,1685,HN,24.0,2017,21.0,3.0,Upgrade
+Honduras,S&P,BB-,Stable,2023-09-29,1681,HN,24.0,2023,24.0,0.0,No Change
+Hong Kong,Moody's,A2,Stable,1988-11-09,3475,HK,45.0,1988,,,No Change
+Hong Kong,Moody's,A3,Stable,1989-11-08,3473,HK,42.0,1989,45.0,-3.0,Downgrade
+Hong Kong,Moody's,A3,Stable,2000-05-05,3460,HK,42.0,2000,42.0,0.0,No Change
+Hong Kong,Moody's,A1,Stable,2003-10-15,3456,HK,48.0,2003,42.0,6.0,Upgrade
+Hong Kong,Moody's,Aa2,Stable,2007-09-26,3446,HK,54.0,2007,48.0,6.0,Upgrade
+Hong Kong,Moody's,Aa1,Stable,2013-04-16,3440,HK,57.0,2013,54.0,3.0,Upgrade
+Hong Kong,Moody's,Aa2,Stable,2017-05-24,3437,HK,54.0,2017,57.0,-3.0,Downgrade
+Hong Kong,Moody's,Aa3,Stable,2020-01-20,3434,HK,51.0,2020,54.0,-3.0,Downgrade
+Hong Kong,Moody's,Aa3,Stable,2025-05-27,3432,HK,51.0,2025,51.0,0.0,No Change
+Hong Kong,S&P,A+,,1988-10-23,3594,HK,48.0,1988,,,No Change
+Hong Kong,S&P,A,Stable,1990-02-12,3189,HK,45.0,1990,48.0,-3.0,Downgrade
+Hong Kong,S&P,A,,1992-12-07,3187,HK,45.0,1992,45.0,0.0,No Change
+Hong Kong,S&P,A+,Stable,1997-05-14,3592,HK,48.0,1997,45.0,3.0,Upgrade
+Hong Kong,S&P,A,Stable,1999-12-06,3181,HK,45.0,1999,48.0,-3.0,Downgrade
+Hong Kong,S&P,A+,Stable,2001-02-08,3586,HK,48.0,2001,45.0,3.0,Upgrade
+Hong Kong,S&P,AA-,Stable,2005-07-19,3949,HK,51.0,2005,48.0,3.0,Upgrade
+Hong Kong,S&P,AA,Stable,2006-07-27,3834,HK,54.0,2006,51.0,3.0,Upgrade
+Hong Kong,S&P,AA+,Stable,2008-07-31,4192,HK,57.0,2008,54.0,3.0,Upgrade
+Hong Kong,S&P,AAA,Stable,2010-12-16,103,HK,60.0,2010,57.0,3.0,Upgrade
+Hong Kong,S&P,AA+,Stable,2017-09-22,4188,HK,57.0,2017,60.0,-3.0,Downgrade
+Hungary,DBRS,BBB,Stable,2025-06-06,808,HU,36.0,2025,,,No Change
+Hungary,Moody's,Baa2,Stable,1989-07-18,800,HU,36.0,1989,,,No Change
+Hungary,Moody's,Ba1,Stable,1990-07-18,799,HU,30.0,1990,36.0,-6.0,Downgrade
+Hungary,Moody's,Baa3,Stable,1996-12-19,792,HU,33.0,1996,30.0,3.0,Upgrade
+Hungary,Moody's,Baa1,Stable,1999-06-25,786,HU,39.0,1999,33.0,6.0,Upgrade
+Hungary,Moody's,A3,Stable,2000-11-14,782,HU,42.0,2000,39.0,3.0,Upgrade
+Hungary,Moody's,A1,Stable,2001-11-29,780,HU,48.0,2001,42.0,6.0,Upgrade
+Hungary,Moody's,A2,Stable,2006-12-22,774,HU,45.0,2006,48.0,-3.0,Downgrade
+Hungary,Moody's,Ba1,Stable,2014-11-07,757,HU,30.0,2014,45.0,-15.0,Downgrade
+Hungary,Moody's,Baa3,Stable,2016-11-04,753,HU,33.0,2016,30.0,3.0,Upgrade
+Hungary,Moody's,Baa2,Stable,2021-09-24,747,HU,36.0,2021,33.0,3.0,Upgrade
+Hungary,S&P,BB+,Stable,1994-04-15,1865,HU,30.0,1994,,,No Change
+Hungary,S&P,BB+,Stable,1996-02-01,1863,HU,30.0,1996,30.0,0.0,No Change
+Hungary,S&P,BBB-,Stable,1996-10-28,2420,HU,33.0,1996,30.0,3.0,Upgrade
+Hungary,S&P,A-,Stable,2000-12-19,3544,HU,42.0,2000,33.0,9.0,Upgrade
+Hungary,S&P,BBB+,Stable,2006-12-21,2735,HU,39.0,2006,42.0,-3.0,Downgrade
+Hungary,S&P,BBB-,Stable,2009-10-02,2414,HU,33.0,2009,39.0,-6.0,Downgrade
+Hungary,S&P,BB,Stable,2012-11-23,1279,HU,27.0,2012,33.0,-6.0,Downgrade
+Hungary,S&P,BB,Stable,2014-03-28,1276,HU,27.0,2014,27.0,0.0,No Change
+Hungary,S&P,BB+,Stable,2015-03-20,1859,HU,30.0,2015,27.0,3.0,Upgrade
+Hungary,S&P,BBB-,Stable,2016-09-16,2410,HU,33.0,2016,30.0,3.0,Upgrade
+Hungary,S&P,BBB,Stable,2019-02-15,2184,HU,36.0,2019,33.0,3.0,Upgrade
+Hungary,S&P,BBB,Stable,2020-04-28,2179,HU,36.0,2020,36.0,0.0,No Change
+Hungary,S&P,BBB-,Stable,2023-01-27,2407,HU,33.0,2023,36.0,-3.0,Downgrade
+Iceland,Moody's,A2,Stable,1989-05-24,3855,IS,45.0,1989,,,No Change
+Iceland,Moody's,A1,Stable,1996-06-24,3851,IS,48.0,1996,45.0,3.0,Upgrade
+Iceland,Moody's,Aa3,Stable,1997-07-30,3849,IS,51.0,1997,48.0,3.0,Upgrade
+Iceland,Moody's,Aaa,Stable,2002-10-20,3845,IS,60.0,2002,51.0,9.0,Upgrade
+Iceland,Moody's,Aa1,Stable,2008-05-20,3835,IS,57.0,2008,60.0,-3.0,Downgrade
+Iceland,Moody's,A1,Stable,2008-10-08,3830,IS,48.0,2008,57.0,-9.0,Downgrade
+Iceland,Moody's,Baa3,Stable,2009-11-11,3827,IS,33.0,2009,48.0,-15.0,Downgrade
+Iceland,Moody's,Baa3,Stable,2010-04-23,3822,IS,33.0,2010,33.0,0.0,No Change
+Iceland,Moody's,Baa3,Stable,2013-02-07,3817,IS,33.0,2013,33.0,0.0,No Change
+Iceland,Moody's,Baa2,Stable,2015-06-29,3813,IS,36.0,2015,33.0,3.0,Upgrade
+Iceland,Moody's,A3,Stable,2016-09-01,3809,IS,42.0,2016,36.0,6.0,Upgrade
+Iceland,Moody's,A2,Stable,2019-11-08,3805,IS,45.0,2019,42.0,3.0,Upgrade
+Iceland,Moody's,A1,Stable,2024-09-20,3801,IS,48.0,2024,45.0,3.0,Upgrade
+Iceland,S&P,A,,1989-02-14,3235,IS,45.0,1989,,,No Change
+Iceland,S&P,A,Stable,1989-06-26,3234,IS,45.0,1989,45.0,0.0,No Change
+Iceland,S&P,A+,Stable,1996-03-15,3683,IS,48.0,1996,45.0,3.0,Upgrade
+Iceland,S&P,A+,Stable,2001-03-21,3678,IS,48.0,2001,48.0,0.0,No Change
+Iceland,S&P,A+,Stable,2002-11-15,3675,IS,48.0,2002,48.0,0.0,No Change
+Iceland,S&P,AA-,Stable,2005-02-10,4016,IS,51.0,2005,48.0,3.0,Upgrade
+Iceland,S&P,A+,Stable,2006-12-22,3672,IS,48.0,2006,51.0,-3.0,Downgrade
+Iceland,S&P,BBB-,Stable,2009-12-31,2285,IS,33.0,2009,48.0,-15.0,Downgrade
+Iceland,S&P,BBB-,Stable,2011-11-23,2278,IS,33.0,2011,33.0,0.0,No Change
+Iceland,S&P,BBB-,Stable,2014-01-24,2273,IS,33.0,2014,33.0,0.0,No Change
+Iceland,S&P,BBB,Stable,2015-07-17,2037,IS,36.0,2015,33.0,3.0,Upgrade
+Iceland,S&P,BBB+,Stable,2016-01-15,2611,IS,39.0,2016,36.0,3.0,Upgrade
+Iceland,S&P,A-,Stable,2017-01-13,3390,IS,42.0,2017,39.0,3.0,Upgrade
+Iceland,S&P,A,Stable,2017-03-17,3229,IS,45.0,2017,42.0,3.0,Upgrade
+Iceland,S&P,A+,Stable,2023-11-10,3663,IS,48.0,2023,45.0,3.0,Upgrade
+India,DBRS,BBB (low),Stable,2007-06-26,1372,IN,33.0,2007,,,No Change
+India,DBRS,BBB (low),Stable,2011-06-23,1370,IN,33.0,2011,33.0,0.0,No Change
+India,DBRS,BBB (low),Stable,2013-09-30,1364,IN,33.0,2013,33.0,0.0,No Change
+India,DBRS,BBB,Stable,2015-11-05,862,IN,36.0,2015,33.0,3.0,Upgrade
+India,DBRS,BBB (low),Stable,2021-05-19,1196,IN,33.0,2021,36.0,-3.0,Downgrade
+India,DBRS,BBB,Stable,2025-05-08,856,IN,36.0,2025,33.0,3.0,Upgrade
+India,Moody's,A2,Stable,1988-01-28,1004,IN,45.0,1988,,,No Change
+India,Moody's,Baa1,Stable,1990-10-04,1002,IN,39.0,1990,45.0,-6.0,Downgrade
+India,Moody's,Baa3,Stable,1991-03-26,1000,IN,33.0,1991,39.0,-6.0,Downgrade
+India,Moody's,Ba2,Stable,1991-06-24,998,IN,27.0,1991,33.0,-6.0,Downgrade
+India,Moody's,Baa3,Stable,1994-12-01,995,IN,33.0,1994,27.0,6.0,Upgrade
+India,Moody's,Ba2,Stable,1998-06-19,990,IN,27.0,1998,33.0,-6.0,Downgrade
+India,Moody's,Ba2,Stable,2001-08-08,984,IN,27.0,2001,27.0,0.0,No Change
+India,Moody's,Ba1,Stable,2003-02-03,982,IN,30.0,2003,27.0,3.0,Upgrade
+India,Moody's,Baa3,Stable,2004-01-22,979,IN,33.0,2004,30.0,3.0,Upgrade
+India,Moody's,Baa2,Stable,2017-11-16,963,IN,36.0,2017,33.0,3.0,Upgrade
+India,Moody's,Baa3,Stable,2021-10-05,958,IN,33.0,2021,36.0,-3.0,Downgrade
+India,S&P,BBB,Stable,1990-09-13,2201,IN,36.0,1990,,,No Change
+India,S&P,BB+,,1991-05-29,1896,IN,30.0,1991,36.0,-6.0,Downgrade
+India,S&P,BB+,Stable,1991-09-29,1895,IN,30.0,1991,30.0,0.0,No Change
+India,S&P,BB+,Stable,1997-10-06,1892,IN,30.0,1997,30.0,0.0,No Change
+India,S&P,BB,Stable,1998-10-22,1294,IN,27.0,1998,30.0,-3.0,Downgrade
+India,S&P,BB,Stable,2000-10-10,1292,IN,27.0,2000,27.0,0.0,No Change
+India,S&P,BB,Stable,2003-12-16,1290,IN,27.0,2003,27.0,0.0,No Change
+India,S&P,BB+,Stable,2005-02-02,1889,IN,30.0,2005,27.0,3.0,Upgrade
+India,S&P,BBB-,Stable,2007-01-30,2442,IN,33.0,2007,30.0,3.0,Upgrade
+India,S&P,BBB-,Stable,2010-03-18,2440,IN,33.0,2010,33.0,0.0,No Change
+India,S&P,BBB-,Stable,2014-09-26,2438,IN,33.0,2014,33.0,0.0,No Change
+India,S&P,BBB,Stable,2025-08-14,2200,IN,36.0,2025,33.0,3.0,Upgrade
+Indonesia,Moody's,Baa3,Stable,1994-03-14,643,ID,33.0,1994,,,No Change
+Indonesia,Moody's,Ba1,Stable,1997-12-21,640,ID,30.0,1997,33.0,-3.0,Downgrade
+Indonesia,Moody's,B2,Stable,1998-01-09,637,ID,18.0,1998,30.0,-12.0,Downgrade
+Indonesia,Moody's,B3,Stable,1998-03-20,634,ID,15.0,1998,18.0,-3.0,Downgrade
+Indonesia,Moody's,B2,Stable,2003-09-29,617,ID,18.0,2003,15.0,3.0,Upgrade
+Indonesia,Moody's,B1,Stable,2006-05-18,609,ID,21.0,2006,18.0,3.0,Upgrade
+Indonesia,Moody's,Ba3,Stable,2007-10-18,605,ID,24.0,2007,21.0,3.0,Upgrade
+Indonesia,Moody's,Ba2,Stable,2009-09-16,603,ID,27.0,2009,24.0,3.0,Upgrade
+Indonesia,Moody's,Ba1,Stable,2011-01-17,598,ID,30.0,2011,27.0,3.0,Upgrade
+Indonesia,Moody's,Baa3,Stable,2012-01-18,596,ID,33.0,2012,30.0,3.0,Upgrade
+Indonesia,Moody's,Baa2,Stable,2018-04-13,591,ID,36.0,2018,33.0,3.0,Upgrade
+Indonesia,S&P,BBB,Stable,1995-04-18,2154,ID,36.0,1995,,,No Change
+Indonesia,S&P,BBB-,Stable,1997-10-10,2368,ID,33.0,1997,36.0,-3.0,Downgrade
+Indonesia,S&P,SD,,1999-03-29,3108,ID,0.0,1999,33.0,-33.0,Downgrade
+Indonesia,S&P,CCC+,Stable,1999-03-30,2948,ID,12.0,1999,0.0,12.0,Upgrade
+Indonesia,S&P,SD,,2000-04-17,3107,ID,0.0,2000,12.0,-12.0,Downgrade
+Indonesia,S&P,B-,Stable,2000-10-02,499,ID,15.0,2000,0.0,15.0,Upgrade
+Indonesia,S&P,CCC+,Stable,2001-07-30,2939,ID,12.0,2001,15.0,-3.0,Downgrade
+Indonesia,S&P,SD,,2002-04-22,3106,ID,0.0,2002,12.0,-12.0,Downgrade
+Indonesia,S&P,CCC+,Stable,2002-09-05,2938,ID,12.0,2002,0.0,12.0,Upgrade
+Indonesia,S&P,B-,Stable,2003-05-12,495,ID,15.0,2003,12.0,3.0,Upgrade
+Indonesia,S&P,B,Stable,2003-10-07,148,ID,18.0,2003,15.0,3.0,Upgrade
+Indonesia,S&P,B+,Stable,2005-09-01,812,ID,21.0,2005,18.0,3.0,Upgrade
+Indonesia,S&P,BB-,Stable,2006-07-26,1501,ID,24.0,2006,21.0,3.0,Upgrade
+Indonesia,S&P,BB+,Stable,2013-05-02,1849,ID,30.0,2013,24.0,6.0,Upgrade
+Indonesia,S&P,BBB-,Stable,2017-05-19,2367,ID,33.0,2017,30.0,3.0,Upgrade
+Indonesia,S&P,BBB,Stable,2019-05-31,2153,ID,36.0,2019,33.0,3.0,Upgrade
+Indonesia,S&P,BBB,Stable,2022-04-27,2151,ID,36.0,2022,36.0,0.0,No Change
+Iraq,Moody's,Caa1,Stable,2017-08-03,2449,IQ,12.0,2017,,,No Change
+Iraq,S&P,B-,Stable,2015-09-03,687,IQ,15.0,2015,,,No Change
+Ireland,DBRS,AA,Stable,2010-07-21,3990,IE,54.0,2010,,,No Change
+Ireland,DBRS,AA,,2010-10-05,3987,IE,54.0,2010,54.0,0.0,No Change
+Ireland,DBRS,A (low),,2012-05-22,3725,IE,42.0,2012,54.0,-12.0,Downgrade
+Ireland,DBRS,A (low),Stable,2014-03-28,3724,IE,42.0,2014,42.0,0.0,No Change
+Ireland,DBRS,A,Stable,2015-03-13,3198,IE,45.0,2015,42.0,3.0,Upgrade
+Ireland,DBRS,A (high),Stable,2016-03-11,3490,IE,48.0,2016,45.0,3.0,Upgrade
+Ireland,DBRS,A (high),Stable,2020-05-15,3488,IE,48.0,2020,48.0,0.0,No Change
+Ireland,DBRS,AA (low),Stable,2022-01-14,4128,IE,51.0,2022,48.0,3.0,Upgrade
+Ireland,DBRS,AA,Stable,2024-09-20,3984,IE,54.0,2024,51.0,3.0,Upgrade
+Ireland,Moody's,Aa3,Stable,1987-07-15,3547,IE,51.0,1987,,,No Change
+Ireland,Moody's,Aa2,Stable,1994-08-31,3541,IE,54.0,1994,51.0,3.0,Upgrade
+Ireland,Moody's,Aa1,Stable,1997-02-13,3538,IE,57.0,1997,54.0,3.0,Upgrade
+Ireland,Moody's,Aaa,Stable,1998-05-04,3536,IE,60.0,1998,57.0,3.0,Upgrade
+Ireland,Moody's,Aa2,Stable,2010-07-19,3526,IE,54.0,2010,60.0,-6.0,Downgrade
+Ireland,Moody's,Ba1,Stable,2013-09-20,3505,IE,30.0,2013,54.0,-24.0,Downgrade
+Ireland,Moody's,Baa1,Stable,2014-05-16,3502,IE,39.0,2014,30.0,9.0,Upgrade
+Ireland,Moody's,A2,Stable,2017-09-15,3492,IE,45.0,2017,39.0,6.0,Upgrade
+Ireland,Moody's,Aa3,Stable,2023-04-21,3483,IE,51.0,2023,45.0,6.0,Upgrade
+Ireland,S&P,A+,,1988-10-01,3606,IE,48.0,1988,,,No Change
+Ireland,S&P,A+,Stable,1989-06-26,3603,IE,48.0,1989,48.0,0.0,No Change
+Ireland,S&P,AA-,Stable,1989-10-12,3959,IE,51.0,1989,48.0,3.0,Upgrade
+Ireland,S&P,AA,Stable,1995-05-03,3840,IE,54.0,1995,51.0,3.0,Upgrade
+Ireland,S&P,AA+,Stable,1998-05-06,4202,IE,57.0,1998,54.0,3.0,Upgrade
+Ireland,S&P,AAA,Stable,2001-10-03,110,IE,60.0,2001,57.0,3.0,Upgrade
+Ireland,S&P,BBB+,Stable,2011-04-01,2603,IE,39.0,2011,60.0,-21.0,Downgrade
+Ireland,S&P,BBB+,Stable,2013-02-11,2599,IE,39.0,2013,39.0,0.0,No Change
+Ireland,S&P,A,Stable,2014-12-05,3192,IE,45.0,2014,39.0,6.0,Upgrade
+Ireland,S&P,A+,Stable,2015-06-05,3602,IE,48.0,2015,45.0,3.0,Upgrade
+Ireland,S&P,AA-,Stable,2019-11-29,3952,IE,51.0,2019,48.0,3.0,Upgrade
+Ireland,S&P,AA,Stable,2023-05-19,3837,IE,54.0,2023,51.0,3.0,Upgrade
+Ireland,S&P,AA+,Stable,2026-03-20,4193,IE,57.0,2026,54.0,3.0,Upgrade
+Isle of Man,Moody's,Aaa,Stable,1997-12-16,3609,IM,60.0,1997,,,No Change
+Isle of Man,Moody's,Aaa,Stable,2010-11-11,3607,IM,60.0,2010,60.0,0.0,No Change
+Isle of Man,Moody's,Aa1,Stable,2013-12-16,3604,IM,57.0,2013,60.0,-3.0,Downgrade
+Isle of Man,Moody's,Aa2,Stable,2017-09-29,3600,IM,54.0,2017,57.0,-3.0,Downgrade
+Isle of Man,Moody's,Aa3,Stable,2020-10-23,3598,IM,51.0,2020,54.0,-3.0,Downgrade
+Isle of Man,Moody's,Aa3,Stable,2023-10-27,3596,IM,51.0,2023,51.0,0.0,No Change
+Isle of Man,S&P,AA+,Stable,2011-11-29,4212,IM,57.0,2011,,,No Change
+Isle of Man,S&P,AA,Stable,2014-02-21,3854,IM,54.0,2014,57.0,-3.0,Downgrade
+Isle of Man,S&P,,,2014-02-22,3079,IM,,2014,54.0,,No Change
+Israel,Moody's,A3,Stable,1995-11-02,280,IL,42.0,1995,,,No Change
+Israel,Moody's,A2,Stable,2000-07-06,275,IL,45.0,2000,42.0,3.0,Upgrade
+Israel,Moody's,A1,Stable,2008-04-17,267,IL,48.0,2008,45.0,3.0,Upgrade
+Israel,Moody's,A1,Stable,2020-04-24,261,IL,48.0,2020,48.0,0.0,No Change
+Israel,Moody's,A1,Stable,2023-04-14,259,IL,48.0,2023,48.0,0.0,No Change
+Israel,Moody's,A1,,2023-10-19,258,IL,48.0,2023,48.0,0.0,No Change
+Israel,Moody's,Baa1,Stable,2026-01-30,251,IL,39.0,2026,48.0,-9.0,Downgrade
+Israel,S&P,BBB-,,1988-10-26,2336,IL,33.0,1988,,,No Change
+Israel,S&P,BBB,Stable,1993-01-19,2099,IL,36.0,1993,33.0,3.0,Upgrade
+Israel,S&P,BBB+,Stable,1993-09-21,2670,IL,39.0,1993,36.0,3.0,Upgrade
+Israel,S&P,A-,Stable,1995-12-04,3474,IL,42.0,1995,39.0,3.0,Upgrade
+Israel,S&P,A-,Stable,2000-10-23,3471,IL,42.0,2000,42.0,0.0,No Change
+Israel,S&P,A-,Stable,2005-01-11,3469,IL,42.0,2005,42.0,0.0,No Change
+Israel,S&P,A,Stable,2008-10-30,3318,IL,45.0,2008,42.0,3.0,Upgrade
+Israel,S&P,A+,Stable,2011-09-09,3776,IL,48.0,2011,45.0,3.0,Upgrade
+Israel,S&P,AA-,Stable,2018-08-03,4085,IL,51.0,2018,48.0,3.0,Upgrade
+Israel,S&P,A,Stable,2025-11-07,3316,IL,45.0,2025,51.0,-6.0,Downgrade
+Italy,DBRS,A (high),,2012-05-22,3694,IT,48.0,2012,,,No Change
+Italy,DBRS,A (low),,2016-08-05,3968,IT,42.0,2016,48.0,-6.0,Downgrade
+Italy,DBRS,BBB (high),Stable,2017-01-13,899,IT,39.0,2017,42.0,-3.0,Downgrade
+Italy,DBRS,BBB (high),Stable,2021-10-29,893,IT,39.0,2021,39.0,0.0,No Change
+Italy,DBRS,A (low),Stable,2025-10-17,3930,IT,42.0,2025,39.0,3.0,Upgrade
+Italy,Moody's,Aaa,Stable,1986-10-10,410,IT,60.0,1986,,,No Change
+Italy,Moody's,Aa1,Stable,1991-07-01,406,IT,57.0,1991,60.0,-3.0,Downgrade
+Italy,Moody's,Aa3,Stable,1992-08-13,404,IT,51.0,1992,57.0,-6.0,Downgrade
+Italy,Moody's,A1,Stable,1996-05-01,399,IT,48.0,1996,51.0,-3.0,Downgrade
+Italy,Moody's,Aa3,Stable,1996-07-03,398,IT,51.0,1996,48.0,3.0,Upgrade
+Italy,Moody's,Aa2,Stable,2002-05-15,396,IT,54.0,2002,51.0,3.0,Upgrade
+Italy,Moody's,Baa2,Stable,2014-02-14,377,IT,36.0,2014,54.0,-18.0,Downgrade
+Italy,Moody's,Baa2,,2018-05-25,371,IT,36.0,2018,36.0,0.0,No Change
+Italy,Moody's,Baa3,Stable,2018-10-19,370,IT,33.0,2018,36.0,-3.0,Downgrade
+Italy,Moody's,Baa3,Stable,2023-11-17,362,IT,33.0,2023,33.0,0.0,No Change
+Italy,Moody's,Baa2,Stable,2025-11-21,357,IT,36.0,2025,33.0,3.0,Upgrade
+Italy,S&P,AA+,,1988-11-23,4233,IT,57.0,1988,,,No Change
+Italy,S&P,AA+,Stable,1991-05-30,4230,IT,57.0,1991,57.0,0.0,No Change
+Italy,S&P,AA,Stable,1993-03-01,3927,IT,54.0,1993,57.0,-3.0,Downgrade
+Italy,S&P,AA,Stable,1998-05-06,3920,IT,54.0,1998,54.0,0.0,No Change
+Italy,S&P,AA-,Stable,2004-07-07,4093,IT,51.0,2004,54.0,-3.0,Downgrade
+Italy,S&P,A+,Stable,2006-10-19,3784,IT,48.0,2006,51.0,-3.0,Downgrade
+Italy,S&P,BBB-,Stable,2014-12-05,2348,IT,33.0,2014,48.0,-15.0,Downgrade
+Italy,S&P,BBB,Stable,2017-10-27,2123,IT,36.0,2017,33.0,3.0,Upgrade
+Italy,S&P,BBB,Stable,2020-10-23,2119,IT,36.0,2020,36.0,0.0,No Change
+Italy,S&P,BBB,Stable,2022-07-26,2117,IT,36.0,2022,36.0,0.0,No Change
+Italy,S&P,BBB+,Stable,2025-04-12,2682,IT,39.0,2025,36.0,3.0,Upgrade
+Ivory Coast,Moody's,Ba3,Stable,2015-11-05,1518,CI,24.0,2015,,,No Change
+Ivory Coast,Moody's,Ba3,,2020-06-12,1517,CI,24.0,2020,24.0,0.0,No Change
+Ivory Coast,Moody's,Ba3,Stable,2020-08-07,1516,CI,24.0,2020,24.0,0.0,No Change
+Ivory Coast,Moody's,Ba2,Stable,2024-03-01,1513,CI,27.0,2024,24.0,3.0,Upgrade
+Ivory Coast,S&P,BB-,Stable,2021-07-06,1621,CI,24.0,2021,,,No Change
+Ivory Coast,S&P,BB,Stable,2024-10-18,1404,CI,27.0,2024,24.0,3.0,Upgrade
+Jamaica,Moody's,Ba3,Stable,1998-03-30,1664,JM,24.0,1998,,,No Change
+Jamaica,Moody's,B1,Stable,2003-05-27,1658,JM,21.0,2003,24.0,-3.0,Downgrade
+Jamaica,Moody's,B2,Stable,2009-03-04,1652,JM,18.0,2009,21.0,-3.0,Downgrade
+Jamaica,Moody's,Caa1,Stable,2010-01-22,1646,JM,12.0,2010,18.0,-6.0,Downgrade
+Jamaica,Moody's,B3,Stable,2010-03-02,1644,JM,15.0,2010,12.0,3.0,Upgrade
+Jamaica,Moody's,Caa3,Stable,2013-03-06,1639,JM,6.0,2013,15.0,-9.0,Downgrade
+Jamaica,Moody's,B3,Stable,2016-11-21,1632,JM,15.0,2016,6.0,9.0,Upgrade
+Jamaica,Moody's,B2,Stable,2019-12-11,1628,JM,18.0,2019,15.0,3.0,Upgrade
+Jamaica,Moody's,Ba3,Stable,2025-12-19,1620,JM,24.0,2025,18.0,6.0,Upgrade
+Jamaica,S&P,B,Stable,1999-11-09,204,JM,18.0,1999,,,No Change
+Jamaica,S&P,B+,Stable,2001-05-02,900,JM,21.0,2001,18.0,3.0,Upgrade
+Jamaica,S&P,B,Stable,2003-07-28,198,JM,18.0,2003,21.0,-3.0,Downgrade
+Jamaica,S&P,B,Stable,2004-12-10,188,JM,18.0,2004,18.0,0.0,No Change
+Jamaica,S&P,SD,,2010-01-14,3116,JM,0.0,2010,18.0,-18.0,Downgrade
+Jamaica,S&P,B-,Stable,2010-02-24,529,JM,15.0,2010,0.0,15.0,Upgrade
+Jamaica,S&P,SD,,2013-02-12,3115,JM,0.0,2013,15.0,-15.0,Downgrade
+Jamaica,S&P,B-,Stable,2013-02-24,525,JM,15.0,2013,0.0,15.0,Upgrade
+Jamaica,S&P,CCC+,Stable,2013-03-06,2956,JM,12.0,2013,15.0,-3.0,Downgrade
+Jamaica,S&P,B,Stable,2015-06-03,183,JM,18.0,2015,12.0,6.0,Upgrade
+Jamaica,S&P,B+,Stable,2019-09-27,896,JM,21.0,2019,18.0,3.0,Upgrade
+Jamaica,S&P,B+,Stable,2021-10-04,891,JM,21.0,2021,21.0,0.0,No Change
+Jamaica,S&P,BB-,Stable,2023-09-13,1647,JM,24.0,2023,21.0,3.0,Upgrade
+Jamaica,S&P,BB,Stable,2025-12-18,1419,JM,27.0,2025,24.0,3.0,Upgrade
+Japan,DBRS,A (high),Stable,2013-11-20,3522,JP,48.0,2013,,,No Change
+Japan,DBRS,A,Stable,2016-12-28,3219,JP,45.0,2016,48.0,-3.0,Downgrade
+Japan,DBRS,A (high),Stable,2019-01-25,3519,JP,48.0,2019,45.0,3.0,Upgrade
+Japan,Moody's,Aaa,Stable,1981-10-01,4012,JP,60.0,1981,,,No Change
+Japan,Moody's,Aa1,Stable,2002-05-30,4003,JP,57.0,2002,60.0,-3.0,Downgrade
+Japan,Moody's,Aaa,Stable,2004-04-07,4001,JP,60.0,2004,57.0,3.0,Upgrade
+Japan,Moody's,Aa2,Stable,2009-05-18,3997,JP,54.0,2009,60.0,-6.0,Downgrade
+Japan,Moody's,Aa3,Stable,2011-08-24,3991,JP,51.0,2011,54.0,-3.0,Downgrade
+Japan,Moody's,A1,Stable,2014-12-01,3989,JP,48.0,2014,51.0,-3.0,Downgrade
+Japan,S&P,BBB,,1959-01-22,2044,JP,36.0,1959,,,No Change
+Japan,S&P,AAA,,1975-02-28,133,JP,60.0,1975,36.0,24.0,Upgrade
+Japan,S&P,AAA,Stable,1989-06-26,132,JP,60.0,1989,60.0,0.0,No Change
+Japan,S&P,AA+,Stable,2001-02-22,4216,JP,57.0,2001,60.0,-3.0,Downgrade
+Japan,S&P,AA-,Stable,2004-03-23,4053,JP,51.0,2004,57.0,-6.0,Downgrade
+Japan,S&P,AA,Stable,2007-04-22,3895,JP,54.0,2007,51.0,3.0,Upgrade
+Japan,S&P,AA-,Stable,2011-01-27,4048,JP,51.0,2011,54.0,-3.0,Downgrade
+Japan,S&P,A+,Stable,2015-09-16,3712,JP,48.0,2015,51.0,-3.0,Downgrade
+Japan,S&P,A+,Stable,2020-06-09,3707,JP,48.0,2020,48.0,0.0,No Change
+Jordan,Moody's,Ba3,Stable,1995-10-27,1771,JO,24.0,1995,,,No Change
+Jordan,Moody's,Ba2,Stable,2003-08-21,1763,JO,27.0,2003,24.0,3.0,Upgrade
+Jordan,Moody's,Ba2,Stable,2007-01-08,1761,JO,27.0,2007,27.0,0.0,No Change
+Jordan,Moody's,B1,Stable,2013-06-26,1757,JO,21.0,2013,27.0,-6.0,Downgrade
+Jordan,Moody's,Ba3,Stable,2024-05-09,1752,JO,24.0,2024,21.0,3.0,Upgrade
+Jordan,S&P,BB-,Stable,1996-09-26,1675,JO,24.0,1996,,,No Change
+Jordan,S&P,BB-,Stable,1999-10-27,1672,JO,24.0,1999,24.0,0.0,No Change
+Jordan,S&P,BB-,Stable,2002-04-30,1670,JO,24.0,2002,24.0,0.0,No Change
+Jordan,S&P,BB,Stable,2003-07-03,1442,JO,27.0,2003,24.0,3.0,Upgrade
+Jordan,S&P,BB-,Stable,2014-10-31,1666,JO,24.0,2014,27.0,-3.0,Downgrade
+Jordan,S&P,B+,Stable,2017-10-20,928,JO,21.0,2017,24.0,-3.0,Downgrade
+Jordan,S&P,BB-,Stable,2024-09-06,1662,JO,24.0,2024,21.0,3.0,Upgrade
+Kazakhstan,Moody's,Ba3,Stable,1996-11-11,686,KZ,24.0,1996,,,No Change
+Kazakhstan,Moody's,B1,Stable,1999-02-18,683,KZ,21.0,1999,24.0,-3.0,Downgrade
+Kazakhstan,Moody's,Baa3,Stable,2002-09-19,675,KZ,33.0,2002,21.0,12.0,Upgrade
+Kazakhstan,Moody's,Baa2,Stable,2006-06-10,670,KZ,36.0,2006,33.0,3.0,Upgrade
+Kazakhstan,Moody's,Baa2,Stable,2010-04-05,663,KZ,36.0,2010,36.0,0.0,No Change
+Kazakhstan,Moody's,Baa2,Stable,2015-03-31,657,KZ,36.0,2015,36.0,0.0,No Change
+Kazakhstan,Moody's,Baa3,Stable,2017-07-26,653,KZ,33.0,2017,36.0,-3.0,Downgrade
+Kazakhstan,Moody's,Baa2,Stable,2021-08-11,650,KZ,36.0,2021,33.0,3.0,Upgrade
+Kazakhstan,Moody's,Baa1,Stable,2024-09-09,646,KZ,39.0,2024,36.0,3.0,Upgrade
+Kazakhstan,S&P,BB-,Stable,1996-11-05,1505,KZ,24.0,1996,,,No Change
+Kazakhstan,S&P,B+,Stable,1999-12-22,817,KZ,21.0,1999,24.0,-3.0,Downgrade
+Kazakhstan,S&P,BB-,Stable,2000-07-28,1503,KZ,24.0,2000,21.0,3.0,Upgrade
+Kazakhstan,S&P,BB,Stable,2001-05-18,1265,KZ,27.0,2001,24.0,3.0,Upgrade
+Kazakhstan,S&P,BB+,Stable,2003-05-28,1852,KZ,30.0,2003,27.0,3.0,Upgrade
+Kazakhstan,S&P,BBB-,Stable,2004-05-20,2398,KZ,33.0,2004,30.0,3.0,Upgrade
+Kazakhstan,S&P,BBB,Stable,2006-11-02,2159,KZ,36.0,2006,33.0,3.0,Upgrade
+Kazakhstan,S&P,BBB-,Stable,2007-10-08,2395,KZ,33.0,2007,36.0,-3.0,Downgrade
+Kazakhstan,S&P,BBB-,Stable,2009-05-08,2393,KZ,33.0,2009,33.0,0.0,No Change
+Kazakhstan,S&P,BBB,Stable,2010-12-23,2156,KZ,36.0,2010,33.0,3.0,Upgrade
+Kazakhstan,S&P,BBB+,Stable,2011-11-07,2713,KZ,39.0,2011,36.0,3.0,Upgrade
+Kazakhstan,S&P,BBB-,Stable,2017-09-08,2388,KZ,33.0,2017,39.0,-6.0,Downgrade
+Kazakhstan,S&P,BBB-,Stable,2023-03-03,2383,KZ,33.0,2023,33.0,0.0,No Change
+Kenya,Moody's,B1,Stable,2012-11-08,2360,KE,21.0,2012,,,No Change
+Kenya,Moody's,B1,,2017-10-02,2357,KE,21.0,2017,21.0,0.0,No Change
+Kenya,Moody's,B2,Stable,2018-02-13,2356,KE,18.0,2018,21.0,-3.0,Downgrade
+Kenya,Moody's,B3,,2023-05-12,2351,KE,15.0,2023,18.0,-3.0,Downgrade
+Kenya,Moody's,B3,Stable,2026-01-27,2345,KE,15.0,2026,15.0,0.0,No Change
+Kenya,S&P,B+,Stable,2006-09-08,1098,KE,21.0,2006,,,No Change
+Kenya,S&P,B,Stable,2008-03-10,347,KE,18.0,2008,21.0,-3.0,Downgrade
+Kenya,S&P,B+,Stable,2010-11-19,1095,KE,21.0,2010,18.0,3.0,Upgrade
+Kenya,S&P,B+,Stable,2016-10-14,1092,KE,21.0,2016,21.0,0.0,No Change
+Kenya,S&P,B,Stable,2021-03-05,343,KE,18.0,2021,21.0,-3.0,Downgrade
+Kenya,S&P,B-,Stable,2024-08-23,649,KE,15.0,2024,18.0,-3.0,Downgrade
+Kenya,S&P,B,Stable,2025-08-22,341,KE,18.0,2025,15.0,3.0,Upgrade
+Kuwait,Moody's,Baa1,Stable,1996-01-29,3766,KW,39.0,1996,,,No Change
+Kuwait,Moody's,A2,Stable,2002-05-15,3762,KW,45.0,2002,39.0,6.0,Upgrade
+Kuwait,Moody's,Aa3,Stable,2006-10-04,3759,KW,51.0,2006,45.0,6.0,Upgrade
+Kuwait,Moody's,Aa2,Stable,2007-07-25,3757,KW,54.0,2007,51.0,3.0,Upgrade
+Kuwait,Moody's,Aa2,Stable,2010-08-05,3754,KW,54.0,2010,54.0,0.0,No Change
+Kuwait,Moody's,Aa2,Stable,2017-05-26,3750,KW,54.0,2017,54.0,0.0,No Change
+Kuwait,Moody's,Aa2,,2020-03-30,3748,KW,54.0,2020,54.0,0.0,No Change
+Kuwait,Moody's,A1,Stable,2020-09-22,3746,KW,48.0,2020,54.0,-6.0,Downgrade
+Kuwait,S&P,A,Stable,1997-10-23,3212,KW,45.0,1997,,,No Change
+Kuwait,S&P,A+,Stable,2002-04-04,3651,KW,48.0,2002,45.0,3.0,Upgrade
+Kuwait,S&P,AA-,Stable,2007-07-16,3998,KW,51.0,2007,48.0,3.0,Upgrade
+Kuwait,S&P,AA,Stable,2011-07-20,3874,KW,54.0,2011,51.0,3.0,Upgrade
+Kuwait,S&P,AA-,Stable,2020-03-26,3996,KW,51.0,2020,54.0,-3.0,Downgrade
+Kuwait,S&P,A+,Stable,2022-07-15,3647,KW,48.0,2022,51.0,-3.0,Downgrade
+Kuwait,S&P,AA-,Stable,2025-11-21,3993,KW,51.0,2025,48.0,3.0,Upgrade
+Kyrgyzstan,Moody's,B2,Stable,2015-12-09,2063,KG,18.0,2015,,,No Change
+Kyrgyzstan,Moody's,B3,Stable,2022-01-25,2059,KG,15.0,2022,18.0,-3.0,Downgrade
+Kyrgyzstan,Moody's,B3,,2022-03-24,2058,KG,15.0,2022,15.0,0.0,No Change
+Kyrgyzstan,Moody's,B3,Stable,2024-05-17,2056,KG,15.0,2024,15.0,0.0,No Change
+Kyrgyzstan,S&P,B,Stable,2015-12-10,287,KG,18.0,2015,,,No Change
+Kyrgyzstan,S&P,,,2016-09-23,3094,KG,,2016,18.0,,No Change
+Kyrgyzstan,S&P,B+,Stable,2025-03-28,1032,KG,21.0,2025,,,No Change
+Laos,Moody's,B3,,2020-06-19,2810,LA,15.0,2020,,,No Change
+Laos,Moody's,Caa3,Stable,2022-06-14,2808,LA,6.0,2022,15.0,-9.0,Downgrade
+Laos,Moody's,Caa2,Stable,2025-12-03,2806,LA,9.0,2025,6.0,3.0,Upgrade
+Latvia,DBRS,A (low),Stable,2017-06-30,3888,LV,42.0,2017,,,No Change
+Latvia,DBRS,A (low),Stable,2020-05-22,3886,LV,42.0,2020,42.0,0.0,No Change
+Latvia,DBRS,A,Stable,2021-11-19,3348,LV,45.0,2021,42.0,3.0,Upgrade
+Latvia,Moody's,Baa2,Stable,1997-12-17,48,LV,36.0,1997,,,No Change
+Latvia,Moody's,A2,Stable,2002-11-12,45,LV,45.0,2002,36.0,9.0,Upgrade
+Latvia,Moody's,A2,Stable,2007-09-12,39,LV,45.0,2007,45.0,0.0,No Change
+Latvia,Moody's,Baa3,Stable,2010-03-31,30,LV,33.0,2010,45.0,-12.0,Downgrade
+Latvia,Moody's,Baa1,Stable,2013-06-13,22,LV,39.0,2013,33.0,6.0,Upgrade
+Latvia,Moody's,A3,Stable,2015-02-13,19,LV,42.0,2015,39.0,3.0,Upgrade
+Latvia,S&P,BBB,Stable,1997-01-16,2081,LV,36.0,1997,,,No Change
+Latvia,S&P,BBB+,Stable,2002-08-20,2635,LV,39.0,2002,36.0,3.0,Upgrade
+Latvia,S&P,A-,Stable,2004-07-29,3447,LV,42.0,2004,39.0,3.0,Upgrade
+Latvia,S&P,BB,Stable,2010-02-12,1238,LV,27.0,2010,42.0,-15.0,Downgrade
+Latvia,S&P,BB+,Stable,2010-12-07,1796,LV,30.0,2010,27.0,3.0,Upgrade
+Latvia,S&P,BBB-,Stable,2012-05-02,2308,LV,33.0,2012,30.0,3.0,Upgrade
+Latvia,S&P,BBB+,Stable,2013-06-10,2630,LV,39.0,2013,33.0,6.0,Upgrade
+Latvia,S&P,A-,Stable,2014-05-30,3441,LV,42.0,2014,39.0,3.0,Upgrade
+Latvia,S&P,A,Stable,2018-09-21,3304,LV,45.0,2018,42.0,3.0,Upgrade
+Latvia,S&P,A+,Stable,2020-02-21,3768,LV,48.0,2020,45.0,3.0,Upgrade
+Latvia,S&P,A,Stable,2024-05-31,3303,LV,45.0,2024,48.0,-3.0,Downgrade
+Liechtenstein,S&P,AAA,Stable,1996-12-02,29,LI,60.0,1996,,,No Change
+Liechtenstein,S&P,AAA,Stable,2016-02-26,28,LI,60.0,2016,60.0,0.0,No Change
+Lithuania,DBRS,A (low),Stable,2017-07-21,3731,LT,42.0,2017,,,No Change
+Lithuania,DBRS,A,Stable,2019-07-12,3261,LT,45.0,2019,42.0,3.0,Upgrade
+Lithuania,DBRS,A,Stable,2020-05-22,3242,LT,45.0,2020,45.0,0.0,No Change
+Lithuania,DBRS,A (high),Stable,2021-11-19,3525,LT,48.0,2021,45.0,3.0,Upgrade
+Lithuania,Moody's,Ba2,Stable,1996-09-04,4059,LT,27.0,1996,,,No Change
+Lithuania,Moody's,Ba1,Stable,1997-12-16,4057,LT,30.0,1997,27.0,3.0,Upgrade
+Lithuania,Moody's,Baa1,Stable,2002-11-12,4054,LT,39.0,2002,30.0,9.0,Upgrade
+Lithuania,Moody's,A2,Stable,2006-09-12,4043,LT,45.0,2006,39.0,6.0,Upgrade
+Lithuania,Moody's,Baa1,Stable,2010-03-31,4032,LT,39.0,2010,45.0,-6.0,Downgrade
+Lithuania,Moody's,A3,Stable,2015-05-08,4028,LT,42.0,2015,39.0,3.0,Upgrade
+Lithuania,Moody's,A2,Stable,2021-02-12,4019,LT,45.0,2021,42.0,3.0,Upgrade
+Lithuania,S&P,BBB-,Stable,1997-06-09,2288,LT,33.0,1997,,,No Change
+Lithuania,S&P,BBB,Stable,2002-04-22,2049,LT,36.0,2002,33.0,3.0,Upgrade
+Lithuania,S&P,BBB+,Stable,2003-02-17,2618,LT,39.0,2003,36.0,3.0,Upgrade
+Lithuania,S&P,A-,Stable,2004-02-05,3411,LT,42.0,2004,39.0,3.0,Upgrade
+Lithuania,S&P,A,Stable,2006-05-18,3262,LT,45.0,2006,42.0,3.0,Upgrade
+Lithuania,S&P,BBB,Stable,2010-02-03,2046,LT,36.0,2010,45.0,-9.0,Downgrade
+Lithuania,S&P,A-,Stable,2014-04-11,3407,LT,42.0,2014,36.0,6.0,Upgrade
+Lithuania,S&P,A,Stable,2018-03-02,3258,LT,45.0,2018,42.0,3.0,Upgrade
+Lithuania,S&P,A+,Stable,2020-02-21,3718,LT,48.0,2020,45.0,3.0,Upgrade
+Lithuania,S&P,A,Stable,2024-05-31,3256,LT,45.0,2024,48.0,-3.0,Downgrade
+Luxembourg,DBRS,AAA,Stable,2016-12-16,4199,LU,60.0,2016,,,No Change
+Luxembourg,Moody's,Aaa,Stable,1989-09-20,3249,LU,60.0,1989,,,No Change
+Luxembourg,Moody's,Aaa,Stable,2014-02-28,3243,LU,60.0,2014,60.0,0.0,No Change
+Luxembourg,S&P,AAA,Stable,1994-04-28,37,LU,60.0,1994,,,No Change
+Luxembourg,S&P,AAA,Stable,2013-01-14,31,LU,60.0,2013,60.0,0.0,No Change
+Macau,Moody's,Baa1,Stable,1997-11-03,3621,MO,39.0,1997,,,No Change
+Macau,Moody's,A1,Stable,2003-10-15,3618,MO,48.0,2003,39.0,9.0,Upgrade
+Macau,Moody's,Aa3,Stable,2007-07-26,3615,MO,51.0,2007,48.0,3.0,Upgrade
+Macau,Moody's,Aa2,Stable,2014-03-02,3614,MO,54.0,2014,51.0,3.0,Upgrade
+Macau,Moody's,Aa3,Stable,2017-05-24,3611,MO,51.0,2017,54.0,-3.0,Downgrade
+Macedonia,S&P,BB+,Stable,2005-08-23,1980,MK,30.0,2005,,,No Change
+Macedonia,S&P,BB,Stable,2009-09-21,1376,MK,27.0,2009,30.0,-3.0,Downgrade
+Macedonia,S&P,BB-,Stable,2013-05-24,1606,MK,24.0,2013,27.0,-3.0,Downgrade
+Madagascar,S&P,B-,Stable,2022-10-07,658,MG,15.0,2022,,,No Change
+Madagascar,S&P,B-,Stable,2026-01-23,652,MG,15.0,2026,15.0,0.0,No Change
+Malaysia,Moody's,Baa1,Stable,1986-01-18,355,MY,39.0,1986,,,No Change
+Malaysia,Moody's,A3,Stable,1990-03-12,352,MY,42.0,1990,39.0,3.0,Upgrade
+Malaysia,Moody's,A2,Stable,1993-03-11,348,MY,45.0,1993,42.0,3.0,Upgrade
+Malaysia,Moody's,A1,Stable,1995-03-15,345,MY,48.0,1995,45.0,3.0,Upgrade
+Malaysia,Moody's,A2,Stable,1997-12-29,340,MY,45.0,1997,48.0,-3.0,Downgrade
+Malaysia,Moody's,Baa2,Stable,1998-07-23,337,MY,36.0,1998,45.0,-9.0,Downgrade
+Malaysia,Moody's,Baa3,Stable,1998-09-14,335,MY,33.0,1998,36.0,-3.0,Downgrade
+Malaysia,Moody's,Baa3,Stable,1999-04-20,330,MY,33.0,1999,33.0,0.0,No Change
+Malaysia,Moody's,Baa2,Stable,2000-10-17,325,MY,36.0,2000,33.0,3.0,Upgrade
+Malaysia,Moody's,Baa1,Stable,2002-09-24,319,MY,39.0,2002,36.0,3.0,Upgrade
+Malaysia,Moody's,A3,Stable,2004-12-16,315,MY,42.0,2004,39.0,3.0,Upgrade
+Malaysia,Moody's,A3,Stable,2016-01-11,311,MY,42.0,2016,42.0,0.0,No Change
+Malaysia,S&P,A-,,1989-03-08,3510,MY,42.0,1989,,,No Change
+Malaysia,S&P,A-,Stable,1989-06-26,3508,MY,42.0,1989,42.0,0.0,No Change
+Malaysia,S&P,A,Stable,1991-07-08,3325,MY,45.0,1991,42.0,3.0,Upgrade
+Malaysia,S&P,A+,Stable,1994-12-29,3782,MY,48.0,1994,45.0,3.0,Upgrade
+Malaysia,S&P,A+,Stable,1997-08-18,3779,MY,48.0,1997,48.0,0.0,No Change
+Malaysia,S&P,A-,Stable,1998-04-17,3501,MY,42.0,1998,48.0,-6.0,Downgrade
+Malaysia,S&P,BBB-,Stable,1999-03-31,2344,MY,33.0,1999,42.0,-9.0,Downgrade
+Malaysia,S&P,BBB,Stable,1999-11-10,2116,MY,36.0,1999,33.0,3.0,Upgrade
+Malaysia,S&P,BBB,Stable,2001-04-04,2112,MY,36.0,2001,36.0,0.0,No Change
+Malaysia,S&P,BBB+,Stable,2002-08-19,2677,MY,39.0,2002,36.0,3.0,Upgrade
+Malaysia,S&P,A-,Stable,2003-10-07,3499,MY,42.0,2003,39.0,3.0,Upgrade
+Malaysia,S&P,A-,Stable,2008-05-15,3491,MY,42.0,2008,42.0,0.0,No Change
+Malaysia,S&P,A-,Stable,2022-06-27,3482,MY,42.0,2022,42.0,0.0,No Change
+Maldives,Moody's,B2,Stable,2016-09-02,2663,MV,18.0,2016,,,No Change
+Maldives,Moody's,Caa1,Stable,2021-08-17,2660,MV,12.0,2021,18.0,-6.0,Downgrade
+Maldives,Moody's,Caa2,,2024-09-11,2659,MV,9.0,2024,12.0,-3.0,Downgrade
+Maldives,Moody's,Caa2,Stable,2025-11-27,2657,MV,9.0,2025,9.0,0.0,No Change
+Mali,Moody's,B3,Stable,2019-02-26,2899,ML,15.0,2019,,,No Change
+Mali,Moody's,Caa1,Stable,2021-03-22,2897,ML,12.0,2021,15.0,-3.0,Downgrade
+Mali,Moody's,Caa2,,2022-02-04,2896,ML,9.0,2022,12.0,-3.0,Downgrade
+Mali,Moody's,Caa2,Stable,2022-09-09,2894,ML,9.0,2022,9.0,0.0,No Change
+Malta,DBRS,A,Stable,2015-04-03,3273,MT,45.0,2015,,,No Change
+Malta,DBRS,A (high),Stable,2018-02-23,3578,MT,48.0,2018,45.0,3.0,Upgrade
+Malta,Moody's,A2,Stable,1994-03-14,4091,MT,45.0,1994,,,No Change
+Malta,Moody's,A3,Stable,1998-03-25,4086,MT,42.0,1998,45.0,-3.0,Downgrade
+Malta,Moody's,A3,Stable,2003-07-15,4081,MT,42.0,2003,42.0,0.0,No Change
+Malta,Moody's,A1,Stable,2008-01-03,4077,MT,48.0,2008,42.0,6.0,Upgrade
+Malta,Moody's,A3,Stable,2013-10-04,4071,MT,42.0,2013,48.0,-6.0,Downgrade
+Malta,Moody's,A2,Stable,2019-07-19,4063,MT,45.0,2019,42.0,3.0,Upgrade
+Malta,Moody's,A2,Stable,2022-11-18,4060,MT,45.0,2022,45.0,0.0,No Change
+Malta,S&P,A,Stable,1994-03-14,3272,MT,45.0,1994,,,No Change
+Malta,S&P,A+,Stable,1996-05-06,3722,MT,48.0,1996,45.0,3.0,Upgrade
+Malta,S&P,A,Stable,2000-05-02,3268,MT,45.0,2000,48.0,-3.0,Downgrade
+Malta,S&P,BBB+,Stable,2013-01-16,2621,MT,39.0,2013,45.0,-6.0,Downgrade
+Malta,S&P,A-,Stable,2016-10-14,3414,MT,42.0,2016,39.0,3.0,Upgrade
+Malta,S&P,A-,Stable,2020-03-13,3412,MT,42.0,2020,42.0,0.0,No Change
+Mauritius,Moody's,Baa2,Stable,1996-03-28,1016,MU,36.0,1996,,,No Change
+Mauritius,Moody's,Baa2,Stable,2006-06-01,1014,MU,36.0,2006,36.0,0.0,No Change
+Mauritius,Moody's,Baa1,Stable,2012-06-26,1011,MU,39.0,2012,36.0,3.0,Upgrade
+Mauritius,Moody's,Baa3,Stable,2022-07-29,1008,MU,33.0,2022,39.0,-6.0,Downgrade
+Mauritius,S&P,BBB-,Stable,2023-07-21,2450,MU,33.0,2023,,,No Change
+Mauritius,S&P,-,,2026-03-18,3179,MU,,2026,33.0,,No Change
+Mexico,DBRS,BBB,Stable,2006-07-28,850,MX,36.0,2006,,,No Change
+Mexico,DBRS,BBB (high),Stable,2014-03-31,957,MX,39.0,2014,36.0,3.0,Upgrade
+Mexico,DBRS,BBB,Stable,2021-05-06,815,MX,36.0,2021,39.0,-3.0,Downgrade
+Mexico,Moody's,Ba2,Stable,1990-12-18,849,MX,27.0,1990,,,No Change
+Mexico,Moody's,Ba2,Stable,1999-06-09,837,MX,27.0,1999,27.0,0.0,No Change
+Mexico,Moody's,Baa3,Stable,2000-03-07,832,MX,33.0,2000,27.0,6.0,Upgrade
+Mexico,Moody's,Baa2,Stable,2002-02-06,829,MX,36.0,2002,33.0,3.0,Upgrade
+Mexico,Moody's,Baa1,Stable,2005-01-06,826,MX,39.0,2005,36.0,3.0,Upgrade
+Mexico,Moody's,A3,Stable,2014-02-05,816,MX,42.0,2014,39.0,3.0,Upgrade
+Mexico,Moody's,A3,Stable,2018-04-11,811,MX,42.0,2018,42.0,0.0,No Change
+Mexico,Moody's,Baa2,Stable,2022-07-08,802,MX,36.0,2022,42.0,-6.0,Downgrade
+Mexico,S&P,BB+,Stable,1992-07-30,1881,MX,30.0,1992,,,No Change
+Mexico,S&P,BB+,,1994-12-23,1877,MX,30.0,1994,30.0,0.0,No Change
+Mexico,S&P,BB+,Stable,1995-02-10,1874,MX,30.0,1995,30.0,0.0,No Change
+Mexico,S&P,BB,Stable,1996-09-03,1285,MX,27.0,1996,30.0,-3.0,Downgrade
+Mexico,S&P,BB,Stable,1998-10-02,1282,MX,27.0,1998,27.0,0.0,No Change
+Mexico,S&P,BBB-,Stable,2002-02-07,2421,MX,33.0,2002,27.0,6.0,Upgrade
+Mexico,S&P,BBB,Stable,2005-01-31,2197,MX,36.0,2005,33.0,3.0,Upgrade
+Mexico,S&P,BBB+,Stable,2007-10-08,2754,MX,39.0,2007,36.0,3.0,Upgrade
+Mexico,S&P,BBB,Stable,2009-12-14,2194,MX,36.0,2009,39.0,-3.0,Downgrade
+Mexico,S&P,BBB+,Stable,2013-12-19,2749,MX,39.0,2013,36.0,3.0,Upgrade
+Mexico,S&P,BBB+,Stable,2017-07-19,2742,MX,39.0,2017,39.0,0.0,No Change
+Mexico,S&P,BBB,Stable,2022-07-06,2191,MX,36.0,2022,39.0,-3.0,Downgrade
+Moldova,Moody's,Ba2,Stable,1997-01-14,2078,MD,27.0,1997,,,No Change
+Moldova,Moody's,B2,Stable,1998-07-14,2077,MD,18.0,1998,27.0,-9.0,Downgrade
+Moldova,Moody's,B3,Stable,2000-04-19,2075,MD,15.0,2000,18.0,-3.0,Downgrade
+Moldova,Moody's,Caa1,Stable,2001-07-03,2074,MD,12.0,2001,15.0,-3.0,Downgrade
+Moldova,Moody's,Ca,Stable,2002-07-11,2073,MD,3.0,2002,12.0,-9.0,Downgrade
+Moldova,Moody's,Caa1,Stable,2003-05-06,2072,MD,12.0,2003,3.0,9.0,Upgrade
+Moldova,Moody's,,,2009-10-01,2070,MD,,2009,12.0,,No Change
+Moldova,Moody's,B3,Stable,2010-08-12,2069,MD,15.0,2010,,,No Change
+Moldova,Moody's,B3,Stable,2017-01-13,2067,MD,15.0,2017,15.0,0.0,No Change
+Moldova,Moody's,B3,Stable,2023-08-18,2065,MD,15.0,2023,15.0,0.0,No Change
+Moldova,S&P,BB-,Stable,2025-10-10,1724,MD,24.0,2025,,,No Change
+Mongolia,Moody's,B1,Stable,2005-10-04,1932,MN,21.0,2005,,,No Change
+Mongolia,Moody's,B1,Stable,2009-10-30,1925,MN,21.0,2009,21.0,0.0,No Change
+Mongolia,Moody's,Caa1,Stable,2016-11-18,1913,MN,12.0,2016,21.0,-9.0,Downgrade
+Mongolia,Moody's,Caa1,Stable,2017-03-30,1911,MN,12.0,2017,12.0,0.0,No Change
+Mongolia,Moody's,B3,Stable,2018-01-18,1910,MN,15.0,2018,12.0,3.0,Upgrade
+Mongolia,Moody's,B3,Stable,2021-03-16,1907,MN,15.0,2021,15.0,0.0,No Change
+Mongolia,Moody's,B2,Stable,2024-11-18,1905,MN,18.0,2024,15.0,3.0,Upgrade
+Mongolia,Moody's,B1,Stable,2025-10-16,1904,MN,21.0,2025,18.0,3.0,Upgrade
+Mongolia,S&P,B,Stable,1999-12-23,255,MN,18.0,1999,,,No Change
+Mongolia,S&P,B,Stable,2002-09-06,252,MN,18.0,2002,18.0,0.0,No Change
+Mongolia,S&P,BB-,Stable,2007-12-13,1719,MN,24.0,2007,18.0,6.0,Upgrade
+Mongolia,S&P,BB-,Stable,2009-11-20,1717,MN,24.0,2009,24.0,0.0,No Change
+Mongolia,S&P,BB-,Stable,2012-10-29,1714,MN,24.0,2012,24.0,0.0,No Change
+Mongolia,S&P,B+,Stable,2014-04-29,980,MN,21.0,2014,24.0,-3.0,Downgrade
+Mongolia,S&P,B,Stable,2015-11-03,248,MN,18.0,2015,21.0,-3.0,Downgrade
+Mongolia,S&P,B-,Stable,2016-08-19,557,MN,15.0,2016,18.0,-3.0,Downgrade
+Mongolia,S&P,B,Stable,2018-11-09,247,MN,18.0,2018,15.0,3.0,Upgrade
+Mongolia,S&P,BB-,Stable,2025-10-30,1711,MN,24.0,2025,18.0,6.0,Upgrade
+Montenegro,Moody's,Ba2,Stable,2008-03-12,1813,ME,27.0,2008,,,No Change
+Montenegro,Moody's,Ba3,Stable,2011-03-30,1809,ME,24.0,2011,27.0,-3.0,Downgrade
+Montenegro,Moody's,B1,Stable,2017-09-29,1802,ME,21.0,2017,24.0,-3.0,Downgrade
+Montenegro,Moody's,B1,Stable,2020-03-06,1799,ME,21.0,2020,21.0,0.0,No Change
+Montenegro,Moody's,Ba3,Stable,2024-09-27,1794,ME,24.0,2024,21.0,3.0,Upgrade
+Montenegro,S&P,BB,Stable,2004-12-20,1444,ME,27.0,2004,,,No Change
+Montenegro,S&P,BB+,Stable,2007-03-27,1998,ME,30.0,2007,27.0,3.0,Upgrade
+Montenegro,S&P,BB-,Stable,2012-06-13,1690,ME,24.0,2012,30.0,-6.0,Downgrade
+Montenegro,S&P,B+,Stable,2014-11-14,951,ME,21.0,2014,24.0,-3.0,Downgrade
+Montenegro,S&P,B+,Stable,2017-10-06,949,ME,21.0,2017,21.0,0.0,No Change
+Montenegro,S&P,B,Stable,2021-03-05,231,ME,18.0,2021,21.0,-3.0,Downgrade
+Montenegro,S&P,B+,Stable,2024-08-30,943,ME,21.0,2024,18.0,3.0,Upgrade
+Morocco,Moody's,Ba1,Stable,1999-07-22,1237,MA,30.0,1999,,,No Change
+Morocco,Moody's,Ba1,Stable,2003-06-18,1233,MA,30.0,2003,30.0,0.0,No Change
+Morocco,Moody's,Ba1,Stable,2014-09-02,1224,MA,30.0,2014,30.0,0.0,No Change
+Morocco,Moody's,Ba1,Stable,2018-11-20,1221,MA,30.0,2018,30.0,0.0,No Change
+Morocco,Moody's,Ba1,Stable,2022-07-01,1216,MA,30.0,2022,30.0,0.0,No Change
+Morocco,S&P,BB,Stable,1998-03-02,1322,MA,27.0,1998,,,No Change
+Morocco,S&P,BB,Stable,2003-02-21,1318,MA,27.0,2003,27.0,0.0,No Change
+Morocco,S&P,BB+,Stable,2005-08-09,1956,MA,30.0,2005,27.0,3.0,Upgrade
+Morocco,S&P,BB+,Stable,2008-04-11,1950,MA,30.0,2008,30.0,0.0,No Change
+Morocco,S&P,BBB-,Stable,2010-03-23,2534,MA,33.0,2010,30.0,3.0,Upgrade
+Morocco,S&P,BBB-,Stable,2014-05-16,2530,MA,33.0,2014,33.0,0.0,No Change
+Morocco,S&P,BBB-,Stable,2019-10-04,2526,MA,33.0,2019,33.0,0.0,No Change
+Morocco,S&P,BB+,Stable,2021-04-02,1949,MA,30.0,2021,33.0,-3.0,Downgrade
+Morocco,S&P,BBB-,Stable,2025-09-26,2522,MA,33.0,2025,30.0,3.0,Upgrade
+Mozambique,Moody's,B1,Stable,2013-09-20,2686,MZ,21.0,2013,,,No Change
+Mozambique,Moody's,Caa1,Stable,2016-04-15,2676,MZ,12.0,2016,21.0,-9.0,Downgrade
+Mozambique,Moody's,Caa3,Stable,2019-02-15,2669,MZ,6.0,2019,12.0,-6.0,Downgrade
+Mozambique,Moody's,Caa2,Stable,2019-09-20,2668,MZ,9.0,2019,6.0,3.0,Upgrade
+Mozambique,Moody's,Caa2,Stable,2023-09-22,2665,MZ,9.0,2023,9.0,0.0,No Change
+Mozambique,S&P,B+,Stable,2007-12-21,1138,MZ,21.0,2007,,,No Change
+Mozambique,S&P,B,Stable,2014-02-14,408,MZ,18.0,2014,21.0,-3.0,Downgrade
+Mozambique,S&P,SD,,2016-04-01,3146,MZ,0.0,2016,18.0,-18.0,Downgrade
+Mozambique,S&P,B-,Stable,2016-04-15,732,MZ,15.0,2016,0.0,15.0,Upgrade
+Mozambique,S&P,SD,,2017-01-18,3143,MZ,0.0,2017,15.0,-15.0,Downgrade
+Mozambique,S&P,CCC+,Stable,2019-11-22,3026,MZ,12.0,2019,0.0,12.0,Upgrade
+Namibia,Moody's,Baa3,Stable,2011-09-22,1824,,33.0,2011,,,No Change
+Namibia,Moody's,Ba2,Stable,2019-12-06,1821,,27.0,2019,33.0,-6.0,Downgrade
+Namibia,Moody's,B1,Stable,2022-04-05,1818,,21.0,2022,27.0,-6.0,Downgrade
+Netherlands,DBRS,AAA,Stable,2011-05-12,4200,NL,60.0,2011,,,No Change
+Netherlands,Moody's,Aaa,Stable,1986-01-10,3260,NL,60.0,1986,,,No Change
+Netherlands,Moody's,Aaa,Stable,2014-03-07,3252,NL,60.0,2014,60.0,0.0,No Change
+Netherlands,S&P,AAA,Stable,1990-01-25,46,NL,60.0,1990,,,No Change
+Netherlands,S&P,AAA,,1998-10-01,44,NL,60.0,1998,60.0,0.0,No Change
+Netherlands,S&P,AA+,Stable,2013-11-29,4118,NL,57.0,2013,60.0,-3.0,Downgrade
+Netherlands,S&P,AAA,Stable,2015-11-20,40,NL,60.0,2015,57.0,3.0,Upgrade
+New Zealand,DBRS,AAA,Stable,2025-11-03,18,NZ,60.0,2025,,,No Change
+New Zealand,Moody's,Baa2,Stable,1965-07-01,3343,NZ,36.0,1965,,,No Change
+New Zealand,Moody's,Aa2,Stable,1975-07-10,3342,NZ,54.0,1975,36.0,18.0,Upgrade
+New Zealand,Moody's,Aaa,Stable,1977-06-29,3340,NZ,60.0,1977,54.0,6.0,Upgrade
+New Zealand,Moody's,Aa2,Stable,1984-10-17,3338,NZ,54.0,1984,60.0,-6.0,Downgrade
+New Zealand,Moody's,Aa3,Stable,1986-08-15,3337,NZ,51.0,1986,54.0,-3.0,Downgrade
+New Zealand,Moody's,Aa2,Stable,1994-03-16,3332,NZ,54.0,1994,51.0,3.0,Upgrade
+New Zealand,Moody's,Aa1,Stable,1996-02-26,3327,NZ,57.0,1996,54.0,3.0,Upgrade
+New Zealand,Moody's,Aa2,Stable,1998-09-23,3324,NZ,54.0,1998,57.0,-3.0,Downgrade
+New Zealand,Moody's,Aaa,Stable,2002-10-20,3322,NZ,60.0,2002,54.0,6.0,Upgrade
+New Zealand,S&P,BBB,,1961-09-29,2025,NZ,36.0,1961,,,No Change
+New Zealand,S&P,AAA,,1976-11-01,71,NZ,60.0,1976,36.0,24.0,Upgrade
+New Zealand,S&P,AA+,,1983-04-29,4153,NZ,57.0,1983,60.0,-3.0,Downgrade
+New Zealand,S&P,AA,,1986-11-02,3816,NZ,54.0,1986,57.0,-3.0,Downgrade
+New Zealand,S&P,AA-,Stable,1991-01-22,3933,NZ,51.0,1991,54.0,-3.0,Downgrade
+New Zealand,S&P,AA,Stable,1994-12-22,3812,NZ,54.0,1994,51.0,3.0,Upgrade
+New Zealand,S&P,AA+,Stable,1996-01-31,4152,NZ,57.0,1996,54.0,3.0,Upgrade
+New Zealand,S&P,AA+,Stable,2001-03-06,4150,NZ,57.0,2001,57.0,0.0,No Change
+New Zealand,S&P,AA+,Stable,2009-05-27,4147,NZ,57.0,2009,57.0,0.0,No Change
+New Zealand,S&P,AA,Stable,2011-09-29,3811,NZ,54.0,2011,57.0,-3.0,Downgrade
+New Zealand,S&P,AA+,Stable,2021-02-21,4142,NZ,57.0,2021,54.0,3.0,Upgrade
+Nicaragua,Moody's,B2,Stable,1998-03-27,2094,NI,18.0,1998,,,No Change
+Nicaragua,Moody's,Caa1,Stable,2003-06-30,2093,NI,12.0,2003,18.0,-6.0,Downgrade
+Nicaragua,Moody's,B3,Stable,2010-05-26,2092,NI,15.0,2010,12.0,3.0,Upgrade
+Nicaragua,Moody's,B2,Stable,2015-07-10,2091,NI,18.0,2015,15.0,3.0,Upgrade
+Nicaragua,Moody's,B2,Stable,2018-06-13,2087,NI,18.0,2018,18.0,0.0,No Change
+Nicaragua,Moody's,B3,Stable,2020-02-14,2082,NI,15.0,2020,18.0,-3.0,Downgrade
+Nicaragua,Moody's,B2,Stable,2024-03-15,2080,NI,18.0,2024,15.0,3.0,Upgrade
+Nicaragua,S&P,B+,Stable,2016-02-11,1037,NI,21.0,2016,,,No Change
+Nicaragua,S&P,B-,Stable,2019-11-08,589,NI,15.0,2019,21.0,-6.0,Downgrade
+Nicaragua,S&P,B,Stable,2022-10-25,288,NI,18.0,2022,15.0,3.0,Upgrade
+Nicaragua,S&P,B+,Stable,2024-10-23,1033,NI,21.0,2024,18.0,3.0,Upgrade
+Niger,Moody's,B3,Stable,2019-08-06,2903,NE,15.0,2019,,,No Change
+Niger,Moody's,Caa2,,2023-08-02,2902,NE,9.0,2023,15.0,-6.0,Downgrade
+Niger,Moody's,Caa3,Stable,2024-02-09,2900,NE,6.0,2024,9.0,-3.0,Downgrade
+Nigeria,Moody's,Ba3,Stable,2012-11-07,2196,NG,24.0,2012,,,No Change
+Nigeria,Moody's,B1,Stable,2016-04-29,2188,NG,21.0,2016,24.0,-3.0,Downgrade
+Nigeria,Moody's,B2,Stable,2017-11-07,2186,NG,18.0,2017,21.0,-3.0,Downgrade
+Nigeria,Moody's,B2,Stable,2021-11-29,2182,NG,18.0,2021,18.0,0.0,No Change
+Nigeria,Moody's,B3,,2022-10-21,2181,NG,15.0,2022,18.0,-3.0,Downgrade
+Nigeria,Moody's,Caa1,Stable,2023-01-27,2180,NG,12.0,2023,15.0,-3.0,Downgrade
+Nigeria,Moody's,B3,Stable,2025-05-30,2176,NG,15.0,2025,12.0,3.0,Upgrade
+Nigeria,S&P,BB-,Stable,2006-02-06,1734,NG,24.0,2006,,,No Change
+Nigeria,S&P,B+,Stable,2009-08-21,1072,NG,21.0,2009,24.0,-3.0,Downgrade
+Nigeria,S&P,BB-,Stable,2012-11-07,1731,NG,24.0,2012,21.0,3.0,Upgrade
+Nigeria,S&P,B+,Stable,2015-03-20,1066,NG,21.0,2015,24.0,-3.0,Downgrade
+Nigeria,S&P,B,Stable,2016-09-16,313,NG,18.0,2016,21.0,-3.0,Downgrade
+Nigeria,S&P,B-,Stable,2020-03-26,615,NG,15.0,2020,18.0,-3.0,Downgrade
+Nigeria,S&P,B-,Stable,2023-08-04,612,NG,15.0,2023,15.0,0.0,No Change
+Norway,DBRS,AAA,Stable,2012-03-21,11,NO,60.0,2012,,,No Change
+Norway,Moody's,Aaa,Stable,1978-01-12,3270,NO,60.0,1978,,,No Change
+Norway,Moody's,Aa1,Stable,1987-07-13,3269,NO,57.0,1987,60.0,-3.0,Downgrade
+Norway,Moody's,Aaa,Stable,1997-09-30,3266,NO,60.0,1997,57.0,3.0,Upgrade
+Norway,S&P,BBB,,1958-09-09,2024,NO,36.0,1958,,,No Change
+Norway,S&P,AAA,,1975-07-09,56,NO,60.0,1975,36.0,24.0,Upgrade
+Norway,S&P,AAA,Stable,1990-11-08,52,NO,60.0,1990,60.0,0.0,No Change
+Oman,Moody's,Baa2,Stable,1996-01-29,1129,OM,36.0,1996,,,No Change
+Oman,Moody's,Baa1,Stable,2005-10-06,1123,OM,39.0,2005,36.0,3.0,Upgrade
+Oman,Moody's,A2,Stable,2007-07-24,1118,OM,45.0,2007,39.0,6.0,Upgrade
+Oman,Moody's,A1,Stable,2010-02-18,1117,OM,48.0,2010,45.0,3.0,Upgrade
+Oman,Moody's,Baa1,Stable,2016-05-14,1107,OM,39.0,2016,48.0,-9.0,Downgrade
+Oman,Moody's,Ba2,Stable,2020-03-05,1099,OM,27.0,2020,39.0,-12.0,Downgrade
+Oman,Moody's,Ba2,,2020-03-30,1097,OM,27.0,2020,27.0,0.0,No Change
+Oman,Moody's,Ba3,Stable,2021-10-14,1093,OM,24.0,2021,27.0,-3.0,Downgrade
+Oman,Moody's,Ba1,Stable,2023-12-07,1086,OM,30.0,2023,24.0,6.0,Upgrade
+Oman,Moody's,Baa3,Stable,2025-07-10,1082,OM,33.0,2025,30.0,3.0,Upgrade
+Oman,S&P,BBB-,Stable,1996-02-01,2496,OM,33.0,1996,,,No Change
+Oman,S&P,BBB-,Stable,1999-12-10,2491,OM,33.0,1999,33.0,0.0,No Change
+Oman,S&P,BBB,Stable,2001-02-27,2203,OM,36.0,2001,33.0,3.0,Upgrade
+Oman,S&P,BBB+,Stable,2004-11-22,2766,OM,39.0,2004,36.0,3.0,Upgrade
+Oman,S&P,A-,Stable,2006-09-18,3553,OM,42.0,2006,39.0,3.0,Upgrade
+Oman,S&P,A,Stable,2007-01-23,3360,OM,45.0,2007,42.0,3.0,Upgrade
+Oman,S&P,A,Stable,2012-07-02,3354,OM,45.0,2012,45.0,0.0,No Change
+Oman,S&P,A-,Stable,2015-02-09,3551,OM,42.0,2015,45.0,-3.0,Downgrade
+Oman,S&P,BBB-,Stable,2016-02-17,2490,OM,33.0,2016,42.0,-9.0,Downgrade
+Oman,S&P,BB,Stable,2017-11-10,1304,OM,27.0,2017,33.0,-6.0,Downgrade
+Oman,S&P,B+,Stable,2020-10-16,828,OM,21.0,2020,27.0,-6.0,Downgrade
+Oman,S&P,BB-,Stable,2022-04-01,1527,OM,24.0,2022,21.0,3.0,Upgrade
+Oman,S&P,BB,Stable,2022-11-25,1300,OM,27.0,2022,24.0,3.0,Upgrade
+Oman,S&P,BB+,Stable,2023-09-29,1929,OM,30.0,2023,27.0,3.0,Upgrade
+Oman,S&P,BBB-,Stable,2024-09-27,2483,OM,33.0,2024,30.0,3.0,Upgrade
+Pakistan,Moody's,Ba3,Stable,1994-11-23,2595,PK,24.0,1994,,,No Change
+Pakistan,Moody's,B1,Stable,1995-07-11,2594,PK,21.0,1995,24.0,-3.0,Downgrade
+Pakistan,Moody's,Caa1,Stable,2001-10-29,2580,PK,12.0,2001,21.0,-9.0,Downgrade
+Pakistan,Moody's,B3,Stable,2002-02-13,2579,PK,15.0,2002,12.0,3.0,Upgrade
+Pakistan,Moody's,B2,Stable,2003-10-20,2577,PK,18.0,2003,15.0,3.0,Upgrade
+Pakistan,Moody's,B1,Stable,2006-11-22,2571,PK,21.0,2006,18.0,3.0,Upgrade
+Pakistan,Moody's,B3,Stable,2008-05-21,2566,PK,15.0,2008,21.0,-6.0,Downgrade
+Pakistan,Moody's,B3,Stable,2009-08-17,2559,PK,15.0,2009,15.0,0.0,No Change
+Pakistan,Moody's,Caa2,Stable,2014-07-14,2556,PK,9.0,2014,15.0,-6.0,Downgrade
+Pakistan,Moody's,B3,Stable,2015-06-11,2553,PK,15.0,2015,9.0,6.0,Upgrade
+Pakistan,Moody's,B3,Stable,2019-12-02,2549,PK,15.0,2019,15.0,0.0,No Change
+Pakistan,Moody's,B3,,2020-05-14,2548,PK,15.0,2020,15.0,0.0,No Change
+Pakistan,Moody's,B3,Stable,2020-08-08,2547,PK,15.0,2020,15.0,0.0,No Change
+Pakistan,Moody's,Caa3,Stable,2023-02-28,2542,PK,6.0,2023,15.0,-9.0,Downgrade
+Pakistan,Moody's,Caa1,Stable,2025-08-13,2539,PK,12.0,2025,6.0,6.0,Upgrade
+Pakistan,S&P,B+,Stable,1995-08-03,1128,PK,21.0,1995,,,No Change
+Pakistan,S&P,SD,,1999-01-29,3133,PK,0.0,1999,21.0,-21.0,Downgrade
+Pakistan,S&P,B-,Stable,1999-12-21,715,PK,15.0,1999,0.0,15.0,Upgrade
+Pakistan,S&P,B,Stable,2002-12-12,392,PK,18.0,2002,15.0,3.0,Upgrade
+Pakistan,S&P,B+,Stable,2004-11-22,1125,PK,21.0,2004,18.0,3.0,Upgrade
+Pakistan,S&P,B+,Stable,2007-07-10,1121,PK,21.0,2007,21.0,0.0,No Change
+Pakistan,S&P,CCC,,2008-11-14,2862,PK,9.0,2008,21.0,-12.0,Downgrade
+Pakistan,S&P,CCC+,,2008-12-09,3012,PK,12.0,2008,9.0,3.0,Upgrade
+Pakistan,S&P,B-,Stable,2009-08-24,712,PK,15.0,2009,12.0,3.0,Upgrade
+Pakistan,S&P,B,Stable,2016-10-31,385,PK,18.0,2016,15.0,3.0,Upgrade
+Pakistan,S&P,B-,Stable,2019-02-04,706,PK,15.0,2019,18.0,-3.0,Downgrade
+Pakistan,S&P,CCC+,Stable,2022-12-22,3010,PK,12.0,2022,15.0,-3.0,Downgrade
+Pakistan,S&P,B-,Stable,2025-07-24,701,PK,15.0,2025,12.0,3.0,Upgrade
+Panama,Moody's,A2,Stable,1958-06-30,1164,PA,45.0,1958,,,No Change
+Panama,Moody's,,,1977-10-14,1163,PA,,1977,45.0,,No Change
+Panama,Moody's,Aa2,Stable,1978-06-27,1162,PA,54.0,1978,,,No Change
+Panama,Moody's,Ba1,Stable,1997-01-22,1161,PA,30.0,1997,54.0,-24.0,Downgrade
+Panama,Moody's,Baa3,Stable,2010-06-09,1149,PA,33.0,2010,30.0,3.0,Upgrade
+Panama,Moody's,Baa2,Stable,2012-10-31,1145,PA,36.0,2012,33.0,3.0,Upgrade
+Panama,Moody's,Baa1,Stable,2019-03-08,1142,PA,39.0,2019,36.0,3.0,Upgrade
+Panama,Moody's,Baa2,Stable,2021-03-17,1137,PA,36.0,2021,39.0,-3.0,Downgrade
+Panama,Moody's,Baa3,Stable,2023-10-31,1133,PA,33.0,2023,36.0,-3.0,Downgrade
+Panama,S&P,BB+,Stable,1997-01-22,1939,PA,30.0,1997,,,No Change
+Panama,S&P,BB+,Stable,2000-07-06,1934,PA,30.0,2000,30.0,0.0,No Change
+Panama,S&P,BB,Stable,2001-11-20,1309,PA,27.0,2001,30.0,-3.0,Downgrade
+Panama,S&P,BB,Stable,2005-02-18,1306,PA,27.0,2005,27.0,0.0,No Change
+Panama,S&P,BB+,Stable,2008-02-26,1933,PA,30.0,2008,27.0,3.0,Upgrade
+Panama,S&P,BBB-,Stable,2010-05-25,2499,PA,33.0,2010,30.0,3.0,Upgrade
+Panama,S&P,BBB,Stable,2012-07-02,2218,PA,36.0,2012,33.0,3.0,Upgrade
+Panama,S&P,BBB+,Stable,2019-04-29,2770,PA,39.0,2019,36.0,3.0,Upgrade
+Panama,S&P,BBB,Stable,2020-11-24,2211,PA,36.0,2020,39.0,-3.0,Downgrade
+Panama,S&P,BBB,Stable,2023-08-11,2208,PA,36.0,2023,36.0,0.0,No Change
+Panama,S&P,BBB-,Stable,2024-11-26,2497,PA,33.0,2024,36.0,-3.0,Downgrade
+Papua New Guinea,Moody's,B1,Stable,1998-12-31,2157,PG,21.0,1998,,,No Change
+Papua New Guinea,Moody's,B2,Stable,2016-04-25,2140,PG,18.0,2016,21.0,-3.0,Downgrade
+Papua New Guinea,Moody's,B2,Stable,2019-02-15,2137,PG,18.0,2019,18.0,0.0,No Change
+Papua New Guinea,Moody's,B2,Stable,2022-11-10,2131,PG,18.0,2022,18.0,0.0,No Change
+Papua New Guinea,S&P,B+,Stable,1999-01-25,1059,PG,21.0,1999,,,No Change
+Papua New Guinea,S&P,B+,Stable,2000-06-29,1055,PG,21.0,2000,21.0,0.0,No Change
+Papua New Guinea,S&P,B,Stable,2001-08-06,305,PG,18.0,2001,21.0,-3.0,Downgrade
+Papua New Guinea,S&P,B,Stable,2003-12-21,303,PG,18.0,2003,18.0,0.0,No Change
+Papua New Guinea,S&P,B,Stable,2005-12-06,301,PG,18.0,2005,18.0,0.0,No Change
+Papua New Guinea,S&P,B+,Stable,2007-09-13,1051,PG,21.0,2007,18.0,3.0,Upgrade
+Papua New Guinea,S&P,B+,Stable,2012-10-29,1048,PG,21.0,2012,21.0,0.0,No Change
+Papua New Guinea,S&P,B,Stable,2018-04-16,300,PG,18.0,2018,21.0,-3.0,Downgrade
+Papua New Guinea,S&P,B-,Stable,2020-04-29,602,PG,15.0,2020,18.0,-3.0,Downgrade
+Papua New Guinea,S&P,B-,Stable,2022-05-24,595,PG,15.0,2022,15.0,0.0,No Change
+Paraguay,Moody's,B2,Stable,1998-07-13,1267,PY,18.0,1998,,,No Change
+Paraguay,Moody's,Caa1,Stable,2003-04-28,1261,PY,12.0,2003,18.0,-6.0,Downgrade
+Paraguay,Moody's,B3,Stable,2008-04-09,1256,PY,15.0,2008,12.0,3.0,Upgrade
+Paraguay,Moody's,B1,Stable,2010-12-02,1253,PY,21.0,2010,15.0,6.0,Upgrade
+Paraguay,Moody's,Ba3,Stable,2013-01-08,1249,PY,24.0,2013,21.0,3.0,Upgrade
+Paraguay,Moody's,Ba1,Stable,2015-03-20,1246,PY,30.0,2015,24.0,6.0,Upgrade
+Paraguay,Moody's,Baa3,Stable,2024-07-26,1241,PY,33.0,2024,30.0,3.0,Upgrade
+Paraguay,S&P,BB-,Stable,1995-10-23,1546,PY,24.0,1995,,,No Change
+Paraguay,S&P,SD,,2003-02-13,3114,PY,0.0,2003,24.0,-24.0,Downgrade
+Paraguay,S&P,B-,Stable,2004-07-26,516,PY,15.0,2004,0.0,15.0,Upgrade
+Paraguay,S&P,B,Stable,2007-06-04,159,PY,18.0,2007,15.0,3.0,Upgrade
+Paraguay,S&P,BB-,Stable,2011-08-30,1542,PY,24.0,2011,18.0,6.0,Upgrade
+Paraguay,S&P,BB-,Stable,2012-08-29,1540,PY,24.0,2012,24.0,0.0,No Change
+Paraguay,S&P,BB,Stable,2014-06-11,1327,PY,27.0,2014,24.0,3.0,Upgrade
+Paraguay,S&P,BB,Stable,2016-06-15,1323,PY,27.0,2016,27.0,0.0,No Change
+Paraguay,S&P,BB+,Stable,2024-02-01,1958,PY,30.0,2024,27.0,3.0,Upgrade
+Paraguay,S&P,BBB-,Stable,2025-12-17,2536,PY,33.0,2025,30.0,3.0,Upgrade
+Peru,DBRS,BBB (low),Stable,2007-10-19,1172,PE,33.0,2007,,,No Change
+Peru,DBRS,BBB (high),Stable,2014-05-30,905,PE,39.0,2014,33.0,6.0,Upgrade
+Peru,DBRS,,,2017-04-04,2761,PE,,2017,39.0,,No Change
+Peru,Moody's,B2,Stable,1996-02-05,728,PE,18.0,1996,,,No Change
+Peru,Moody's,Ba3,Stable,1998-03-27,725,PE,24.0,1998,18.0,6.0,Upgrade
+Peru,Moody's,Ba2,Stable,2007-07-16,713,PE,27.0,2007,24.0,3.0,Upgrade
+Peru,Moody's,Ba1,Stable,2008-08-19,709,PE,30.0,2008,27.0,3.0,Upgrade
+Peru,Moody's,Baa3,Stable,2009-12-16,707,PE,33.0,2009,30.0,3.0,Upgrade
+Peru,Moody's,A3,Stable,2014-07-02,697,PE,42.0,2014,33.0,9.0,Upgrade
+Peru,Moody's,Baa1,Stable,2021-09-01,694,PE,39.0,2021,42.0,-3.0,Downgrade
+Peru,Moody's,Baa1,Stable,2024-09-20,688,PE,39.0,2024,39.0,0.0,No Change
+Peru,S&P,BB,Stable,1997-12-18,1274,PE,27.0,1997,,,No Change
+Peru,S&P,BB,Stable,2000-06-16,1272,PE,27.0,2000,27.0,0.0,No Change
+Peru,S&P,BB-,Stable,2000-11-01,1509,PE,24.0,2000,27.0,-3.0,Downgrade
+Peru,S&P,BB-,Stable,2002-07-02,1507,PE,24.0,2002,24.0,0.0,No Change
+Peru,S&P,BB,Stable,2004-06-08,1268,PE,27.0,2004,24.0,3.0,Upgrade
+Peru,S&P,BB+,Stable,2006-11-20,1858,PE,30.0,2006,27.0,3.0,Upgrade
+Peru,S&P,BBB-,Stable,2008-07-14,2402,PE,33.0,2008,30.0,3.0,Upgrade
+Peru,S&P,BBB,Stable,2011-08-30,2171,PE,36.0,2011,33.0,3.0,Upgrade
+Peru,S&P,BBB+,Stable,2013-08-19,2718,PE,39.0,2013,36.0,3.0,Upgrade
+Peru,S&P,BBB,Stable,2022-03-18,2168,PE,36.0,2022,39.0,-3.0,Downgrade
+Peru,S&P,BBB-,Stable,2024-04-25,2399,PE,33.0,2024,36.0,-3.0,Downgrade
+Philippines,Moody's,Ba3,Stable,1993-07-01,550,PH,24.0,1993,,,No Change
+Philippines,Moody's,Ba2,Stable,1995-05-12,547,PH,27.0,1995,24.0,3.0,Upgrade
+Philippines,Moody's,Ba1,Stable,1997-05-18,543,PH,30.0,1997,27.0,3.0,Upgrade
+Philippines,Moody's,Ba1,Stable,2002-02-03,537,PH,30.0,2002,30.0,0.0,No Change
+Philippines,Moody's,B1,Stable,2005-02-16,528,PH,21.0,2005,30.0,-9.0,Downgrade
+Philippines,Moody's,B1,Stable,2006-11-02,524,PH,21.0,2006,21.0,0.0,No Change
+Philippines,Moody's,Ba3,Stable,2009-07-23,522,PH,24.0,2009,21.0,3.0,Upgrade
+Philippines,Moody's,Ba2,Stable,2011-06-15,519,PH,27.0,2011,24.0,3.0,Upgrade
+Philippines,Moody's,Ba1,Stable,2012-10-29,515,PH,30.0,2012,27.0,3.0,Upgrade
+Philippines,Moody's,Baa2,Stable,2014-12-11,509,PH,36.0,2014,30.0,6.0,Upgrade
+Philippines,S&P,BB-,Stable,1993-07-02,1494,PH,24.0,1993,,,No Change
+Philippines,S&P,BB+,Stable,1997-09-26,1842,PH,30.0,1997,24.0,6.0,Upgrade
+Philippines,S&P,BB+,Stable,1999-01-06,1838,PH,30.0,1999,30.0,0.0,No Change
+Philippines,S&P,BB+,Stable,2002-04-03,1832,PH,30.0,2002,30.0,0.0,No Change
+Philippines,S&P,BB,Stable,2003-04-24,1259,PH,27.0,2003,30.0,-3.0,Downgrade
+Philippines,S&P,BB-,Stable,2005-01-17,1487,PH,24.0,2005,27.0,-3.0,Downgrade
+Philippines,S&P,BB-,Stable,2006-02-09,1484,PH,24.0,2006,24.0,0.0,No Change
+Philippines,S&P,BB,Stable,2010-11-12,1258,PH,27.0,2010,24.0,3.0,Upgrade
+Philippines,S&P,BB+,Stable,2012-07-04,1828,PH,30.0,2012,27.0,3.0,Upgrade
+Philippines,S&P,BBB-,Stable,2013-05-02,2365,PH,33.0,2013,30.0,3.0,Upgrade
+Philippines,S&P,BBB,Stable,2014-05-08,2147,PH,36.0,2014,33.0,3.0,Upgrade
+Philippines,S&P,BBB+,Stable,2019-04-30,2707,PH,39.0,2019,36.0,3.0,Upgrade
+Poland,DBRS,A,Stable,2015-12-11,3361,PL,45.0,2015,,,No Change
+Poland,DBRS,A,Stable,2017-06-09,3350,PL,45.0,2017,45.0,0.0,No Change
+Poland,Moody's,Baa3,Stable,1995-06-01,78,PL,33.0,1995,,,No Change
+Poland,Moody's,Baa1,Stable,1999-09-02,73,PL,39.0,1999,33.0,6.0,Upgrade
+Poland,Moody's,A2,Stable,2002-11-12,69,PL,45.0,2002,39.0,6.0,Upgrade
+Poland,Moody's,A2,Stable,2017-05-12,55,PL,45.0,2017,45.0,0.0,No Change
+Poland,S&P,BBB-,Stable,1996-04-10,2312,PL,33.0,1996,,,No Change
+Poland,S&P,BBB+,Stable,2000-05-15,2650,PL,39.0,2000,33.0,6.0,Upgrade
+Poland,S&P,BBB+,Stable,2001-08-22,2648,PL,39.0,2001,39.0,0.0,No Change
+Poland,S&P,BBB+,Stable,2004-10-07,2645,PL,39.0,2004,39.0,0.0,No Change
+Poland,S&P,BBB+,Stable,2006-04-24,2642,PL,39.0,2006,39.0,0.0,No Change
+Poland,S&P,A-,Stable,2007-03-29,3459,PL,42.0,2007,39.0,3.0,Upgrade
+Poland,S&P,A-,Stable,2008-10-27,3454,PL,42.0,2008,42.0,0.0,No Change
+Poland,S&P,BBB+,Stable,2016-12-02,2637,PL,39.0,2016,42.0,-3.0,Downgrade
+Poland,S&P,A-,Stable,2018-10-12,3450,PL,42.0,2018,39.0,3.0,Upgrade
+Portugal,DBRS,BBB (low),,2012-05-22,964,PT,33.0,2012,,,No Change
+Portugal,DBRS,BBB (low),,2012-08-22,961,PT,33.0,2012,33.0,0.0,No Change
+Portugal,DBRS,BBB (low),Stable,2014-05-23,959,PT,33.0,2014,33.0,0.0,No Change
+Portugal,DBRS,BBB,Stable,2018-04-20,703,PT,36.0,2018,33.0,3.0,Upgrade
+Portugal,DBRS,BBB (high),Stable,2019-10-04,877,PT,39.0,2019,36.0,3.0,Upgrade
+Portugal,DBRS,A (low),Stable,2022-08-26,3733,PT,42.0,2022,39.0,3.0,Upgrade
+Portugal,DBRS,A,Stable,2023-07-21,3307,PT,45.0,2023,42.0,3.0,Upgrade
+Portugal,DBRS,A (high),Stable,2025-01-17,3579,PT,48.0,2025,45.0,3.0,Upgrade
+Portugal,Moody's,A1,Stable,1986-11-18,4162,PT,48.0,1986,,,No Change
+Portugal,Moody's,Aa3,Stable,1997-02-10,4156,PT,51.0,1997,48.0,3.0,Upgrade
+Portugal,Moody's,Aa2,Stable,1998-05-04,4154,PT,54.0,1998,51.0,3.0,Upgrade
+Portugal,Moody's,A1,Stable,2010-07-13,4144,PT,48.0,2010,54.0,-6.0,Downgrade
+Portugal,Moody's,Ba3,Stable,2013-11-08,4124,PT,24.0,2013,48.0,-24.0,Downgrade
+Portugal,Moody's,Ba1,Stable,2014-07-25,4119,PT,30.0,2014,24.0,6.0,Upgrade
+Portugal,Moody's,Baa3,Stable,2018-10-12,4112,PT,33.0,2018,30.0,3.0,Upgrade
+Portugal,Moody's,Baa2,Stable,2021-09-17,4105,PT,36.0,2021,33.0,3.0,Upgrade
+Portugal,Moody's,A3,Stable,2023-11-17,4098,PT,42.0,2023,36.0,6.0,Upgrade
+Portugal,S&P,A,,1988-10-01,3283,PT,45.0,1988,,,No Change
+Portugal,S&P,A,Stable,1989-10-26,3276,PT,45.0,1989,45.0,0.0,No Change
+Portugal,S&P,A+,Stable,1991-10-25,3735,PT,48.0,1991,45.0,3.0,Upgrade
+Portugal,S&P,AA-,Stable,1993-05-26,4068,PT,51.0,1993,48.0,3.0,Upgrade
+Portugal,S&P,AA,Stable,1998-12-15,3902,PT,54.0,1998,51.0,3.0,Upgrade
+Portugal,S&P,AA-,Stable,2005-06-27,4062,PT,51.0,2005,54.0,-3.0,Downgrade
+Portugal,S&P,A+,Stable,2009-01-21,3734,PT,48.0,2009,51.0,-3.0,Downgrade
+Portugal,S&P,BB,Stable,2013-03-06,1234,PT,27.0,2013,48.0,-21.0,Downgrade
+Portugal,S&P,BB,Stable,2014-05-09,1229,PT,27.0,2014,27.0,0.0,No Change
+Portugal,S&P,BB+,Stable,2015-09-18,1787,PT,30.0,2015,27.0,3.0,Upgrade
+Portugal,S&P,BBB-,Stable,2017-09-15,2294,PT,33.0,2017,30.0,3.0,Upgrade
+Portugal,S&P,BBB,Stable,2019-03-15,2052,PT,36.0,2019,33.0,3.0,Upgrade
+Portugal,S&P,BBB,Stable,2020-04-24,2050,PT,36.0,2020,36.0,0.0,No Change
+Portugal,S&P,BBB+,Stable,2022-09-09,2624,PT,39.0,2022,36.0,3.0,Upgrade
+Portugal,S&P,A+,Stable,2025-08-29,3728,PT,48.0,2025,39.0,9.0,Upgrade
+Qatar,Moody's,Ba1,Stable,1996-01-29,3575,QA,30.0,1996,,,No Change
+Qatar,Moody's,Baa2,Stable,1996-11-04,3572,QA,36.0,1996,30.0,6.0,Upgrade
+Qatar,Moody's,A3,Stable,2002-08-15,3569,QA,42.0,2002,36.0,6.0,Upgrade
+Qatar,Moody's,A1,Stable,2005-05-18,3566,QA,48.0,2005,42.0,6.0,Upgrade
+Qatar,Moody's,Aa3,Stable,2006-10-04,3563,QA,51.0,2006,48.0,3.0,Upgrade
+Qatar,Moody's,Aa2,Stable,2007-07-25,3561,QA,54.0,2007,51.0,3.0,Upgrade
+Qatar,Moody's,Aa3,Stable,2017-05-26,3556,QA,51.0,2017,54.0,-3.0,Downgrade
+Qatar,Moody's,Aa3,Stable,2018-07-13,3552,QA,51.0,2018,51.0,0.0,No Change
+Qatar,Moody's,Aa2,Stable,2024-01-25,3548,QA,54.0,2024,51.0,3.0,Upgrade
+Qatar,S&P,BBB,Stable,1996-02-01,2026,QA,36.0,1996,,,No Change
+Qatar,S&P,A+,Stable,2003-07-15,3631,QA,48.0,2003,36.0,12.0,Upgrade
+Qatar,S&P,A+,Stable,2005-09-13,3623,QA,48.0,2005,48.0,0.0,No Change
+Qatar,S&P,AA-,Stable,2007-03-06,3971,QA,51.0,2007,48.0,3.0,Upgrade
+Qatar,S&P,AA,Stable,2010-07-05,3843,QA,54.0,2010,51.0,3.0,Upgrade
+Qatar,S&P,AA-,Stable,2018-12-07,3961,QA,51.0,2018,54.0,-3.0,Downgrade
+Qatar,S&P,AA,Stable,2022-11-04,3841,QA,54.0,2022,51.0,3.0,Upgrade
+Republic of the Congo,Moody's,Ba3,Stable,2013-10-11,2712,CG,24.0,2013,,,No Change
+Republic of the Congo,Moody's,Caa2,Stable,2018-10-12,2695,CG,9.0,2018,24.0,-15.0,Downgrade
+Republic of the Congo,S&P,B+,Stable,2013-10-22,1140,CG,21.0,2013,,,No Change
+Republic of the Congo,S&P,B,Stable,2015-02-09,413,CG,18.0,2015,21.0,-3.0,Downgrade
+Republic of the Congo,S&P,B-,Stable,2016-03-25,739,CG,15.0,2016,18.0,-3.0,Downgrade
+Republic of the Congo,S&P,SD,,2016-08-02,3147,CG,0.0,2016,15.0,-15.0,Downgrade
+Republic of the Congo,S&P,B-,Stable,2016-08-09,738,CG,15.0,2016,0.0,15.0,Upgrade
+Republic of the Congo,S&P,CCC+,Stable,2017-08-04,3037,CG,12.0,2017,15.0,-3.0,Downgrade
+Republic of the Congo,S&P,CCC+,Stable,2017-09-05,3035,CG,12.0,2017,12.0,0.0,No Change
+Republic of the Congo,S&P,B-,Stable,2018-09-21,737,CG,15.0,2018,12.0,3.0,Upgrade
+Republic of the Congo,S&P,CCC+,Stable,2020-09-04,3034,CG,12.0,2020,15.0,-3.0,Downgrade
+Republic of the Congo,S&P,B-,Stable,2023-07-28,735,CG,15.0,2023,12.0,3.0,Upgrade
+Republic of the Congo,S&P,CCC+,Stable,2024-11-19,3032,CG,12.0,2024,15.0,-3.0,Downgrade
+Romania,DBRS,BB (high),Stable,2025-07-11,380,RO,30.0,2025,,,No Change
+Romania,Moody's,Ba3,Stable,1996-03-06,1057,RO,24.0,1996,,,No Change
+Romania,Moody's,B1,Stable,1998-09-14,1052,RO,21.0,1998,24.0,-3.0,Downgrade
+Romania,Moody's,B3,Stable,1998-11-06,1050,RO,15.0,1998,21.0,-6.0,Downgrade
+Romania,Moody's,B2,Stable,2001-12-19,1046,RO,18.0,2001,15.0,3.0,Upgrade
+Romania,Moody's,B1,Stable,2002-12-16,1044,RO,21.0,2002,18.0,3.0,Upgrade
+Romania,Moody's,Ba3,Stable,2003-12-11,1041,RO,24.0,2003,21.0,3.0,Upgrade
+Romania,Moody's,Baa3,Stable,2006-10-06,1034,RO,33.0,2006,24.0,9.0,Upgrade
+Romania,Moody's,Baa3,Stable,2014-04-25,1027,RO,33.0,2014,33.0,0.0,No Change
+Romania,Moody's,Baa3,Stable,2017-04-21,1024,RO,33.0,2017,33.0,0.0,No Change
+Romania,Moody's,Baa3,Stable,2021-10-18,1020,RO,33.0,2021,33.0,0.0,No Change
+Romania,S&P,BB-,Stable,1996-03-06,1524,RO,24.0,1996,,,No Change
+Romania,S&P,B+,Stable,1998-05-20,823,RO,21.0,1998,24.0,-3.0,Downgrade
+Romania,S&P,B-,Stable,2000-08-04,510,RO,15.0,2000,21.0,-6.0,Downgrade
+Romania,S&P,BB+,Stable,2004-09-14,1909,RO,30.0,2004,15.0,15.0,Upgrade
+Romania,S&P,BBB-,Stable,2005-09-06,2477,RO,33.0,2005,30.0,3.0,Upgrade
+Romania,S&P,BBB-,Stable,2007-04-05,2473,RO,33.0,2007,33.0,0.0,No Change
+Romania,S&P,BB+,Stable,2010-03-09,1902,RO,30.0,2010,33.0,-3.0,Downgrade
+Romania,S&P,BBB-,Stable,2014-05-16,2471,RO,33.0,2014,30.0,3.0,Upgrade
+Romania,S&P,BBB-,Stable,2021-04-16,2467,RO,33.0,2021,33.0,0.0,No Change
+Russia,Moody's,Ba2,Stable,1996-10-07,2973,RU,27.0,1996,,,No Change
+Russia,Moody's,Ba3,Stable,1998-03-11,2969,RU,24.0,1998,27.0,-3.0,Downgrade
+Russia,Moody's,B3,Stable,2000-01-05,2959,RU,15.0,2000,24.0,-9.0,Downgrade
+Russia,Moody's,B2,Stable,2000-11-13,2957,RU,18.0,2000,15.0,3.0,Upgrade
+Russia,Moody's,Ba3,Stable,2001-11-29,2953,RU,24.0,2001,18.0,6.0,Upgrade
+Russia,Moody's,Ba2,Stable,2002-12-17,2947,RU,27.0,2002,24.0,3.0,Upgrade
+Russia,Moody's,Baa3,Stable,2003-10-08,2945,RU,33.0,2003,27.0,6.0,Upgrade
+Russia,Moody's,Baa2,Stable,2005-10-25,2941,RU,36.0,2005,33.0,3.0,Upgrade
+Russia,Moody's,Baa1,Stable,2008-12-12,2931,RU,39.0,2008,36.0,3.0,Upgrade
+Russia,Moody's,Ba1,Stable,2015-12-03,2920,RU,30.0,2015,39.0,-9.0,Downgrade
+Russia,Moody's,Ba1,Stable,2017-02-17,2916,RU,30.0,2017,30.0,0.0,No Change
+Russia,Moody's,Baa3,Stable,2019-02-08,2912,RU,33.0,2019,30.0,3.0,Upgrade
+Russia,Moody's,Baa3,,2022-02-25,2911,RU,33.0,2022,33.0,0.0,No Change
+Russia,Moody's,B3,,2022-03-03,2909,RU,15.0,2022,33.0,-18.0,Downgrade
+Russia,Moody's,,,2022-03-31,2905,RU,,2022,15.0,,No Change
+Russia,S&P,BB-,Stable,1996-10-07,1766,RU,24.0,1996,,,No Change
+Russia,S&P,B+,Stable,1998-06-09,1183,RU,21.0,1998,24.0,-3.0,Downgrade
+Russia,S&P,SD,,1999-01-27,3160,RU,0.0,1999,21.0,-21.0,Downgrade
+Russia,S&P,B-,Stable,2000-12-08,766,RU,15.0,2000,0.0,15.0,Upgrade
+Russia,S&P,B,Stable,2001-06-28,449,RU,18.0,2001,15.0,3.0,Upgrade
+Russia,S&P,B+,Stable,2001-12-19,1179,RU,21.0,2001,18.0,3.0,Upgrade
+Russia,S&P,BB-,Stable,2002-07-26,1759,RU,24.0,2002,21.0,3.0,Upgrade
+Russia,S&P,BB,Stable,2002-12-05,1471,RU,27.0,2002,24.0,3.0,Upgrade
+Russia,S&P,BB+,Stable,2004-01-27,2021,RU,30.0,2004,27.0,3.0,Upgrade
+Russia,S&P,BBB,Stable,2005-12-15,2267,RU,36.0,2005,30.0,6.0,Upgrade
+Russia,S&P,BBB-,Stable,2005-12-31,2593,RU,33.0,2005,36.0,-3.0,Downgrade
+Russia,S&P,BBB+,Stable,2006-09-04,2799,RU,39.0,2006,33.0,6.0,Upgrade
+Russia,S&P,BBB+,Stable,2008-09-19,2794,RU,39.0,2008,39.0,0.0,No Change
+Russia,S&P,BBB,Stable,2009-12-21,2265,RU,36.0,2009,39.0,-3.0,Downgrade
+Russia,S&P,BB+,Stable,2016-09-16,2018,RU,30.0,2016,36.0,-6.0,Downgrade
+Russia,S&P,BBB-,Stable,2018-02-23,2587,RU,33.0,2018,30.0,3.0,Upgrade
+Russia,S&P,,,2022-04-08,3095,RU,,2022,33.0,,No Change
+Rwanda,Moody's,B2,Stable,2016-08-12,1945,RW,18.0,2016,,,No Change
+Rwanda,Moody's,B2,Stable,2023-09-08,1938,RW,18.0,2023,18.0,0.0,No Change
+Rwanda,Moody's,B2,Stable,2025-09-19,1936,RW,18.0,2025,18.0,0.0,No Change
+Rwanda,S&P,B,Stable,2012-10-29,265,RW,18.0,2012,,,No Change
+Rwanda,S&P,B+,Stable,2015-03-13,993,RW,21.0,2015,18.0,3.0,Upgrade
+Rwanda,S&P,B,Stable,2016-09-09,262,RW,18.0,2016,21.0,-3.0,Downgrade
+Rwanda,S&P,B+,Stable,2019-08-09,989,RW,21.0,2019,18.0,3.0,Upgrade
+Rwanda,S&P,B+,Stable,2023-01-27,986,RW,21.0,2023,21.0,0.0,No Change
+San Marino,DBRS,BBB (low),Stable,2023-12-01,1184,SM,33.0,2023,,,No Change
+San Marino,S&P,BBB-,Stable,2024-11-12,2425,SM,33.0,2024,,,No Change
+San Marino,S&P,BBB+,Stable,2025-08-01,2757,SM,39.0,2025,33.0,6.0,Upgrade
+Saudi Arabia,Moody's,Baa3,Stable,1996-01-29,3883,SA,33.0,1996,,,No Change
+Saudi Arabia,Moody's,Baa2,Stable,2003-06-16,3882,SA,36.0,2003,33.0,3.0,Upgrade
+Saudi Arabia,Moody's,A3,Stable,2005-11-14,3879,SA,42.0,2005,36.0,6.0,Upgrade
+Saudi Arabia,Moody's,Aa3,Stable,2010-02-15,3872,SA,51.0,2010,42.0,9.0,Upgrade
+Saudi Arabia,Moody's,A1,Stable,2016-05-14,3865,SA,48.0,2016,51.0,-3.0,Downgrade
+Saudi Arabia,Moody's,A1,Stable,2021-11-05,3863,SA,48.0,2021,48.0,0.0,No Change
+Saudi Arabia,Moody's,Aa3,Stable,2024-11-22,3858,SA,51.0,2024,48.0,3.0,Upgrade
+Saudi Arabia,S&P,A,Stable,2003-07-14,3241,SA,45.0,2003,,,No Change
+Saudi Arabia,S&P,A+,Stable,2006-04-05,3686,SA,48.0,2006,45.0,3.0,Upgrade
+Saudi Arabia,S&P,AA-,Stable,2007-07-16,4030,SA,51.0,2007,48.0,3.0,Upgrade
+Saudi Arabia,S&P,AA-,Stable,2014-12-05,4025,SA,51.0,2014,51.0,0.0,No Change
+Saudi Arabia,S&P,A-,Stable,2016-02-17,3395,SA,42.0,2016,51.0,-9.0,Downgrade
+Saudi Arabia,S&P,A,Stable,2023-03-17,3239,SA,45.0,2023,42.0,3.0,Upgrade
+Saudi Arabia,S&P,A+,Stable,2025-03-14,3684,SA,48.0,2025,45.0,3.0,Upgrade
+Senegal,Moody's,B1,Stable,2011-03-09,2495,SN,21.0,2011,,,No Change
+Senegal,Moody's,Ba3,Stable,2017-04-13,2492,SN,24.0,2017,21.0,3.0,Upgrade
+Senegal,Moody's,Ba3,,2020-06-12,2489,SN,24.0,2020,24.0,0.0,No Change
+Senegal,Moody's,Ba3,Stable,2022-03-18,2487,SN,24.0,2022,24.0,0.0,No Change
+Senegal,Moody's,B1,,2024-10-04,2486,SN,21.0,2024,24.0,-3.0,Downgrade
+Senegal,S&P,B+,Stable,2000-12-18,1114,SN,21.0,2000,,,No Change
+Senegal,S&P,B+,Stable,2009-05-26,1112,SN,21.0,2009,21.0,0.0,No Change
+Senegal,S&P,B+,Stable,2013-07-05,1109,SN,21.0,2013,21.0,0.0,No Change
+Senegal,S&P,B+,Stable,2019-12-06,1105,SN,21.0,2019,21.0,0.0,No Change
+Senegal,S&P,CCC+,,2025-11-14,3005,SN,12.0,2025,21.0,-9.0,Downgrade
+Serbia,Moody's,B1,Stable,2013-07-14,1287,RS,21.0,2013,,,No Change
+Serbia,Moody's,Ba3,Stable,2017-03-17,1281,RS,24.0,2017,21.0,3.0,Upgrade
+Serbia,Moody's,Ba2,Stable,2021-03-12,1275,RS,27.0,2021,24.0,3.0,Upgrade
+Serbia,Moody's,Ba2,Stable,2026-02-27,1269,RS,27.0,2026,27.0,0.0,No Change
+Serbia,S&P,B+,Stable,2004-11-01,839,RS,21.0,2004,,,No Change
+Serbia,S&P,BB-,Stable,2005-07-18,1570,RS,24.0,2005,21.0,3.0,Upgrade
+Serbia,S&P,BB-,Stable,2007-07-10,1566,RS,24.0,2007,24.0,0.0,No Change
+Serbia,S&P,BB-,Stable,2009-12-01,1562,RS,24.0,2009,24.0,0.0,No Change
+Serbia,S&P,BB,Stable,2011-03-16,1332,RS,27.0,2011,24.0,3.0,Upgrade
+Serbia,S&P,BB-,Stable,2016-01-15,1551,RS,24.0,2016,27.0,-3.0,Downgrade
+Serbia,S&P,BB,Stable,2017-12-15,1331,RS,27.0,2017,24.0,3.0,Upgrade
+Serbia,S&P,BB+,Stable,2020-05-01,1964,RS,30.0,2020,27.0,3.0,Upgrade
+Serbia,S&P,BB+,Stable,2022-06-10,1961,RS,30.0,2022,30.0,0.0,No Change
+Serbia,S&P,BBB-,Stable,2024-10-04,2537,RS,33.0,2024,30.0,3.0,Upgrade
+Singapore,DBRS,AAA,Stable,2016-01-29,13,SG,60.0,2016,,,No Change
+Singapore,Moody's,Aa3,Stable,1989-09-20,3300,SG,51.0,1989,,,No Change
+Singapore,Moody's,Aa2,Stable,1994-05-24,3298,SG,54.0,1994,51.0,3.0,Upgrade
+Singapore,Moody's,Aa1,Stable,1996-01-18,3296,SG,57.0,1996,54.0,3.0,Upgrade
+Singapore,Moody's,Aaa,Stable,2002-06-14,3295,SG,60.0,2002,57.0,3.0,Upgrade
+Singapore,S&P,AA,,1989-05-24,3802,SG,54.0,1989,,,No Change
+Singapore,S&P,AA+,Stable,1991-09-06,4127,SG,57.0,1991,54.0,3.0,Upgrade
+Singapore,S&P,AAA,Stable,1995-03-06,65,SG,60.0,1995,57.0,3.0,Upgrade
+Slovakia,DBRS,A (high),Stable,2016-04-22,3626,SK,48.0,2016,,,No Change
+Slovakia,DBRS,A,Stable,2023-02-24,3347,SK,45.0,2023,48.0,-3.0,Downgrade
+Slovakia,DBRS,A (low),Stable,2025-08-08,3774,SK,42.0,2025,45.0,-3.0,Downgrade
+Slovakia,Moody's,Baa3,Stable,1995-05-15,6,SK,33.0,1995,,,No Change
+Slovakia,Moody's,Ba1,Stable,1998-03-30,3,SK,30.0,1998,33.0,-3.0,Downgrade
+Slovakia,Moody's,Ba1,Stable,1999-10-27,4234,SK,30.0,1999,30.0,0.0,No Change
+Slovakia,Moody's,Baa3,Stable,2001-11-13,4229,SK,33.0,2001,30.0,3.0,Upgrade
+Slovakia,Moody's,A3,Stable,2002-11-12,4228,SK,42.0,2002,33.0,9.0,Upgrade
+Slovakia,Moody's,A1,Stable,2006-10-17,4219,SK,48.0,2006,42.0,6.0,Upgrade
+Slovakia,Moody's,A1,Stable,2009-03-27,4215,SK,48.0,2009,48.0,0.0,No Change
+Slovakia,Moody's,A2,Stable,2013-10-04,4210,SK,45.0,2013,48.0,-3.0,Downgrade
+Slovakia,Moody's,A2,Stable,2019-09-27,4205,SK,45.0,2019,45.0,0.0,No Change
+Slovakia,Moody's,A3,Stable,2024-12-13,4196,SK,42.0,2024,45.0,-3.0,Downgrade
+Slovakia,S&P,BB-,Stable,1994-02-15,1478,SK,24.0,1994,,,No Change
+Slovakia,S&P,BB+,Stable,1995-04-05,1793,SK,30.0,1995,24.0,6.0,Upgrade
+Slovakia,S&P,BBB-,Stable,1996-04-11,2307,SK,33.0,1996,30.0,3.0,Upgrade
+Slovakia,S&P,BB+,Stable,1999-11-12,1789,SK,30.0,1999,33.0,-3.0,Downgrade
+Slovakia,S&P,A,Stable,2005-12-19,3302,SK,45.0,2005,30.0,15.0,Upgrade
+Slovakia,S&P,A+,Stable,2008-11-27,3765,SK,48.0,2008,45.0,3.0,Upgrade
+Slovakia,S&P,A,Stable,2012-01-13,3299,SK,45.0,2012,48.0,-3.0,Downgrade
+Slovakia,S&P,A+,Stable,2015-07-31,3753,SK,48.0,2015,45.0,3.0,Upgrade
+Slovakia,S&P,A+,Stable,2021-01-22,3747,SK,48.0,2021,48.0,0.0,No Change
+Slovakia,S&P,A+,Stable,2023-05-19,3744,SK,48.0,2023,48.0,0.0,No Change
+Slovenia,DBRS,A,Stable,2017-11-17,3211,SI,45.0,2017,,,No Change
+Slovenia,DBRS,A (high),Stable,2020-02-21,3512,SI,48.0,2020,45.0,3.0,Upgrade
+Slovenia,DBRS,AA (low),Stable,2025-11-21,4131,SI,51.0,2025,48.0,3.0,Upgrade
+Slovenia,Moody's,A3,Stable,1996-05-08,3967,SI,42.0,1996,,,No Change
+Slovenia,Moody's,A2,Stable,2000-11-14,3963,SI,45.0,2000,42.0,3.0,Upgrade
+Slovenia,Moody's,Aa3,Stable,2002-11-12,3960,SI,51.0,2002,45.0,6.0,Upgrade
+Slovenia,Moody's,Aa2,Stable,2009-03-31,3953,SI,54.0,2009,51.0,3.0,Upgrade
+Slovenia,Moody's,Ba1,Stable,2014-01-24,3940,SI,30.0,2014,54.0,-24.0,Downgrade
+Slovenia,Moody's,Baa3,Stable,2015-01-23,3937,SI,33.0,2015,30.0,3.0,Upgrade
+Slovenia,Moody's,Baa1,Stable,2017-09-08,3931,SI,39.0,2017,33.0,6.0,Upgrade
+Slovenia,Moody's,A3,Stable,2020-10-02,3924,SI,42.0,2020,39.0,3.0,Upgrade
+Slovenia,Moody's,A2,Stable,2026-02-27,3918,SI,45.0,2026,42.0,3.0,Upgrade
+Slovenia,S&P,A,Stable,1996-05-08,3255,SI,45.0,1996,,,No Change
+Slovenia,S&P,AA-,Stable,2004-05-13,4042,SI,51.0,2004,45.0,6.0,Upgrade
+Slovenia,S&P,AA,Stable,2006-05-16,3881,SI,54.0,2006,51.0,3.0,Upgrade
+Slovenia,S&P,AA-,Stable,2011-10-19,4041,SI,51.0,2011,54.0,-3.0,Downgrade
+Slovenia,S&P,A-,Stable,2013-02-12,3403,SI,42.0,2013,51.0,-9.0,Downgrade
+Slovenia,S&P,A-,Stable,2014-12-19,3400,SI,42.0,2014,42.0,0.0,No Change
+Slovenia,S&P,A,Stable,2016-06-17,3248,SI,45.0,2016,42.0,3.0,Upgrade
+Slovenia,S&P,A+,Stable,2017-06-16,3691,SI,48.0,2017,45.0,3.0,Upgrade
+Slovenia,S&P,AA-,Stable,2019-06-14,4037,SI,51.0,2019,48.0,3.0,Upgrade
+Slovenia,S&P,AA,Stable,2025-06-06,3877,SI,54.0,2025,51.0,3.0,Upgrade
+Solomon Islands,Moody's,B3,Stable,2015-11-26,2371,SB,15.0,2015,,,No Change
+Solomon Islands,Moody's,Caa1,Stable,2021-10-08,2370,SB,12.0,2021,15.0,-3.0,Downgrade
+South Africa,Moody's,Baa3,Stable,1994-10-03,1584,ZA,33.0,1994,,,No Change
+South Africa,Moody's,Baa3,Stable,1998-10-08,1580,ZA,33.0,1998,33.0,0.0,No Change
+South Africa,Moody's,Baa2,Stable,2001-11-29,1576,ZA,36.0,2001,33.0,3.0,Upgrade
+South Africa,Moody's,Baa1,Stable,2005-01-11,1571,ZA,39.0,2005,36.0,3.0,Upgrade
+South Africa,Moody's,A3,Stable,2009-07-16,1567,ZA,42.0,2009,39.0,3.0,Upgrade
+South Africa,Moody's,Baa2,Stable,2014-11-06,1559,ZA,36.0,2014,42.0,-6.0,Downgrade
+South Africa,Moody's,Baa3,,2017-11-24,1552,ZA,33.0,2017,36.0,-3.0,Downgrade
+South Africa,Moody's,Baa3,Stable,2018-03-23,1550,ZA,33.0,2018,33.0,0.0,No Change
+South Africa,Moody's,Ba2,Stable,2022-04-01,1544,ZA,27.0,2022,33.0,-6.0,Downgrade
+South Africa,S&P,BB,Stable,1994-10-03,1414,ZA,27.0,1994,,,No Change
+South Africa,S&P,BB+,Stable,1995-11-20,1984,ZA,30.0,1995,27.0,3.0,Upgrade
+South Africa,S&P,BBB-,Stable,2000-02-25,2570,ZA,33.0,2000,30.0,3.0,Upgrade
+South Africa,S&P,BBB,Stable,2003-05-07,2236,ZA,36.0,2003,33.0,3.0,Upgrade
+South Africa,S&P,BBB+,Stable,2005-08-01,2783,ZA,39.0,2005,36.0,3.0,Upgrade
+South Africa,S&P,BBB+,Stable,2011-01-25,2779,ZA,39.0,2011,39.0,0.0,No Change
+South Africa,S&P,BBB-,Stable,2014-06-13,2567,ZA,33.0,2014,39.0,-6.0,Downgrade
+South Africa,S&P,BB,Stable,2017-11-24,1413,ZA,27.0,2017,33.0,-6.0,Downgrade
+South Africa,S&P,BB-,Stable,2020-04-30,1630,ZA,24.0,2020,27.0,-3.0,Downgrade
+South Africa,S&P,BB-,Stable,2023-03-08,1627,ZA,24.0,2023,24.0,0.0,No Change
+South Korea,Moody's,A2,Stable,1986-11-18,3692,KR,45.0,1986,,,No Change
+South Korea,Moody's,A1,Stable,1990-04-04,3689,KR,48.0,1990,45.0,3.0,Upgrade
+South Korea,Moody's,A3,Stable,1997-11-27,3682,KR,42.0,1997,48.0,-6.0,Downgrade
+South Korea,Moody's,Ba1,Stable,1997-12-21,3679,KR,30.0,1997,42.0,-12.0,Downgrade
+South Korea,Moody's,Baa2,Stable,1999-12-16,3668,KR,36.0,1999,30.0,6.0,Upgrade
+South Korea,Moody's,A3,Stable,2002-03-28,3664,KR,42.0,2002,36.0,6.0,Upgrade
+South Korea,Moody's,A3,Stable,2004-06-11,3660,KR,42.0,2004,42.0,0.0,No Change
+South Korea,Moody's,A2,Stable,2007-07-25,3656,KR,45.0,2007,42.0,3.0,Upgrade
+South Korea,Moody's,A1,Stable,2010-04-14,3655,KR,48.0,2010,45.0,3.0,Upgrade
+South Korea,Moody's,Aa3,Stable,2012-08-27,3653,KR,51.0,2012,48.0,3.0,Upgrade
+South Korea,Moody's,Aa2,Stable,2015-12-18,3648,KR,54.0,2015,51.0,3.0,Upgrade
+South Korea,S&P,A+,,1988-10-01,3644,KR,48.0,1988,,,No Change
+South Korea,S&P,AA-,Stable,1995-05-03,3978,KR,51.0,1995,48.0,3.0,Upgrade
+South Korea,S&P,B+,,1998-01-16,796,KR,21.0,1998,51.0,-30.0,Downgrade
+South Korea,S&P,BB+,Stable,1998-02-18,1786,KR,30.0,1998,21.0,9.0,Upgrade
+South Korea,S&P,BBB+,Stable,2001-11-13,2605,KR,39.0,2001,30.0,9.0,Upgrade
+South Korea,S&P,A-,Stable,2002-07-24,3376,KR,42.0,2002,39.0,3.0,Upgrade
+South Korea,S&P,A,Stable,2005-07-27,3197,KR,45.0,2005,42.0,3.0,Upgrade
+South Korea,S&P,A+,Stable,2012-09-13,3636,KR,48.0,2012,45.0,3.0,Upgrade
+South Korea,S&P,AA-,Stable,2015-09-15,3973,KR,51.0,2015,48.0,3.0,Upgrade
+South Korea,S&P,AA,Stable,2016-08-08,3862,KR,54.0,2016,51.0,3.0,Upgrade
+Spain,DBRS,AA,Stable,2010-10-21,4027,ES,54.0,2010,,,No Change
+Spain,DBRS,A (high),,2012-05-22,3630,ES,48.0,2012,54.0,-6.0,Downgrade
+Spain,DBRS,A (low),Stable,2014-10-10,3922,ES,42.0,2014,48.0,-6.0,Downgrade
+Spain,DBRS,A (low),Stable,2016-04-08,3893,ES,42.0,2016,42.0,0.0,No Change
+Spain,DBRS,A,Stable,2018-04-06,3392,ES,45.0,2018,42.0,3.0,Upgrade
+Spain,DBRS,A,Stable,2020-05-29,3367,ES,45.0,2020,45.0,0.0,No Change
+Spain,DBRS,A (high),Stable,2024-11-29,3628,ES,48.0,2024,45.0,3.0,Upgrade
+Spain,Moody's,Aa2,Stable,1988-02-03,135,ES,54.0,1988,,,No Change
+Spain,Moody's,Aaa,Stable,2001-12-13,128,ES,60.0,2001,54.0,6.0,Upgrade
+Spain,Moody's,Aa1,Stable,2010-09-30,120,ES,57.0,2010,60.0,-3.0,Downgrade
+Spain,Moody's,Baa3,Stable,2013-12-04,100,ES,33.0,2013,57.0,-24.0,Downgrade
+Spain,Moody's,Baa2,Stable,2016-02-19,94,ES,36.0,2016,33.0,3.0,Upgrade
+Spain,Moody's,Baa1,Stable,2018-04-13,89,ES,39.0,2018,36.0,3.0,Upgrade
+Spain,Moody's,A3,Stable,2025-09-26,79,ES,42.0,2025,39.0,3.0,Upgrade
+Spain,S&P,AA,,1988-08-01,3910,ES,54.0,1988,,,No Change
+Spain,S&P,AA,Stable,1996-02-06,3906,ES,54.0,1996,54.0,0.0,No Change
+Spain,S&P,AA+,Stable,1999-03-31,4226,ES,57.0,1999,54.0,3.0,Upgrade
+Spain,S&P,AAA,Stable,2004-12-13,136,ES,60.0,2004,57.0,3.0,Upgrade
+Spain,S&P,AA+,Stable,2009-01-19,4221,ES,57.0,2009,60.0,-3.0,Downgrade
+Spain,S&P,BBB-,Stable,2013-11-29,2317,ES,33.0,2013,57.0,-24.0,Downgrade
+Spain,S&P,BBB,Stable,2014-05-23,2085,ES,36.0,2014,33.0,3.0,Upgrade
+Spain,S&P,BBB+,Stable,2015-10-02,2652,ES,39.0,2015,36.0,3.0,Upgrade
+Spain,S&P,A,Stable,2019-09-20,3309,ES,45.0,2019,39.0,6.0,Upgrade
+Spain,S&P,A,Stable,2022-03-18,3305,ES,45.0,2022,45.0,0.0,No Change
+Spain,S&P,A+,Stable,2025-09-12,3769,ES,48.0,2025,45.0,3.0,Upgrade
+Sri Lanka,Moody's,B1,Stable,2010-09-22,2837,LK,21.0,2010,,,No Change
+Sri Lanka,Moody's,B1,Stable,2013-07-02,2833,LK,21.0,2013,21.0,0.0,No Change
+Sri Lanka,Moody's,B2,Stable,2018-11-20,2829,LK,18.0,2018,21.0,-3.0,Downgrade
+Sri Lanka,Moody's,B2,,2020-04-17,2825,LK,18.0,2020,18.0,0.0,No Change
+Sri Lanka,Moody's,B2,,2020-04-17,2826,LK,18.0,2020,18.0,0.0,No Change
+Sri Lanka,Moody's,Caa1,Stable,2020-09-28,2823,LK,12.0,2020,18.0,-6.0,Downgrade
+Sri Lanka,Moody's,Caa1,,2021-07-19,2821,LK,12.0,2021,12.0,0.0,No Change
+Sri Lanka,Moody's,Caa2,Stable,2021-10-28,2819,LK,9.0,2021,12.0,-3.0,Downgrade
+Sri Lanka,Moody's,Ca,Stable,2022-04-18,2816,LK,3.0,2022,9.0,-6.0,Downgrade
+Sri Lanka,Moody's,Ca,,2024-11-28,2814,LK,3.0,2024,3.0,0.0,No Change
+Sri Lanka,Moody's,Caa1,Stable,2024-12-23,2813,LK,12.0,2024,3.0,9.0,Upgrade
+Sri Lanka,S&P,B+,Stable,2005-12-08,1160,LK,21.0,2005,,,No Change
+Sri Lanka,S&P,B+,Stable,2007-08-08,1158,LK,21.0,2007,21.0,0.0,No Change
+Sri Lanka,S&P,B,Stable,2008-12-15,442,LK,18.0,2008,21.0,-3.0,Downgrade
+Sri Lanka,S&P,B,Stable,2009-08-25,438,LK,18.0,2009,18.0,0.0,No Change
+Sri Lanka,S&P,B+,Stable,2010-09-14,1156,LK,21.0,2010,18.0,3.0,Upgrade
+Sri Lanka,S&P,B+,Stable,2012-02-29,1154,LK,21.0,2012,21.0,0.0,No Change
+Sri Lanka,S&P,B+,Stable,2017-11-20,1152,LK,21.0,2017,21.0,0.0,No Change
+Sri Lanka,S&P,B,Stable,2018-12-04,431,LK,18.0,2018,21.0,-3.0,Downgrade
+Sri Lanka,S&P,B-,Stable,2020-05-20,750,LK,15.0,2020,18.0,-3.0,Downgrade
+Sri Lanka,S&P,CCC+,Stable,2020-12-11,3055,LK,12.0,2020,15.0,-3.0,Downgrade
+Sri Lanka,S&P,SD,,2022-04-25,3155,LK,0.0,2022,12.0,-12.0,Downgrade
+Sri Lanka,S&P,CCC+,Stable,2025-09-19,3052,LK,12.0,2025,0.0,12.0,Upgrade
+St Vincent and The Grenadines,Moody's,B1,Stable,2007-12-10,2375,VC,21.0,2007,,,No Change
+St Vincent and The Grenadines,Moody's,B2,Stable,2012-10-09,2374,VC,18.0,2012,21.0,-3.0,Downgrade
+St Vincent and The Grenadines,Moody's,B3,Stable,2016-05-19,2372,VC,15.0,2016,18.0,-3.0,Downgrade
+Suriname,Moody's,B1,Stable,2004-02-03,2874,SR,21.0,2004,,,No Change
+Suriname,Moody's,Ba3,Stable,2014-02-14,2864,SR,24.0,2014,21.0,3.0,Upgrade
+Suriname,Moody's,B1,Stable,2016-05-20,2861,SR,21.0,2016,24.0,-3.0,Downgrade
+Suriname,Moody's,B1,,2017-11-22,2859,SR,21.0,2017,21.0,0.0,No Change
+Suriname,Moody's,B2,Stable,2019-02-28,2856,SR,18.0,2019,21.0,-3.0,Downgrade
+Suriname,Moody's,Caa3,Stable,2023-02-17,2849,SR,6.0,2023,18.0,-12.0,Downgrade
+Suriname,S&P,B-,Stable,1999-11-23,761,SR,15.0,1999,,,No Change
+Suriname,S&P,B-,Stable,2002-01-11,759,SR,15.0,2002,15.0,0.0,No Change
+Suriname,S&P,B-,Stable,2003-07-28,756,SR,15.0,2003,15.0,0.0,No Change
+Suriname,S&P,B-,,2004-07-28,754,SR,15.0,2004,15.0,0.0,No Change
+Suriname,S&P,B-,Stable,2004-08-03,752,SR,15.0,2004,15.0,0.0,No Change
+Suriname,S&P,B+,Stable,2007-11-16,1173,SR,21.0,2007,15.0,6.0,Upgrade
+Suriname,S&P,BB-,Stable,2011-08-19,1758,SR,24.0,2011,21.0,3.0,Upgrade
+Suriname,S&P,BB-,Stable,2014-04-28,1755,SR,24.0,2014,24.0,0.0,No Change
+Suriname,S&P,B,Stable,2018-04-02,443,SR,18.0,2018,24.0,-6.0,Downgrade
+Suriname,S&P,SD,,2020-07-13,3158,SR,0.0,2020,18.0,-18.0,Downgrade
+Suriname,S&P,CCC,Stable,2020-07-16,2873,SR,9.0,2020,0.0,9.0,Upgrade
+Suriname,S&P,SD,,2020-11-06,3156,SR,0.0,2020,9.0,-9.0,Downgrade
+Suriname,S&P,CCC+,Stable,2023-12-06,3056,SR,12.0,2023,0.0,12.0,Upgrade
+Swaziland,Moody's,B3,Stable,2020-07-20,2378,SZ,15.0,2020,,,No Change
+Swaziland,Moody's,B2,Stable,2024-11-25,2376,SZ,18.0,2024,15.0,3.0,Upgrade
+Sweden,DBRS,AAA,Stable,2012-04-17,12,SE,60.0,2012,,,No Change
+Sweden,Moody's,Aaa,Stable,1977-11-10,3292,SE,60.0,1977,,,No Change
+Sweden,Moody's,Aa1,Stable,1991-01-17,3289,SE,57.0,1991,60.0,-3.0,Downgrade
+Sweden,Moody's,Aa2,Stable,1993-02-01,3288,SE,54.0,1993,57.0,-3.0,Downgrade
+Sweden,Moody's,Aa3,Stable,1995-01-05,3284,SE,51.0,1995,54.0,-3.0,Downgrade
+Sweden,Moody's,Aa2,Stable,1998-06-04,3279,SE,54.0,1998,51.0,3.0,Upgrade
+Sweden,Moody's,Aa1,Stable,1999-08-23,3277,SE,57.0,1999,54.0,3.0,Upgrade
+Sweden,Moody's,Aaa,Stable,2002-04-04,3275,SE,60.0,2002,57.0,3.0,Upgrade
+Sweden,S&P,AAA,,1977-10-27,64,SE,60.0,1977,,,No Change
+Sweden,S&P,AAA,Stable,1989-06-26,63,SE,60.0,1989,60.0,0.0,No Change
+Sweden,S&P,AAA,Stable,1993-03-22,61,SE,60.0,1993,60.0,0.0,No Change
+Sweden,S&P,AA+,Stable,1993-03-23,4126,SE,57.0,1993,60.0,-3.0,Downgrade
+Sweden,S&P,AA+,Stable,1997-04-18,4123,SE,57.0,1997,57.0,0.0,No Change
+Sweden,S&P,AAA,Stable,2004-02-16,59,SE,60.0,2004,57.0,3.0,Upgrade
+Switzerland,DBRS,AAA,Stable,2011-07-14,4207,CH,60.0,2011,,,No Change
+Switzerland,Moody's,Aaa,Stable,1982-01-20,3264,CH,60.0,1982,,,No Change
+Switzerland,S&P,AAA,,1988-10-01,49,CH,60.0,1988,,,No Change
+Switzerland,S&P,AAA,Stable,1989-06-26,47,CH,60.0,1989,60.0,0.0,No Change
+Taiwan,Moody's,Aa3,Stable,1994-03-24,3417,TW,51.0,1994,,,No Change
+Taiwan,Moody's,Aa3,Stable,2022-09-22,3406,TW,51.0,2022,51.0,0.0,No Change
+Taiwan,S&P,AA,,1989-04-20,3826,TW,54.0,1989,,,No Change
+Taiwan,S&P,AA+,Stable,1991-08-02,4187,TW,57.0,1991,54.0,3.0,Upgrade
+Taiwan,S&P,AA-,Stable,2002-12-18,3944,TW,51.0,2002,57.0,-6.0,Downgrade
+Taiwan,S&P,AA-,Stable,2008-04-11,3942,TW,51.0,2008,51.0,0.0,No Change
+Taiwan,S&P,AA-,Stable,2010-06-10,3938,TW,51.0,2010,51.0,0.0,No Change
+Taiwan,S&P,AA+,Stable,2022-04-29,4182,TW,57.0,2022,51.0,6.0,Upgrade
+Tajikistan,Moody's,B3,Stable,2017-08-28,2167,TJ,15.0,2017,,,No Change
+Tajikistan,Moody's,B3,Stable,2021-06-10,2165,TJ,15.0,2021,15.0,0.0,No Change
+Tajikistan,Moody's,B3,,2022-03-30,2164,TJ,15.0,2022,15.0,0.0,No Change
+Tajikistan,Moody's,B3,Stable,2023-10-12,2162,TJ,15.0,2023,15.0,0.0,No Change
+Tajikistan,Moody's,B2,Stable,2026-03-05,2158,TJ,18.0,2026,15.0,3.0,Upgrade
+Tajikistan,S&P,B-,Stable,2017-08-28,608,TJ,15.0,2017,,,No Change
+Tajikistan,S&P,B,Stable,2024-08-16,307,TJ,18.0,2024,15.0,3.0,Upgrade
+Tanzania,Moody's,B2,Stable,2020-08-21,1953,TZ,18.0,2020,,,No Change
+Tanzania,Moody's,B1,Stable,2024-03-22,1951,TZ,21.0,2024,18.0,3.0,Upgrade
+Thailand,Moody's,A2,Stable,1989-08-01,446,TH,45.0,1989,,,No Change
+Thailand,Moody's,A3,Stable,1997-04-08,440,TH,42.0,1997,45.0,-3.0,Downgrade
+Thailand,Moody's,Ba1,Stable,1997-12-21,432,TH,30.0,1997,42.0,-12.0,Downgrade
+Thailand,Moody's,Baa3,Stable,2000-06-22,427,TH,33.0,2000,30.0,3.0,Upgrade
+Thailand,Moody's,Baa1,Stable,2003-11-26,423,TH,39.0,2003,33.0,6.0,Upgrade
+Thailand,Moody's,Baa1,Stable,2010-10-28,417,TH,39.0,2010,39.0,0.0,No Change
+Thailand,Moody's,Baa1,Stable,2020-04-21,412,TH,39.0,2020,39.0,0.0,No Change
+Thailand,S&P,A-,,1989-06-14,3528,TH,42.0,1989,,,No Change
+Thailand,S&P,A-,Stable,1991-02-26,3521,TH,42.0,1991,42.0,0.0,No Change
+Thailand,S&P,A-,Stable,1992-12-08,3516,TH,42.0,1992,42.0,0.0,No Change
+Thailand,S&P,A,Stable,1994-12-29,3334,TH,45.0,1994,42.0,3.0,Upgrade
+Thailand,S&P,BBB-,Stable,1999-05-05,2353,TH,33.0,1999,45.0,-12.0,Downgrade
+Thailand,S&P,BBB+,Stable,2004-08-26,2692,TH,39.0,2004,33.0,6.0,Upgrade
+Thailand,S&P,BBB+,Stable,2006-10-31,2690,TH,39.0,2006,39.0,0.0,No Change
+Thailand,S&P,BBB+,Stable,2010-12-09,2688,TH,39.0,2010,39.0,0.0,No Change
+Thailand,S&P,BBB+,Stable,2020-04-13,2685,TH,39.0,2020,39.0,0.0,No Change
+Togo,Moody's,B3,Stable,2019-06-05,2173,TG,15.0,2019,,,No Change
+Togo,Moody's,B3,Stable,2024-09-27,2170,TG,15.0,2024,15.0,0.0,No Change
+Togo,S&P,B,Stable,2019-06-01,309,TG,18.0,2019,,,No Change
+Togo,S&P,B+,Stable,2025-04-18,1064,TG,21.0,2025,18.0,3.0,Upgrade
+Trinidad and Tobago,Moody's,Ba2,Stable,1993-02-08,1330,TT,27.0,1993,,,No Change
+Trinidad and Tobago,Moody's,Ba1,Stable,1995-10-10,1329,TT,30.0,1995,27.0,3.0,Upgrade
+Trinidad and Tobago,Moody's,Baa3,Stable,2000-04-06,1325,TT,33.0,2000,30.0,3.0,Upgrade
+Trinidad and Tobago,Moody's,Baa2,Stable,2005-08-09,1320,TT,36.0,2005,33.0,3.0,Upgrade
+Trinidad and Tobago,Moody's,Baa1,Stable,2006-07-13,1319,TT,39.0,2006,36.0,3.0,Upgrade
+Trinidad and Tobago,Moody's,Ba1,Stable,2017-04-25,1307,TT,30.0,2017,39.0,-9.0,Downgrade
+Trinidad and Tobago,Moody's,Ba2,Stable,2021-11-19,1301,TT,27.0,2021,30.0,-3.0,Downgrade
+Trinidad and Tobago,Moody's,Ba2,Stable,2024-06-14,1298,TT,27.0,2024,27.0,0.0,No Change
+Trinidad and Tobago,S&P,BBB-,Stable,1999-09-13,2552,TT,33.0,1999,,,No Change
+Trinidad and Tobago,S&P,BBB,Stable,2003-04-02,2227,TT,36.0,2003,33.0,3.0,Upgrade
+Trinidad and Tobago,S&P,A-,Stable,2005-07-21,3560,TT,42.0,2005,36.0,6.0,Upgrade
+Trinidad and Tobago,S&P,A,Stable,2008-08-15,3371,TT,45.0,2008,42.0,3.0,Upgrade
+Trinidad and Tobago,S&P,A,Stable,2009-09-14,3368,TT,45.0,2009,45.0,0.0,No Change
+Trinidad and Tobago,S&P,BBB+,Stable,2017-04-21,2773,TT,39.0,2017,45.0,-6.0,Downgrade
+Trinidad and Tobago,S&P,BBB,Stable,2019-07-09,2224,TT,36.0,2019,39.0,-3.0,Downgrade
+Trinidad and Tobago,S&P,BBB-,Stable,2020-03-26,2545,TT,33.0,2020,36.0,-3.0,Downgrade
+Trinidad and Tobago,S&P,BBB-,Stable,2022-07-21,2540,TT,33.0,2022,33.0,0.0,No Change
+Tunisia,Moody's,Baa3,Stable,1995-04-06,2479,TN,33.0,1995,,,No Change
+Tunisia,Moody's,Baa2,Stable,2003-04-17,2476,TN,36.0,2003,33.0,3.0,Upgrade
+Tunisia,Moody's,Ba3,Stable,2015-05-25,2464,TN,24.0,2015,36.0,-12.0,Downgrade
+Tunisia,Moody's,B2,Stable,2018-03-14,2461,TN,18.0,2018,24.0,-6.0,Downgrade
+Tunisia,Moody's,B2,Stable,2020-02-14,2459,TN,18.0,2020,18.0,0.0,No Change
+Tunisia,Moody's,B2,,2020-04-17,2458,TN,18.0,2020,18.0,0.0,No Change
+Tunisia,Moody's,Caa1,,2022-09-30,2454,TN,12.0,2022,18.0,-6.0,Downgrade
+Tunisia,Moody's,Caa2,Stable,2024-03-22,2452,TN,9.0,2024,12.0,-3.0,Downgrade
+Tunisia,Moody's,Caa1,Stable,2025-02-28,2451,TN,12.0,2025,9.0,3.0,Upgrade
+Tunisia,S&P,BBB,Stable,2000-03-21,2257,TN,36.0,2000,,,No Change
+Tunisia,S&P,BBB-,Stable,2011-03-16,2586,TN,33.0,2011,36.0,-3.0,Downgrade
+Tunisia,S&P,BB,Stable,2012-05-23,1465,TN,27.0,2012,33.0,-6.0,Downgrade
+Tunisia,S&P,,,2013-12-18,3085,TN,,2013,27.0,,No Change
+Turkey,DBRS,BBB (low),Stable,2013-05-23,1693,TR,33.0,2013,,,No Change
+Turkey,Moody's,Baa3,Stable,1992-05-05,1749,TR,33.0,1992,,,No Change
+Turkey,Moody's,Ba1,Stable,1994-01-13,1747,TR,30.0,1994,33.0,-3.0,Downgrade
+Turkey,Moody's,Ba3,Stable,1994-06-02,1743,TR,24.0,1994,30.0,-6.0,Downgrade
+Turkey,Moody's,B1,Stable,1997-03-13,1736,TR,21.0,1997,24.0,-3.0,Downgrade
+Turkey,Moody's,B1,Stable,2001-02-21,1727,TR,21.0,2001,21.0,0.0,No Change
+Turkey,Moody's,B1,Stable,2002-01-15,1720,TR,21.0,2002,21.0,0.0,No Change
+Turkey,Moody's,B1,Stable,2003-10-21,1712,TR,21.0,2003,21.0,0.0,No Change
+Turkey,Moody's,Ba3,Stable,2005-12-14,1708,TR,24.0,2005,21.0,3.0,Upgrade
+Turkey,Moody's,Ba2,Stable,2010-01-08,1700,TR,27.0,2010,24.0,3.0,Upgrade
+Turkey,Moody's,Baa3,Stable,2013-05-16,1694,TR,33.0,2013,27.0,6.0,Upgrade
+Turkey,Moody's,Ba1,Stable,2016-09-23,1686,TR,30.0,2016,33.0,-3.0,Downgrade
+Turkey,Moody's,Ba2,Stable,2018-03-07,1682,TR,27.0,2018,30.0,-3.0,Downgrade
+Turkey,Moody's,Ba2,,2018-06-01,1680,TR,27.0,2018,27.0,0.0,No Change
+Turkey,Moody's,B3,Stable,2022-08-12,1674,TR,15.0,2022,27.0,-12.0,Downgrade
+Turkey,Moody's,Ba3,Stable,2025-07-25,1665,TR,24.0,2025,15.0,9.0,Upgrade
+Turkey,S&P,BBB,Stable,1992-05-04,2239,TR,36.0,1992,,,No Change
+Turkey,S&P,B+,Stable,1994-08-16,923,TR,21.0,1994,36.0,-15.0,Downgrade
+Turkey,S&P,B+,Stable,1995-10-18,918,TR,21.0,1995,21.0,0.0,No Change
+Turkey,S&P,B,Stable,1996-12-13,221,TR,18.0,1996,21.0,-3.0,Downgrade
+Turkey,S&P,B,Stable,1999-01-21,218,TR,18.0,1999,18.0,0.0,No Change
+Turkey,S&P,B+,Stable,2000-12-05,912,TR,21.0,2000,18.0,3.0,Upgrade
+Turkey,S&P,B-,Stable,2001-04-27,544,TR,15.0,2001,21.0,-6.0,Downgrade
+Turkey,S&P,B-,Stable,2001-11-30,541,TR,15.0,2001,15.0,0.0,No Change
+Turkey,S&P,B-,Stable,2002-06-26,539,TR,15.0,2002,15.0,0.0,No Change
+Turkey,S&P,B-,Stable,2002-11-07,535,TR,15.0,2002,15.0,0.0,No Change
+Turkey,S&P,B,Stable,2003-07-28,214,TR,18.0,2003,15.0,3.0,Upgrade
+Turkey,S&P,B+,Stable,2003-10-16,909,TR,21.0,2003,18.0,3.0,Upgrade
+Turkey,S&P,BB-,Stable,2004-08-17,1661,TR,24.0,2004,21.0,3.0,Upgrade
+Turkey,S&P,BB-,Stable,2006-06-27,1657,TR,24.0,2006,24.0,0.0,No Change
+Turkey,S&P,BB-,Stable,2008-07-31,1655,TR,24.0,2008,24.0,0.0,No Change
+Turkey,S&P,BB-,Stable,2009-09-17,1651,TR,24.0,2009,24.0,0.0,No Change
+Turkey,S&P,BB,Stable,2012-05-01,1425,TR,27.0,2012,24.0,3.0,Upgrade
+Turkey,S&P,BB+,Stable,2013-03-27,1994,TR,30.0,2013,27.0,3.0,Upgrade
+Turkey,S&P,BB+,Stable,2016-05-06,1990,TR,30.0,2016,30.0,0.0,No Change
+Turkey,S&P,BB,Stable,2016-11-04,1423,TR,27.0,2016,30.0,-3.0,Downgrade
+Turkey,S&P,BB-,Stable,2018-05-01,1650,TR,24.0,2018,27.0,-3.0,Downgrade
+Turkey,S&P,B+,Stable,2018-08-17,907,TR,21.0,2018,24.0,-3.0,Downgrade
+Turkey,S&P,B,Stable,2022-09-30,212,TR,18.0,2022,21.0,-3.0,Downgrade
+Turkey,S&P,B,Stable,2023-09-29,208,TR,18.0,2023,18.0,0.0,No Change
+Turkey,S&P,BB-,Stable,2024-11-01,1649,TR,24.0,2024,18.0,6.0,Upgrade
+Uganda,Moody's,B1,Stable,2013-12-20,2209,UG,21.0,2013,,,No Change
+Uganda,Moody's,B2,Stable,2016-11-18,2206,UG,18.0,2016,21.0,-3.0,Downgrade
+Uganda,Moody's,B3,Stable,2024-05-17,2202,UG,15.0,2024,18.0,-3.0,Downgrade
+Uganda,S&P,B+,Stable,2008-12-09,1075,UG,21.0,2008,,,No Change
+Uganda,S&P,B,Stable,2014-01-17,318,UG,18.0,2014,21.0,-3.0,Downgrade
+Uganda,S&P,B-,Stable,2023-10-06,619,UG,15.0,2023,18.0,-3.0,Downgrade
+Ukraine,Moody's,B2,Stable,1998-02-06,3103,UA,18.0,1998,,,No Change
+Ukraine,Moody's,B2,Stable,2002-01-24,3096,UA,18.0,2002,18.0,0.0,No Change
+Ukraine,Moody's,B1,Stable,2003-11-10,3091,UA,21.0,2003,18.0,3.0,Upgrade
+Ukraine,Moody's,B1,Stable,2005-02-17,3088,UA,21.0,2005,21.0,0.0,No Change
+Ukraine,Moody's,B1,Stable,2008-10-20,3080,UA,21.0,2008,21.0,0.0,No Change
+Ukraine,Moody's,B2,Stable,2010-10-11,3068,UA,18.0,2010,21.0,-3.0,Downgrade
+Ukraine,Moody's,Caa3,Stable,2015-11-19,3050,UA,6.0,2015,18.0,-12.0,Downgrade
+Ukraine,Moody's,Caa1,Stable,2018-12-21,3048,UA,12.0,2018,6.0,6.0,Upgrade
+Ukraine,Moody's,B3,Stable,2020-06-12,3045,UA,15.0,2020,12.0,3.0,Upgrade
+Ukraine,Moody's,B3,,2022-02-25,3044,UA,15.0,2022,15.0,0.0,No Change
+Ukraine,Moody's,Caa2,,2022-03-04,3042,UA,9.0,2022,15.0,-6.0,Downgrade
+Ukraine,Moody's,Ca,Stable,2023-02-10,3036,UA,3.0,2023,9.0,-6.0,Downgrade
+Ukraine,S&P,B,Stable,2001-12-21,478,UA,18.0,2001,,,No Change
+Ukraine,S&P,B,Stable,2003-05-20,475,UA,18.0,2003,18.0,0.0,No Change
+Ukraine,S&P,B+,Stable,2004-07-20,1207,UA,21.0,2004,18.0,3.0,Upgrade
+Ukraine,S&P,BB-,Stable,2005-05-11,1773,UA,24.0,2005,21.0,3.0,Upgrade
+Ukraine,S&P,B+,Stable,2008-06-12,1205,UA,21.0,2008,24.0,-3.0,Downgrade
+Ukraine,S&P,CCC+,Stable,2009-10-30,3070,UA,12.0,2009,21.0,-9.0,Downgrade
+Ukraine,S&P,B,Stable,2010-05-17,468,UA,18.0,2010,12.0,6.0,Upgrade
+Ukraine,S&P,B+,Stable,2010-07-29,1202,UA,21.0,2010,18.0,3.0,Upgrade
+Ukraine,S&P,B-,Stable,2013-12-26,781,UA,15.0,2013,21.0,-6.0,Downgrade
+Ukraine,S&P,CCC,Stable,2014-07-11,2879,UA,9.0,2014,15.0,-6.0,Downgrade
+Ukraine,S&P,SD,,2015-09-25,3168,UA,0.0,2015,9.0,-9.0,Downgrade
+Ukraine,S&P,B-,Stable,2015-10-19,779,UA,15.0,2015,0.0,15.0,Upgrade
+Ukraine,S&P,B,Stable,2019-09-27,460,UA,18.0,2019,15.0,3.0,Upgrade
+Ukraine,S&P,SD,,2022-08-12,3166,UA,0.0,2022,18.0,-18.0,Downgrade
+Ukraine,S&P,CCC+,Stable,2022-08-19,3064,UA,12.0,2022,0.0,12.0,Upgrade
+Ukraine,S&P,SD,,2024-08-02,3164,UA,0.0,2024,12.0,-12.0,Downgrade
+Ukraine,S&P,CCC+,Stable,2026-01-22,3062,UA,12.0,2026,0.0,12.0,Upgrade
+United Arab Emirates,Moody's,Baa1,Stable,1996-01-29,3431,AE,39.0,1996,,,No Change
+United Arab Emirates,Moody's,A2,Stable,1997-12-11,3429,AE,45.0,1997,39.0,6.0,Upgrade
+United Arab Emirates,Moody's,A1,Stable,2004-12-21,3428,AE,48.0,2004,45.0,3.0,Upgrade
+United Arab Emirates,Moody's,Aa3,Stable,2006-10-04,3426,AE,51.0,2006,48.0,3.0,Upgrade
+United Arab Emirates,Moody's,Aa2,Stable,2007-07-10,3424,AE,54.0,2007,51.0,3.0,Upgrade
+United Arab Emirates,Moody's,Aa2,Stable,2017-05-25,3421,AE,54.0,2017,54.0,0.0,No Change
+United Arab Emirates,S&P,AA,Stable,2007-07-02,3829,AE,54.0,2007,,,No Change
+United Kingdom,DBRS,AAA,Stable,2010-07-19,97,GB,60.0,2010,,,No Change
+United Kingdom,DBRS,AA (high),Stable,2020-11-13,4107,GB,57.0,2020,60.0,-3.0,Downgrade
+United Kingdom,DBRS,AA (high),,2022-10-19,4104,GB,57.0,2022,57.0,0.0,No Change
+United Kingdom,DBRS,AA,Stable,2023-01-13,4018,GB,54.0,2023,57.0,-3.0,Downgrade
+United Kingdom,Moody's,Aaa,Stable,1978-03-31,3646,GB,60.0,1978,,,No Change
+United Kingdom,Moody's,Aa1,Stable,2013-02-22,3638,GB,57.0,2013,60.0,-3.0,Downgrade
+United Kingdom,Moody's,Aa2,Stable,2017-09-22,3633,GB,54.0,2017,57.0,-3.0,Downgrade
+United Kingdom,Moody's,Aa3,Stable,2020-10-16,3629,GB,51.0,2020,54.0,-3.0,Downgrade
+United Kingdom,Moody's,Aa3,Stable,2023-10-20,3622,GB,51.0,2023,51.0,0.0,No Change
+United Kingdom,S&P,AAA,,1978-04-28,126,GB,60.0,1978,,,No Change
+United Kingdom,S&P,AAA,Stable,1989-06-26,125,GB,60.0,1989,60.0,0.0,No Change
+United Kingdom,S&P,AAA,Stable,2010-10-26,123,GB,60.0,2010,60.0,0.0,No Change
+United Kingdom,S&P,AAA,Stable,2014-06-13,114,GB,60.0,2014,60.0,0.0,No Change
+United Kingdom,S&P,AA,Stable,2019-12-17,3859,GB,54.0,2019,60.0,-6.0,Downgrade
+United Kingdom,S&P,AA,Stable,2023-04-21,3856,GB,54.0,2023,54.0,0.0,No Change
+United States,DBRS,AAA,Stable,2011-09-08,81,US,60.0,2011,,,No Change
+United States,DBRS,AAA,,2013-10-09,60,US,60.0,2013,60.0,0.0,No Change
+United States,DBRS,AAA,Stable,2014-04-22,57,US,60.0,2014,60.0,0.0,No Change
+United States,DBRS,AAA,Stable,2023-07-28,50,US,60.0,2023,60.0,0.0,No Change
+United States,Moody's,Aaa,Stable,1949-02-05,3359,US,60.0,1949,,,No Change
+United States,Moody's,Aaa,Stable,2013-07-18,3351,US,60.0,2013,60.0,0.0,No Change
+United States,Moody's,Aa1,Stable,2025-05-16,3345,US,57.0,2025,60.0,-3.0,Downgrade
+United States,S&P,AA+,Stable,2013-06-10,4155,US,57.0,2013,,,No Change
+Uruguay,DBRS,BB (low),Stable,2008-02-28,571,UY,24.0,2008,,,No Change
+Uruguay,DBRS,BB,Stable,2010-04-08,358,UY,27.0,2010,24.0,3.0,Upgrade
+Uruguay,DBRS,BBB (low),Stable,2013-05-03,1165,UY,33.0,2013,27.0,6.0,Upgrade
+Uruguay,DBRS,BBB,Stable,2022-11-22,804,UY,36.0,2022,33.0,3.0,Upgrade
+Uruguay,Moody's,Ba1,Stable,1993-10-15,586,UY,30.0,1993,,,No Change
+Uruguay,Moody's,Baa3,Stable,1997-06-10,585,UY,33.0,1997,30.0,3.0,Upgrade
+Uruguay,Moody's,B3,Stable,2004-11-10,578,UY,15.0,2004,33.0,-18.0,Downgrade
+Uruguay,Moody's,B1,Stable,2006-12-21,576,UY,21.0,2006,15.0,6.0,Upgrade
+Uruguay,Moody's,Ba3,Stable,2009-01-12,573,UY,24.0,2009,21.0,3.0,Upgrade
+Uruguay,Moody's,Ba1,Stable,2010-12-08,569,UY,30.0,2010,24.0,6.0,Upgrade
+Uruguay,Moody's,Baa2,Stable,2014-05-29,561,UY,36.0,2014,30.0,6.0,Upgrade
+Uruguay,Moody's,Baa2,Stable,2017-07-13,556,UY,36.0,2017,36.0,0.0,No Change
+Uruguay,Moody's,Baa1,Stable,2024-03-15,551,UY,39.0,2024,36.0,3.0,Upgrade
+Uruguay,S&P,BB+,Stable,2011-07-25,1846,UY,30.0,2011,,,No Change
+Uruguay,S&P,BBB-,Stable,2012-04-03,2366,UY,33.0,2012,30.0,3.0,Upgrade
+Uruguay,S&P,BBB,Stable,2015-06-05,2150,UY,36.0,2015,33.0,3.0,Upgrade
+Uruguay,S&P,BBB,Stable,2017-05-30,2148,UY,36.0,2017,36.0,0.0,No Change
+Uruguay,S&P,BBB+,Stable,2023-04-26,2710,UY,39.0,2023,36.0,3.0,Upgrade
+Uzbekistan,Moody's,B1,Stable,2019-02-13,1592,UZ,21.0,2019,,,No Change
+Uzbekistan,Moody's,Ba3,Stable,2023-01-20,1588,UZ,24.0,2023,21.0,3.0,Upgrade
+Uzbekistan,S&P,BB-,Stable,2018-12-21,1638,UZ,24.0,2018,,,No Change
+Uzbekistan,S&P,BB-,Stable,2021-06-04,1635,UZ,24.0,2021,24.0,0.0,No Change
+Uzbekistan,S&P,BB,Stable,2025-11-21,1417,UZ,27.0,2025,24.0,3.0,Upgrade
+Venezuela,Moody's,Aaa,Stable,1976-12-29,3170,VE,60.0,1976,,,No Change
+Venezuela,Moody's,Aa2,Stable,1983-02-04,3167,VE,54.0,1983,60.0,-6.0,Downgrade
+Venezuela,Moody's,,,1983-03-15,3165,VE,,1983,54.0,,No Change
+Venezuela,Moody's,Ba2,Stable,1987-06-03,3163,VE,27.0,1987,,,No Change
+Venezuela,Moody's,Ba2,Stable,1987-12-04,3162,VE,27.0,1987,27.0,0.0,No Change
+Venezuela,Moody's,Ba1,Stable,1991-08-06,3157,VE,30.0,1991,27.0,3.0,Upgrade
+Venezuela,Moody's,Ba2,Stable,1994-04-08,3152,VE,27.0,1994,30.0,-3.0,Downgrade
+Venezuela,Moody's,B1,Stable,1998-07-22,3144,VE,21.0,1998,27.0,-6.0,Downgrade
+Venezuela,Moody's,B2,Stable,1998-09-03,3142,VE,18.0,1998,21.0,-3.0,Downgrade
+Venezuela,Moody's,B3,Stable,2002-09-20,3137,VE,15.0,2002,18.0,-3.0,Downgrade
+Venezuela,Moody's,Caa1,Stable,2003-05-28,3132,VE,12.0,2003,15.0,-3.0,Downgrade
+Venezuela,Moody's,B2,Stable,2004-09-07,3129,VE,18.0,2004,12.0,6.0,Upgrade
+Venezuela,Moody's,B2,Stable,2009-01-15,3120,VE,18.0,2009,18.0,0.0,No Change
+Venezuela,Moody's,Caa3,Stable,2015-01-13,3111,VE,6.0,2015,18.0,-12.0,Downgrade
+Venezuela,Moody's,C,Stable,2018-03-09,3105,VE,1.0,2018,6.0,-5.0,Downgrade
+Venezuela,S&P,AA,,1977-10-05,3932,VE,54.0,1977,,,No Change
+Venezuela,S&P,AA,,1982-08-13,3929,VE,54.0,1982,54.0,0.0,No Change
+Venezuela,S&P,A-,,1983-02-11,3583,VE,42.0,1983,54.0,-12.0,Downgrade
+Venezuela,S&P,BB,,1983-03-28,1477,VE,27.0,1983,42.0,-15.0,Downgrade
+Venezuela,S&P,B+,,1989-06-17,1227,VE,21.0,1989,27.0,-6.0,Downgrade
+Venezuela,S&P,B+,Stable,1989-06-26,1225,VE,21.0,1989,21.0,0.0,No Change
+Venezuela,S&P,BB,Stable,1992-11-04,1475,VE,27.0,1992,21.0,6.0,Upgrade
+Venezuela,S&P,B,Stable,1996-06-26,488,VE,18.0,1996,27.0,-9.0,Downgrade
+Venezuela,S&P,B+,Stable,1997-06-05,1217,VE,21.0,1997,18.0,3.0,Upgrade
+Venezuela,S&P,B,Stable,1999-12-21,486,VE,18.0,1999,21.0,-3.0,Downgrade
+Venezuela,S&P,CCC+,Stable,2003-04-16,3074,VE,12.0,2003,18.0,-6.0,Downgrade
+Venezuela,S&P,B-,Stable,2003-07-30,793,VE,15.0,2003,12.0,3.0,Upgrade
+Venezuela,S&P,B,Stable,2004-08-25,481,VE,18.0,2004,15.0,3.0,Upgrade
+Venezuela,S&P,SD,,2005-01-18,3177,VE,0.0,2005,18.0,-18.0,Downgrade
+Venezuela,S&P,B,Stable,2005-03-03,480,VE,18.0,2005,0.0,18.0,Upgrade
+Venezuela,S&P,B+,Stable,2005-08-12,1214,VE,21.0,2005,18.0,3.0,Upgrade
+Venezuela,S&P,BB-,Stable,2006-02-03,1780,VE,24.0,2006,21.0,3.0,Upgrade
+Venezuela,S&P,BB-,Stable,2007-01-11,1777,VE,24.0,2007,24.0,0.0,No Change
+Venezuela,S&P,BB-,Stable,2010-01-11,1774,VE,24.0,2010,24.0,0.0,No Change
+Venezuela,S&P,B+,Stable,2011-08-19,1212,VE,21.0,2011,24.0,-3.0,Downgrade
+Venezuela,S&P,SD,,2017-11-14,3169,VE,0.0,2017,21.0,-21.0,Downgrade
+Venezuela,S&P,,,2021-09-20,3090,VE,,2021,0.0,,No Change
+Vietnam,Moody's,Ba3,Stable,1997-04-17,1451,VN,24.0,1997,,,No Change
+Vietnam,Moody's,B1,Stable,1998-07-09,1450,VN,21.0,1998,24.0,-3.0,Downgrade
+Vietnam,Moody's,Ba3,Stable,2005-07-07,1448,VN,24.0,2005,21.0,3.0,Upgrade
+Vietnam,Moody's,B2,Stable,2012-09-28,1441,VN,18.0,2012,24.0,-6.0,Downgrade
+Vietnam,Moody's,B1,Stable,2014-07-29,1440,VN,21.0,2014,18.0,3.0,Upgrade
+Vietnam,Moody's,Ba3,Stable,2018-08-10,1438,VN,24.0,2018,21.0,3.0,Upgrade
+Vietnam,Moody's,Ba3,,2019-10-09,1436,VN,24.0,2019,24.0,0.0,No Change
+Vietnam,Moody's,Ba2,Stable,2022-09-06,1431,VN,27.0,2022,24.0,3.0,Upgrade
+Vietnam,S&P,BB-,Stable,2012-06-06,1601,VN,24.0,2012,,,No Change
+Vietnam,S&P,BB,Stable,2019-04-05,1362,VN,27.0,2019,24.0,3.0,Upgrade
+Vietnam,S&P,BB+,Stable,2022-05-26,1976,VN,30.0,2022,27.0,3.0,Upgrade
+Zambia,Moody's,B1,Stable,2012-11-07,2115,ZM,21.0,2012,,,No Change
+Zambia,Moody's,B2,Stable,2015-09-25,2111,ZM,18.0,2015,21.0,-3.0,Downgrade
+Zambia,Moody's,B3,Stable,2018-01-26,2107,ZM,15.0,2018,18.0,-3.0,Downgrade
+Zambia,Moody's,Caa1,Stable,2018-07-27,2106,ZM,12.0,2018,15.0,-3.0,Downgrade
+Zambia,Moody's,Ca,Stable,2020-04-03,2100,ZM,3.0,2020,12.0,-9.0,Downgrade
+Zambia,Moody's,Caa2,Stable,2024-06-14,2097,ZM,9.0,2024,3.0,6.0,Upgrade
+Zambia,S&P,B+,Stable,2011-03-22,1040,ZM,21.0,2011,,,No Change
+Zambia,S&P,B,Stable,2015-07-01,294,ZM,18.0,2015,21.0,-3.0,Downgrade
+Zambia,S&P,B,Stable,2017-08-25,291,ZM,18.0,2017,18.0,0.0,No Change
+Zambia,S&P,B-,Stable,2018-08-24,594,ZM,15.0,2018,18.0,-3.0,Downgrade
+Zambia,S&P,CCC+,Stable,2019-08-23,2965,ZM,12.0,2019,15.0,-3.0,Downgrade
+Zambia,S&P,SD,,2020-10-21,3119,ZM,0.0,2020,12.0,-12.0,Downgrade
+Zambia,S&P,CCC+,Stable,2025-11-21,2963,ZM,12.0,2025,0.0,12.0,Upgrade

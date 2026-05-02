@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relative Gini &mdash; Sovereign Credit Rating Explorer</title>
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<style>
+  .controls { background: #fff; border: 1px solid #ccc; padding: 14px 18px; margin: 18px 0; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.86rem; }
+  .controls label { font-weight: 700; font-size: 0.74rem; letter-spacing: 0.05em; text-transform: uppercase; color: #555; margin-right: 6px; }
+  .controls select { font-family: inherit; font-size: 0.86rem; padding: 4px 8px; border: 1px solid #aaa; background: #fff; margin-right: 14px; }
+  .chart-box { background: #fff; border: 1px solid #ccc; padding: 8px; margin: 14px 0; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <h1>Sovereign Credit Rating Explorer</h1>
+  <p>151 countries &middot; S&amp;P, Moody's, DBRS &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
+</header>
+<nav class="site">
+  <a href="index.html">Explorer</a>
+  <a href="methodology.html">Methodology</a>
+  <a href="pairwise.html">Pairwise &amp; Distance</a>
+  <a href="relative_hdi.html">Relative HDI</a>
+  <a href="relative_gini.html" class="active">Relative Gini</a>
+  <a href="stories.html">Stories</a>
+  <a href="glossary.html">Glossary</a>
+  <a href="citations.html">Citations</a>
+</nav>
+
+<main>
+
+  <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Relative Gini Index</h2>
+  <p>The Gini index, defined by Corrado Gini in 1912,<sup class="note-ref"><a href="#note-1">1</a></sup> measures inequality on a scale where 0 is perfect equality and 1 (or 100, depending on convention) is perfect concentration. The World Bank publishes a country-level income Gini under indicator <code>SI.POV.GINI</code>, drawn from household income surveys.<sup class="note-ref"><a href="#note-2">2</a></sup> Coverage is sparse: not every country reports every year, and many low-income countries report only every five to ten years. This page applies the leave-one-out relative-rating logic of <a href="methodology.html#sec4">Methodology &sect;4</a> to the income-Gini series and asks whether a country's standing in the global inequality distribution moves with its credit rating.</p>
+
+  <h2 id="construction"><span class="section-num">1</span> Construction</h2>
+  <p>The Gini convention used here is &ldquo;higher is more unequal,&rdquo; the World Bank standard. Because the relative-rating methods M1, M2, and M4 are all defined to interpret &ldquo;higher value = better,&rdquo; we invert the scale: <code>GiniInv = 100 &minus; Gini</code>. A country with Gini = 25 (relatively equal, like the Slovak Republic) has GiniInv = 75; a country with Gini = 60 (high inequality, like South Africa) has GiniInv = 40. The leave-one-out world mean and M1&ndash;M4 then follow the standard formulas:</p>
+
+  <div class="formula-block">
+    <span class="label">M1 (Gini)</span>GiniInv<sub>it</sub><sup>2</sup> / LOO<sub>it</sub>
+    <br><span class="label">M2 (Gini)</span>rank of GiniInv<sub>it</sub> within reporting countries, year <em>t</em>
+    <br><span class="label">M4 (Gini)</span>M2 / N<sub>t</sub>
+  </div>
+
+  <p>The world used for the leave-one-out mean is the set of countries reporting in that year only&mdash;there is no plausible imputation strategy at country&times;year resolution&mdash;so N<sub>t</sub> varies between roughly 25 and 95 across the panel. This sparse-and-unbalanced structure makes inter-year comparisons noisier than for the credit-rating or HDI panels; the explorer below shows the underlying observation density alongside the relative measures.</p>
+
+  <h2 id="explorer"><span class="section-num">2</span> Country explorer</h2>
+
+  <div class="controls">
+    <label for="country">Country</label>
+    <select id="country"></select>
+  </div>
+
+  <div class="chart-box"><div id="gini-abs" style="height:340px"></div></div>
+  <div class="chart-box"><div id="gini-rel" style="height:340px"></div></div>
+  <div class="chart-box"><div id="gini-vs-credit" style="height:340px"></div></div>
+
+  <p>The first chart plots a country's raw Gini against the leave-one-out global mean of reporting countries; gaps in the line are years where the country did not report. The second shows the relative measures M1, M4 (percentile), and the pairwise gap (GiniInv &minus; LOO). The third overlays the inverted Gini against the credit composite score. The hypothesis sometimes advanced&mdash;that more equal countries enjoy better sovereign ratings&mdash;has weak support in this data: cross-sectional correlation between GiniInv and credit composite is positive but modest (r &asymp; 0.35), and within-country variation in Gini is too small over the panel window to drive credit movements.</p>
+
+  <h2 id="caveats"><span class="section-num">3</span> Caveats</h2>
+  <p>Income Gini is a <em>flow</em> measure, while wealth Gini (which tracks household balance-sheet inequality) is a <em>stock</em> measure; the two can diverge meaningfully and only the former is reported here. Survey methodology varies across countries (consumption vs disposable income, urban vs national coverage), and World Bank harmonisation is imperfect. The leave-one-out world mean implicitly weights every reporting country equally regardless of population, which over-represents small economies; a population-weighted variant is straightforward to compute but is not pre-bundled in <code>extras.json</code>. Sparseness means trend reads from this page should be treated as illustrative rather than confirmatory&mdash;serious cross-country inequality work uses harmonised micro-data sources such as the <a href="https://wid.world" target="_blank" rel="noopener">World Inequality Database</a> or the <a href="https://www.lisdatacenter.org" target="_blank" rel="noopener">Luxembourg Income Study</a>.</p>
+
+  <div class="endnotes" id="endnotes">
+    <h3>Endnotes</h3>
+    <ol>
+      <li id="note-1">Corrado Gini, <em>Variabilit&agrave; e Mutabilit&agrave;</em> (Bologna: Tipografia di Paolo Cuppini, 1912). See the <a href="https://en.wikipedia.org/wiki/Gini_coefficient" target="_blank" rel="noopener">Wikipedia summary</a> for the modern algebraic statement.</li>
+      <li id="note-2">World Bank, <em>World Development Indicators</em>, indicator <a href="https://data.worldbank.org/indicator/SI.POV.GINI" target="_blank" rel="noopener">SI.POV.GINI</a>; methodological notes at the World Bank's <a href="https://datacatalog.worldbank.org/search/dataset/0037712" target="_blank" rel="noopener">data catalogue</a>.</li>
+    </ol>
+  </div>
+
+  <p class="page-footer">Gini relative series are pre-computed and bundled into <code>extras.json</code>. Source: World Bank WDI <code>SI.POV.GINI</code>, 2000&ndash;2024; 1,858 country&times;year observations across 168 countries.</p>
+
+</main>
+
+<script defer src="shared.js"></script>
+<script>
+let EXTRAS = null;
+fetch('extras.json').then(r => r.json()).then(j => { EXTRAS = j; init(); }).catch(err => {
+  document.querySelectorAll('.chart-box').forEach(b => {
+    b.innerHTML = '<p style="padding:20px;color:#888;font-family:sans-serif">Could not load extras.json. Serve from a web server (file:// blocks fetch).</p>';
+  });
+});
+
+function init() {
+  const countries = [...new Set(EXTRAS.gini_rel.map(r => r.Country))].sort();
+  const sel = document.getElementById('country');
+  countries.forEach(c => sel.add(new Option(c, c)));
+  sel.value = countries.includes('Brazil') ? 'Brazil' : countries[0];
+  sel.onchange = render;
+  render();
+}
+
+function render() {
+  const c = document.getElementById('country').value;
+  const rel = EXTRAS.gini_rel.filter(r => r.Country === c).sort((a,b) => a.Year - b.Year);
+  const xs = rel.map(r => r.Year);
+
+  Plotly.newPlot('gini-abs', [
+    {x: xs, y: rel.map(r => 100 - r.Value), name: c + ' Gini', mode: 'lines+markers', line: {color: '#1a1a1a', width: 2.2}, marker: {size: 6}},
+    {x: xs, y: rel.map(r => 100 - r.LOO), name: 'World LOO mean Gini', mode: 'lines', line: {color: '#888', width: 2, dash: 'dash'}}
+  ], {
+    title: {text: c + ' &mdash; raw Gini index vs world mean of reporting countries', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
+    xaxis: {title: 'Year', gridcolor: '#eee'},
+    yaxis: {title: 'Gini', gridcolor: '#eee', range: [15, 70]},
+    plot_bgcolor: '#fff', paper_bgcolor: '#fff',
+    font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
+    margin: {l: 50, r: 20, t: 40, b: 40},
+    legend: {orientation: 'h', y: -0.2}
+  }, {displayModeBar: false, responsive: true});
+
+  Plotly.newPlot('gini-rel', [
+    {x: xs, y: rel.map(r => r.M1), name: 'M1 (GiniInv&sup2;/LOO)', mode: 'lines+markers', line: {color: '#1a1a1a', width: 2}, marker: {size: 5}},
+    {x: xs, y: rel.map(r => r.Value - r.LOO), name: 'Pairwise gap', mode: 'lines+markers', line: {color: '#888', width: 2}, marker: {size: 5}, yaxis: 'y2'},
+    {x: xs, y: rel.map(r => r.M4 * 100), name: 'M4 &times; 100', mode: 'lines', line: {color: '#444', width: 1.8, dash: 'dot'}, yaxis: 'y2'}
+  ], {
+    title: {text: c + ' &mdash; Relative Gini: M1, pairwise gap, M4', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
+    xaxis: {title: 'Year', gridcolor: '#eee'},
+    yaxis: {title: 'M1', gridcolor: '#eee'},
+    yaxis2: {title: 'Pairwise / M4', overlaying: 'y', side: 'right', zeroline: false},
+    plot_bgcolor: '#fff', paper_bgcolor: '#fff',
+    font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
+    margin: {l: 50, r: 50, t: 40, b: 40},
+    legend: {orientation: 'h', y: -0.2}
+  }, {displayModeBar: false, responsive: true});
+
+  // Credit overlay
+  const credit = [];
+  Object.keys(EXTRAS.score_matrix).forEach(y => {
+    if (EXTRAS.score_matrix[y][c] != null) {
+      credit.push({Year: +y, Score: EXTRAS.score_matrix[y][c]});
+    }
+  });
+  credit.sort((a,b) => a.Year - b.Year);
+  Plotly.newPlot('gini-vs-credit', [
+    {x: xs, y: rel.map(r => r.Value), name: 'GiniInv = 100 &minus; Gini', mode: 'lines+markers', line: {color: '#1a1a1a', width: 2.2}, marker: {size: 6}},
+    {x: credit.map(c => c.Year), y: credit.map(c => c.Score * (100/60)), name: 'Credit score (rescaled to 0&ndash;100)', mode: 'lines+markers', line: {color: '#888', width: 2, dash: 'dash'}, marker: {size: 5}}
+  ], {
+    title: {text: c + ' &mdash; GiniInv vs credit composite', font: {size: 13, family: 'Helvetica Neue, Arial, sans-serif'}},
+    xaxis: {title: 'Year', gridcolor: '#eee'},
+    yaxis: {title: 'Common scale', gridcolor: '#eee', range: [0, 100]},
+    plot_bgcolor: '#fff', paper_bgcolor: '#fff',
+    font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
+    margin: {l: 50, r: 20, t: 40, b: 40},
+    legend: {orientation: 'h', y: -0.2}
+  }, {displayModeBar: false, responsive: true});
+}
+</script>
+</body>
+</html>

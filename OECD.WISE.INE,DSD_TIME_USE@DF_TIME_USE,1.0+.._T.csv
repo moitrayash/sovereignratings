@@ -1,0 +1,166 @@
+STRUCTURE,STRUCTURE_ID,STRUCTURE_NAME,ACTION,REF_AREA,Reference area,MEASURE,Measure,SEX,Sex,OBS_VALUE,Observation value,DECIMALS,Decimals,OBS_STATUS,Observation status,UNIT_MEASURE,Unit of measure,UNIT_MULT,Unit multiplier
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,AUS,Australia,LEI,Leisure,_T,Total,281.19528,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,AUS,Australia,PCA,Personal care,_T,Total,657.45654,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,AUS,Australia,UPW,Unpaid work,_T,Total,243.16887,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,AUS,Australia,PAW,Paid work or study,_T,Total,238.16539,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,AUT,Austria,LEI,Leisure,_T,Total,306.87112,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,AUT,Austria,PCA,Personal care,_T,Total,667.66179,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,AUT,Austria,UPW,Unpaid work,_T,Total,187.97064,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,AUT,Austria,PAW,Paid work or study,_T,Total,265.64036,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,BEL,Belgium,LEI,Leisure,_T,Total,339.35016,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,BEL,Belgium,PCA,Personal care,_T,Total,664.04633,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,BEL,Belgium,UPW,Unpaid work,_T,Total,191.82016,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,BEL,Belgium,PAW,Paid work or study,_T,Total,235.75362,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,CAN,Canada,LEI,Leisure,_T,Total,278.93344,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,CAN,Canada,PCA,Personal care,_T,Total,636.57739,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,CAN,Canada,UPW,Unpaid work,_T,Total,186,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,CAN,Canada,PAW,Paid work or study,_T,Total,304.64124,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,DNK,Denmark,LEI,Leisure,_T,Total,328.84482,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,DNK,Denmark,PCA,Personal care,_T,Total,659.35931,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,DNK,Denmark,UPW,Unpaid work,_T,Total,216.62733,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,DNK,Denmark,PAW,Paid work or study,_T,Total,224.81659,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,EST,Estonia,LEI,Leisure,_T,Total,309.40707,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,EST,Estonia,PCA,Personal care,_T,Total,662.67316,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,EST,Estonia,UPW,Unpaid work,_T,Total,207.68231,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,EST,Estonia,PAW,Paid work or study,_T,Total,255.57736,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,FIN,Finland,LEI,Leisure,_T,Total,330.98871,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,FIN,Finland,PCA,Personal care,_T,Total,640.48987,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,FIN,Finland,UPW,Unpaid work,_T,Total,196.87715,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,FIN,Finland,PAW,Paid work or study,_T,Total,229.097,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,FRA,France,LEI,Leisure,_T,Total,293.54263,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,FRA,France,PCA,Personal care,_T,Total,752.24652,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,FRA,France,UPW,Unpaid work,_T,Total,181.09856,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,FRA,France,PAW,Paid work or study,_T,Total,204.16515,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,DEU,Germany,LEI,Leisure,_T,Total,331.15182,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,DEU,Germany,PCA,Personal care,_T,Total,648.02252,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,DEU,Germany,UPW,Unpaid work,_T,Total,195.93103,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,DEU,Germany,PAW,Paid work or study,_T,Total,247.88115,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,GRC,Greece,LEI,Leisure,_T,Total,341.3912,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,GRC,Greece,PCA,Personal care,_T,Total,684.60358,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,GRC,Greece,UPW,Unpaid work,_T,Total,180.20116,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,GRC,Greece,PAW,Paid work or study,_T,Total,227.70988,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,HUN,Hungary,LEI,Leisure,_T,Total,281.3497,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,HUN,Hungary,PCA,Personal care,_T,Total,683.13916,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,HUN,Hungary,UPW,Unpaid work,_T,Total,229.15895,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,HUN,Hungary,PAW,Paid work or study,_T,Total,237.614,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,IRL,Ireland,LEI,Leisure,_T,Total,312.31158,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,IRL,Ireland,PCA,Personal care,_T,Total,608.9137,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,IRL,Ireland,UPW,Unpaid work,_T,Total,209.64148,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,IRL,Ireland,PAW,Paid work or study,_T,Total,267.9613,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,ITA,Italy,LEI,Leisure,_T,Total,323.25861,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,ITA,Italy,PCA,Personal care,_T,Total,707.80823,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,ITA,Italy,UPW,Unpaid work,_T,Total,219.03874,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,ITA,Italy,PAW,Paid work or study,_T,Total,176.70906,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,JPN,Japan,LEI,Leisure,_T,Total,269,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,JPN,Japan,PCA,Personal care,_T,Total,640,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,JPN,Japan,UPW,Unpaid work,_T,Total,125,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,JPN,Japan,PAW,Paid work or study,_T,Total,368,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,KOR,Korea,LEI,Leisure,_T,Total,258.26019,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,KOR,Korea,PCA,Personal care,_T,Total,677.84741,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,KOR,Korea,UPW,Unpaid work,_T,Total,131.70642,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,KOR,Korea,PAW,Paid work or study,_T,Total,344.45236,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,LVA,Latvia,LEI,Leisure,_T,Total,268.84131,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,LVA,Latvia,PCA,Personal care,_T,Total,641.2962,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,LVA,Latvia,UPW,Unpaid work,_T,Total,196.07454,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,LVA,Latvia,PAW,Paid work or study,_T,Total,329.93842,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,LTU,Lithuania,LEI,Leisure,_T,Total,246.6068,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,LTU,Lithuania,PCA,Personal care,_T,Total,645.53864,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,LTU,Lithuania,UPW,Unpaid work,_T,Total,224.47133,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,LTU,Lithuania,PAW,Paid work or study,_T,Total,315.21515,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,LUX,Luxembourg,LEI,Leisure,_T,Total,276.38571,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,LUX,Luxembourg,PCA,Personal care,_T,Total,685.66821,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,LUX,Luxembourg,UPW,Unpaid work,_T,Total,179.15561,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,LUX,Luxembourg,PAW,Paid work or study,_T,Total,284.68814,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,MEX,Mexico,LEI,Leisure,_T,Total,171.92743,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,MEX,Mexico,PCA,Personal care,_T,Total,633.58386,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,MEX,Mexico,UPW,Unpaid work,_T,Total,263.88788,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,MEX,Mexico,PAW,Paid work or study,_T,Total,349.15216,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,NLD,Netherlands,LEI,Leisure,_T,Total,314.76401,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,NLD,Netherlands,PCA,Personal care,_T,Total,681.59064,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,NLD,Netherlands,UPW,Unpaid work,_T,Total,185.56139,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,NLD,Netherlands,PAW,Paid work or study,_T,Total,242.78703,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,NZL,New Zealand,LEI,Leisure,_T,Total,301,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,NZL,New Zealand,PCA,Personal care,_T,Total,648,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,NZL,New Zealand,UPW,Unpaid work,_T,Total,204,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,NZL,New Zealand,PAW,Paid work or study,_T,Total,270,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,NOR,Norway,LEI,Leisure,_T,Total,368.24329,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,NOR,Norway,PCA,Personal care,_T,Total,627.27295,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,NOR,Norway,UPW,Unpaid work,_T,Total,195.98425,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,NOR,Norway,PAW,Paid work or study,_T,Total,241.26506,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,POL,Poland,LEI,Leisure,_T,Total,286.15439,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,POL,Poland,PCA,Personal care,_T,Total,657.11884,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,POL,Poland,UPW,Unpaid work,_T,Total,225.9187,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,POL,Poland,PAW,Paid work or study,_T,Total,259.58719,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,PRT,Portugal,LEI,Leisure,_T,Total,240.67133,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,PRT,Portugal,PCA,Personal care,_T,Total,675.69232,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,PRT,Portugal,UPW,Unpaid work,_T,Total,222.54546,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,PRT,Portugal,PAW,Paid work or study,_T,Total,295.04895,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,SVN,Slovenia,LEI,Leisure,_T,Total,310.56866,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,SVN,Slovenia,PCA,Personal care,_T,Total,628.12762,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,SVN,Slovenia,UPW,Unpaid work,_T,Total,230.67961,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,SVN,Slovenia,PAW,Paid work or study,_T,Total,264.63245,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,ESP,Spain,LEI,Leisure,_T,Total,316.04926,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,ESP,Spain,PCA,Personal care,_T,Total,691.79242,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,ESP,Spain,UPW,Unpaid work,_T,Total,216.72911,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,ESP,Spain,PAW,Paid work or study,_T,Total,202.00473,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,SWE,Sweden,LEI,Leisure,_T,Total,321.48456,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,SWE,Sweden,PCA,Personal care,_T,Total,622.46954,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,SWE,Sweden,UPW,Unpaid work,_T,Total,196.49918,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,SWE,Sweden,PAW,Paid work or study,_T,Total,293.40686,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,TUR,Türkiye,LEI,Leisure,_T,Total,285.73074,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,TUR,Türkiye,PCA,Personal care,_T,Total,681.79669,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,TUR,Türkiye,UPW,Unpaid work,_T,Total,186.08949,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,TUR,Türkiye,PAW,Paid work or study,_T,Total,246.31599,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,GBR,United Kingdom,LEI,Leisure,_T,Total,305.53094,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,GBR,United Kingdom,PCA,Personal care,_T,Total,645.20435,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,GBR,United Kingdom,UPW,Unpaid work,_T,Total,194.52788,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,GBR,United Kingdom,PAW,Paid work or study,_T,Total,262.26492,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,USA,United States,LEI,Leisure,_T,Total,279.962700198,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,USA,United States,PCA,Personal care,_T,Total,662.80231992,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,USA,United States,UPW,Unpaid work,_T,Total,186.84663597,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,USA,United States,PAW,Paid work or study,_T,Total,283.999313448,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,CHN,China (People’s Republic of),LEI,Leisure,_T,Total,227.84178,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,CHN,China (People’s Republic of),PCA,Personal care,_T,Total,693.51837,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,CHN,China (People’s Republic of),UPW,Unpaid work,_T,Total,163.88618,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,CHN,China (People’s Republic of),PAW,Paid work or study,_T,Total,339.76404,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,IND,India,LEI,Leisure,_T,Total,253.99612,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,IND,India,PCA,Personal care,_T,Total,687.48993,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,IND,India,UPW,Unpaid work,_T,Total,191.14615,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,IND,India,PAW,Paid work or study,_T,Total,294.9794,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,ZAF,South Africa,LEI,Leisure,_T,Total,305.89819,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,ZAF,South Africa,PCA,Personal care,_T,Total,695.07886,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,ZAF,South Africa,UPW,Unpaid work,_T,Total,182.28479,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,ZAF,South Africa,PAW,Paid work or study,_T,Total,240.57607,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,AUS,Australia,OTH,Other,_T,Total,20.013899,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,AUT,Austria,OTH,Other,_T,Total,11.85609,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,BEL,Belgium,OTH,Other,_T,Total,9.2212801,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,CAN,Canada,OTH,Other,_T,Total,33.91396,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,DNK,Denmark,OTH,Other,_T,Total,10.351957,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,EST,Estonia,OTH,Other,_T,Total,5,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,FIN,Finland,OTH,Other,_T,Total,42.547142,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,FRA,France,OTH,Other,_T,Total,8.9471149,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,DEU,Germany,OTH,Other,_T,Total,17.013493,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,GRC,Greece,OTH,Other,_T,Total,6.0942068,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,HUN,Hungary,OTH,Other,_T,Total,8.7381868,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,IRL,Ireland,OTH,Other,_T,Total,41.172009,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,ITA,Italy,OTH,Other,_T,Total,13.185362,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,JPN,Japan,OTH,Other,_T,Total,37,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,KOR,Korea,OTH,Other,_T,Total,27.73358,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,LVA,Latvia,OTH,Other,_T,Total,3.8495073,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,LTU,Lithuania,OTH,Other,_T,Total,8.1680727,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,LUX,Luxembourg,OTH,Other,_T,Total,14.063417,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,MEX,Mexico,OTH,Other,_T,Total,21.448614,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,NLD,Netherlands,OTH,Other,_T,Total,15.296655,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,NZL,New Zealand,OTH,Other,_T,Total,17,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,NOR,Norway,OTH,Other,_T,Total,7.2344952,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,POL,Poland,OTH,Other,_T,Total,11.220911,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,PRT,Portugal,OTH,Other,_T,Total,6.0419579,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,SVN,Slovenia,OTH,Other,_T,Total,5.9916782,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,ESP,Spain,OTH,Other,_T,Total,13.424608,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,SWE,Sweden,OTH,Other,_T,Total,6.1398563,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,TUR,Türkiye,OTH,Other,_T,Total,40.09676,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,GBR,United Kingdom,OTH,Other,_T,Total,32.471893,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,USA,United States,OTH,Other,_T,Total,26.389030446,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,CHN,China (People’s Republic of),OTH,Other,_T,Total,14.989591,,0,Zero,D,Definition differs,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,IND,India,OTH,Other,_T,Total,12.388403,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units
+DATAFLOW,OECD.WISE.INE:DSD_TIME_USE@DF_TIME_USE(1.0),Time use,I,ZAF,South Africa,OTH,Other,_T,Total,16.16213,,0,Zero,A,Normal value,MN_D,Minutes per day,0,Units

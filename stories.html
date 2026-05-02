@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stories &mdash; Sovereign Credit Rating Explorer</title>
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<style>
+  .story {
+    margin-bottom: 60px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #1a1a1a;
+  }
+  .story:last-child { border-bottom: none; }
+  .story-meta {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.74rem;
+    color: #888;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .story h2 {
+    font-size: 1.35rem;
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-top: 12px;
+    margin-bottom: 18px;
+  }
+  .story .lede {
+    font-size: 1.05rem;
+    font-style: italic;
+    color: #333;
+    border-left: 4px solid #1a1a1a;
+    padding: 6px 0 6px 16px;
+    margin: 18px 0 24px;
+  }
+  .chart-box {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 8px;
+    margin: 18px 0;
+  }
+  .chart-caption {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.78rem;
+    color: #666;
+    text-align: center;
+    margin: -10px 0 20px;
+    line-height: 1.5;
+  }
+  .story-toc {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 14px 18px;
+    margin: 18px 0 32px;
+  }
+  .story-toc h3 {
+    font-size: 0.78rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #888;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  .story-toc ol {
+    margin-left: 22px;
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+  .story-toc a { color: #1a1a1a; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <h1>Sovereign Credit Rating Explorer</h1>
+  <p>151 countries &middot; S&amp;P, Moody's, DBRS &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
+</header>
+<nav class="site">
+  <a href="index.html">Explorer</a>
+  <a href="methodology.html">Methodology</a>
+  <a href="pairwise.html">Pairwise &amp; Distance</a>
+  <a href="relative_hdi.html">Relative HDI</a>
+  <a href="relative_gini.html">Relative Gini</a>
+  <a href="stories.html" class="active">Stories</a>
+  <a href="glossary.html">Glossary</a>
+  <a href="citations.html">Citations</a>
+</nav>
+
+<main>
+
+  <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Stories</h2>
+  <p>Five episodes drawn from the 2000&ndash;2025 panel that cannot be read off a single regression coefficient. Each one starts with an observable rating event and works backward into the political-economy story behind it. The charts are rendered live from the same dataset that drives the <a href="index.html">Explorer</a>: the underlying numbers are public, all figures are reproducible from the panel CSVs documented in the <a href="methodology.html">Methodology</a>.</p>
+
+  <div class="story-toc">
+    <h3>In this section</h3>
+    <ol>
+      <li><a href="#argentina">Argentina, December 2001 &mdash; the largest single-year fall in the panel</a></li>
+      <li><a href="#eurozone">The Eurozone periphery, 2010&ndash;2013 &mdash; what happens when the floor caves in</a></li>
+      <li><a href="#india-pakistan">Pakistan&ndash;India 2000&ndash;2025 &mdash; a divergence dressed as stability</a></li>
+      <li><a href="#emdc">2020&ndash;2023 emerging-market default cluster &mdash; Ghana, Sri Lanka, Zambia, Ethiopia</a></li>
+      <li><a href="#iceland">Iceland 2008 &mdash; the smallest economy with the biggest banks</a></li>
+    </ol>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="story" id="argentina">
+    <div class="story-meta">Story 1 &middot; Latin America &middot; Sovereign default</div>
+    <h2>Argentina, December 2001 &mdash; the largest single-year fall in the panel</h2>
+    <div class="lede">Between 2000 and 2001 Argentina's composite credit score collapses from 22.5 to 1.5 &mdash; a 21-point drop, the largest single-year movement in 26 years of data. The mechanism is unambiguous: on 23 December 2001, interim president Adolfo Rodr&iacute;guez Sa&aacute; announced a moratorium on roughly USD 95 billion of public debt, then the largest sovereign default in history.</div>
+
+    <p>The interesting thing about Argentina's collapse is not that it happened &mdash; the convertibility regime that pegged the peso one-for-one to the dollar had been visibly straining since 1998<sup class="note-ref"><a href="#note-1">1</a></sup> &mdash; but the speed with which the agencies moved once it did. S&amp;P had Argentina at BB during 1999&ndash;2000, deep in speculative territory but coherent with a country whose primary deficit was 0.4 percent of GDP and whose external debt was hardly the worst in Latin America. By November 2001 S&amp;P was at SD (selective default); within thirty days Moody's followed. The composite drops to its floor and stays there for the better part of three years.</p>
+
+    <div class="chart-box"><div id="arg-chart" style="height:340px"></div></div>
+    <div class="chart-caption">Figure 1.1 &mdash; Argentina's composite credit score, 2000&ndash;2025. Two more defaults follow: a partial restructuring in 2014 (the &ldquo;holdout&rdquo; episode triggered by Judge Thomas Griesa's <em>pari passu</em> ruling) and a third in 2019 under the Macri government's IMF programme.</div>
+
+    <p>What the chart obscures is how much of the post-2002 recovery was eaten back by the next two crises. Argentina spent the 2003&ndash;2010 stretch climbing patiently from a score of 6 back into the high teens, helped by a global commodities boom and Kirchner-era heterodox debt management. By 2007 the composite is at 17 &mdash; still well below pre-crisis &mdash; and by 2013 it has plateaued around 16. Then comes the holdout judgment: in July 2014, Argentina cannot pay restructured creditors without simultaneously paying holdouts at par, defaults again as a matter of legal mechanics rather than fundamentals, and the composite halves to 4 in a single year. The recovery to 19 by 2017 under Mauricio Macri's market-friendly turn is then erased almost overnight by the August 2019 PASO primary result &mdash; a market reaction event in the textbook sense<sup class="note-ref"><a href="#note-2">2</a></sup> &mdash; and by 2020 Argentina has defaulted for the third time in twenty years.</p>
+
+    <p>The pattern is striking: across three sovereign defaults, the trough composite is essentially the same (1.5, 4, 3) and the recovery half-life is between four and seven years. The agencies are decisive when defaulting countries restructure, but the speed of the climb-back is shorter than what the literature on advanced-economy debt overhangs would predict. Reinhart and Rogoff document that median sovereign-default recovery takes around seven years to reach pre-crisis nominal output;<sup class="note-ref"><a href="#note-3">3</a></sup> agencies update faster than that, treating restructured debt as a fresh slate once the legal proceedings close. The implication for analysts is that the &ldquo;score&rdquo; of a serial defaulter is heavily a function of where in the cycle the observer happens to be standing.</p>
+
+    <div class="chart-box"><div id="arg-pairwise" style="height:300px"></div></div>
+    <div class="chart-caption">Figure 1.2 &mdash; Pairwise spread P(Brazil &minus; Argentina) and P(Chile &minus; Argentina). Argentina's serial defaults open dramatic gaps against its regional peers; the relative-rating story would look very different if the &ldquo;Latin America&rdquo; benchmark held it constant.</div>
+
+    <p>Pairwise comparison sharpens the point. The Brazil&ndash;Argentina spread averages around +12 over the panel but spikes above +20 during each of Argentina's defaults; the Chile&ndash;Argentina spread is structurally larger (Chile is the highest-rated sovereign in South America by some distance) and reaches a peak of +47 in 2002. A regional analyst whose mental model averages over &ldquo;South America&rdquo; would understate Argentina's idiosyncratic risk by a factor of two; the country deserves to be benchmarked against its own history more than against its neighbours' present. This is one of the cleaner empirical arguments for the kind of leave-one-out, peer-conditioned relative rating that <a href="methodology.html#sec4">M1&ndash;M4</a> implement: when one member of a peer group is structurally idiosyncratic, the unweighted mean is misleading in both directions.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="story" id="eurozone">
+    <div class="story-meta">Story 2 &middot; Europe &middot; Currency union without fiscal backstop</div>
+    <h2>The Eurozone periphery, 2010&ndash;2013 &mdash; what happens when the floor caves in</h2>
+    <div class="lede">In 2010 every member of the Eurozone except Greece had a composite score above 49. By 2013, Greece had fallen to 10.5, Cyprus to 30, Portugal to 28, Spain to 38, and Ireland to 37. Germany and France held at 60 and 58 respectively. The agencies broke the periphery while leaving the core untouched.</div>
+
+    <p>Three things make this episode unusual in the panel. First, the speed: the periphery countries lost between 25 and 50 score-points across a single four-year window, much of it concentrated in 2012&ndash;2013. Second, the asymmetry: the same currency union housed both the largest single-year credit collapse in the European data (Greece, &minus;13.5 points in 2012; Cyprus, &minus;16.5 in 2013) and the most stable AAA sovereigns in the world. Third, the cluster pattern: the agencies did not downgrade in alphabetical order or by size; they downgraded by yield-curve contagion, in the order in which markets priced the next default.</p>
+
+    <div class="chart-box"><div id="euro-chart" style="height:380px"></div></div>
+    <div class="chart-caption">Figure 2.1 &mdash; Eurozone composite scores, 2007&ndash;2018. Greece's 2010 trajectory leads; Ireland and Portugal follow in 2011; Spain and Italy in 2012; Cyprus is the last domino in 2013.</div>
+
+    <p>The political-economy reading is that the European Central Bank's mandate prohibited it from acting as a true lender-of-last-resort to member sovereigns, which meant the marginal price of a periphery bond was set by private markets making solvency assessments without a central-bank backstop.<sup class="note-ref"><a href="#note-4">4</a></sup> Mario Draghi's July 2012 &ldquo;whatever it takes&rdquo; speech and the subsequent Outright Monetary Transactions framework changed this asymmetrically, but the OMT was conditional on European Stability Mechanism programmes &mdash; which is to say, conditional on the country having already accepted austerity terms. The agencies' downgrades through 2012&ndash;2013 priced exactly that conditionality: the credit risk was not the country's debt-to-GDP ratio in isolation but the joint probability that the ECB would or would not absorb its bonds.</p>
+
+    <p>Cyprus is the cleanest instance. In March 2013, the Eurogroup imposed a bail-in of uninsured depositors at the two largest Cypriot banks &mdash; the first time in the Eurozone era that bank creditors had been forced to absorb losses from a sovereign deal.<sup class="note-ref"><a href="#note-5">5</a></sup> The composite drops 16.5 points in 2013 and another 13 in 2014. The substance was specific to Cyprus's banking exposure to Greek government debt; the signal the agencies extracted was that Eurozone resolution had now established a precedent for forcing depositor losses, and they re-priced periphery sovereigns accordingly.</p>
+
+    <div class="chart-box"><div id="euro-spread" style="height:280px"></div></div>
+    <div class="chart-caption">Figure 2.2 &mdash; Periphery&ndash;Germany pairwise spreads. Greece widens to 50 by 2013, Cyprus to 30. The spreads partially close after 2014 as recoveries begin, but Greece is still 20 points below Germany a full decade after the crisis.</div>
+
+    <p>The recovery side of the cluster is more interesting than the collapse. Ireland recovers fastest &mdash; back to 56 by 2018 &mdash; because it had a deep export sector and a tax base that could be re-collateralised against EU support. Portugal recovers more slowly. Greece never quite recovers: as of 2025 its composite is at 36, still below its 2009 level of 45. The asymmetry between &ldquo;crisis as event&rdquo; and &ldquo;crisis as state&rdquo; is the durable lesson here. A sovereign that defaults once can be re-rated. A sovereign that has shown it might default repeatedly carries a permanent risk premium that the macro fundamentals do not fully justify. The shadow-rating residual analysis (<a href="methodology.html#sec12">Methodology &sect;12</a>) picks this up: Greece is one of the largest persistent under-ratings in the panel.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="story" id="india-pakistan">
+    <div class="story-meta">Story 3 &middot; South Asia &middot; Pairwise divergence</div>
+    <h2>Pakistan&ndash;India, 2000&ndash;2025 &mdash; a divergence dressed as stability</h2>
+    <div class="lede">Across 26 years, India's composite score moved from 27 to 35 &mdash; an eight-point gain spread over a quarter-century. Pakistan's moved from 18 to 13.5 &mdash; a five-point loss. The pairwise spread P(India &minus; Pakistan) more than doubled, from 9 to 21.5. From inside either country the rating looks roughly stable; from the pairwise lens, two trajectories that began as neighbouring speculative-grade sovereigns ended one notch above and seven notches below their starting positions.</div>
+
+    <p>India's path is unremarkable as a credit story. The country has been BB- to BBB- territory for the entire panel, with a slow upward drift driven by sustained growth, a deepening domestic capital market, and a manageable external debt position. There are no dramatic events. The most volatile period is 2007&ndash;2010, where the composite oscillates one notch around its trend, reflecting agencies' uncertainty about the post-2008 fiscal stimulus. By 2017 India is at 35 and stays there.</p>
+
+    <div class="chart-box"><div id="ip-chart" style="height:340px"></div></div>
+    <div class="chart-caption">Figure 3.1 &mdash; India and Pakistan composite scores, 2000&ndash;2025, with pairwise spread on right axis.</div>
+
+    <p>Pakistan's path is dominated by IMF programmes and balance-of-payments crises. The 2008 collapse from 21 to 13.5 coincides with the global financial crisis but is more directly attributable to a domestic foreign-exchange crunch and the IMF Stand-By Arrangement signed that November.<sup class="note-ref"><a href="#note-6">6</a></sup> The 2014 dip to 12 reflects the second IMF Extended Fund Facility under the Sharif government. The 2023 collapse to 9 is the now-familiar pattern: foreign reserves fall below USD 4 billion, the rupee loses 30 percent against the dollar, the agencies cut ahead of the next IMF review. By the time the SBA was finalised in July 2023 the score was already at its floor.</p>
+
+    <p>Read pairwise, the divergence is visible without the noise that absolute scores carry. The spread climbs from 9 in 2000 to a peak of 24 in 2023&ndash;2024. The widening is not symmetric: India contributes about 8 points (25 percent of the spread movement) and Pakistan about 16 points (75 percent). This is a useful empirical instance of the failure mode that <a href="pairwise.html">pairwise</a> rating is designed to surface: an analyst tracking only India would see eight points of improvement and call it modest; an analyst tracking only Pakistan would see five points of decline and call it cyclical; only the pairwise view flags the structural divergence.</p>
+
+    <div class="chart-box"><div id="ip-rel" style="height:280px"></div></div>
+    <div class="chart-caption">Figure 3.2 &mdash; Cumulative change from 2000 baseline. India ends +8 points up; Pakistan ends &minus;4.5 points down. The spread chart in 3.1 captures both; either single-country chart hides one half.</div>
+
+    <p>There is a related point about distance-graded benchmarking. South Asia as a peer group is dominated by India in mass terms; an unweighted regional average treats Bangladesh, Bhutan, Maldives, Nepal, Pakistan, and Sri Lanka equally, which inflates Pakistan's apparent peer mean (because India's high score lifts the average). A GDP-weighted regional average pulls the South Asia mean upward by another two points. Pakistan's relative-to-region rating depends sensitively on the weighting choice; the pairwise India comparison eliminates this ambiguity by collapsing the benchmark to a single, well-identified counterfactual.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="story" id="emdc">
+    <div class="story-meta">Story 4 &middot; Cross-region &middot; Post-COVID debt cycle</div>
+    <h2>2020&ndash;2023 emerging-market default cluster &mdash; Ghana, Sri Lanka, Zambia, Ethiopia</h2>
+    <div class="lede">Between November 2020 (Zambia) and December 2023 (Ethiopia), four sovereigns formally defaulted. Sri Lanka's composite collapses from 18 to 1.5 across 2020&ndash;2022; Ghana from 16.5 to 1.5 in 2022 alone; Zambia from 13.5 to 1.5 in 2020. The cluster is not random: the four share a common funding model that broke down simultaneously when global rates began to rise.</div>
+
+    <p>The structural commonality is exposure to non-Paris-Club bilateral lending &mdash; predominantly Chinese policy-bank credit and Eurobond issuance &mdash; combined with import-dependent food and energy baskets that were re-priced upward by COVID-era supply chain disruption and then by the 2022 commodity shock following Russia's invasion of Ukraine.<sup class="note-ref"><a href="#note-7">7</a></sup> The Common Framework for Debt Treatments, agreed by the G20 in November 2020 specifically to handle such cases, was meant to coordinate restructuring across Paris-Club, non-Paris-Club, and private creditors. Its actual operation has been slow: Zambia's restructuring took three years to finalise, Ghana's two, and Ethiopia's was still under negotiation as of early 2026.</p>
+
+    <div class="chart-box"><div id="emdc-chart" style="height:380px"></div></div>
+    <div class="chart-caption">Figure 4.1 &mdash; Six emerging-market sovereigns, 2018&ndash;2025. Defaults cluster in 2020 (Zambia) and 2022 (Sri Lanka, Ghana). South Africa and Kenya hold above the default threshold but lose 4&ndash;5 points each.</div>
+
+    <p>The interesting comparative point is the speed of recovery. Ghana and Zambia, both of whose debt restructurings closed in 2024, are already back to composite scores of 13.5 and 10.5 respectively by 2025 &mdash; well above the post-default floor of 1.5 but not yet at pre-crisis levels. Sri Lanka, whose external bond restructuring closed in mid-2024, follows a similar climb to 12 by 2025. Ethiopia, whose Common Framework process has stalled, remains at 3. The recovery dynamic is essentially mechanical: once the legal proceedings close, the agencies upgrade in a step function, typically by 6&ndash;12 points within twelve months. Pre-default the recovery dynamic is not visible; post-default it is governed largely by the speed of the official-creditor negotiation rather than by the borrower's own fundamentals.</p>
+
+    <p>The shadow-rating residuals from the <a href="methodology.html#sec12">Methodology &sect;12</a> model offer a partial diagnostic. In the four years before each of the four defaults, the actual composite score was above the shadow rating in three out of four cases &mdash; meaning the agencies were rating the country <em>better</em> than its macro and institutional fundamentals would predict, presumably because the bond market had not yet priced in the default risk. The exception is Sri Lanka, whose shadow rating already pointed to a marked under-performance from 2018 onward, driven by a combination of low Rule of Law scores and a deteriorating current account. The model would have called Sri Lanka two years early if anyone had been listening to it.</p>
+
+    <div class="chart-box"><div id="emdc-recovery" style="height:280px"></div></div>
+    <div class="chart-caption">Figure 4.2 &mdash; Recovery trajectories from default trough. Ghana and Zambia both regain &gt; 9 points within two years of restructuring close; Sri Lanka follows the same path on a one-year lag; Ethiopia (still in negotiation) is flat at the floor.</div>
+
+    <p>The final comparative is what doesn't show up in this cluster. South Africa, Nigeria, and Kenya are all on the same continent, all faced the same external shocks, and all carry significant external debt. None defaulted. The difference is partly fiscal capacity (South Africa has by far the deepest domestic capital market in sub-Saharan Africa) and partly the structure of foreign liabilities (Nigeria's external debt is mostly multilateral and concessional). The agencies pull the rating down 4&ndash;5 points in each case but never to the default threshold. The lesson from this cluster is not that emerging-market debt is universally fragile but that the specific combination of dollar-denominated non-concessional debt, import dependence, and weak central-bank reserves is fragile in a tightening cycle &mdash; and that combination concentrated in a small subset of countries, all of which defaulted within a three-year window.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="story" id="iceland">
+    <div class="story-meta">Story 5 &middot; North Atlantic &middot; Banking crisis as sovereign event</div>
+    <h2>Iceland 2008 &mdash; the smallest economy with the biggest banks</h2>
+    <div class="lede">In one year, 2008&ndash;2009, Iceland's composite credit score fell from 48 to 33 &mdash; a 15-point drop, the largest in the Nordic-Atlantic data. The trigger was not a sovereign default; it was the simultaneous collapse of three commercial banks (Kaupthing, Landsbanki, Glitnir) whose combined assets were roughly ten times Icelandic GDP.</div>
+
+    <p>The Icelandic story is a nearly pure case of a banking crisis transmitting into a sovereign rating. The Icelandic government did not formally default on its own bonds. What it did was nationalise three banks whose foreign liabilities &mdash; principally the &ldquo;Icesave&rdquo; deposit accounts marketed to British and Dutch retail customers &mdash; were on the order of EUR 4 billion against an Icelandic GDP of around EUR 13 billion.<sup class="note-ref"><a href="#note-8">8</a></sup> The Althing's decision in 2010 and again in 2011 to refuse a depositor-compensation deal with the UK and Netherlands &mdash; both decisions ratified by national referendum &mdash; was the inflection point at which the crisis transitioned from banking to sovereign in the agencies' framing.</p>
+
+    <div class="chart-box"><div id="iceland-chart" style="height:340px"></div></div>
+    <div class="chart-caption">Figure 5.1 &mdash; Iceland and Nordic-Atlantic peers, 2006&ndash;2014. Iceland and Ireland are the two casualties of bank-sovereign loop transmission; Norway, Denmark, and the United Kingdom hold at AAA territory throughout.</div>
+
+    <p>Read against its peers, Iceland is the only Nordic country in the panel to lose investment-grade status during the financial crisis. Norway, Denmark, and Sweden hold at 60 throughout. The United Kingdom has a brief one-point dip in 2013 but is otherwise at the ceiling. Ireland is the partial mirror: same banking-sector problem (assets several times GDP), same loss of confidence, same recovery path. The two countries' divergence after 2010 is the more interesting comparison: Ireland enters the EU/IMF programme in November 2010, accepts an austerity package, and exits the programme in December 2013 with a composite back at 37 and rising. Iceland, having kept its krona and refused the depositor deal, takes longer to recover but does so without a formal IMF Stand-By: by 2018 the composite is back at 51 and continues to climb thereafter.</p>
+
+    <p>The agencies' treatment of these two paths is doctrinally interesting. Both countries had banking crises of comparable scale relative to GDP. Ireland's recovery was built on EU structural support and tax-base resilience; Iceland's on currency depreciation and capital controls. The Irish path is the recovery model the IMF and the European institutions prefer because it leaves the country anchored to the broader currency-and-trade architecture; the Icelandic path is the one critics of austerity prefer because it preserves national policy autonomy. The agencies, asked to score the resulting credit risk, treated both as roughly equivalent &mdash; both back to investment grade by 2014, both at AAA-adjacent territory by 2018. There is no obvious agency penalty for the heterodox Icelandic approach.</p>
+
+    <div class="chart-box"><div id="iceland-recovery" style="height:280px"></div></div>
+    <div class="chart-caption">Figure 5.2 &mdash; Recovery trajectory: deviation from 2007 baseline for Iceland and Ireland. Both fall through 2010, both rebuild over the following decade, both close most of the gap by 2025.</div>
+
+    <p>The smaller lesson from Iceland is methodological. The composite rating is not very sensitive to the details of how a banking crisis is resolved; it is sensitive to whether the sovereign ultimately makes its bondholders whole. Both Iceland and Ireland did. Cyprus, in the parallel 2013 episode discussed in Story 2, also did &mdash; but Cyprus's rating fell further and stayed lower because the resolution involved a depositor bail-in that the agencies read as a direct precedent for future Eurozone behaviour. The mapping from underlying economic stress to sovereign credit score runs through the legal architecture of debt; the same shock can produce very different rating trajectories depending on the creditor structure and the political resolution. Iceland is the cleanest case in the panel where this mapping operated to the country's advantage.</p>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="endnotes" id="endnotes">
+    <h3>Endnotes</h3>
+    <ol>
+      <li id="note-1">For a contemporary diagnostic of the convertibility regime see Domingo Cavallo's own 1998 IMF speeches and the post-mortem in Pablo Guidotti, &ldquo;Argentina's Crisis: A Stylized Account,&rdquo; in <em>The Decline of Latin American Economies: Growth, Institutions, and Crises</em>, ed. Sebastian Edwards, Gerardo Esquivel, and Graciela M&aacute;rquez (Chicago: University of Chicago Press, 2007), 297&ndash;330.</li>
+      <li id="note-2">The Argentine peso lost 25 percent against the dollar in the four trading days following the August 2019 PASO primary, in which Alberto Fern&aacute;ndez defeated Mauricio Macri by a wider-than-expected margin. The market read this as a return to heterodox economic management and re-priced the sovereign curve accordingly within the week. See Bloomberg, &ldquo;Argentina Markets Plunge as Macri Defeated in Primary Election,&rdquo; 12 August 2019.</li>
+      <li id="note-3">Carmen M. Reinhart and Kenneth S. Rogoff, <em>This Time Is Different: Eight Centuries of Financial Folly</em> (Princeton, NJ: Princeton University Press, 2009), chap. 3 and the country tables in app. A.</li>
+      <li id="note-4">The institutional point is that Article 123 of the Treaty on the Functioning of the European Union prohibits direct monetary financing of member-state budgets; see also Paul De Grauwe, &ldquo;The Governance of a Fragile Eurozone,&rdquo; <em>Australian Economic Review</em> 45, no. 3 (2012): 255&ndash;268, for the canonical statement of why this constraint mattered for the periphery.</li>
+      <li id="note-5">For the Cypriot bail-in mechanics see <a href="https://www.imf.org/en/Publications/CR/Issues/2016/12/31/Cyprus-Request-for-Arrangement-Under-the-Extended-Fund-Facility-40624" target="_blank" rel="noopener">IMF Country Report 13/125</a> (May 2013), and the after-the-fact assessment in Athanasios Orphanides, &ldquo;What Happened in Cyprus? The Economic Consequences of the Last Communist Government in Europe,&rdquo; LSE Hellenic Observatory GreeSE Paper 79 (2014).</li>
+      <li id="note-6">IMF, <em>Pakistan: Stand-By Arrangement&mdash;Staff Report</em>, IMF Country Report 08/364 (December 2008). The 2014 EFF is documented in IMF Country Report 13/287, the 2023 SBA in IMF Country Report 23/260.</li>
+      <li id="note-7">For a synthesis of the cluster see World Bank, <em>International Debt Report 2023</em> (Washington, DC: World Bank Group, 2023), chap. 1, and the IMF's January 2024 <em>World Economic Outlook</em> Box 1.4 on Common Framework progress. The role of Chinese bilateral lending in the four cases is parsed in Christoph Trebesch et al., &ldquo;China as an International Lender of Last Resort,&rdquo; <em>National Bureau of Economic Research Working Paper</em> 31105 (April 2023).</li>
+      <li id="note-8">For the Icesave dispute and its resolution see the EFTA Court judgment in <em>EFTA Surveillance Authority v. Iceland</em>, Case E-16/11, 28 January 2013, and the retrospective analysis in &THORN;orvaldur Gylfason, &ldquo;The Anatomy of Constitution Making: From Denmark in 1849 to Iceland in 2017,&rdquo; <em>CESifo Working Paper</em> 7798 (2019).</li>
+    </ol>
+  </div>
+
+  <p class="page-footer">Five stories are not five out of five candidates. The dataset contains Lebanon's 2020 default, Russia's 2022 sanctions-driven downgrade to selective default, Sudan and Lebanon's prolonged distress states, and several Caribbean restructurings (Barbados 2018, Belize 2017&ndash;2021) that would each support a similar narrative. The selection here was driven by data completeness and by the availability of high-quality secondary sources for the political economy. Suggestions for additions are welcome.</p>
+
+</main>
+
+<script defer src="shared.js"></script>
+<script>
+let EXTRAS = null;
+fetch('extras.json').then(r => r.json()).then(j => { EXTRAS = j; renderAll(); }).catch(err => {
+  document.querySelectorAll('.chart-box').forEach(b => {
+    b.innerHTML = '<p style="padding:20px;color:#888;font-family:sans-serif">Could not load extras.json. Serve from a web server (file:// blocks fetch).</p>';
+  });
+});
+
+const baseLayout = {
+  plot_bgcolor: '#fff', paper_bgcolor: '#fff',
+  font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
+  margin: {l: 50, r: 50, t: 36, b: 40},
+  legend: {orientation: 'h', y: -0.18}
+};
+const lineDash = ['#1a1a1a','#666','#999','#bbb','#444','#888','#000','#777'];
+
+function renderAll() {
+  // ── Argentina
+  const arg = EXTRAS.stories.argentina;
+  Plotly.newPlot('arg-chart', [{
+    x: arg.map(d => d.Year), y: arg.map(d => d.CompositeScore),
+    name: 'Argentina', mode: 'lines+markers',
+    line: {color: '#1a1a1a', width: 2.4}, marker: {size: 6}
+  }], Object.assign({}, baseLayout, {
+    title: {text: 'Argentina composite score, 2000&ndash;2025', font: {size: 13}},
+    xaxis: {title: 'Year', gridcolor: '#eee'},
+    yaxis: {title: 'Composite (0&ndash;60)', range: [0, 60], gridcolor: '#eee'},
+    shapes: [
+      {type:'line', x0:2001, x1:2001, y0:0, y1:60, line:{color:'#888',dash:'dot',width:1}},
+      {type:'line', x0:2014, x1:2014, y0:0, y1:60, line:{color:'#888',dash:'dot',width:1}},
+      {type:'line', x0:2019, x1:2019, y0:0, y1:60, line:{color:'#888',dash:'dot',width:1}}
+    ],
+    annotations: [
+      {x:2001, y:58, text:'2001 default', showarrow:false, font:{size:10}, xshift:30},
+      {x:2014, y:58, text:'2014 default', showarrow:false, font:{size:10}, xshift:30},
+      {x:2019, y:58, text:'2019 default', showarrow:false, font:{size:10}, xshift:30}
+    ]
+  }), {displayModeBar: false, responsive: true});
+
+  // Argentina pairwise spreads vs Brazil and Chile
+  const sm = EXTRAS.score_matrix;
+  const years = Object.keys(sm).map(Number).sort((a,b)=>a-b);
+  const spreadBrAr = years.map(y => sm[y]['Brazil']!=null && sm[y]['Argentina']!=null ? sm[y]['Brazil']-sm[y]['Argentina'] : null);
+  const spreadClAr = years.map(y => sm[y]['Chile']!=null && sm[y]['Argentina']!=null ? sm[y]['Chile']-sm[y]['Argentina'] : null);
+  Plotly.newPlot('arg-pairwise', [
+    {x: years, y: spreadBrAr, name: 'Brazil &minus; Argentina', mode: 'lines+markers', line:{color:'#1a1a1a',width:2}, marker:{size:5}},
+    {x: years, y: spreadClAr, name: 'Chile &minus; Argentina', mode: 'lines+markers', line:{color:'#888',width:2,dash:'dash'}, marker:{size:5}}
+  ], Object.assign({}, baseLayout, {
+    title: {text: 'Pairwise spreads vs Argentina', font: {size: 13}},
+    xaxis: {title:'Year', gridcolor:'#eee'},
+    yaxis: {title:'Score difference', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
+  }), {displayModeBar: false, responsive: true});
+
+  // ── Eurozone
+  const ez = EXTRAS.stories.eurozone;
+  const ezCountries = ['Greece','Cyprus','Portugal','Spain','Ireland','Italy','France','Germany'];
+  Plotly.newPlot('euro-chart', ezCountries.map((c,i) => ({
+    x: ez.map(d => d.Year), y: ez.map(d => d[c]),
+    name: c, mode: 'lines+markers',
+    line: {color: lineDash[i], width: i<5 ? 2.4 : 1.8, dash: i>=6 ? 'dash' : null},
+    marker: {size: 4}
+  })), Object.assign({}, baseLayout, {
+    title: {text: 'Eurozone composite scores, 2007&ndash;2018', font: {size: 13}},
+    xaxis: {title:'Year', gridcolor:'#eee', range:[2007,2018]},
+    yaxis: {title:'Composite (0&ndash;60)', range: [0, 62], gridcolor:'#eee'}
+  }), {displayModeBar: false, responsive: true});
+
+  // Eurozone spread vs Germany
+  Plotly.newPlot('euro-spread', ezCountries.filter(c=>c!=='Germany').map((c,i) => ({
+    x: ez.map(d => d.Year), y: ez.map(d => d['Germany'] - d[c]),
+    name: c, mode: 'lines+markers',
+    line: {color: lineDash[i], width: 1.8}, marker: {size: 3}
+  })), Object.assign({}, baseLayout, {
+    title: {text: 'Pairwise spreads: Germany minus periphery', font: {size: 13}},
+    xaxis: {title:'Year', gridcolor:'#eee', range:[2007,2018]},
+    yaxis: {title:'Germany &minus; country', gridcolor:'#eee'}
+  }), {displayModeBar: false, responsive: true});
+
+  // ── India-Pakistan
+  const ip = EXTRAS.stories.india_pakistan;
+  Plotly.newPlot('ip-chart', [
+    {x: ip.map(d=>d.Year), y: ip.map(d=>d.India), name: 'India', mode: 'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:5}},
+    {x: ip.map(d=>d.Year), y: ip.map(d=>d.Pakistan), name: 'Pakistan', mode: 'lines+markers', line:{color:'#888',width:2.4,dash:'dash'}, marker:{size:5}},
+    {x: ip.map(d=>d.Year), y: ip.map(d=>d.Spread), name: 'Spread P(India&minus;Pakistan)', mode: 'lines', line:{color:'#444',width:2}, yaxis: 'y2'}
+  ], Object.assign({}, baseLayout, {
+    title: {text: 'India and Pakistan composite scores, with pairwise spread', font: {size: 13}},
+    xaxis: {title:'Year', gridcolor:'#eee'},
+    yaxis: {title:'Composite (0&ndash;60)', range: [0, 50], gridcolor:'#eee'},
+    yaxis2: {title:'Spread', overlaying: 'y', side: 'right', range: [0, 30]}
+  }), {displayModeBar: false, responsive: true});
+
+  // Cumulative change from 2000
+  const baseI = ip[0].India, baseP = ip[0].Pakistan;
+  Plotly.newPlot('ip-rel', [
+    {x: ip.map(d=>d.Year), y: ip.map(d => d.India - baseI), name: 'India &Delta;', mode:'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:5}},
+    {x: ip.map(d=>d.Year), y: ip.map(d => d.Pakistan - baseP), name: 'Pakistan &Delta;', mode:'lines+markers', line:{color:'#888',width:2.4,dash:'dash'}, marker:{size:5}}
+  ], Object.assign({}, baseLayout, {
+    title: {text: 'Cumulative change from 2000 baseline', font: {size: 13}},
+    xaxis: {title:'Year', gridcolor:'#eee'},
+    yaxis: {title:'&Delta; from 2000', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
+  }), {displayModeBar: false, responsive: true});
+
+  // ── EMDC cluster
+  const af = EXTRAS.stories.african_distress;
+  const afCountries = ['Sri Lanka','Ghana','Zambia','Ethiopia','Kenya','Nigeria','South Africa'];
+  Plotly.newPlot('emdc-chart', afCountries.map((c,i) => ({
+    x: af.map(d=>d.Year), y: af.map(d=>d[c]),
+    name: c, mode: 'lines+markers',
+    line: {color: lineDash[i], width: i<4 ? 2.4 : 1.8, dash: i>=5 ? 'dash' : null}, marker: {size: 4}
+  })), Object.assign({}, baseLayout, {
+    title: {text: 'Six emerging-market sovereigns, 2018&ndash;2025', font: {size: 13}},
+    xaxis: {title:'Year', gridcolor:'#eee'},
+    yaxis: {title:'Composite (0&ndash;60)', range: [0, 35], gridcolor:'#eee'}
+  }), {displayModeBar: false, responsive: true});
+
+  // Recovery: index from default trough (Year 0 = trough year)
+  const defaults = {Ghana: 2022, Zambia: 2020, 'Sri Lanka': 2022, Ethiopia: 2023};
+  const recovery = Object.entries(defaults).map(([c, dy], i) => {
+    const ys = af.map(d => d.Year - dy).filter(_ => true);
+    const trough = af.find(d => d.Year === dy)?.[c];
+    return {
+      x: af.map(d => d.Year - dy),
+      y: af.map(d => (d[c] != null && trough != null) ? d[c] - trough : null),
+      name: c + ' (default ' + dy + ')',
+      mode: 'lines+markers', line: {color: lineDash[i], width: 2}, marker: {size: 5}
+    };
+  });
+  Plotly.newPlot('emdc-recovery', recovery, Object.assign({}, baseLayout, {
+    title: {text: 'Recovery from default trough (years from default = 0)', font: {size: 13}},
+    xaxis: {title:'Years from default', gridcolor:'#eee', range:[-2, 4], zerolinecolor:'#1a1a1a',zerolinewidth:1.5},
+    yaxis: {title:'&Delta; score from trough', gridcolor:'#eee'}
+  }), {displayModeBar: false, responsive: true});
+
+  // ── Iceland
+  const ic = EXTRAS.stories.iceland_nordic;
+  const icCountries = ['Iceland','Ireland','United Kingdom','Norway','Denmark'];
+  Plotly.newPlot('iceland-chart', icCountries.map((c,i) => ({
+    x: ic.map(d=>d.Year), y: ic.map(d=>d[c]),
+    name: c, mode: 'lines+markers',
+    line: {color: lineDash[i], width: i<2 ? 2.4 : 1.6, dash: i>=2 ? 'dash' : null}, marker: {size: 4}
+  })), Object.assign({}, baseLayout, {
+    title: {text: 'Iceland and Nordic-Atlantic peers, 2006&ndash;2014', font: {size: 13}},
+    xaxis: {title:'Year', gridcolor:'#eee', range:[2006,2014]},
+    yaxis: {title:'Composite (0&ndash;60)', range: [25, 62], gridcolor:'#eee'}
+  }), {displayModeBar: false, responsive: true});
+
+  // Recovery: Iceland and Ireland deviation from 2007
+  const baseIce = ic.find(d=>d.Year===2007).Iceland;
+  const baseIrl = ic.find(d=>d.Year===2007).Ireland;
+  Plotly.newPlot('iceland-recovery', [
+    {x: ic.map(d=>d.Year), y: ic.map(d => d.Iceland - baseIce), name:'Iceland', mode:'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:5}},
+    {x: ic.map(d=>d.Year), y: ic.map(d => d.Ireland - baseIrl), name:'Ireland', mode:'lines+markers', line:{color:'#888',width:2.4,dash:'dash'}, marker:{size:5}}
+  ], Object.assign({}, baseLayout, {
+    title: {text: 'Recovery: deviation from 2007 baseline', font: {size: 13}},
+    xaxis: {title:'Year', gridcolor:'#eee'},
+    yaxis: {title:'&Delta; from 2007', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
+  }), {displayModeBar: false, responsive: true});
+}
+</script>
+</body>
+</html>

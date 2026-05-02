@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Methodology &mdash; Sovereign Credit Rating Explorer</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+
+<header class="site">
+  <h1>Sovereign Credit Rating Explorer</h1>
+  <p>151 countries &middot; S&amp;P, Moody's, DBRS &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
+</header>
+<nav class="site">
+  <a href="index.html">Explorer</a>
+  <a href="methodology.html" class="active">Methodology</a>
+  <a href="pairwise.html">Pairwise &amp; Distance</a>
+  <a href="relative_hdi.html">Relative HDI</a>
+  <a href="relative_gini.html">Relative Gini</a>
+  <a href="stories.html">Stories</a>
+  <a href="glossary.html">Glossary</a>
+  <a href="citations.html">Citations</a>
+</nav>
+
+<main>
+
+  <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Methodology</h2>
+  <p>This page documents the data construction, scoring conventions, and analytical methods used throughout the Explorer. For term definitions, see the <a href="glossary.html">Glossary</a>; for full bibliographic detail of every reference cited below, see the <a href="citations.html">Citations</a> page. Citations follow the <a href="https://www.chicagomanualofstyle.org/tools_citationguide/citation-guide-2.html" target="_blank" rel="noopener">Chicago Manual of Style, 17th edition</a>, author&ndash;date variant.</p>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <h2 id="sec1"><span class="section-num">1</span> Raw Rating Data</h2>
+
+  <h3 id="sources">Sources and Coverage</h3>
+  <p>Credit ratings are collected from three agencies: <a href="https://disclosure.spglobal.com/sri/" target="_blank" rel="noopener">Standard &amp; Poor's Global Ratings (S&amp;P)</a>, <a href="https://www.moodys.com" target="_blank" rel="noopener">Moody's Investors Service</a>, and <a href="https://dbrs.morningstar.com/about/sovereigns" target="_blank" rel="noopener">DBRS Morningstar</a>. The dataset covers 151 sovereign entities from 1949 to 2026, with 2,178 rating events in total. Coverage is uneven across agencies: S&amp;P and Moody's rate the broadest set of countries; DBRS focuses on a smaller subset, skewed toward higher-income economies.</p>
+
+  <h3 id="numeric">Numeric Scoring (0&ndash;60 Scale)</h3>
+  <p>Each agency uses a letter-grade scale (e.g. AAA, AA+, AA, &hellip;, D). These are converted to a uniform numeric scale from 0 (worst) to 60 (best) for comparability across agencies. The conversion follows the conventions surveyed in <a href="https://en.wikipedia.org/wiki/Credit_rating" target="_blank" rel="noopener">Wikipedia's credit-rating overview</a> and standardised in the academic literature by Uri Dadush and Dipak Dasgupta (2001) and Norbert Gaillard (2009).<sup class="note-ref"><a href="#note-1">1</a></sup> The approximate mapping at key grades:</p>
+
+  <table>
+    <thead><tr><th>Letter Grade</th><th>Score (approx.)</th><th>Investment grade?</th></tr></thead>
+    <tbody>
+      <tr><td>AAA / Aaa</td><td>60</td><td>Yes</td></tr>
+      <tr><td>AA+ / Aa1</td><td>57</td><td>Yes</td></tr>
+      <tr><td>AA / Aa2</td><td>54</td><td>Yes</td></tr>
+      <tr><td>A / A2</td><td>48</td><td>Yes</td></tr>
+      <tr><td>BBB / Baa2</td><td>42</td><td>Yes (lowest IG)</td></tr>
+      <tr><td>BB / Ba2</td><td>36</td><td>No (speculative)</td></tr>
+      <tr><td>B / B2</td><td>30</td><td>No</td></tr>
+      <tr><td>CCC / Caa2</td><td>18</td><td>No</td></tr>
+      <tr><td>D / SD / C</td><td>0&ndash;6</td><td>No (default)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>Agency-level bias.</strong> DBRS Morningstar assigns systematically higher scores (mean &asymp; 41.1) than Standard &amp; Poor's (mean &asymp; 31.2) or Moody's (mean &asymp; 30.7), likely reflecting DBRS's narrower, higher-income coverage universe. Agency fixed effects or agency-specific normalisation should be used when pooling ratings across agencies in regressions.
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <h2 id="sec2"><span class="section-num">2</span> Panel Construction</h2>
+
+  <h3 id="forward-fill">Annual Forward-Fill</h3>
+  <p>Rating events are dated to the day but are sparse&mdash;a country may go years between rating actions. To construct a balanced annual panel, each country&ndash;agency rating is <em>forward-filled</em>: once a rating is assigned, it is carried forward to all subsequent years until a new rating event supersedes it. This reflects the convention that an outstanding rating remains in effect until it is explicitly changed.</p>
+
+  <h3 id="composite">Composite Score</h3>
+  <p>For each country&ndash;year, the composite score is the simple arithmetic mean of all available agency scores for that country in that year. Countries rated by only one agency receive that agency's score as their composite; countries rated by all three receive the mean of three scores. The composite is not computed for country&ndash;years with no outstanding rating from any agency.</p>
+
+  <div class="formula-block">
+    <span class="label">Composite Score</span>
+    CompositeScore<sub>it</sub> = (1 / N<sub>it</sub>) &times; &Sigma;<sub>a</sub> Score<sub>iat</sub>
+    <br><br>
+    where N<sub>it</sub> = number of agencies rating country <em>i</em> in year <em>t</em>
+  </div>
+
+  <h3 id="macro">Macro Covariates</h3>
+  <p>GDP (current USD), population, and FDI net inflows (% of GDP) are sourced from the <a href="https://databank.worldbank.org/source/world-development-indicators" target="_blank" rel="noopener">World Bank's World Development Indicators</a> and merged by ISO3 country code. GDP per capita is derived as GDP / population. Log GDP per capita (base 10) is used in regressions to reduce skewness. Coverage: GDP &asymp; 94 percent, FDI &asymp; 92 percent, GDP per capita &asymp; 94 percent of panel rows. Missing values: Guinea and Taiwan (the World Bank does not publish Taiwan's national accounts).</p>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <h2 id="sec3"><span class="section-num">3</span> Peer Groups</h2>
+
+  <p>Countries are assigned to 59 peer groups based on geographic, political, and economic criteria. Groups range from broad (World, 150 countries) to narrow (<a href="https://en.wikipedia.org/wiki/Gulf_Cooperation_Council" target="_blank" rel="noopener">Gulf Cooperation Council</a>, four countries). The complete list includes:</p>
+  <ul>
+    <li><strong>G-groups:</strong> G7, G8, G10, G20, G24, G15</li>
+    <li><strong>European clubs:</strong> European Union, Eurozone, Schengen, NATO, Nordic, Baltic, Commonwealth of Independent States, and sub-regional groupings</li>
+    <li><strong>Asian sub-regions:</strong> ASEAN/Southeast Asia, SAARC/South Asia, East Asia, GCC, Arab League, and others</li>
+    <li><strong>Americas:</strong> Latin America, MERCOSUR, Andean Community, Caribbean Community, etc.</li>
+    <li><strong>African sub-regions:</strong> North, West, East, Southern, Central Africa</li>
+    <li><strong>World Bank income tiers:</strong> High Income, Upper Middle, Lower Middle, Low Income</li>
+    <li><strong>World:</strong> all 150 rated countries, used as the global benchmark</li>
+  </ul>
+
+  <div class="callout">
+    <strong>MECE partitions.</strong> Only three groupings are <a href="https://en.wikipedia.org/wiki/MECE_principle" target="_blank" rel="noopener">mutually exclusive and collectively exhaustive (MECE)</a> over all 151 countries: (1) the four World Bank income tiers; (2) the six broad continents; (3) the five African sub-regions within Africa. All other groupings intentionally overlap&mdash;do not include collinear group dummies in the same regression.
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <h2 id="sec4"><span class="section-num">4</span> Relative Rating Methods (M1&ndash;M4)</h2>
+
+  <p>Absolute scores measure a country's credit quality on a fixed scale. Relative ratings measure a country's standing <em>within its peer group</em>, which can change even when the absolute score is unchanged&mdash;for example, if the group mean deteriorates. Four methods are implemented, each capturing a different dimension of relative standing. The methods build on the relative-risk-rating framework of Kaushik Basu, Supriyo De, Dilip Ratha, and Hans Timmer (2013) and the relativization family surveyed by Supriyo De, Sanket Mohapatra, and Dilip Ratha (2020).<sup class="note-ref"><a href="#note-2">2</a></sup></p>
+
+  <h3 id="loo">Leave-One-Out (LOO) Group Mean</h3>
+  <p>All relative methods use a <strong>leave-one-out (LOO) mean</strong> as the group benchmark. The LOO mean for country <em>i</em> in group <em>g</em> at year <em>t</em> is the simple mean of all other members' composite scores:</p>
+
+  <div class="formula-block">
+    <span class="label">LOO Mean</span>
+    LOO<sub>igt</sub> = (1 / (N<sub>gt</sub> &minus; 1)) &times; &Sigma;<sub>j&ne;i, j&isin;g</sub> CompositeScore<sub>jt</sub>
+  </div>
+
+  <p>Using the LOO mean prevents a country's own score from influencing its benchmark, which would mechanically compress relative ratings toward 1 and bias estimates of relative standing, particularly in small groups.</p>
+
+  <h3 id="m1">M1 &mdash; Current Relative Rating</h3>
+  <p>M1 scales a country's score against the current-year LOO mean. The score is squared before dividing to amplify differences at the upper tail of the distribution (where most rated countries cluster):</p>
+
+  <div class="formula-block">
+    <span class="label">M1 &mdash; Score&sup2; / Current LOO Mean</span>
+    M1<sub>igt</sub> = Score<sub>it</sub><sup>2</sup> / LOO<sub>igt</sub>
+  </div>
+
+  <p>M1 &gt; LOO mean indicates above-average standing; M1 &lt; LOO mean indicates below-average standing. M1 captures both genuine rating changes and <em>passive drift</em>: a country holding a fixed absolute score will see its M1 rise as the group mean falls, and vice versa.</p>
+
+  <h3 id="m2">M2 &mdash; Within-Year Percentile Rank (Raw Count)</h3>
+  <p>M2 is the ordinal rank of country <em>i</em> within its peer group in year <em>t</em>, expressed as a raw integer (e.g. 47 out of 150). A higher rank means a higher composite score relative to peers.</p>
+
+  <div class="formula-block">
+    <span class="label">M2 &mdash; Within-Group Rank</span>
+    M2<sub>igt</sub> = rank of Score<sub>it</sub> among { Score<sub>jt</sub> : j &isin; g, j &ne; i }
+  </div>
+
+  <p>M2 is non-parametric and robust to the shape of the score distribution, but it is bounded by group size and does not distinguish between large and small score gaps.</p>
+
+  <h3 id="m3">M3 &mdash; Lagged Relative Rating</h3>
+  <p>M3 is identical to M1 except the benchmark uses the <em>prior year's</em> LOO mean rather than the current year's:</p>
+
+  <div class="formula-block">
+    <span class="label">M3 &mdash; Score&sup2; / Lagged LOO Mean</span>
+    M3<sub>igt</sub> = Score<sub>it</sub><sup>2</sup> / LOO<sub>ig,t&minus;1</sub>
+  </div>
+
+  <p>M3 is most useful for studying the <em>speed of adjustment</em> in relative ratings. At the onset of a crisis, M3 is systematically more optimistic than M1: because last year's LOO mean has not yet reflected the group's deterioration, the denominator is higher, making the ratio smaller and the relative rating appear better than M1 suggests. Conversely, during recovery M3 lags behind M1 as the old (poor) group mean persists. M3 is not defined for the first year a country&ndash;group series begins (no lag available).</p>
+
+  <h3 id="m4">M4 &mdash; Within-Year Percentile (0&ndash;1 Scale)</h3>
+  <p>M4 is the percentile rank of country <em>i</em> within its peer group, normalised to the unit interval:</p>
+
+  <div class="formula-block">
+    <span class="label">M4 &mdash; Normalised Percentile Rank</span>
+    M4<sub>igt</sub> = M2<sub>igt</sub> / N<sub>gt</sub>
+  </div>
+
+  <p>M4 is more comparable across groups of different sizes than M2. A value of 0.5 means the country is at the median of its group. M4 saturates near 1 at the upper tail&mdash;a country at the absolute maximum score (60) will reach M4 &asymp; 0.97 rather than exactly 1.0 because at least one other country (itself, excluded) is assumed to exist.</p>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <h2 id="sec5"><span class="section-num">5</span> Comparing M1&ndash;M4: Guidance</h2>
+
+  <table>
+    <thead><tr><th>Method</th><th>Best used for&hellip;</th><th>Key limitation</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>M1</td>
+        <td>Primary relative measure; tracking passive drift; cross-group comparisons</td>
+        <td>Sensitive to group mean level; unbounded above &mdash; very large values for top-rated countries in low-rated groups</td>
+      </tr>
+      <tr>
+        <td>M2</td>
+        <td>Robust ordinal ranking; non-parametric analysis</td>
+        <td>Raw count &mdash; not comparable across groups of different sizes; does not quantify the magnitude of gap</td>
+      </tr>
+      <tr>
+        <td>M3</td>
+        <td>Studying adjustment speed at rating transitions; crisis onset vs recovery</td>
+        <td>Not defined in the first year; systematically diverges from M1 at structural breaks</td>
+      </tr>
+      <tr>
+        <td>M4</td>
+        <td>Group-size-normalised ranking; comparable across all groups</td>
+        <td>Same ordinal limitations as M2; adds only size normalisation</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <h2 id="sec6"><span class="section-num">6</span> Gini Coefficient (Distributional Inequality)</h2>
+
+  <p>For each peer group in each year, a <a href="https://en.wikipedia.org/wiki/Gini_coefficient" target="_blank" rel="noopener">Gini coefficient</a>, originally formulated by Corrado Gini (1912),<sup class="note-ref"><a href="#note-3">3</a></sup> is computed over member composite scores to measure within-group inequality in credit quality. A Gini of 0 means all members have identical scores; a Gini of 1 means one member holds all the score mass.</p>
+
+  <div class="formula-block">
+    <span class="label">Gini Coefficient</span>
+    G<sub>gt</sub> = (2 / N<sup>2</sup>&mu;) &times; &Sigma;<sub>i</sub> i &middot; Score<sub>(i)t</sub> &nbsp;&minus;&nbsp; (N+1)/N
+    <br><br>
+    where scores are sorted in ascending order and &mu; is the group mean
+  </div>
+
+  <p>The World Gini (group = "World") rose monotonically from 0.232 in 2000 to 0.321 in 2023, indicating that global credit inequality has grown approximately 38 percent over the past 25 years&mdash;driven by persistent divergence between high-income stable sovereigns and volatile emerging/frontier markets.</p>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <h2 id="sec7"><span class="section-num">7</span> Panel Regression Framework</h2>
+
+  <p>The main regression dataset (<code>paper_panel.csv</code>) supports the following specifications. All panel regressions use clustered standard errors at the country level, following the convention discussed in A. Colin Cameron and Pravin K. Trivedi's <em>Microeconometrics: Methods and Applications</em>.<sup class="note-ref"><a href="#note-4">4</a></sup></p>
+
+  <table>
+    <thead><tr><th>Model</th><th>Specification</th><th>Fixed Effects</th><th>Key Finding</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>A</td>
+        <td>Score ~ GDP growth + FDI</td>
+        <td>Country + Year</td>
+        <td>R&sup2;(within) &asymp; 0 &mdash; macro flows explain almost no within-country variation</td>
+      </tr>
+      <tr>
+        <td>B</td>
+        <td>Score ~ GDP growth + FDI + log GDPpc</td>
+        <td>Country + Year</td>
+        <td>log GDPpc &beta; &asymp; 23.3*** within FE (collinear with country FE &mdash; inflated)</td>
+      </tr>
+      <tr>
+        <td>C</td>
+        <td>Score ~ GDP growth + FDI + log GDP(bn)</td>
+        <td>Country + Year</td>
+        <td>Similar to B; GDP level vs per capita comparison</td>
+      </tr>
+      <tr>
+        <td>D (Pooled OLS)</td>
+        <td>Score ~ GDP growth + FDI + log GDPpc</td>
+        <td>None</td>
+        <td>R&sup2; = 0.90; log GDPpc &beta; &asymp; 9.2*** &mdash; cross-sectional variation dominates</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>The stark contrast between Models A and D (R&sup2;(within) &asymp; 0 vs R&sup2;(overall) = 0.90) is the central empirical result: credit scores are almost entirely determined by structural country characteristics rather than annual macroeconomic fluctuations. The between-country component&mdash;richer countries get better ratings&mdash;dwarfs any within-country year-to-year variation.</p>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <h2 id="sec8"><span class="section-num">8</span> Ordered Model for Rating Transitions</h2>
+
+  <p>A separate <a href="https://en.wikipedia.org/wiki/Ordered_logit" target="_blank" rel="noopener">ordered logit</a> and <a href="https://en.wikipedia.org/wiki/Ordered_probit" target="_blank" rel="noopener">ordered probit</a>, following Daniel McFadden (1974),<sup class="note-ref"><a href="#note-5">5</a></sup> are estimated on the sample of annual rating <em>transitions</em> (N = 2,922 country&ndash;year pairs), where the dependent variable takes three values:</p>
+  <ul>
+    <li><strong>&minus;1:</strong> downgrade (composite score fell from prior year) &mdash; 13 percent of observations</li>
+    <li><strong>0:</strong> stable (no change) &mdash; 70 percent of observations</li>
+    <li><strong>+1:</strong> upgrade (composite score rose from prior year) &mdash; 17 percent of observations</li>
+  </ul>
+  <p>Regressors: GDP growth (prior year), log GDP per capita, FDI (% GDP), and lagged composite score. Key results: GDP growth and log GDPpc are positively associated with upgrades; the lagged score is negatively associated (mean reversion&mdash;already high-rated countries have less room to rise); FDI is insignificant.</p>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <h2 id="sec9"><span class="section-num">9</span> Alternative Numerical Scales</h2>
+
+  <p>The 0&ndash;60 composite is the primary scale used throughout the Explorer, but it is one of several conventions in the academic and policy literature. To verify that paper conclusions do not depend on the conversion convention, the panel is re-expressed on eight commonly used numerical scales (saved in <code>panel_scales.csv</code>):</p>
+
+  <table>
+    <thead><tr><th>Scale</th><th>Range</th><th>Direction</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>score_60</td><td>0&ndash;60</td><td>higher = better</td><td>This project (Basu et al. mirror, no outlook)</td></tr>
+      <tr><td>score_21</td><td>1&ndash;21</td><td>higher = better</td><td>Standard 21-point academic norm</td></tr>
+      <tr><td>score_20</td><td>0&ndash;20</td><td>higher = better</td><td>Bank for International Settlements (2015)</td></tr>
+      <tr><td>score_17</td><td>1&ndash;17</td><td>higher = better</td><td>Ant&oacute;nio Afonso, Davide Furceri, and Pedro Gomes (2011)</td></tr>
+      <tr><td>score_16</td><td>1&ndash;16</td><td>higher = better</td><td>Richard Cantor and Frank Packer (1996)</td></tr>
+      <tr><td>score_basu60</td><td>1&ndash;60</td><td>smaller = better</td><td>Basu, De, Ratha, and Timmer (2013), &times; 3 directional</td></tr>
+      <tr><td>score_norm01</td><td>0&ndash;1</td><td>higher = better</td><td>Min-max normalised</td></tr>
+      <tr><td>score_logPD</td><td>0&ndash;11.5</td><td>higher = better</td><td>&minus;ln(1-yr idealised PD), Moody's table</td></tr>
+    </tbody>
+  </table>
+
+  <p>Pairwise correlations among the eight scales are <strong>r &ge; 0.99</strong> for all monotone transforms (the Basu mirror is r = &minus;1 with score_60 by construction). Re-running Models A&ndash;D under each scale leaves <strong>every coefficient identical in sign and statistical significance</strong>; magnitudes scale exactly with the y-variable's range. The qualitative narrative of the paper is invariant to scale choice.</p>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <h2 id="sec10"><span class="section-num">10</span> Basu Relative Risk Rating &amp; CRIS</h2>
+
+  <p>Kaushik Basu, Supriyo De, Dilip Ratha, and Hans Timmer (2013) introduce a <strong>Relative Risk Rating (RR)</strong> for sovereigns, designed to strip out the global-cycle component of agency ratings and isolate each country's standing relative to a weighted world benchmark.<sup class="note-ref"><a href="#note-6">6</a></sup> The same paper proposes <strong>CRIS</strong> (Country-level Risk-Indexing System), a closely related ratio index expressed as a percentage of the world average.</p>
+
+  <h3 id="rr">Relative Risk Rating (RR)</h3>
+
+  <div class="formula-block">
+    <span class="label">Basu RR</span>
+    RR<sub>it</sub> = r<sub>it</sub> &minus; &Sigma;<sub>j</sub> w<sub>jt</sub> &middot; r<sub>jt</sub>
+    <br><br>
+    where w<sub>jt</sub> are GDP weights and r<sub>jt</sub> is country <em>j</em>'s score in year <em>t</em>
+  </div>
+
+  <p>Four versions are computed (saved in <code>basu_cris_panel.csv</code>): GDP-weighted with time-varying weights, GDP-weighted with weights fixed at 2008 (Basu et al.'s preferred convention, neutralising weight drift), and the same two on the directional <code>score_60</code> scale. The 2008-weight version isolates pure rating change from changes in the relative economic mass of each country.</p>
+
+  <h3 id="cris">CRIS (Ratio Index)</h3>
+
+  <div class="formula-block">
+    <span class="label">CRIS &mdash; Country Risk Index</span>
+    CRIS<sub>it</sub> = 100 &times; r<sub>it</sub> / (&Sigma;<sub>j</sub> w<sub>jt</sub> &middot; r<sub>jt</sub>)
+  </div>
+
+  <p>CRIS expresses each country's score as a percentage of the GDP-weighted world average. CRIS = 100 means a country sits exactly at the world benchmark; CRIS &gt; 100 means it is rated above the global average, &lt; 100 below.</p>
+
+  <div class="callout">
+    <strong>Equivalence with M1&ndash;M4.</strong> The Basu et al. RR / CRIS family and the De-style relativizations (next section) correlate at <strong>r &ge; 0.93</strong> with this project's M1&ndash;M4 relative rating measures. They are the same idea&mdash;re-expressing a country's score relative to a peer benchmark&mdash;implemented with different weighting (equal vs GDP vs population) and centring (subtraction vs division vs z-score) choices.
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <h2 id="sec11"><span class="section-num">11</span> De-Style Relativizations</h2>
+
+  <p>Supriyo De, Sanket Mohapatra, and Dilip Ratha (2020) survey a wider family of relativizations of sovereign ratings.<sup class="note-ref"><a href="#note-7">7</a></sup> Ten variants are computed for every (country, year) pair on <code>score_60</code> (saved in <code>de_relative_panel.csv</code>):</p>
+
+  <table>
+    <thead><tr><th>Family</th><th>Variant</th><th>Construction</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="5">Centring (subtract benchmark)</td><td><code>rel_eq</code></td><td>Score &minus; equal-weighted world mean</td></tr>
+      <tr><td><code>rel_gdp</code></td><td>Score &minus; GDP-weighted world mean (time-varying)</td></tr>
+      <tr><td><code>rel_gdp2008</code></td><td>Score &minus; GDP-weighted world mean (2008 weights)</td></tr>
+      <tr><td><code>rel_pop</code></td><td>Score &minus; population-weighted world mean</td></tr>
+      <tr><td><code>rel_median</code></td><td>Score &minus; world median</td></tr>
+      <tr><td rowspan="2">Standardisation</td><td><code>z_eq</code></td><td>(Score &minus; equal-weighted mean) / SD</td></tr>
+      <tr><td><code>z_gdp</code></td><td>(Score &minus; GDP-weighted mean) / SD</td></tr>
+      <tr><td>Rank</td><td><code>pct_rank</code></td><td>Within-year percentile rank (0&ndash;1)</td></tr>
+      <tr><td rowspan="2">Anchoring</td><td><code>norm_max</code></td><td>Score / max(Score)</td></tr>
+      <tr><td><code>norm_min</code></td><td>(Score &minus; min) / (max &minus; min)</td></tr>
+    </tbody>
+  </table>
+
+  <p>Cross-method correlations on raw measures are <strong>r &ge; 0.97</strong>: the choice of weighting scheme and centring statistic is largely cosmetic for time-series shape, though levels and units differ. Where the Explorer's M1 squares the score before dividing, the De variants stay linear, making them easier to compare across scales but less sensitive to upper-tail discrimination.</p>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <h2 id="sec12"><span class="section-num">12</span> Shadow Rating Model</h2>
+
+  <p>Following Dilip Ratha, Supriyo De, and Sanket Mohapatra (2007/2011), a <strong>shadow rating</strong> is the rating implied by a country's macro and institutional fundamentals, estimated by regressing observed composite scores on a set of structural covariates.<sup class="note-ref"><a href="#note-8">8</a></sup> The shadow rating is then applied to all 150 countries&mdash;including those rated by no agency or only one&mdash;and the residual (Actual &minus; Shadow) measures how far each agency's call sits above or below what fundamentals predict.</p>
+
+  <h3 id="specs">Specifications</h3>
+  <p>Five nested OLS specifications are estimated on the panel of country&ndash;years where the composite score is observed, with cluster-robust standard errors at the country level (saved in <code>shadow_panel.csv</code>):</p>
+
+  <table>
+    <thead><tr><th>Spec</th><th>Regressors added</th><th>N</th><th>R&sup2;</th></tr></thead>
+    <tbody>
+      <tr><td>S0</td><td>log GDPpc, GDP growth</td><td>3,137</td><td>0.50</td></tr>
+      <tr><td>S1</td><td>+ 5-yr growth volatility, inflation</td><td>2,733</td><td>0.55</td></tr>
+      <tr><td><strong>S2 &#9733;</strong></td><td>+ Rule of Law (WGI), current account % GDP</td><td>2,578</td><td><strong>0.76</strong></td></tr>
+      <tr><td>S3</td><td>+ external debt % GNI, reserves (months of imports)</td><td>1,418</td><td>0.81</td></tr>
+      <tr><td>S4</td><td>+ FDI % GDP, log population</td><td>1,418</td><td>0.82</td></tr>
+    </tbody>
+  </table>
+
+  <p>&#9733; = preferred benchmark&mdash;closest to Ratha, De, and Mohapatra (2007) with the broadest panel coverage. S2 RMSE is 8.05 points (&asymp; 2.7 letter-grade notches).</p>
+
+  <h3 id="covariates">Macro covariates sourced</h3>
+  <ul>
+    <li><strong>Inflation, external debt, reserves, government debt, current account</strong> &mdash; <a href="https://databank.worldbank.org/source/world-development-indicators" target="_blank" rel="noopener">World Bank Development Indicators</a> (FP.CPI.TOTL.ZG, DT.DOD.DECT.GN.ZS, FI.RES.TOTL.MO, GC.DOD.TOTL.GD.ZS, BN.CAB.XOKA.GD.ZS).</li>
+    <li><strong>Rule of Law</strong> &mdash; <a href="https://www.worldbank.org/en/publication/worldwide-governance-indicators" target="_blank" rel="noopener">Worldwide Governance Indicators (WGI)</a>, methodology in Daniel Kaufmann, Aart Kraay, and Massimo Mastruzzi (2010), range &minus;2.5 to +2.5, via the data360 API.<sup class="note-ref"><a href="#note-9">9</a></sup></li>
+    <li><strong>5-year growth volatility</strong> &mdash; rolling standard deviation of GDP growth.</li>
+  </ul>
+
+  <h3 id="per-agency">Per-agency tracking</h3>
+
+  <table>
+    <thead><tr><th>Agency</th><th>N</th><th>R&sup2;</th><th>RMSE</th><th>Pearson</th><th>Within 1 notch</th><th>Within 2 notches</th></tr></thead>
+    <tbody>
+      <tr><td>S&amp;P</td><td>2,346</td><td>0.764</td><td>7.41</td><td>0.876</td><td>33%</td><td>60%</td></tr>
+      <tr><td>Moody's</td><td>2,471</td><td>0.734</td><td>8.18</td><td>0.858</td><td>30%</td><td>56%</td></tr>
+      <tr><td>DBRS</td><td>508</td><td>0.668</td><td>7.28</td><td>0.818</td><td>36%</td><td>67%</td></tr>
+    </tbody>
+  </table>
+
+  <p>S&amp;P tracks the shadow rating most tightly on R&sup2; and Pearson; DBRS has the highest within-notch accuracy on its (smaller, mostly developed) coverage universe.</p>
+
+  <h3 id="residuals">Residuals by region (S2 benchmark)</h3>
+  <p>The average gap between actual ratings and the shadow rating, conditional on a country being rated, is small for Africa (&asymp; &minus;0.8 notches), modestly negative for South America (&minus;2.9 to &minus;3.6 across agencies), and consistently positive for North America and Oceania (+6 to +7 for DBRS). The most under-rated countries are in active distress (Sri Lanka, Ghana, Ukraine, Ethiopia, Barbados); the most over-rated are advanced economies (European Union, United States, Germany, Canada, Australia, +11 to +17), suggesting an &ldquo;advanced-economy premium&rdquo; not explained by macro and institutional fundamentals. The detailed political economy of these residuals is parsed in the <a href="stories.html">Stories</a> page; the African under-rating critique is taken up most directly in the <a href="https://www.undp.org/africa/publications/lowering-cost-borrowing-africa-role-sovereign-credit-ratings" target="_blank" rel="noopener">UNDP report on lowering the cost of borrowing in Africa</a>.<sup class="note-ref"><a href="#note-10">10</a></sup></p>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <h2 id="sec13"><span class="section-num">13</span> Pairwise &amp; Distance-Graded Ratings</h2>
+  <p>Two finer-grained relativizations extend the M1&ndash;M4 family: a <strong>pairwise</strong> measure that compares one country directly against another (P<sub>ABt</sub> = Score<sub>At</sub> &minus; Score<sub>Bt</sub>), and a <strong>distance-graded</strong> measure that weights every other country by an inverse-distance kernel from the focal capital (the <a href="https://en.wikipedia.org/wiki/Haversine_formula" target="_blank" rel="noopener">haversine great-circle distance</a> with an exponential-decay kernel). Both are implemented in the interactive <a href="pairwise.html">Pairwise &amp; Distance-Graded Ratings</a> page, with sliders for the kernel parameters &lambda; (decay), <em>p</em> (exponent), and &alpha; (focal scaling).</p>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="endnotes" id="endnotes">
+    <h3>Endnotes</h3>
+    <ol>
+      <li id="note-1">Uri Dadush and Dipak Dasgupta, &ldquo;The Benefits and Risks of Capital Account Liberalisation&rdquo; (2001); Norbert Gaillard, &ldquo;The Determinants of Moody's Sub-Sovereign Ratings,&rdquo; <em>International Research Journal of Finance and Economics</em> 31 (2009): 194&ndash;209. The 0&ndash;60 convention used here is the same as in Basu, De, Ratha, and Timmer (2013), with the directional sign flipped so that higher = better.</li>
+      <li id="note-2">Kaushik Basu, Supriyo De, Dilip Ratha, and Hans Timmer, &ldquo;Sovereign Ratings in the Post-Crisis World: An Analysis of Actual, Shadow and Relative Risk Ratings,&rdquo; <em>World Bank Policy Research Working Paper</em> 6641 (2013); Supriyo De, Sanket Mohapatra, and Dilip Ratha, &ldquo;Sovereign Credit Ratings, Relative Risk Ratings, and Private Capital Flows,&rdquo; <em>World Bank Policy Research Working Paper</em> 9401 (2020). Both are mirrored on the <a href="citations.html">Citations</a> page.</li>
+      <li id="note-3">Corrado Gini, <em>Variabilit&agrave; e Mutabilit&agrave;</em> (Bologna: Tipografia di Paolo Cuppini, 1912).</li>
+      <li id="note-4">A. Colin Cameron and Pravin K. Trivedi, <em>Microeconometrics: Methods and Applications</em> (Cambridge: Cambridge University Press, 2005), chap. 21.</li>
+      <li id="note-5">Daniel McFadden, &ldquo;Conditional Logit Analysis of Qualitative Choice Behavior,&rdquo; in <em>Frontiers in Econometrics</em>, ed. Paul Zarembka (New York: Academic Press, 1974), 105&ndash;142.</li>
+      <li id="note-6">Basu, De, Ratha, and Timmer (2013), as above.</li>
+      <li id="note-7">De, Mohapatra, and Ratha (2020), as above.</li>
+      <li id="note-8">Dilip Ratha, Supriyo De, and Sanket Mohapatra, &ldquo;Shadow Sovereign Ratings for Unrated Developing Countries,&rdquo; <em>World Bank Policy Research Working Paper</em> 4269 (2007).</li>
+      <li id="note-9">Daniel Kaufmann, Aart Kraay, and Massimo Mastruzzi, &ldquo;The Worldwide Governance Indicators: Methodology and Analytical Issues,&rdquo; <em>World Bank Policy Research Working Paper</em> 5430 (2010).</li>
+      <li id="note-10">United Nations Development Programme, <em>Lowering the Cost of Borrowing in Africa: The Role of Sovereign Credit Ratings</em> (New York: UNDP HDRO, 2023).</li>
+    </ol>
+  </div>
+
+  <p class="page-footer">Last updated May 2026. Data: Standard &amp; Poor's, Moody's, DBRS Morningstar; World Bank Development Indicators; Worldwide Governance Indicators (data360). Analysis: Python (pandas, linearmodels, statsmodels) and R (fixest, MASS). Sections 9&ndash;13 implement methods from Basu et al. (2013), Ratha, De, and Mohapatra (2007), and De, Mohapatra, and Ratha (2020).</p>
+
+</main>
+
+<script defer src="shared.js"></script>
+</body>
+</html>

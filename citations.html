@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Citations &mdash; Sovereign Credit Rating Explorer</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  .cite-entry {
+    border-bottom: 1px solid #e0e0de;
+    padding: 14px 0;
+    line-height: 1.6;
+    font-size: 0.93rem;
+  }
+  .cite-entry:last-child { border-bottom: none; }
+  .cite-entry .meta {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.72rem;
+    color: #888;
+    margin-top: 4px;
+    letter-spacing: 0.04em;
+  }
+  .cite-entry a.doi {
+    font-family: 'Courier New', monospace;
+    font-size: 0.78rem;
+    color: #555;
+    word-break: break-all;
+  }
+  .group-heading {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 6px 12px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin-top: 36px;
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+  #cite-search {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.9rem;
+    padding: 8px 14px;
+    border: 1px solid #aaa;
+    width: 100%;
+    max-width: 380px;
+    background: #fff;
+  }
+  #cite-search:focus { outline: 2px solid #1a1a1a; outline-offset: 1px; }
+  .cite-entry.hidden { display: none; }
+  .group-section.hidden { display: none; }
+  .style-note {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.8rem;
+    color: #555;
+    background: #ececea;
+    padding: 10px 14px;
+    border-left: 3px solid #1a1a1a;
+    margin-bottom: 24px;
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <h1>Sovereign Credit Rating Explorer</h1>
+  <p>151 countries &middot; S&amp;P, Moody's, DBRS &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
+</header>
+<nav class="site">
+  <a href="index.html">Explorer</a>
+  <a href="methodology.html">Methodology</a>
+  <a href="pairwise.html">Pairwise &amp; Distance</a>
+  <a href="relative_hdi.html">Relative HDI</a>
+  <a href="relative_gini.html">Relative Gini</a>
+  <a href="stories.html">Stories</a>
+  <a href="glossary.html">Glossary</a>
+  <a href="citations.html" class="active">Citations</a>
+</nav>
+
+<main>
+
+  <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Citations</h2>
+  <p>All sources cited in the Methodology, Glossary, Stories, and supplementary pages. Entries follow the <a href="https://www.chicagomanualofstyle.org/tools_citationguide/citation-guide-2.html" target="_blank" rel="noopener">Chicago Manual of Style, 17th edition</a>, author&ndash;date variant. Where a PDF is available offline, a <strong>VIEW PDF</strong> button opens the document in a new tab. Sources are grouped by type and sorted alphabetically by author within each group.</p>
+
+  <div class="style-note">
+    <strong>Citation conventions used here.</strong> First citation in any page gives author full names and year; subsequent citations within the same page use last names only. Multi-author papers use "and" (not "&amp;") between the final two authors. Working papers cite the institutional series and number; journal articles cite volume, issue, and page range; reports cite the publishing body and year. URLs and DOIs are appended where they exist.
+  </div>
+
+  <div style="margin: 18px 0 24px;">
+    <input type="text" id="cite-search" placeholder="Filter citations&hellip;" oninput="filterCitations()" autocomplete="off">
+  </div>
+
+  <!-- ─────────────────────── ACADEMIC PAPERS ─────────────────────── -->
+  <div class="group-section" id="g-papers">
+    <div class="group-heading">Academic papers &amp; working papers</div>
+
+    <div class="cite-entry" data-text="afonso furceri gomes 2011 ECB sovereign yields ratings">
+      <div>Afonso, Ant&oacute;nio, Davide Furceri, and Pedro Gomes. 2011. &ldquo;Sovereign Credit Ratings and Financial Markets Linkages: Application to European Data.&rdquo; <em>European Central Bank Working Paper Series</em> 1347. Frankfurt: European Central Bank.</div>
+      <div class="meta">Working paper. Source for the 1&ndash;17 numerical scale used as one of eight alternative rating conventions.</div>
+    </div>
+
+    <div class="cite-entry" data-text="basu de ratha timmer 2013 sovereign ratings post crisis world WPS6641">
+      <div>Basu, Kaushik, Supriyo De, Dilip Ratha, and Hans Timmer. 2013. &ldquo;Sovereign Ratings in the Post-Crisis World: An Analysis of Actual, Shadow and Relative Risk Ratings.&rdquo; <em>World Bank Policy Research Working Paper</em> 6641. Washington, DC: World Bank. <a class="doi" href="https://documents.worldbank.org/en/publication/documents-reports/documentdetail/441621468331879217" target="_blank" rel="noopener">documents.worldbank.org/&hellip;/441621468331879217</a> <a class="pdf-btn" href="WPS6641.pdf" target="_blank" rel="noopener">View PDF</a></div>
+      <div class="meta">Foundational reference. Defines the GDP-weighted Relative Risk Rating (RR) and the CRIS index used in &sect;10 of the Methodology.</div>
+    </div>
+
+    <div class="cite-entry" data-text="basu sun cris index">
+      <div>Basu, Kaushik, and Yi Sun. n.d. &ldquo;CRIS: An Index for Sovereign Risk Ratings.&rdquo; Working paper, on file with author. <a class="pdf-btn" href="Basu-Sun-final.pdf" target="_blank" rel="noopener">View PDF</a></div>
+      <div class="meta">Working paper companion to the CRIS framework; methodological extension of Basu et al. (2013).</div>
+    </div>
+
+    <div class="cite-entry" data-text="becker crime punishment economic 1968">
+      <div>Becker, Gary S. 1968. &ldquo;Crime and Punishment: An Economic Approach.&rdquo; <em>Journal of Political Economy</em> 76 (2): 169&ndash;217. <a class="doi" href="https://doi.org/10.1086/259394" target="_blank" rel="noopener">doi.org/10.1086/259394</a> <a class="pdf-btn" href="Becker-CrimePunishmentEconomic-1968.pdf" target="_blank" rel="noopener">View PDF</a></div>
+      <div class="meta">Cited in connection with rational-actor framing of agency conservatism.</div>
+    </div>
+
+    <div class="cite-entry" data-text="cantor packer 1996 determinants impact sovereign credit ratings">
+      <div>Cantor, Richard, and Frank Packer. 1996. &ldquo;Determinants and Impact of Sovereign Credit Ratings.&rdquo; <em>Federal Reserve Bank of New York Economic Policy Review</em> 2 (2): 37&ndash;53. <a class="doi" href="https://www.newyorkfed.org/medialibrary/media/research/epr/96v02n2/9610cant.pdf" target="_blank" rel="noopener">newyorkfed.org/&hellip;/9610cant.pdf</a></div>
+      <div class="meta">Source for the 1&ndash;16 numerical scale and the canonical determinants regression replicated as Spec S0 of the shadow rating model.</div>
+    </div>
+
+    <div class="cite-entry" data-text="dadush dasgupta 2001 international debt benchmarks">
+      <div>Dadush, Uri, and Dipak Dasgupta. 2001. &ldquo;The Benefits and Risks of Capital Account Liberalisation.&rdquo; In <em>Sovereign Debt: From Safety to Default</em>, edited by Robert W. Kolb, 21&ndash;46. Hoboken, NJ: John Wiley &amp; Sons.</div>
+      <div class="meta">Early proposal for a numerical conversion of agency letter ratings; antecedent of the 0&ndash;60 scale used here.</div>
+    </div>
+
+    <div class="cite-entry" data-text="de mohapatra ratha 2020 sovereign credit ratings relative risk private capital">
+      <div>De, Supriyo, Sanket Mohapatra, and Dilip Ratha. 2020. &ldquo;Sovereign Credit Ratings, Relative Risk Ratings, and Private Capital Flows: Evidence from Emerging and Frontier Markets.&rdquo; <em>World Bank Policy Research Working Paper</em> 9401. Washington, DC: World Bank. <a class="doi" href="https://openknowledge.worldbank.org/handle/10986/34413" target="_blank" rel="noopener">openknowledge.worldbank.org/&hellip;/34413</a></div>
+      <div class="meta">Source for the ten relativization variants documented in &sect;11 of the Methodology.</div>
+    </div>
+
+    <div class="cite-entry" data-text="gaillard 2009 sovereign rating notch scale">
+      <div>Gaillard, Norbert. 2009. &ldquo;The Determinants of Moody's Sub-Sovereign Ratings.&rdquo; <em>International Research Journal of Finance and Economics</em> 31: 194&ndash;209.</div>
+      <div class="meta">Numerical scale taxonomy referenced in the conversion appendix.</div>
+    </div>
+
+    <div class="cite-entry" data-text="kaufmann kraay mastruzzi worldwide governance indicators 2010 WGI">
+      <div>Kaufmann, Daniel, Aart Kraay, and Massimo Mastruzzi. 2010. &ldquo;The Worldwide Governance Indicators: Methodology and Analytical Issues.&rdquo; <em>World Bank Policy Research Working Paper</em> 5430. Washington, DC: World Bank. <a class="doi" href="https://openknowledge.worldbank.org/handle/10986/3913" target="_blank" rel="noopener">openknowledge.worldbank.org/&hellip;/3913</a></div>
+      <div class="meta">Source documentation for the WGI Rule of Law indicator used in shadow rating Spec S2.</div>
+    </div>
+
+    <div class="cite-entry" data-text="ratha de mohapatra 2007 shadow sovereign ratings WPS4269 unrated developing">
+      <div>Ratha, Dilip, Supriyo De, and Sanket Mohapatra. 2007. &ldquo;Shadow Sovereign Ratings for Unrated Developing Countries.&rdquo; <em>World Bank Policy Research Working Paper</em> 4269. Washington, DC: World Bank. <a class="doi" href="https://openknowledge.worldbank.org/handle/10986/7363" target="_blank" rel="noopener">openknowledge.worldbank.org/&hellip;/7363</a> <a class="pdf-btn" href="wps4269.pdf" target="_blank" rel="noopener">View PDF</a></div>
+      <div class="meta">Original shadow-ratings methodology replicated and extended as Specs S0&ndash;S4.</div>
+    </div>
+
+    <div class="cite-entry" data-text="reinhart rogoff this time is different default banking crises">
+      <div>Reinhart, Carmen M., and Kenneth S. Rogoff. 2009. <em>This Time Is Different: Eight Centuries of Financial Folly.</em> Princeton, NJ: Princeton University Press.</div>
+      <div class="meta">Background reference for the implicit log-default-probability mapping (score_logPD).</div>
+    </div>
+
+    <div class="cite-entry" data-text="sen 1977 social choice cardinal welfare">
+      <div>Sen, Amartya K. 1977. &ldquo;On Weights and Measures: Informational Constraints in Social Welfare Analysis.&rdquo; <em>Econometrica</em> 45 (7): 1539&ndash;1572. <a class="doi" href="https://doi.org/10.2307/1913949" target="_blank" rel="noopener">doi.org/10.2307/1913949</a></div>
+      <div class="meta">Theoretical justification for innocuous cardinal transformation of an ordinal rating scale.</div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── INSTITUTIONAL REPORTS ─────────────────────── -->
+  <div class="group-section" id="g-reports">
+    <div class="group-heading">Institutional reports</div>
+
+    <div class="cite-entry" data-text="undp 2023 lowering cost borrowing africa sovereign ratings">
+      <div>United Nations Development Programme. 2023. <em>Lowering the Cost of Borrowing in Africa: The Role of Sovereign Credit Ratings.</em> New York: UNDP Human Development Report Office. <a class="doi" href="https://www.undp.org/africa/publications/lowering-cost-borrowing-africa-role-sovereign-credit-ratings" target="_blank" rel="noopener">undp.org/africa/&hellip;/lowering-cost-borrowing-africa</a></div>
+      <div class="meta">Peer-reviewed UNDP HDRO report (Conce&iacute;&ccedil;&atilde;o et al.). Central source for the African under-rating critique discussed in Stories.</div>
+    </div>
+
+    <div class="cite-entry" data-text="cris report scr update 2012">
+      <div>Center for Sustainable Investment Research. 2012. <em>CRIS &mdash; Country Risk Index for Sovereigns. Update of 15 May 2012.</em> Working report. <a class="pdf-btn" href="CRIS_report_SCR_Update_15052012.pdf" target="_blank" rel="noopener">View PDF</a></div>
+      <div class="meta">Methodological update on the CRIS index.</div>
+    </div>
+
+    <div class="cite-entry" data-text="bis 2015 sovereign ratings credit risk methodology">
+      <div>Bank for International Settlements. 2015. <em>Annual Economic Report 2015 &mdash; Box on Sovereign Risk.</em> Basel: BIS. <a class="doi" href="https://www.bis.org/publ/arpdf/ar2015e.htm" target="_blank" rel="noopener">bis.org/publ/arpdf/ar2015e.htm</a></div>
+      <div class="meta">Source for the 0&ndash;20 numerical scale variant.</div>
+    </div>
+
+    <div class="cite-entry" data-text="moody's idealised default probability table">
+      <div>Moody's Investors Service. 2024. <em>Rating Symbols and Definitions.</em> New York: Moody's. <a class="doi" href="https://ratings.moodys.com/api/rmc-documents/53954" target="_blank" rel="noopener">ratings.moodys.com/&hellip;/53954</a></div>
+      <div class="meta">Idealised one-year default probability table used to construct the score_logPD scale.</div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── DATA SOURCES ─────────────────────── -->
+  <div class="group-section" id="g-data">
+    <div class="group-heading">Data sources</div>
+
+    <div class="cite-entry" data-text="dbrs morningstar sovereign ratings dataset">
+      <div>DBRS Morningstar. 2026. <em>DBRS Morningstar Sovereign Ratings Database.</em> Toronto: DBRS Morningstar. <a class="doi" href="https://dbrs.morningstar.com/about/sovereigns" target="_blank" rel="noopener">dbrs.morningstar.com/about/sovereigns</a></div>
+      <div class="meta">One of three rating agencies used to construct the composite score.</div>
+    </div>
+
+    <div class="cite-entry" data-text="moody's sovereign ratings dataset">
+      <div>Moody's Investors Service. 2026. <em>Moody's Sovereign Ratings Database.</em> New York: Moody's. <a class="doi" href="https://www.moodys.com/researchandratings/market-segment/sovereign-supranational/005005003/4294966848/4294966623/0/0/-/0/-/-/en/global/rr" target="_blank" rel="noopener">moodys.com/&hellip;/sovereign-supranational</a></div>
+      <div class="meta">One of three rating agencies used to construct the composite score.</div>
+    </div>
+
+    <div class="cite-entry" data-text="standard poors sovereign ratings dataset s&p">
+      <div>S&amp;P Global Ratings. 2026. <em>S&amp;P Global Sovereign Ratings Database.</em> New York: S&amp;P Global. <a class="doi" href="https://disclosure.spglobal.com/sri/" target="_blank" rel="noopener">disclosure.spglobal.com/sri</a></div>
+      <div class="meta">One of three rating agencies used to construct the composite score.</div>
+    </div>
+
+    <div class="cite-entry" data-text="undp human development index hdi 2023 2024">
+      <div>United Nations Development Programme. 2024. <em>Human Development Report 2023/2024 &mdash; Composite Indices Time Series.</em> New York: UNDP HDRO. <a class="doi" href="https://hdr.undp.org/data-center/documentation-and-downloads" target="_blank" rel="noopener">hdr.undp.org/data-center/documentation-and-downloads</a></div>
+      <div class="meta">Source of the Human Development Index series (1990&ndash;2022) used in Relative HDI.</div>
+    </div>
+
+    <div class="cite-entry" data-text="world bank development indicators wdi gdp fdi gini">
+      <div>World Bank. 2026. <em>World Development Indicators.</em> Washington, DC: World Bank Group. <a class="doi" href="https://databank.worldbank.org/source/world-development-indicators" target="_blank" rel="noopener">databank.worldbank.org/source/world-development-indicators</a></div>
+      <div class="meta">Source of GDP (NY.GDP.MKTP.CD), FDI inflows (BX.KLT.DINV.WD.GD.ZS), GDP per capita, population, inflation (FP.CPI.TOTL.ZG), external debt (DT.DOD.DECT.GN.ZS), reserves in months of imports (FI.RES.TOTL.MO), government debt (GC.DOD.TOTL.GD.ZS), current account (BN.CAB.XOKA.GD.ZS), and Gini index (SI.POV.GINI).</div>
+    </div>
+
+    <div class="cite-entry" data-text="world bank wgi worldwide governance indicators rule of law data360">
+      <div>World Bank. 2024. <em>Worldwide Governance Indicators.</em> Washington, DC: World Bank Group, served via the data360 API. <a class="doi" href="https://www.worldbank.org/en/publication/worldwide-governance-indicators" target="_blank" rel="noopener">worldbank.org/&hellip;/worldwide-governance-indicators</a></div>
+      <div class="meta">Source of the Rule of Law indicator (range &minus;2.5 to +2.5) used in shadow rating Spec S2.</div>
+    </div>
+  </div>
+
+  <!-- ─────────────────────── METHODOLOGY REFERENCES ─────────────────────── -->
+  <div class="group-section" id="g-methods">
+    <div class="group-heading">Statistical &amp; methodological references</div>
+
+    <div class="cite-entry" data-text="gini coefficient inequality measure 1912">
+      <div>Gini, Corrado. 1912. <em>Variabilit&agrave; e Mutabilit&agrave;.</em> Bologna: Tipografia di Paolo Cuppini.</div>
+      <div class="meta">Original definition of the Gini coefficient used to measure within-group inequality in credit scores. See also <a href="https://en.wikipedia.org/wiki/Gini_coefficient" target="_blank" rel="noopener">Wikipedia entry</a>.</div>
+    </div>
+
+    <div class="cite-entry" data-text="haversine great circle distance formula">
+      <div>Sinnott, Roger W. 1984. &ldquo;Virtues of the Haversine.&rdquo; <em>Sky and Telescope</em> 68 (2): 158. See also <a href="https://en.wikipedia.org/wiki/Haversine_formula" target="_blank" rel="noopener">Haversine formula (Wikipedia)</a>.</div>
+      <div class="meta">Great-circle distance formula used to compute inter-capital distances for the distance-graded relative rating.</div>
+    </div>
+
+    <div class="cite-entry" data-text="mcfadden ordered logit probit conditional choice">
+      <div>McFadden, Daniel. 1974. &ldquo;Conditional Logit Analysis of Qualitative Choice Behavior.&rdquo; In <em>Frontiers in Econometrics</em>, edited by Paul Zarembka, 105&ndash;142. New York: Academic Press.</div>
+      <div class="meta">Foundational reference for the ordered logit / probit specification used in the rating-transition model.</div>
+    </div>
+
+    <div class="cite-entry" data-text="arellano bond gmm dynamic panel">
+      <div>Arellano, Manuel, and Stephen Bond. 1991. &ldquo;Some Tests of Specification for Panel Data: Monte Carlo Evidence and an Application to Employment Equations.&rdquo; <em>Review of Economic Studies</em> 58 (2): 277&ndash;297. <a class="doi" href="https://doi.org/10.2307/2297968" target="_blank" rel="noopener">doi.org/10.2307/2297968</a></div>
+      <div class="meta">Cited as the planned next step for endogeneity-corrected panel estimates.</div>
+    </div>
+  </div>
+
+  <p class="page-footer">Last updated May 2026. PDFs marked &ldquo;View PDF&rdquo; are mirrored locally; remaining sources link to the publishing institution. Citations follow Chicago author&ndash;date format.</p>
+
+</main>
+
+<script defer src="shared.js"></script>
+<script>
+function filterCitations() {
+  const q = document.getElementById('cite-search').value.toLowerCase().trim();
+  const entries = document.querySelectorAll('.cite-entry');
+  let visible = 0;
+  entries.forEach(e => {
+    const t = (e.dataset.text || '') + ' ' + e.textContent.toLowerCase();
+    const match = !q || t.toLowerCase().includes(q);
+    e.classList.toggle('hidden', !match);
+    if (match) visible++;
+  });
+  document.querySelectorAll('.group-section').forEach(g => {
+    const any = [...g.querySelectorAll('.cite-entry')].some(e => !e.classList.contains('hidden'));
+    g.classList.toggle('hidden', !any);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+=== FDI (% GDP) ~ Lagged Credit Score  |  country + year FE ===
+
+                          PanelOLS Estimation Summary                           
+================================================================================
+Dep. Variable:            FDI_pct_GDP   R-squared:                        0.0003
+Estimator:                   PanelOLS   R-squared (Between):              0.0491
+No. Observations:                2783   R-squared (Within):              -0.0008
+Date:                Mon, Apr 27 2026   R-squared (Overall):              0.0193
+Time:                        15:53:30   Log-likelihood                -1.536e+04
+Cov. Estimator:             Clustered                                           
+                                        F-statistic:                      0.1943
+Entities:                         144   P-value                           0.9415
+Avg Obs:                       19.326   Distribution:                  F(4,2613)
+Min Obs:                       1.0000                                           
+Max Obs:                       23.000   F-statistic (robust):             0.7145
+                                        P-value                           0.5820
+Time periods:                      23   Distribution:                  F(4,2613)
+Avg Obs:                       121.00                                           
+Min Obs:                       97.000                                           
+Max Obs:                       142.00                                           
+                                                                                
+                               Parameter Estimates                                
+==================================================================================
+                Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+----------------------------------------------------------------------------------
+Score_L1          -0.1496     0.1310    -1.1422     0.2535     -0.4064      0.1072
+Score_L2          -0.1210     0.1207    -1.0024     0.3162     -0.3578      0.1157
+GDP_growth_pct     0.0085     0.0518     0.1634     0.8702     -0.0931      0.1100
+log_GDPpc          6.1012     5.3971     1.1305     0.2584     -4.4817      16.684
+==================================================================================
+
+F-test for Poolability: 9.6638
+P-value: 0.0000
+Distribution: F(165,2613)
+
+Included effects: Entity, Time
+
+
+=== Credit Score ~ Lagged FDI (% GDP)  |  country + year FE ===
+
+                          PanelOLS Estimation Summary                           
+================================================================================
+Dep. Variable:         CompositeScore   R-squared:                        0.2324
+Estimator:                   PanelOLS   R-squared (Between):             -1.9582
+No. Observations:                2774   R-squared (Within):              -0.3551
+Date:                Mon, Apr 27 2026   R-squared (Overall):             -1.5724
+Time:                        15:53:30   Log-likelihood                   -7615.2
+Cov. Estimator:             Clustered                                           
+                                        F-statistic:                      197.06
+Entities:                         144   P-value                           0.0000
+Avg Obs:                       19.264   Distribution:                  F(4,2604)
+Min Obs:                       1.0000                                           
+Max Obs:                       23.000   F-statistic (robust):             18.988
+                                        P-value                           0.0000
+Time periods:                      23   Distribution:                  F(4,2604)
+Avg Obs:                       120.61                                           
+Min Obs:                       96.000                                           
+Max Obs:                       141.00                                           
+                                                                                
+                               Parameter Estimates                                
+==================================================================================
+                Parameter  Std. Err.     T-stat    P-value    Lower CI    Upper CI
+----------------------------------------------------------------------------------
+FDI_L1            -0.0011     0.0007    -1.5144     0.1301     -0.0024      0.0003
+FDI_L2            -0.0016     0.0018    -0.8676     0.3857     -0.0052      0.0020
+GDP_growth_pct    -0.0439     0.0123    -3.5634     0.0004     -0.0680     -0.0197
+log_GDPpc          24.199     2.9415     8.2269     0.0000      18.431      29.967
+==================================================================================
+
+F-test for Poolability: 79.367
+P-value: 0.0000
+Distribution: F(165,2604)
+
+Included effects: Entity, Time

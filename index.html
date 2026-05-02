@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sovereign Credit Rating Explorer</title>
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+<script src="data.js"></script>
+<style>
+  /* ── Reset & base ──────────────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 15px; }
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: #f5f5f3;
+    color: #1a1a1a;
+    min-height: 100vh;
+  }
+  a { color: #2a5999; }
+
+  /* ── Layout ────────────────────────────────────────────────────────────── */
+  header {
+    background: #fff;
+    border-bottom: 2px solid #1a1a1a;
+    padding: 18px 32px 10px;
+  }
+  header h1 {
+    font-size: 1.45rem;
+    font-weight: bold;
+    letter-spacing: 0.01em;
+  }
+  header p {
+    font-size: 0.82rem;
+    color: #555;
+    margin-top: 4px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  nav {
+    background: #1a1a1a;
+    padding: 0 32px;
+    display: flex;
+    gap: 0;
+  }
+  nav a {
+    display: inline-block;
+    padding: 9px 18px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #bbb;
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  nav a:hover { color: #fff; }
+  nav a.active { color: #fff; border-bottom-color: #fff; }
+
+  main { max-width: 1180px; margin: 0 auto; padding: 24px 24px 60px; }
+
+  /* ── Controls card ─────────────────────────────────────────────────────── */
+  .controls-card {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 20px 24px 22px;
+    margin-bottom: 24px;
+  }
+
+  .mode-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 18px;
+    border-bottom: 2px solid #1a1a1a;
+    width: fit-content;
+  }
+  .mode-tab {
+    padding: 7px 22px;
+    cursor: pointer;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.83rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    background: #f5f5f3;
+    color: #666;
+    transition: background 0.15s, color 0.15s;
+    margin-bottom: -2px;
+  }
+  .mode-tab.active {
+    background: #fff;
+    color: #1a1a1a;
+    border-color: #1a1a1a;
+    border-bottom: 2px solid #fff;
+  }
+
+  .controls-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
+  }
+  .control-group { display: flex; flex-direction: column; gap: 5px; }
+  .control-group label {
+    font-size: 0.78rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #444;
+  }
+  select, input {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.88rem;
+    padding: 6px 10px;
+    border: 1px solid #aaa;
+    background: #fff;
+    color: #1a1a1a;
+    appearance: auto;
+    min-width: 200px;
+  }
+  select:focus, input:focus { outline: 2px solid #2a5999; outline-offset: 1px; }
+  select[multiple] { min-height: 130px; min-width: 260px; }
+
+  .btn {
+    padding: 8px 22px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.83rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 2px solid #1a1a1a;
+    background: #1a1a1a;
+    color: #fff;
+    transition: background 0.15s, color 0.15s;
+  }
+  .btn:hover { background: #fff; color: #1a1a1a; }
+  .btn-secondary {
+    background: #fff;
+    color: #1a1a1a;
+    border-color: #aaa;
+    font-weight: 600;
+  }
+  .btn-secondary:hover { border-color: #1a1a1a; background: #f5f5f3; }
+
+  .hint {
+    font-size: 0.78rem;
+    color: #777;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin-top: 8px;
+  }
+
+  /* ── Charts ─────────────────────────────────────────────────────────────── */
+  .charts-section { display: none; }
+  .charts-section.visible { display: block; }
+
+  .section-title {
+    font-size: 0.78rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 6px;
+    margin-bottom: 16px;
+    margin-top: 28px;
+  }
+
+  .charts-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  .chart-wrap {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 6px 4px 4px;
+  }
+  .chart-wrap.full { grid-column: 1 / -1; }
+
+  /* ── Tables ─────────────────────────────────────────────────────────────── */
+  .table-toolbar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .table-scroll { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.82rem;
+    background: #fff;
+    border: 1px solid #ccc;
+  }
+  thead th {
+    background: #1a1a1a;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 8px 10px;
+    text-align: right;
+    white-space: nowrap;
+  }
+  thead th:first-child, thead th:nth-child(2) { text-align: left; }
+  tbody tr:nth-child(even) { background: #f9f9f7; }
+  tbody tr:hover { background: #eef2f8; }
+  tbody td {
+    padding: 6px 10px;
+    border-bottom: 1px solid #e8e8e6;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  tbody td:first-child, tbody td:nth-child(2) { text-align: left; }
+  tfoot td {
+    font-weight: 700;
+    background: #f0f0ee;
+    border-top: 2px solid #1a1a1a;
+    padding: 7px 10px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  tfoot td:first-child, tfoot td:nth-child(2) { text-align: left; }
+
+  /* ── LaTeX modal ─────────────────────────────────────────────────────────── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #fff;
+    border: 2px solid #1a1a1a;
+    width: 90%;
+    max-width: 760px;
+    max-height: 82vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    border-bottom: 1px solid #ccc;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .modal-close {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #555;
+    background: none;
+    border: none;
+    line-height: 1;
+  }
+  .modal-body {
+    overflow-y: auto;
+    padding: 16px 18px;
+  }
+  .modal-body pre {
+    font-family: 'Courier New', monospace;
+    font-size: 0.78rem;
+    background: #f5f5f3;
+    border: 1px solid #ddd;
+    padding: 14px;
+    white-space: pre;
+    overflow-x: auto;
+    line-height: 1.5;
+  }
+
+  /* ── Loading / empty states ────────────────────────────────────────────── */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #888;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.88rem;
+    display: none;
+  }
+  .empty-state.visible { display: block; }
+
+  @media (max-width: 700px) {
+    .charts-grid-2 { grid-template-columns: 1fr; }
+    .chart-wrap.full { grid-column: 1; }
+    header { padding: 14px 16px; }
+    main { padding: 16px 12px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Sovereign Credit Rating Explorer</h1>
+  <p>151 countries &nbsp;·&nbsp; S&amp;P, Moody's, DBRS &nbsp;·&nbsp; 2000–2025 &nbsp;·&nbsp; Composite scores (0–60) &nbsp;·&nbsp; Relative rating methods M1–M4</p>
+</header>
+<nav>
+  <a href="index.html" class="active">Explorer</a>
+  <a href="methodology.html">Methodology</a>
+  <a href="pairwise.html">Pairwise &amp; Distance</a>
+  <a href="relative_hdi.html">Relative HDI</a>
+  <a href="relative_gini.html">Relative Gini</a>
+  <a href="stories.html">Stories</a>
+  <a href="glossary.html">Glossary</a>
+  <a href="citations.html">Citations</a>
+</nav>
+
+<main>
+
+  <!-- Controls -->
+  <div class="controls-card">
+    <div class="mode-tabs">
+      <div class="mode-tab active" id="tab-a" onclick="setMode('a')">Single Country × Peer Group</div>
+      <div class="mode-tab" id="tab-b" onclick="setMode('b')">Multi-Country Comparison</div>
+    </div>
+
+    <!-- Mode A -->
+    <div id="panel-a">
+      <div class="controls-row">
+        <div class="control-group">
+          <label>Country</label>
+          <select id="sel-country-a" onchange="onCountryChange()"></select>
+        </div>
+        <div class="control-group">
+          <label>Peer Group</label>
+          <select id="sel-group-a"></select>
+        </div>
+        <div class="control-group" style="justify-content:flex-end">
+          <button class="btn" onclick="renderModeA()">Generate</button>
+        </div>
+      </div>
+      <p class="hint">Charts show the selected country's absolute score and relative ratings (M1–M4) against its peer group's leave-one-out mean.</p>
+    </div>
+
+    <!-- Mode B -->
+    <div id="panel-b" style="display:none">
+      <div class="controls-row">
+        <div class="control-group">
+          <label>Countries (hold Ctrl / ⌘ to select multiple)</label>
+          <select id="sel-countries-b" multiple></select>
+        </div>
+        <div class="control-group">
+          <label>Reference Group</label>
+          <select id="sel-group-b"></select>
+        </div>
+        <div class="control-group" style="justify-content:flex-end">
+          <button class="btn" onclick="renderModeB()">Generate</button>
+        </div>
+      </div>
+      <p class="hint">Compares selected countries within the chosen reference group. All relative metrics are computed against that group's leave-one-out mean.</p>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty-state visible" id="empty-state">
+    Select options above and click <strong>Generate</strong> to display charts and tables.
+  </div>
+
+  <!-- Charts + Tables output -->
+  <div class="charts-section" id="output-section">
+
+    <div class="section-title" id="output-title">Charts</div>
+
+    <!-- Mode A layout: 1 full-width + 2×2 grid -->
+    <div id="charts-a">
+      <div class="chart-wrap full" style="margin-bottom:20px"><div id="chart-a1"></div></div>
+      <div class="charts-grid-2">
+        <div class="chart-wrap"><div id="chart-a2"></div></div>
+        <div class="chart-wrap"><div id="chart-a3"></div></div>
+        <div class="chart-wrap"><div id="chart-a4"></div></div>
+        <div class="chart-wrap"><div id="chart-a5"></div></div>
+      </div>
+    </div>
+
+    <!-- Mode B layout: 3 full-width stacked -->
+    <div id="charts-b" style="display:none">
+      <div class="chart-wrap full" style="margin-bottom:20px"><div id="chart-b1"></div></div>
+      <div class="charts-grid-2">
+        <div class="chart-wrap"><div id="chart-b2"></div></div>
+        <div class="chart-wrap"><div id="chart-b3"></div></div>
+      </div>
+    </div>
+
+    <!-- Summary table -->
+    <div class="section-title" style="margin-top:32px">Summary Statistics</div>
+    <div class="table-toolbar">
+      <button class="btn btn-secondary" onclick="copyLatex('summary')">Export LaTeX (summary)</button>
+    </div>
+    <div class="table-scroll"><div id="summary-table"></div></div>
+
+    <!-- Year-by-year table -->
+    <div class="section-title" style="margin-top:28px">Year-by-Year Data</div>
+    <div class="table-toolbar">
+      <button class="btn btn-secondary" onclick="copyLatex('detail')">Export LaTeX (detail)</button>
+      <button class="btn btn-secondary" onclick="copyCSV()">Copy CSV</button>
+    </div>
+    <div class="table-scroll"><div id="detail-table"></div></div>
+
+    <!-- Footnote -->
+    <p style="font-size:0.75rem;color:#777;font-family:'Helvetica Neue',Arial,sans-serif;margin-top:12px;line-height:1.5">
+      <em>Notes:</em> Composite score = simple mean across available agencies (S&amp;P, Moody's, DBRS) per country-year, forward-filled from last known rating.
+      LOO mean = leave-one-out group mean (excludes focal country). M1 = score² / LOO mean (current); M2 = within-year percentile rank;
+      M3 = score² / lagged LOO mean; M4 = within-year percentile rank (stored separately). Source: S&amp;P, Moody's, DBRS; World Bank GDP/FDI data.
+    </p>
+  </div>
+</main>
+
+<!-- LaTeX modal -->
+<div class="modal-overlay" id="latex-modal">
+  <div class="modal">
+    <div class="modal-header">
+      LaTeX Table
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:0.8rem;font-family:'Helvetica Neue',Arial,sans-serif;margin-bottom:10px;color:#555">
+        Copy and paste into your Overleaf document. Requires <code>\usepackage{booktabs}</code>.
+      </p>
+      <pre id="latex-output"></pre>
+      <button class="btn" style="margin-top:12px" onclick="copyLatexText()">Copy to Clipboard</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+//  DATA LOAD
+// ═══════════════════════════════════════════════════════════════════════════
+let DB = null;
+let currentMode = 'a';
+let currentData = null; // holds last rendered data for export
+
+// data.js sets window.CR_DATA — works on file:// and GitHub Pages alike
+if (typeof window.CR_DATA !== 'undefined') {
+  DB = window.CR_DATA;
+  document.addEventListener('DOMContentLoaded', initUI);
+} else {
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('empty-state').textContent =
+      'Error: data.js not found. Run generate_data.py first and make sure data.js is in the same folder as index.html.';
+    document.getElementById('empty-state').classList.add('visible');
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  PLOTLY THEME  (formal academic / Stata-like)
+// ═══════════════════════════════════════════════════════════════════════════
+const FONT_FAMILY = "'Helvetica Neue', Arial, sans-serif";
+const FONT_SERIF  = "Georgia, 'Times New Roman', serif";
+
+// Stata s2color-inspired palette
+const PALETTE = [
+  '#1B4F8A', // navy
+  '#C0392B', // maroon/red
+  '#2D6E35', // forest green
+  '#B35B00', // dark orange/brown
+  '#6D3B8A', // purple
+  '#1A7A7A', // teal
+  '#8B4513', // saddlebrown
+  '#555555', // dark gray
+];
+
+const BASE_LAYOUT = {
+  paper_bgcolor: '#ffffff',
+  plot_bgcolor:  '#ffffff',
+  font: { family: FONT_FAMILY, size: 11, color: '#1a1a1a' },
+  margin: { l: 56, r: 24, t: 44, b: 52 },
+  xaxis: {
+    showgrid: false,
+    zeroline: false,
+    linecolor: '#1a1a1a',
+    linewidth: 1.5,
+    tickfont: { size: 10 },
+    title: { font: { size: 11 } },
+  },
+  yaxis: {
+    showgrid: true,
+    gridcolor: '#e0e0e0',
+    gridwidth: 1,
+    zeroline: false,
+    linecolor: '#1a1a1a',
+    linewidth: 1.5,
+    tickfont: { size: 10 },
+    title: { font: { size: 11 } },
+  },
+  legend: {
+    bgcolor: 'rgba(255,255,255,0.85)',
+    bordercolor: '#ccc',
+    borderwidth: 1,
+    font: { size: 10 },
+  },
+  hoverlabel: {
+    bgcolor: '#fff',
+    bordercolor: '#1a1a1a',
+    font: { family: FONT_FAMILY, size: 11 },
+  },
+};
+
+const PLOT_CONFIG = {
+  displayModeBar: true,
+  displaylogo: false,
+  modeBarButtonsToRemove: ['select2d','lasso2d','autoScale2d'],
+  toImageButtonOptions: { format: 'png', scale: 2 },
+};
+
+function layout(overrides) {
+  return Object.assign({}, BASE_LAYOUT, overrides,
+    overrides.xaxis ? { xaxis: Object.assign({}, BASE_LAYOUT.xaxis, overrides.xaxis) } : {},
+    overrides.yaxis ? { yaxis: Object.assign({}, BASE_LAYOUT.yaxis, overrides.yaxis) } : {},
+  );
+}
+
+function lineTrace(x, y, name, color, opts) {
+  return Object.assign({
+    type: 'scatter', mode: 'lines+markers',
+    x, y: y.map(v => v === null ? null : v),
+    name,
+    line: { color, width: 1.8 },
+    marker: { color, size: 4.5, symbol: 'circle' },
+    connectgaps: false,
+  }, opts || {});
+}
+
+function dottedTrace(x, y, name, color) {
+  return {
+    type: 'scatter', mode: 'lines',
+    x, y: y.map(v => v === null ? null : v),
+    name,
+    line: { color, width: 1.4, dash: 'dot' },
+    connectgaps: false,
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  UI INIT
+// ═══════════════════════════════════════════════════════════════════════════
+function initUI() {
+  // Mode A: country dropdown
+  const selA = document.getElementById('sel-country-a');
+  DB.countries.forEach(c => {
+    const o = new Option(c, c);
+    selA.appendChild(o);
+  });
+  // Default to United States if present
+  const defCountry = DB.countries.includes('United States') ? 'United States' : DB.countries[0];
+  selA.value = defCountry;
+  onCountryChange();
+
+  // Mode B: country multi-select
+  const selBc = document.getElementById('sel-countries-b');
+  DB.countries.forEach(c => {
+    const o = new Option(c, c);
+    selBc.appendChild(o);
+  });
+  // Default selection
+  ['United States','China','India','Germany'].forEach(c => {
+    if (DB.countries.includes(c)) {
+      Array.from(selBc.options).find(o => o.value === c).selected = true;
+    }
+  });
+
+  // Mode B: group dropdown (all groups)
+  const selBg = document.getElementById('sel-group-b');
+  DB.groups.forEach(g => {
+    const o = new Option(g, g);
+    selBg.appendChild(o);
+  });
+  selBg.value = 'World';
+}
+
+function onCountryChange() {
+  const country = document.getElementById('sel-country-a').value;
+  const groups = DB.country_groups[country] || [];
+  const selG = document.getElementById('sel-group-a');
+  selG.innerHTML = '';
+  groups.forEach(g => {
+    const o = new Option(g, g);
+    selG.appendChild(o);
+  });
+  // prefer World
+  if (groups.includes('World')) selG.value = 'World';
+}
+
+function setMode(m) {
+  currentMode = m;
+  document.getElementById('tab-a').classList.toggle('active', m === 'a');
+  document.getElementById('tab-b').classList.toggle('active', m === 'b');
+  document.getElementById('panel-a').style.display = m === 'a' ? '' : 'none';
+  document.getElementById('panel-b').style.display = m === 'b' ? '' : 'none';
+  // hide output
+  document.getElementById('output-section').classList.remove('visible');
+  document.getElementById('empty-state').classList.add('visible');
+}
+
+function showOutput(title) {
+  document.getElementById('empty-state').classList.remove('visible');
+  document.getElementById('output-section').classList.add('visible');
+  document.getElementById('output-title').textContent = title;
+  document.getElementById('charts-a').style.display = currentMode === 'a' ? '' : 'none';
+  document.getElementById('charts-b').style.display = currentMode === 'b' ? '' : 'none';
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  MODE A — Single Country × Peer Group
+// ═══════════════════════════════════════════════════════════════════════════
+function renderModeA() {
+  const country = document.getElementById('sel-country-a').value;
+  const group   = document.getElementById('sel-group-a').value;
+  const key = `${country}|${group}`;
+  const s = DB.series[key];
+
+  if (!s) {
+    alert(`No data found for ${country} in group ${group}.`);
+    return;
+  }
+
+  showOutput(`${country} — ${group} peer group`);
+  currentData = { mode: 'a', country, group, s };
+
+  const years = s.years;
+  const color = PALETTE[0];
+  const colorLoo = '#888888';
+  const colorM1  = PALETTE[0];
+  const colorM3  = PALETTE[1];
+  const colorM2  = PALETTE[2];
+  const colorDm1 = PALETTE[3];
+
+  // ── Chart A1: Absolute score + LOO mean ────────────────────────────────
+  Plotly.newPlot('chart-a1', [
+    dottedTrace(years, s.loo, `${group} LOO mean`, colorLoo),
+    lineTrace(years, s.score, `${country} composite score`, color),
+  ], layout({
+    title: { text: `Composite Credit Score vs Peer Group Mean`, font: { size: 13, family: FONT_SERIF } },
+    xaxis: { title: { text: 'Year' } },
+    yaxis: { title: { text: 'Composite Score (0–60)' }, range: [0, 65] },
+    height: 300,
+  }), PLOT_CONFIG);
+
+  // ── Chart A2: M1 over time ────────────────────────────────────────────
+  Plotly.newPlot('chart-a2', [
+    lineTrace(years, s.m1, 'M1 (current group mean)', colorM1),
+    lineTrace(years, s.m3, 'M3 (lagged group mean)',  colorM3, { line: { dash: 'dash', width: 1.6 }, marker: { symbol: 'square', size: 4 } }),
+  ], layout({
+    title: { text: 'M1 &amp; M3: Score² / Group LOO Mean', font: { size: 12, family: FONT_SERIF } },
+    xaxis: { title: { text: 'Year' } },
+    yaxis: { title: { text: 'M1 / M3' } },
+    height: 280,
+  }), PLOT_CONFIG);
+
+  // ── Chart A3: M2 percentile ───────────────────────────────────────────
+  const groupSize = (DB.group_countries[group] || []).length;
+  Plotly.newPlot('chart-a3', [
+    lineTrace(years, s.m2, 'M2: percentile rank', colorM2),
+  ], layout({
+    title: { text: `M2: Within-Group Percentile Rank (n ≈ ${groupSize})`, font: { size: 12, family: FONT_SERIF } },
+    xaxis: { title: { text: 'Year' } },
+    yaxis: { title: { text: 'Rank (raw, within group)' } },
+    height: 280,
+    shapes: [{
+      type: 'line',
+      x0: years[0], x1: years[years.length-1],
+      y0: groupSize / 2, y1: groupSize / 2,
+      line: { color: '#aaa', dash: 'dot', width: 1 }
+    }],
+  }), PLOT_CONFIG);
+
+  // ── Chart A4: M1 annual delta ─────────────────────────────────────────
+  const dColors = s.dm1.map(v => v === null ? '#ccc' : v >= 0 ? PALETTE[2] : PALETTE[1]);
+  Plotly.newPlot('chart-a4', [{
+    type: 'bar',
+    x: years,
+    y: s.dm1.map(v => v === null ? 0 : v),
+    marker: { color: dColors, line: { width: 0 } },
+    name: 'ΔM1',
+    hovertemplate: '%{x}: %{y:.3f}<extra></extra>',
+  }], layout({
+    title: { text: 'ΔM1: Year-on-Year Change in Relative Rating', font: { size: 12, family: FONT_SERIF } },
+    xaxis: { title: { text: 'Year' } },
+    yaxis: { title: { text: 'ΔM1' }, zeroline: true, zerolinecolor: '#999', zerolinewidth: 1 },
+    height: 280,
+    showlegend: false,
+  }), PLOT_CONFIG);
+
+  // ── Chart A5: M4 (percentile, alternative) ────────────────────────────
+  Plotly.newPlot('chart-a5', [
+    lineTrace(years, s.m4, 'M4: percentile (0–1)', PALETTE[4]),
+  ], layout({
+    title: { text: 'M4: Within-Group Percentile Rank (0–1 scale)', font: { size: 12, family: FONT_SERIF } },
+    xaxis: { title: { text: 'Year' } },
+    yaxis: { title: { text: 'Percentile' }, range: [0, 1.05] },
+    height: 280,
+    shapes: [{
+      type: 'line',
+      x0: years[0], x1: years[years.length-1],
+      y0: 0.5, y1: 0.5,
+      line: { color: '#aaa', dash: 'dot', width: 1 }
+    }],
+  }), PLOT_CONFIG);
+
+  // ── Tables ────────────────────────────────────────────────────────────
+  renderSummaryTableA(country, group, s);
+  renderDetailTableA(country, group, s);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  MODE B — Multi-Country Comparison
+// ═══════════════════════════════════════════════════════════════════════════
+function renderModeB() {
+  const selEl   = document.getElementById('sel-countries-b');
+  const selected = Array.from(selEl.selectedOptions).map(o => o.value);
+  const group    = document.getElementById('sel-group-b').value;
+
+  if (selected.length < 2) { alert('Please select at least 2 countries.'); return; }
+  if (selected.length > 8) { alert('Please select no more than 8 countries for readability.'); return; }
+
+  // Check all countries have data in selected group
+  const missing = selected.filter(c => !DB.series[`${c}|${group}`]);
+  if (missing.length) {
+    alert(`These countries have no data in the ${group} group:\n${missing.join(', ')}\n\nTry a different group or deselect them.`);
+    return;
+  }
+
+  showOutput(`${selected.join(', ')} — ${group} group`);
+  currentData = { mode: 'b', countries: selected, group };
+
+  const series = selected.map((c, i) => ({
+    country: c, color: PALETTE[i % PALETTE.length],
+    s: DB.series[`${c}|${group}`]
+  }));
+
+  // ── Chart B1: Absolute scores ─────────────────────────────────────────
+  const looTrace = (() => {
+    // use first country's loo as the group mean (same for all within group)
+    const s0 = series[0].s;
+    return dottedTrace(s0.years, s0.loo, `${group} LOO mean (avg)`, '#999');
+  })();
+
+  Plotly.newPlot('chart-b1', [
+    looTrace,
+    ...series.map(({ country, color, s }) =>
+      lineTrace(s.years, s.score, country, color)
+    ),
+  ], layout({
+    title: { text: `Composite Credit Score — ${group} group`, font: { size: 13, family: FONT_SERIF } },
+    xaxis: { title: { text: 'Year' } },
+    yaxis: { title: { text: 'Composite Score (0–60)' }, range: [0, 65] },
+    height: 320,
+  }), PLOT_CONFIG);
+
+  // ── Chart B2: M1 ─────────────────────────────────────────────────────
+  Plotly.newPlot('chart-b2', [
+    ...series.map(({ country, color, s }) =>
+      lineTrace(s.years, s.m1, country, color)
+    ),
+  ], layout({
+    title: { text: 'M1: Relative Rating (Score² / Group LOO Mean)', font: { size: 12, family: FONT_SERIF } },
+    xaxis: { title: { text: 'Year' } },
+    yaxis: { title: { text: 'M1' } },
+    height: 300,
+  }), PLOT_CONFIG);
+
+  // ── Chart B3: M4 percentile ───────────────────────────────────────────
+  Plotly.newPlot('chart-b3', [
+    ...series.map(({ country, color, s }) =>
+      lineTrace(s.years, s.m4, country, color, { marker: { symbol: 'square', size: 4 } })
+    ),
+  ], layout({
+    title: { text: 'M4: Within-Group Percentile Rank (0–1)', font: { size: 12, family: FONT_SERIF } },
+    xaxis: { title: { text: 'Year' } },
+    yaxis: { title: { text: 'Percentile' }, range: [0, 1.05] },
+    height: 300,
+    shapes: [{
+      type: 'line', x0: 2000, x1: 2025, y0: 0.5, y1: 0.5,
+      line: { color: '#aaa', dash: 'dot', width: 1 }
+    }],
+  }), PLOT_CONFIG);
+
+  // ── Tables ────────────────────────────────────────────────────────────
+  renderSummaryTableB(series, group);
+  renderDetailTableB(series, group);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  TABLE RENDERERS
+// ═══════════════════════════════════════════════════════════════════════════
+function fmt(v, dec=3) {
+  if (v === null || v === undefined || isNaN(v)) return '—';
+  return Number(v).toFixed(dec);
+}
+function fmtPct(v) {
+  if (v === null || v === undefined || isNaN(v)) return '—';
+  return Number(v).toFixed(1);
+}
+
+function renderSummaryTableA(country, group, s) {
+  // Compute summary stats: first year, last year, change, avg
+  const valid = (arr) => arr.filter(v => v !== null && !isNaN(v));
+  const avg   = (arr) => { const v = valid(arr); return v.length ? v.reduce((a,b)=>a+b,0)/v.length : null; }
+  const first = (arr) => valid(arr)[0] ?? null;
+  const last  = (arr) => { const v = valid(arr); return v.length ? v[v.length-1] : null; }
+  const chg   = (arr) => { const f=first(arr), l=last(arr); return f!=null&&l!=null ? l-f : null; }
+
+  const rows = [
+    { label: 'Composite Score',        vals: s.score },
+    { label: 'Group LOO Mean (score)', vals: s.loo   },
+    { label: 'M1',                     vals: s.m1    },
+    { label: 'M2 (rank)',              vals: s.m2    },
+    { label: 'M3',                     vals: s.m3    },
+    { label: 'M4 (percentile 0–1)',    vals: s.m4    },
+  ];
+
+  const yr0 = s.years[0], yr1 = s.years[s.years.length-1];
+
+  let html = `<table><thead><tr>
+    <th style="text-align:left">Variable</th>
+    <th>${yr0}</th><th>${yr1}</th><th>Change</th><th>Period Mean</th>
+  </tr></thead><tbody>`;
+
+  rows.forEach(r => {
+    html += `<tr>
+      <td>${r.label}</td>
+      <td>${fmt(first(r.vals),3)}</td>
+      <td>${fmt(last(r.vals),3)}</td>
+      <td style="color:${chg(r.vals)>=0?'#2D6E35':'#C0392B'}">${chg(r.vals)!==null?(chg(r.vals)>=0?'+':'')+fmt(chg(r.vals),3):'—'}</td>
+      <td>${fmt(avg(r.vals),3)}</td>
+    </tr>`;
+  });
+
+  html += `</tbody></table>`;
+  document.getElementById('summary-table').innerHTML = html;
+
+  // store for export
+  currentData.summaryRows = rows;
+  currentData.yr0 = yr0; currentData.yr1 = yr1;
+}
+
+function renderDetailTableA(country, group, s) {
+  let html = `<table><thead><tr>
+    <th style="text-align:left">Year</th>
+    <th>Score</th><th>LOO Mean</th><th>M1</th><th>M2 (rank)</th>
+    <th>M3</th><th>M4 (0–1)</th><th>ΔM1</th>
+  </tr></thead><tbody>`;
+
+  s.years.forEach((yr, i) => {
+    html += `<tr>
+      <td>${yr}</td>
+      <td>${fmt(s.score[i],1)}</td>
+      <td>${fmt(s.loo[i],3)}</td>
+      <td>${fmt(s.m1[i],3)}</td>
+      <td>${fmtPct(s.m2[i])}</td>
+      <td>${fmt(s.m3[i],3)}</td>
+      <td>${fmt(s.m4[i],4)}</td>
+      <td style="color:${s.dm1[i]>=0?'#2D6E35':'#C0392B'}">${s.dm1[i]!==null?(s.dm1[i]>=0?'+':'')+fmt(s.dm1[i],3):'—'}</td>
+    </tr>`;
+  });
+
+  html += `</tbody></table>`;
+  document.getElementById('detail-table').innerHTML = html;
+}
+
+function renderSummaryTableB(series, group) {
+  const valid = (arr) => arr.filter(v => v !== null && !isNaN(v));
+  const first = (arr) => valid(arr)[0] ?? null;
+  const last  = (arr) => { const v = valid(arr); return v.length ? v[v.length-1] : null; }
+  const chg   = (arr) => { const f=first(arr), l=last(arr); return f!=null&&l!=null ? l-f : null; }
+  const avg   = (arr) => { const v = valid(arr); return v.length ? v.reduce((a,b)=>a+b,0)/v.length : null; }
+
+  const yr0 = series[0].s.years[0];
+  const yr1 = series[0].s.years[series[0].s.years.length-1];
+
+  let html = `<table><thead><tr>
+    <th style="text-align:left">Country</th>
+    <th>Score ${yr0}</th><th>Score ${yr1}</th><th>Score Δ</th>
+    <th>M1 ${yr0}</th><th>M1 ${yr1}</th><th>M1 Δ</th>
+    <th>M4 ${yr0}</th><th>M4 ${yr1}</th>
+  </tr></thead><tbody>`;
+
+  series.forEach(({ country, s }) => {
+    const sd = chg(s.score), md = chg(s.m1);
+    html += `<tr>
+      <td>${country}</td>
+      <td>${fmt(first(s.score),1)}</td>
+      <td>${fmt(last(s.score),1)}</td>
+      <td style="color:${sd>=0?'#2D6E35':'#C0392B'}">${sd!==null?(sd>=0?'+':'')+fmt(sd,1):'—'}</td>
+      <td>${fmt(first(s.m1),2)}</td>
+      <td>${fmt(last(s.m1),2)}</td>
+      <td style="color:${md>=0?'#2D6E35':'#C0392B'}">${md!==null?(md>=0?'+':'')+fmt(md,2):'—'}</td>
+      <td>${fmt(first(s.m4),3)}</td>
+      <td>${fmt(last(s.m4),3)}</td>
+    </tr>`;
+  });
+
+  html += `</tbody></table>`;
+  document.getElementById('summary-table').innerHTML = html;
+  currentData.yr0 = yr0; currentData.yr1 = yr1;
+}
+
+function renderDetailTableB(series, group) {
+  // Build a combined year-by-year table for all selected countries
+  const allYears = [...new Set(series.flatMap(({s}) => s.years))].sort((a,b) => a-b);
+
+  // index each series by year
+  const byYear = {};
+  series.forEach(({country, s}) => {
+    s.years.forEach((yr, i) => {
+      if (!byYear[yr]) byYear[yr] = {};
+      byYear[yr][country] = { score: s.score[i], m1: s.m1[i], m4: s.m4[i] };
+    });
+  });
+
+  let html = `<table><thead><tr>
+    <th style="text-align:left">Year</th>
+    ${series.map(({country}) => `<th>Score<br><small>${country}</small></th><th>M1<br><small>${country}</small></th><th>M4<br><small>${country}</small></th>`).join('')}
+  </tr></thead><tbody>`;
+
+  allYears.forEach(yr => {
+    html += `<tr><td>${yr}</td>`;
+    series.forEach(({country}) => {
+      const d = (byYear[yr] || {})[country] || {};
+      html += `<td>${fmt(d.score,1)}</td><td>${fmt(d.m1,2)}</td><td>${fmt(d.m4,3)}</td>`;
+    });
+    html += `</tr>`;
+  });
+
+  html += `</tbody></table>`;
+  document.getElementById('detail-table').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  LaTeX / CSV EXPORT
+// ═══════════════════════════════════════════════════════════════════════════
+function copyLatex(which) {
+  const d = currentData;
+  if (!d) return;
+  let tex = '';
+
+  if (d.mode === 'a') {
+    const s = d.s;
+    const valid = (arr) => arr.filter(v => v !== null && !isNaN(v));
+    const first = (arr) => valid(arr)[0] ?? null;
+    const last  = (arr) => { const v = valid(arr); return v.length ? v[v.length-1] : null; }
+    const chg   = (arr) => { const f=first(arr), l=last(arr); return f!=null&&l!=null ? l-f : null; }
+    const avg   = (arr) => { const v = valid(arr); return v.length ? v.reduce((a,b)=>a+b,0)/v.length : null; }
+
+    if (which === 'summary') {
+      tex = `% Sovereign Credit Ratings — ${d.country} (${d.group} peer group)
+% Generated by the Credit Rating Explorer
+\\begin{table}[htbp]
+\\centering
+\\caption{Summary Statistics: ${d.country} — ${d.group} Peer Group (${d.yr0}–${d.yr1})}
+\\label{tab:cr_${d.country.replace(/\s/g,'_')}_${d.group}}
+\\begin{tabular}{lrrrr}
+\\toprule
+Variable & ${d.yr0} & ${d.yr1} & Change & Mean \\\\
+\\midrule
+Composite Score & ${fmt(first(s.score),2)} & ${fmt(last(s.score),2)} & ${chgFmt(chg(s.score),2)} & ${fmt(avg(s.score),2)} \\\\
+Group LOO Mean  & ${fmt(first(s.loo),2)}   & ${fmt(last(s.loo),2)}   & ${chgFmt(chg(s.loo),2)}   & ${fmt(avg(s.loo),2)} \\\\
+M1              & ${fmt(first(s.m1),3)}    & ${fmt(last(s.m1),3)}    & ${chgFmt(chg(s.m1),3)}    & ${fmt(avg(s.m1),3)} \\\\
+M2 (rank)       & ${fmt(first(s.m2),1)}    & ${fmt(last(s.m2),1)}    & ${chgFmt(chg(s.m2),1)}    & ${fmt(avg(s.m2),1)} \\\\
+M3              & ${fmt(first(s.m3),3)}    & ${fmt(last(s.m3),3)}    & ${chgFmt(chg(s.m3),3)}    & ${fmt(avg(s.m3),3)} \\\\
+M4 (pctile)     & ${fmt(first(s.m4),4)}    & ${fmt(last(s.m4),4)}    & ${chgFmt(chg(s.m4),4)}    & ${fmt(avg(s.m4),4)} \\\\
+\\bottomrule
+\\end{tabular}
+\\\\[4pt]
+\\footnotesize{\\textit{Notes:} LOO = leave-one-out group mean. M1 = score$^2$ / LOO mean (current); M2 = within-year rank; M3 = score$^2$ / lagged LOO mean; M4 = within-year percentile (0--1). Source: S\\&P, Moody's, DBRS.}
+\\end{table}`;
+    } else {
+      // detail: year-by-year
+      const rows = s.years.map((yr, i) =>
+        `${yr} & ${fmt(s.score[i],1)} & ${fmt(s.loo[i],3)} & ${fmt(s.m1[i],3)} & ${fmtPct(s.m2[i])} & ${fmt(s.m3[i],3)} & ${fmt(s.m4[i],4)} & ${s.dm1[i]!==null?chgFmt(s.dm1[i],3):'---'} \\\\`
+      ).join('\n');
+
+      tex = `% Sovereign Credit Ratings — ${d.country} (${d.group} peer group)
+\\begin{table}[htbp]
+\\centering
+\\caption{${d.country}: Annual Relative Ratings vs ${d.group} Peer Group}
+\\label{tab:cr_detail_${d.country.replace(/\s/g,'_')}_${d.group}}
+\\begin{tabular}{lrrrrrrr}
+\\toprule
+Year & Score & LOO Mean & M1 & M2 & M3 & M4 & $\\Delta$M1 \\\\
+\\midrule
+${rows}
+\\bottomrule
+\\end{tabular}
+\\\\[4pt]
+\\footnotesize{\\textit{Notes:} LOO = leave-one-out group mean. M1 = score$^2$ / LOO mean; M2 = within-year rank; M3 = score$^2$ / lagged LOO mean; M4 = within-year percentile (0--1). $\\Delta$M1 = year-on-year change in M1. Source: S\\&P, Moody's, DBRS.}
+\\end{table}`;
+    }
+  } else if (d.mode === 'b') {
+    if (which === 'summary') {
+      const series = d.countries.map(c => ({ country: c, s: DB.series[`${c}|${d.group}`] }));
+      const valid = (arr) => arr.filter(v => v !== null && !isNaN(v));
+      const first = (arr) => valid(arr)[0] ?? null;
+      const last  = (arr) => { const v = valid(arr); return v.length ? v[v.length-1] : null; }
+      const chg   = (arr) => { const f=first(arr), l=last(arr); return f!=null&&l!=null ? l-f : null; }
+
+      const rows = series.map(({country, s}) =>
+        `${country} & ${fmt(first(s.score),1)} & ${fmt(last(s.score),1)} & ${chgFmt(chg(s.score),1)} & ${fmt(first(s.m1),2)} & ${fmt(last(s.m1),2)} & ${chgFmt(chg(s.m1),2)} & ${fmt(first(s.m4),3)} & ${fmt(last(s.m4),3)} \\\\`
+      ).join('\n');
+
+      tex = `% Sovereign Credit Ratings — Multi-Country Comparison (${d.group})
+\\begin{table}[htbp]
+\\centering
+\\caption{Sovereign Credit Ratings: ${d.countries.join(', ')} — ${d.group} Group (${d.yr0}–${d.yr1})}
+\\label{tab:cr_multi_${d.group}}
+\\begin{tabular}{lrrrrrrrrr}
+\\toprule
+ & \\multicolumn{3}{c}{Composite Score} & \\multicolumn{3}{c}{M1} & \\multicolumn{2}{c}{M4 (pctile)} \\\\
+\\cmidrule(lr){2-4}\\cmidrule(lr){5-7}\\cmidrule(lr){8-9}
+Country & ${d.yr0} & ${d.yr1} & $\\Delta$ & ${d.yr0} & ${d.yr1} & $\\Delta$ & ${d.yr0} & ${d.yr1} \\\\
+\\midrule
+${rows}
+\\bottomrule
+\\end{tabular}
+\\\\[4pt]
+\\footnotesize{\\textit{Notes:} Reference group: ${d.group}. M1 = score$^2$ / leave-one-out group mean. M4 = within-group percentile rank (0--1). Source: S\\&P, Moody's, DBRS.}
+\\end{table}`;
+    }
+  }
+
+  document.getElementById('latex-output').textContent = tex;
+  document.getElementById('latex-modal').classList.add('open');
+}
+
+function chgFmt(v, dec) {
+  if (v === null || v === undefined || isNaN(v)) return '---';
+  return (v >= 0 ? '+' : '') + Number(v).toFixed(dec);
+}
+
+function copyLatexText() {
+  const text = document.getElementById('latex-output').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.modal-body .btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy to Clipboard'; }, 1800);
+  });
+}
+
+function closeModal() {
+  document.getElementById('latex-modal').classList.remove('open');
+}
+
+document.getElementById('latex-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+function copyCSV() {
+  const d = currentData;
+  if (!d || d.mode !== 'a') { alert('CSV export is available in Single Country mode.'); return; }
+  const s = d.s;
+  let csv = 'Year,Score,LOO_Mean,M1,M2,M3,M4,Delta_M1\n';
+  s.years.forEach((yr, i) => {
+    csv += `${yr},${s.score[i]??''},${s.loo[i]??''},${s.m1[i]??''},${s.m2[i]??''},${s.m3[i]??''},${s.m4[i]??''},${s.dm1[i]??''}\n`;
+  });
+  navigator.clipboard.writeText(csv).then(() => alert('CSV copied to clipboard.'));
+}
+</script>
+</body>
+</html>

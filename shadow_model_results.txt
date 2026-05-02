@@ -1,0 +1,233 @@
+SHADOW SOVEREIGN RATING MODEL
+======================================================================
+Replication and extension of Ratha-De-Mohapatra (2007 WPS 4269) and Basu-De-Ratha-Timmer (2013 WPS 6641).
+Dependent variable: CompositeScore (0-60, higher = better).
+
+Specifications:
+  S0_minimal: log_GDPpc + GDP_growth_pct
+  S1_de_core: log_GDPpc + GDP_growth_pct + GrowthVol_5y + Inflation_pct
+  S2_de_full: log_GDPpc + GDP_growth_pct + GrowthVol_5y + Inflation_pct + RuleOfLaw + CurrentAccount_pct
+  S3_with_debt: log_GDPpc + GDP_growth_pct + GrowthVol_5y + Inflation_pct + RuleOfLaw + CurrentAccount_pct + ExtDebt_pct_GNI + Reserves_Imports_mo
+  S4_kitchen_sink: log_GDPpc + GDP_growth_pct + GrowthVol_5y + Inflation_pct + RuleOfLaw + CurrentAccount_pct + ExtDebt_pct_GNI + Reserves_Imports_mo + FDI_pct_GDP + log_Population
+
+
+=== S0_minimal (N=3136, R²=0.660, adj R²=0.659) ===
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:         CompositeScore   R-squared:                       0.660
+Model:                            OLS   Adj. R-squared:                  0.659
+Method:                 Least Squares   F-statistic:                     321.3
+Date:                Fri, 01 May 2026   Prob (F-statistic):           2.20e-54
+Time:                        21:06:15   Log-Likelihood:                -11480.
+No. Observations:                3136   AIC:                         2.297e+04
+Df Residuals:                    3133   BIC:                         2.298e+04
+Df Model:                           2                                         
+Covariance Type:              cluster                                         
+==================================================================================
+                     coef    std err          z      P>|z|      [0.025      0.975]
+----------------------------------------------------------------------------------
+const            -53.6018      3.671    -14.600      0.000     -60.798     -46.406
+log_GDPpc         22.2617      0.917     24.277      0.000      20.464      24.059
+GDP_growth_pct     0.0311      0.015      2.089      0.037       0.002       0.060
+==============================================================================
+Omnibus:                      180.042   Durbin-Watson:                   0.215
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              212.186
+Skew:                          -0.604   Prob(JB):                     8.40e-47
+Kurtosis:                       3.407   Cond. No.                         99.2
+==============================================================================
+
+Notes:
+[1] Standard Errors are robust to cluster correlation (cluster)
+
+=== S1_de_core (N=2651, R²=0.690, adj R²=0.689) ===
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:         CompositeScore   R-squared:                       0.690
+Model:                            OLS   Adj. R-squared:                  0.689
+Method:                 Least Squares   F-statistic:                     164.7
+Date:                Fri, 01 May 2026   Prob (F-statistic):           2.64e-51
+Time:                        21:06:15   Log-Likelihood:                -9522.6
+No. Observations:                2651   AIC:                         1.906e+04
+Df Residuals:                    2646   BIC:                         1.908e+04
+Df Model:                           4                                         
+Covariance Type:              cluster                                         
+==================================================================================
+                     coef    std err          z      P>|z|      [0.025      0.975]
+----------------------------------------------------------------------------------
+const            -52.1914      4.026    -12.963      0.000     -60.083     -44.300
+log_GDPpc         22.4606      0.969     23.189      0.000      20.562      24.359
+GDP_growth_pct     0.0514      0.018      2.921      0.003       0.017       0.086
+GrowthVol_5y      -0.1629      0.066     -2.459      0.014      -0.293      -0.033
+Inflation_pct     -0.1659      0.044     -3.808      0.000      -0.251      -0.081
+==============================================================================
+Omnibus:                      186.492   Durbin-Watson:                   0.264
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              236.230
+Skew:                          -0.644   Prob(JB):                     5.05e-52
+Kurtosis:                       3.693   Cond. No.                         128.
+==============================================================================
+
+Notes:
+[1] Standard Errors are robust to cluster correlation (cluster)
+
+=== S2_de_full (N=2578, R²=0.762, adj R²=0.761) ===
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:         CompositeScore   R-squared:                       0.762
+Model:                            OLS   Adj. R-squared:                  0.761
+Method:                 Least Squares   F-statistic:                     195.8
+Date:                Fri, 01 May 2026   Prob (F-statistic):           2.40e-64
+Time:                        21:06:15   Log-Likelihood:                -8899.5
+No. Observations:                2578   AIC:                         1.781e+04
+Df Residuals:                    2571   BIC:                         1.785e+04
+Df Model:                           6                                         
+Covariance Type:              cluster                                         
+======================================================================================
+                         coef    std err          z      P>|z|      [0.025      0.975]
+--------------------------------------------------------------------------------------
+const                -10.2293      5.629     -1.817      0.069     -21.261       0.803
+log_GDPpc             11.2458      1.519      7.403      0.000       8.268      14.223
+GDP_growth_pct         0.0263      0.018      1.453      0.146      -0.009       0.062
+GrowthVol_5y          -0.0736      0.067     -1.097      0.273      -0.205       0.058
+Inflation_pct         -0.1048      0.057     -1.848      0.065      -0.216       0.006
+RuleOfLaw              7.5292      1.033      7.287      0.000       5.504       9.554
+CurrentAccount_pct     0.2406      0.049      4.891      0.000       0.144       0.337
+==============================================================================
+Omnibus:                      162.641   Durbin-Watson:                   0.246
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              210.398
+Skew:                          -0.581   Prob(JB):                     2.05e-46
+Kurtosis:                       3.779   Cond. No.                         215.
+==============================================================================
+
+Notes:
+[1] Standard Errors are robust to cluster correlation (cluster)
+
+=== S3_with_debt (N=1283, R²=0.432, adj R²=0.429) ===
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:         CompositeScore   R-squared:                       0.432
+Model:                            OLS   Adj. R-squared:                  0.429
+Method:                 Least Squares   F-statistic:                     11.20
+Date:                Fri, 01 May 2026   Prob (F-statistic):           3.79e-10
+Time:                        21:06:15   Log-Likelihood:                -4311.3
+No. Observations:                1283   AIC:                             8641.
+Df Residuals:                    1274   BIC:                             8687.
+Df Model:                           8                                         
+Covariance Type:              cluster                                         
+=======================================================================================
+                          coef    std err          z      P>|z|      [0.025      0.975]
+---------------------------------------------------------------------------------------
+const                  -0.8049      7.250     -0.111      0.912     -15.014      13.404
+log_GDPpc               6.9311      2.165      3.201      0.001       2.687      11.175
+GDP_growth_pct          0.0271      0.019      1.419      0.156      -0.010       0.065
+GrowthVol_5y           -0.0641      0.070     -0.921      0.357      -0.200       0.072
+Inflation_pct          -0.1235      0.028     -4.363      0.000      -0.179      -0.068
+RuleOfLaw               3.8036      1.751      2.173      0.030       0.372       7.235
+CurrentAccount_pct      0.0388      0.069      0.559      0.576      -0.097       0.175
+ExtDebt_pct_GNI        -0.0420      0.017     -2.474      0.013      -0.075      -0.009
+Reserves_Imports_mo     1.0189      0.241      4.235      0.000       0.547       1.490
+==============================================================================
+Omnibus:                       18.904   Durbin-Watson:                   0.263
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               19.391
+Skew:                          -0.300   Prob(JB):                     6.15e-05
+Kurtosis:                       3.062   Cond. No.                         936.
+==============================================================================
+
+Notes:
+[1] Standard Errors are robust to cluster correlation (cluster)
+
+=== S4_kitchen_sink (N=1283, R²=0.557, adj R²=0.554) ===
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:         CompositeScore   R-squared:                       0.557
+Model:                            OLS   Adj. R-squared:                  0.554
+Method:                 Least Squares   F-statistic:                     20.64
+Date:                Fri, 01 May 2026   Prob (F-statistic):           2.06e-17
+Time:                        21:06:15   Log-Likelihood:                -4152.1
+No. Observations:                1283   AIC:                             8326.
+Df Residuals:                    1272   BIC:                             8383.
+Df Model:                          10                                         
+Covariance Type:              cluster                                         
+=======================================================================================
+                          coef    std err          z      P>|z|      [0.025      0.975]
+---------------------------------------------------------------------------------------
+const                 -42.8148     10.931     -3.917      0.000     -64.239     -21.390
+log_GDPpc               9.4475      1.753      5.389      0.000       6.012      12.883
+GDP_growth_pct          0.0051      0.016      0.320      0.749      -0.026       0.037
+GrowthVol_5y           -0.0799      0.064     -1.258      0.208      -0.204       0.045
+Inflation_pct          -0.1690      0.025     -6.845      0.000      -0.217      -0.121
+RuleOfLaw               6.0372      1.575      3.833      0.000       2.950       9.125
+CurrentAccount_pct      0.0856      0.064      1.337      0.181      -0.040       0.211
+ExtDebt_pct_GNI        -0.0281      0.011     -2.552      0.011      -0.050      -0.007
+Reserves_Imports_mo     0.6260      0.205      3.059      0.002       0.225       1.027
+FDI_pct_GDP             0.2997      0.092      3.241      0.001       0.118       0.481
+log_Population          2.1160      0.403      5.252      0.000       1.326       2.906
+==============================================================================
+Omnibus:                       14.826   Durbin-Watson:                   0.357
+Prob(Omnibus):                  0.001   Jarque-Bera (JB):               15.052
+Skew:                          -0.264   Prob(JB):                     0.000539
+Kurtosis:                       3.060   Cond. No.                     1.37e+03
+==============================================================================
+
+Notes:
+[1] Standard Errors are robust to cluster correlation (cluster)
+[2] The condition number is large, 1.37e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.
+
+======================================================================
+OVERALL TRACKING DIAGNOSTICS
+======================================================================
+
+--- Shadow_S0 ---
+  n_obs                     3323.0000
+  RMSE                      9.5214
+  MAE                       7.5596
+  Bias_actual_minus_shadow  0.0301
+  R2                        0.6543
+  Spearman                  0.8125
+  Pearson                   0.8089
+  Within_3pts               0.2392
+  Within_6pts               0.4598
+
+--- Shadow_S1 ---
+  n_obs                     3323.0000
+  RMSE                      9.1821
+  MAE                       7.2690
+  Bias_actual_minus_shadow  0.1755
+  R2                        0.6785
+  Spearman                  0.8254
+  Pearson                   0.8240
+  Within_3pts               0.2516
+  Within_6pts               0.4785
+
+--- Shadow_S2 ---
+  n_obs                     3323.0000
+  RMSE                      8.0487
+  MAE                       6.1907
+  Bias_actual_minus_shadow  0.0984
+  R2                        0.7529
+  Spearman                  0.8567
+  Pearson                   0.8679
+  Within_3pts               0.3118
+  Within_6pts               0.5646
+
+--- Shadow_S3 ---
+  n_obs                     3323.0000
+  RMSE                      12.1037
+  MAE                       9.5574
+  Bias_actual_minus_shadow  5.8059
+  R2                        0.4413
+  Spearman                  0.8415
+  Pearson                   0.8075
+  Within_3pts               0.2377
+  Within_6pts               0.4189
+
+--- Shadow_S4 ---
+  n_obs                     3323.0000
+  RMSE                      9.4377
+  MAE                       7.3734
+  Bias_actual_minus_shadow  3.4786
+  R2                        0.6603
+  Spearman                  0.8694
+  Pearson                   0.8468
+  Within_3pts               0.2633
+  Within_6pts               0.4764

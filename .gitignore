@@ -1,0 +1,8 @@
+# OS / editor cruft only
+.DS_Store
+Thumbs.db
+*.swp
+*~
+__pycache__/
+.ipynb_checkpoints/
+*.tmp

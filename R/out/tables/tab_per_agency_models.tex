@@ -1,0 +1,36 @@
+\begin{table}
+\centering
+\begin{talltblr}[         %% tabularray outer open
+caption={Per-agency shadow regressions (S2).},
+note{}={* p \num{< 0.1}, ** p \num{< 0.05}, *** p \num{< 0.01}},
+note{ }={* p<0.10, ** p<0.05, *** p<0.01.},
+]                     %% tabularray outer close
+{                     %% tabularray inner open
+colspec={Q[]Q[]Q[]Q[]},
+hline{2}={1-4}{solid, black, 0.05em},
+hline{16}={1-4}{solid, black, 0.05em},
+hline{1}={1-4}{solid, black, 0.08em},
+hline{19}={1-4}{solid, black, 0.08em},
+column{2-4}={}{halign=c},
+column{1}={}{halign=l},
+}                     %% tabularray inner close
+& S\&P & Moody's & DBRS \\
+Constant & \num{-10.983} & \num{-15.841}* & \num{7.840} \\
+& (\num{8.288}) & (\num{9.021}) & (\num{17.626}) \\
+log GDP per capita & \num{9.980}*** & \num{11.441}*** & \num{6.731} \\
+& (\num{2.188}) & (\num{2.390}) & (\num{4.340}) \\
+GDP growth (pct) & \num{0.167}*** & \num{0.107}*** & \num{0.311} \\
+& (\num{0.046}) & (\num{0.040}) & (\num{0.219}) \\
+Growth volatility & \num{0.068} & \num{0.001} & \num{-0.206} \\
+& (\num{0.090}) & (\num{0.075}) & (\num{0.362}) \\
+Inflation (pct) & \num{-0.144}*** & \num{-0.117}* & \num{-0.116}*** \\
+& (\num{0.032}) & (\num{0.065}) & (\num{0.036}) \\
+Rule of Law & \num{5.602}*** & \num{5.246}*** & \num{5.381} \\
+& (\num{1.616}) & (\num{1.811}) & (\num{3.362}) \\
+Current account (pct GDP) & \num{0.243}*** & \num{0.214}*** & \num{0.341} \\
+& (\num{0.066}) & (\num{0.072}) & (\num{0.256}) \\
+N & \num{534} & \num{418} & \num{96} \\
+R-squared & \num{0.537} & \num{0.534} & \num{0.438} \\
+Adj. R-squared & \num{0.531} & \num{0.527} & \num{0.400} \\
+\end{talltblr}
+\end{table}
