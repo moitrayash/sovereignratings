@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shadow Ratings — Sovereign Credit Rating Explorer</title>
+<title>Shadow Ratings: Sovereign Credit Rating Explorer</title>
 <link rel="stylesheet" href="shared.css">
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
 <style>
@@ -47,28 +47,28 @@
   <p>The literature distinguishes at least four families. We implement three; the fourth is referenced for completeness.</p>
 
   <div class="method-card">
-    <h4>Method A — OLS regression on macro fundamentals (Cantor &amp; Packer 1996)</h4>
+    <h4>Method A: OLS regression on macro fundamentals (Cantor &amp; Packer 1996)</h4>
     <p><strong>Form:</strong> Score<sub>it</sub> = α + β<sub>1</sub>·log(GDPpc<sub>it</sub>) + β<sub>2</sub>·growth<sub>it</sub> + β<sub>3</sub>·FDI%<sub>it</sub> + ε<sub>it</sub></p>
     <p><strong>Intuition.</strong> Estimate the average mapping from macro fundamentals to composite score across all rated country-years; predict each country's score from its own fundamentals. Residuals identify systematic agency deviations from the global average mapping. This is the <a href="https://www.newyorkfed.org/medialibrary/media/research/epr/96v02n2/9610cant.pdf" target="_blank" rel="noopener">Cantor &amp; Packer (1996)</a> specification, the most-cited shadow-rating model in the literature, replicated and extended by <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Ratha</a>, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">De</a>, and Mohapatra (2007) and updated annually by S&amp;P's own internal sovereign rating model.<sup class="note-ref"><a href="#note-2">2</a></sup></p>
     <p><strong>Strengths:</strong> tractable, interpretable, easy to communicate. <strong>Weaknesses:</strong> assumes linear additive-separable functional form; cannot capture the agencies' non-linear treatment of governance variables; penalises post-default sovereigns mechanically through their permanently-depressed GDPpc.</p>
   </div>
 
   <div class="method-card">
-    <h4>Method B — k-Nearest-Neighbours in standardised fundamental space</h4>
+    <h4>Method B: k-Nearest-Neighbours in standardised fundamental space</h4>
     <p><strong>Form:</strong> for focal country <em>i</em>, find the <em>k</em> = 10 country-years closest to <em>i</em> in the (logGDPpc, growth, FDI%) cube (within the same calendar year), distance-weight their scores by inverse Euclidean distance.</p>
     <p><strong>Intuition.</strong> Non-parametric. Asks: &ldquo;What did the agencies assign to other countries that look most similar to me on observable fundamentals?&rdquo; This is the inverse-distance-weighted k-NN regressor used in Bhatia (2002)<sup class="note-ref"><a href="#note-3">3</a></sup> and is the workhorse for the IMF/World Bank's contingent rating tools.</p>
     <p><strong>Strengths:</strong> captures non-linear and interaction effects; robust to outliers; respects the empirical distribution of agency behaviour. <strong>Weaknesses:</strong> bandwidth sensitivity (choice of k); produces a smoother shadow that under-reacts to genuinely idiosyncratic country positions.</p>
   </div>
 
   <div class="method-card">
-    <h4>Method C — Bayesian shrinkage toward the peer mean</h4>
+    <h4>Method C: Bayesian shrinkage toward the peer mean</h4>
     <p><strong>Form:</strong> Shadow<sub>it</sub> = β·Score<sub>it</sub> + (1−β)·μ̄<sub>−i,t</sub>, where μ̄ is the within-year peer mean and β ∈ [0,1] is the shrinkage weight.</p>
     <p><strong>Intuition.</strong> The shadow is a convex combination of the country's own (potentially noisy) rating and the global benchmark. Implements a James-Stein-style shrinkage estimator with β = 0.5 (balanced prior). Particularly useful for sovereigns with sparse rating histories or recent rating changes that may be transient.</p>
     <p><strong>Strengths:</strong> very few moving parts; shrinkage parameter has a clear Bayesian interpretation. <strong>Weaknesses:</strong> reduces to the peer mean as β → 0, so loses information about country-specific signal at low β.</p>
   </div>
 
   <div class="method-card">
-    <h4>Method D — Random Forest / gradient boosting (referenced, not implemented here)</h4>
+    <h4>Method D: Random Forest / gradient boosting (referenced, not implemented here)</h4>
     <p><strong>Form:</strong> ensemble of decision trees on a richer fundamentals vector (GDPpc, growth, inflation, debt/GDP, current account, reserves/imports, governance indicators).</p>
     <p>The random-forest specification is what S&amp;P, Moody's, and Fitch reportedly use internally as a sanity check on analyst-assigned ratings; the <a href="https://en.wikipedia.org/wiki/Bank_for_International_Settlements" target="_blank" rel="noopener">BIS</a>'s Working Paper 856 (Reusens and Croux, 2017)<sup class="note-ref"><a href="#note-4">4</a></sup> documents that a 200-tree random forest cuts shadow-rating prediction RMSE by about 35 percent versus OLS and matches agency ratings to within ±2 notches in 92 percent of country-years. Not implemented here because the project's panel does not include the full World Bank governance indicators in clean form; the tooling is in <code>relative_ratings_v2.py</code> for future runs.</p>
   </div>
@@ -82,9 +82,9 @@
     <thead><tr><th>Coefficient</th><th>Estimate</th><th>Interpretation</th></tr></thead>
     <tbody>
       <tr><td>α (intercept)</td><td><strong>−53.29</strong></td><td>Baseline score for log GDPpc=0 (i.e., $1 per capita) and zero growth/FDI; not directly meaningful, captures the level shift.</td></tr>
-      <tr><td>β<sub>1</sub> (log GDPpc)</td><td><strong>+22.22</strong></td><td>A 10× increase in GDPpc raises predicted score by ≈22.2 × ln(10) ≈ <strong>51 points</strong>. This is the dominant effect — explains why high-income countries cluster in the 50&ndash;60 range and frontier markets in the 10&ndash;20 range.</td></tr>
+      <tr><td>β<sub>1</sub> (log GDPpc)</td><td><strong>+22.22</strong></td><td>A 10× increase in GDPpc raises predicted score by ≈22.2 × ln(10) ≈ <strong>51 points</strong>. This is the dominant effect: explains why high-income countries cluster in the 50&ndash;60 range and frontier markets in the 10&ndash;20 range.</td></tr>
       <tr><td>β<sub>2</sub> (GDP growth %)</td><td><strong>+0.028</strong></td><td>A 1 pp higher growth rate raises predicted score by 0.03 points. Tiny.</td></tr>
-      <tr><td>β<sub>3</sub> (FDI %)</td><td><strong>−0.002</strong></td><td>Essentially zero (and a sign-flip from naïve expectations — high-FDI countries are not systematically higher-scored once GDPpc is controlled for).</td></tr>
+      <tr><td>β<sub>3</sub> (FDI %)</td><td><strong>−0.002</strong></td><td>Essentially zero (and a sign-flip from naïve expectations: high-FDI countries are not systematically higher-scored once GDPpc is controlled for).</td></tr>
       <tr><td>R<sup>2</sup></td><td><strong>0.66</strong></td><td>Two-thirds of cross-sectional and time-series variance in composite scores is explained by these three macros. High by sovereign-rating standards.</td></tr>
       <tr><td>n</td><td>3,066</td><td>Country-years in the regression.</td></tr>
     </tbody>
@@ -102,10 +102,10 @@
 
   <div class="stat-strip" id="sh-stats"></div>
   <div class="chart-box"><div id="sh-overlay" style="height:380px"></div></div>
-  <div class="chart-caption">Figure 3.1 — Actual composite (solid black) vs three shadow predictions: OLS (blue), k-NN (red), Bayesian shrinkage (green). Dashed line at the bottom = OLS residual on right axis.</div>
+  <div class="chart-caption">Figure 3.1: Actual composite (solid black) vs three shadow predictions: OLS (blue), k-NN (red), Bayesian shrinkage (green). Dashed line at the bottom = OLS residual on right axis.</div>
 
   <div class="chart-box"><div id="sh-residuals" style="height:300px"></div></div>
-  <div class="chart-caption">Figure 3.2 — Residuals (Score − Shadow) for all three methods, year by year. Positive = agencies generous vs model; negative = agencies conservative vs model.</div>
+  <div class="chart-caption">Figure 3.2: Residuals (Score − Shadow) for all three methods, year by year. Positive = agencies generous vs model; negative = agencies conservative vs model.</div>
 
   <h2 id="raw-data"><span class="section-num">4</span> Raw data table (head)</h2>
 
@@ -117,17 +117,17 @@
 
   <h2 id="heatmap"><span class="section-num">5</span> Composite × HDI heatmap</h2>
 
-  <p>One reading of the shadow-rating residuals is that they correlate with development-and-governance indicators not directly in the OLS regression. Here is the joint distribution of composite credit score and the UN Human Development Index across all country-years (2010&ndash;2022, n ≈ 1,800). Cell colour = count of country-years falling in that bin. The diagonal-ish concentration confirms the strong positive correlation between rating and HDI (Spearman ρ ≈ 0.81); off-diagonal cells are countries the agencies treat very differently from what their HDI level would predict — candidate cases for further shadow-rating diagnostic.</p>
+  <p>One reading of the shadow-rating residuals is that they correlate with development-and-governance indicators not directly in the OLS regression. Here is the joint distribution of composite credit score and the UN Human Development Index across all country-years (2010&ndash;2022, n ≈ 1,800). Cell colour = count of country-years falling in that bin. The diagonal-ish concentration confirms the strong positive correlation between rating and HDI (Spearman ρ ≈ 0.81); off-diagonal cells are countries the agencies treat very differently from what their HDI level would predict: candidate cases for further shadow-rating diagnostic.</p>
 
   <div class="chart-box"><div id="heatmap-chart" style="height:520px"></div></div>
-  <div class="chart-caption">Figure 5.1 — Joint frequency heatmap of composite credit score (x-axis, 0–60) and HDI×100 (y-axis). Hot cells = many country-years cluster there; cool cells = unusual combinations of rating and human-development outcomes.</div>
+  <div class="chart-caption">Figure 5.1: Joint frequency heatmap of composite credit score (x-axis, 0–60) and HDI×100 (y-axis). Hot cells = many country-years cluster there; cool cells = unusual combinations of rating and human-development outcomes.</div>
 
-  <h2 id="reproducibility"><span class="section-num">6</span> Reproducibility — the raw computation</h2>
+  <h2 id="reproducibility"><span class="section-num">6</span> Reproducibility: the raw computation</h2>
 
-  <p>Below is the exact Python script used to compute Methods A, B, and C from the project's panel. It depends on nothing but the standard library and the <code>panel_gdppc.csv</code> bundled in the data ZIP. Click <strong>Copy PNG</strong> in the upper right of the code block to grab a screenshot, or use your browser's text-select to copy the source. The script is plain-old vanilla Python — no NumPy, no pandas, no scikit-learn. <em>If you can run Python 3.8+ on your laptop, this entire section can be reproduced from raw inputs in under 30 seconds.</em></p>
+  <p>Below is the exact Python script used to compute Methods A, B, and C from the project's panel. It depends on nothing but the standard library and the <code>panel_gdppc.csv</code> bundled in the data ZIP. Click <strong>Copy PNG</strong> in the upper right of the code block to grab a screenshot, or use your browser's text-select to copy the source. The script is plain-old vanilla Python: no NumPy, no pandas, no scikit-learn. <em>If you can run Python 3.8+ on your laptop, this entire section can be reproduced from raw inputs in under 30 seconds.</em></p>
 
   <div class="copyable">
-    <pre class="code-block" id="repro-script"># shadow_ratings.py — compute three shadow rating methods from raw panel
+    <pre class="code-block" id="repro-script"># shadow_ratings.py: compute three shadow rating methods from raw panel
 # Inputs:  panel_gdppc.csv (country, year, score, log GDPpc, growth, FDI%)
 # Outputs: shadow_ols.csv, shadow_knn.csv, shadow_bayes.csv
 # Dependencies: Python 3.8+ stdlib only.
@@ -150,7 +150,7 @@ with open('panel_gdppc.csv') as f:
         except (ValueError, KeyError):
             continue
 
-# ---------- METHOD A — OLS via Gauss-Jordan elimination ----------
+# ---------- METHOD A: OLS via Gauss-Jordan elimination ----------
 def ols(X, y):
     n, k = len(y), len(X[0])
     Xa = [[1.0] + r for r in X]                     # add intercept column
@@ -182,7 +182,7 @@ with open('shadow_ols.csv', 'w', newline='') as f:
         pred = max(0, min(60, pred))
         w.writerow([r['Country'], r['Year'], r['Score'], round(pred,2), round(r['Score']-pred,2)])
 
-# ---------- METHOD B — k-NN inverse-distance-weighted (k=10) ----------
+# ---------- METHOD B: k-NN inverse-distance-weighted (k=10) ----------
 def knn_shadow(panel, k=10):
     out = []
     for r in panel:
@@ -215,7 +215,7 @@ knn = knn_shadow(panel)
 with open('shadow_knn.csv', 'w', newline='') as f:
     w = csv.writer(f); w.writerow(['Country','Year','Actual','Shadow_kNN','Residual']); w.writerows(knn)
 
-# ---------- METHOD C — Bayesian shrinkage ----------
+# ---------- METHOD C: Bayesian shrinkage ----------
 def bayes_shadow(panel, beta=0.5):
     out = []
     for r in panel:
@@ -252,19 +252,19 @@ print(f'Wrote {len(panel)} rows to each of shadow_ols.csv, shadow_knn.csv, shado
   </table>
   </div>
 
-  <p>The three methods disagree, and the disagreement is itself informative. OLS says Pakistan is rated <em>more generously</em> than its GDPpc/growth would predict (positive residual, +3.19 — the model expects a worse score than 13.5). k-NN and Bayesian shrinkage both say Pakistan is rated <em>more conservatively</em> than its peer fundamentals would suggest (negative residuals). The gap between OLS and the other two reflects the fact that Pakistan's macro fundamentals (low GDPpc, modest growth) point to a low rating, while its <em>nearest neighbours in fundamental space</em> include Egypt and Bangladesh, both of which carry much higher composite scores than Pakistan. The agencies are reading something country-specific (chronic balance-of-payments crises, recurrent IMF programmes) that the OLS regression does not capture but k-NN partly does.</p>
+  <p>The three methods disagree, and the disagreement is itself informative. OLS says Pakistan is rated <em>more generously</em> than its GDPpc/growth would predict (positive residual, +3.19: the model expects a worse score than 13.5). k-NN and Bayesian shrinkage both say Pakistan is rated <em>more conservatively</em> than its peer fundamentals would suggest (negative residuals). The gap between OLS and the other two reflects the fact that Pakistan's macro fundamentals (low GDPpc, modest growth) point to a low rating, while its <em>nearest neighbours in fundamental space</em> include Egypt and Bangladesh, both of which carry much higher composite scores than Pakistan. The agencies are reading something country-specific (chronic balance-of-payments crises, recurrent IMF programmes) that the OLS regression does not capture but k-NN partly does.</p>
 
   <h2 id="caveats"><span class="section-num">8</span> Caveats &amp; limitations</h2>
 
-  <p>Shadow ratings are estimates of a counterfactual; they are not authoritative claims about &ldquo;the right rating.&rdquo; The OLS specification omits governance indicators (Rule of Law, Control of Corruption from the Worldwide Governance Indicators), inflation, external debt service, and reserves coverage — all of which the agencies' published methodologies cite as material inputs. A richer shadow specification using these inputs is documented in <em>panel_analysis.py</em> in the data bundle. The k-NN method is computationally O(n²) per evaluation and therefore re-running it on a richer feature set requires care. The Bayesian shrinkage method assumes that the &ldquo;peer mean&rdquo; is a sensible prior; for sovereigns with no obvious peer group (small island states, post-conflict economies) this assumption is poor and the Bayesian shadow degrades to the global mean.</p>
+  <p>Shadow ratings are estimates of a counterfactual; they are not authoritative claims about &ldquo;the right rating.&rdquo; The OLS specification omits governance indicators (Rule of Law, Control of Corruption from the Worldwide Governance Indicators), inflation, external debt service, and reserves coverage: all of which the agencies' published methodologies cite as material inputs. A richer shadow specification using these inputs is documented in <em>panel_analysis.py</em> in the data bundle. The k-NN method is computationally O(n²) per evaluation and therefore re-running it on a richer feature set requires care. The Bayesian shrinkage method assumes that the &ldquo;peer mean&rdquo; is a sensible prior; for sovereigns with no obvious peer group (small island states, post-conflict economies) this assumption is poor and the Bayesian shadow degrades to the global mean.</p>
 
-  <p>For a survey of alternate shadow-rating specifications used in academic research see Reusens and Croux (2017) at the BIS, the Cantor &amp; Packer (1996) New York Fed paper that originated the regression-on-fundamentals approach, and the more recent World Bank specification in De, Mohapatra and Ratha (2020). All three are linked from the <a href="citations.html">Citations</a> page.</p>
+  <p>For a survey of alternate shadow-rating specifications used in academic research see Reusens and Croux (2017) at the BIS, the Cantor &amp; Packer (1996) New York Fed paper that originated the regression-on-fundamentals approach, and the more recent World Bank specification in De, Mohapatra, and Ratha (2020). All three are linked from the <a href="citations.html">Citations</a> page.</p>
 
   <div class="endnotes" id="endnotes">
     <h3>Endnotes</h3>
     <ol>
       <li id="note-1">The shadow-rating concept goes back to Richard Cantor and Frank Packer's foundational 1996 paper for the New York Fed; for a recent survey of methodologies see Peter Reusens and Christophe Croux, &ldquo;Sovereign Credit Rating Determinants: A Comparison Before and After the European Debt Crisis,&rdquo; <em>Journal of Banking &amp; Finance</em> 77 (2017): 108–121, and the BIS Working Paper 856 (June 2020).</li>
-      <li id="note-2">For S&amp;P's published Sovereign Risk Indicators framework see <a href="https://www.spglobal.com/ratings/en/research-insights/topics/sovereign-risk-indicators" target="_blank" rel="noopener">spglobal.com</a>, and for an academic replication of the Cantor-Packer model on contemporary data see Dilip Ratha, Supriyo De and Sanket Mohapatra, &ldquo;Shadow Sovereign Ratings for Unrated Developing Countries,&rdquo; <em>World Bank Policy Research Working Paper</em> 4269 (2007).</li>
+      <li id="note-2">For S&amp;P's published Sovereign Risk Indicators framework see <a href="https://www.spglobal.com/ratings/en/research-insights/topics/sovereign-risk-indicators" target="_blank" rel="noopener">spglobal.com</a>, and for an academic replication of the Cantor-Packer model on contemporary data see Dilip Ratha, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a> and <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a>, &ldquo;Shadow Sovereign Ratings for Unrated Developing Countries,&rdquo; <em>World Bank Policy Research Working Paper</em> 4269 (2007).</li>
       <li id="note-3">Ashok Vir Bhatia, &ldquo;Sovereign Credit Ratings Methodology: An Evaluation,&rdquo; <em>IMF Working Paper</em> 02/170 (October 2002), Section IV introduces the k-NN sanity-check as a robustness exercise on top of the agencies' headline ratings.</li>
       <li id="note-4">Peter Reusens and Christophe Croux, &ldquo;Sovereign Credit Rating Determinants: A Comparison Before and After the European Debt Crisis,&rdquo; <em>Journal of Banking &amp; Finance</em> 77 (2017): 108–121, and the methodological extension in the <a href="https://www.bis.org/publ/work856.htm" target="_blank" rel="noopener">BIS Working Paper 856</a> (June 2020) on machine-learning approaches to sovereign credit risk.</li>
     </ol>
@@ -317,7 +317,7 @@ function renderShadow(country) {
   const cfg = window.scrChartConfig || {displayModeBar: true, responsive: true};
   const baseFlat = {
     plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
-    font:{family:'Helvetica Neue, Arial, sans-serif', size:11},
+    font:{family:'Helvetica Neue, Arial, sans-serif',size:11,color:'#1a1a1a'},
     margin:{l:64,r:60,t:50,b:92},
     legend:{orientation:'h', y:-0.32, x:0.5, xanchor:'center'}
   };
@@ -329,7 +329,7 @@ function renderShadow(country) {
       {x: knn.map(r=>r.Year),   y: knn.map(r=>r.Shadow_kNN),     name:'Shadow k-NN',     mode:'lines',         line:{color:'#C0392B',width:1.8,dash:'dot'}},
       {x: bayes.map(r=>r.Year), y: bayes.map(r=>r.Shadow_Bayes), name:'Shadow Bayes',    mode:'lines',         line:{color:'#2E7D32',width:1.8,dash:'dashdot'}}
     ], Object.assign({}, baseFlat, {
-      title: {text: country + ' — actual vs three shadow predictions', font: {size: 13}},
+      title: {text: country + ': actual vs three shadow predictions', font: {size: 13}},
       xaxis: {title: 'Year', gridcolor:'rgba(128,128,128,0.2)'},
       yaxis: {title: 'Composite (0–60)', gridcolor:'rgba(128,128,128,0.2)'}
     }), cfg);
@@ -342,7 +342,7 @@ function renderShadow(country) {
       {x: knn.map(r=>r.Year),   y: knn.map(r=>r.Residual),   name:'k-NN residual',  type:'bar', marker:{color:'#C0392B'}, opacity:0.85},
       {x: bayes.map(r=>r.Year), y: bayes.map(r=>r.Residual), name:'Bayes residual', type:'bar', marker:{color:'#2E7D32'}, opacity:0.85}
     ], Object.assign({}, baseFlat, {
-      title: {text: country + ' — Score − Shadow (positive = agencies generous vs model)', font: {size: 13}},
+      title: {text: country + ': Score − Shadow (positive = agencies generous vs model)', font: {size: 13}},
       xaxis: {title: 'Year', gridcolor:'rgba(128,128,128,0.2)'},
       yaxis: {title: 'Residual', gridcolor:'rgba(128,128,128,0.2)', zerolinecolor:'#1a1a1a', zerolinewidth:1.5},
       barmode: 'group'
@@ -393,7 +393,7 @@ function renderHeatmap() {
       hovertemplate: 'Score: %{x}<br>HDI×100: %{y}<br>Count: %{z}<extra></extra>'
     }], {
       plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
-      font:{family:'Helvetica Neue, Arial, sans-serif', size:11},
+      font:{family:'Helvetica Neue, Arial, sans-serif',size:11,color:'#1a1a1a'},
       title: {text: 'Composite credit score × HDI×100, all country-years 2010–2022', font: {size: 13}},
       xaxis: {title: 'Composite credit score (0–60)'},
       yaxis: {title: 'HDI × 100'},

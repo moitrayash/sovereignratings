@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Glossary &mdash; Sovereign Credit Rating Explorer</title>
+<title>Glossary: Sovereign Credit Rating Explorer</title>
 <link rel="stylesheet" href="shared.css">
 <style>
   /* Page-specific overrides for glossary entries */
@@ -97,9 +97,9 @@
         <dt>Agency <span class="abbr">Credit Rating Agency (CRA)</span></dt>
         <dd>
           <p>A firm that assigns credit ratings to sovereign and corporate borrowers. This dataset uses three sovereign-focused agencies:</p>
-          <p><strong>Standard &amp; Poor's Global Ratings (S&amp;P)</strong> &mdash; largest by coverage; uses AAA &rarr; D scale.<br>
-          <strong>Moody's Investors Service</strong> &mdash; uses Aaa &rarr; C scale (different notation, equivalent meaning).<br>
-          <strong>DBRS Morningstar</strong> &mdash; smaller; skewed toward higher-income economies; assigns systematically higher scores (mean &asymp; 41.1 vs &asymp; 31 for S&amp;P and Moody's).</p>
+          <p><strong>Standard &amp; Poor's Global Ratings (S&amp;P)</strong>: largest by coverage; uses AAA &rarr; D scale.<br>
+          <strong>Moody's Investors Service</strong>: uses Aaa &rarr; C scale (different notation, equivalent meaning).<br>
+          <strong>DBRS Morningstar</strong>: smaller; skewed toward higher-income economies; assigns systematically higher scores (mean &asymp; 41.1 vs &asymp; 31 for S&amp;P and Moody's).</p>
           <p>Inter-agency correlation is very high (r &asymp; 0.97 across all pairs), but agencies update at different speeds, causing short-term divergence after credit events. See the <a href="https://en.wikipedia.org/wiki/Credit_rating_agency" target="_blank" rel="noopener">Wikipedia entry on credit rating agencies</a> for institutional background.</p>
         </dd>
       </div>
@@ -122,7 +122,7 @@
       <div class="entry" data-terms="basu rr relative risk rating basu de ratha timmer">
         <dt>Basu RR <span class="abbr">Relative Risk Rating</span></dt>
         <dd>
-          <p>Introduced by Kaushik Basu, Supriyo De, Dilip Ratha, and Hans Timmer in <a href="https://documents.worldbank.org/en/publication/documents-reports/documentdetail/441621468331879217" target="_blank" rel="noopener">World Bank Policy Research Working Paper 6641</a> (2013). Defined as a country's score minus a GDP-weighted world benchmark, isolating each country's standing relative to the global cycle:</p>
+          <p>Introduced by Kaushik Basu, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, Dilip Ratha, and Hans Timmer in <a href="https://documents.worldbank.org/en/publication/documents-reports/documentdetail/441621468331879217" target="_blank" rel="noopener">World Bank Policy Research Working Paper 6641</a> (2013). Defined as a country's score minus a GDP-weighted world benchmark, isolating each country's standing relative to the global cycle:</p>
           <span class="formula">RR<sub>it</sub> = r<sub>it</sub> &minus; &Sigma;<sub>j</sub> w<sub>jt</sub> &middot; r<sub>jt</sub></span>
           <p>Four versions are computed: GDP-weighted with time-varying weights, GDP-weighted with weights fixed at 2008 (Basu et al.'s preferred convention), and the same two on the directional <code>score_60</code> scale. Saved in <code>basu_cris_panel.csv</code>. Correlates at r &ge; 0.93 with this project's M1&ndash;M4. See <a href="methodology.html#sec10">Methodology &sect;10</a> and the full citation on the <a href="citations.html">Citations</a> page.</p>
         </dd>
@@ -172,7 +172,7 @@
       <div class="entry" data-terms="de relativizations de mohapatra ratha rel_eq rel_gdp z_eq z_gdp pct_rank norm_max norm_min">
         <dt>De Relativizations</dt>
         <dd>
-          <p>A family of ten linear relativizations of the composite score, following Supriyo De, Sanket Mohapatra, and Dilip Ratha in <a href="https://openknowledge.worldbank.org/handle/10986/34413" target="_blank" rel="noopener">World Bank Policy Research Working Paper 9401</a> (2020). Constructed by (a) subtracting a benchmark&mdash;equal-weighted, GDP-weighted (time-varying or 2008-fixed), population-weighted, or median; (b) standardising as a z-score (equal- or GDP-weighted); (c) ranking within year; or (d) anchoring to the maximum or to the min-max range.</p>
+          <p>A family of ten linear relativizations of the composite score, following <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a>, and Dilip Ratha in <a href="https://openknowledge.worldbank.org/handle/10986/34413" target="_blank" rel="noopener">World Bank Policy Research Working Paper 9401</a> (2020). Constructed by (a) subtracting a benchmark&mdash;equal-weighted, GDP-weighted (time-varying or 2008-fixed), population-weighted, or median; (b) standardising as a z-score (equal- or GDP-weighted); (c) ranking within year; or (d) anchoring to the maximum or to the min-max range.</p>
           <p>Cross-method correlations on raw measures are r &ge; 0.97&mdash;the choice of weighting and centring is largely cosmetic for time-series shape, though levels and units differ. Correlates at r &ge; 0.93 with this project's M1&ndash;M4. Saved in <code>de_relative_panel.csv</code>. See <a href="methodology.html#sec11">Methodology &sect;11</a>.</p>
         </dd>
       </div>
@@ -369,7 +369,7 @@
       <div class="entry" data-terms="mean reversion score persistence">
         <dt>Mean Reversion</dt>
         <dd>
-          <p>The empirical tendency for countries with high (or low) credit scores to experience subsequent changes in the opposite direction. In the ordered logit results, the lagged score coefficient is &minus;0.019*** &mdash; each additional point of current score reduces the probability of an upgrade and increases the probability of a downgrade in the next period, consistent with mean reversion. This reflects rating agencies' tendency to anchor on a long-run equilibrium.</p>
+          <p>The empirical tendency for countries with high (or low) credit scores to experience subsequent changes in the opposite direction. In the ordered logit results, the lagged score coefficient is &minus;0.019***: each additional point of current score reduces the probability of an upgrade and increases the probability of a downgrade in the next period, consistent with mean reversion. This reflects rating agencies' tendency to anchor on a long-run equilibrium.</p>
         </dd>
       </div>
 
@@ -456,7 +456,7 @@
       <div class="entry" data-terms="rule of law wgi worldwide governance indicators institutional quality kaufmann kraay mastruzzi">
         <dt>Rule of Law <span class="abbr">WGI Indicator</span></dt>
         <dd>
-          <p>A <a href="https://www.worldbank.org/en/publication/worldwide-governance-indicators" target="_blank" rel="noopener">Worldwide Governance Indicator</a> on the range &minus;2.5 to +2.5 capturing perceptions of contract enforcement, property rights, the police, the courts, and the likelihood of crime and violence; methodology in Daniel Kaufmann, Aart Kraay, and Massimo Mastruzzi (2010). Sourced via the data360 API. After log GDP per capita, Rule of Law is the second-largest predictor of sovereign ratings in the shadow model (S2 coefficient &asymp; +7.5, p &lt; 0.001)&mdash;consistent with the UNDP critique that subjective governance perceptions are an important driver of agency ratings.</p>
+          <p>A <a href="https://www.worldbank.org/en/publication/worldwide-governance-indicators" target="_blank" rel="noopener">Worldwide Governance Indicator</a> on the range &minus;2.5 to +2.5 capturing perceptions of contract enforcement, property rights, the police, the courts, and the likelihood of crime and violence; methodology in Daniel Kaufmann, Aart Kraay, and <a href="https://www.researchgate.net/profile/Massimo-Mastruzzi" target="_blank" rel="noopener">Massimo Mastruzzi</a> (2010). Sourced via the data360 API. After log GDP per capita, Rule of Law is the second-largest predictor of sovereign ratings in the shadow model (S2 coefficient &asymp; +7.5, p &lt; 0.001)&mdash;consistent with the UNDP critique that subjective governance perceptions are an important driver of agency ratings.</p>
         </dd>
       </div>
 
@@ -478,7 +478,7 @@
       <div class="entry" data-terms="shadow rating predicted rating fundamentals model ratha de mohapatra">
         <dt>Shadow Rating</dt>
         <dd>
-          <p>The rating implied by a country's macro and institutional fundamentals, estimated by OLS regression of the observed composite score on a set of structural covariates and then applied to all 150 countries&mdash;including those rated by no agency or only one. Following Dilip Ratha, Supriyo De, and Sanket Mohapatra in <a href="https://openknowledge.worldbank.org/handle/10986/7363" target="_blank" rel="noopener">World Bank Policy Research Working Paper 4269</a> (2007).</p>
+          <p>The rating implied by a country's macro and institutional fundamentals, estimated by OLS regression of the observed composite score on a set of structural covariates and then applied to all 150 countries&mdash;including those rated by no agency or only one. Following Dilip Ratha, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, and <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a> in <a href="https://openknowledge.worldbank.org/handle/10986/7363" target="_blank" rel="noopener">World Bank Policy Research Working Paper 4269</a> (2007).</p>
           <p>Five nested specifications S0&ndash;S4 are estimated with cluster-robust standard errors at the country level. <strong>S2 is the preferred benchmark</strong>: log GDPpc, GDP growth, 5-yr growth volatility, inflation, Rule of Law, and current account % GDP, fit on N = 2,578 country&ndash;years with R&sup2; = 0.76 and RMSE = 8.05 points (&asymp; 2.7 letter-grade notches). Saved in <code>shadow_panel.csv</code>. See <a href="methodology.html#sec12">Methodology &sect;12</a>.</p>
         </dd>
       </div>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Relative HDI — Sovereign Credit Rating Explorer</title>
+<title>Relative HDI: Sovereign Credit Rating Explorer</title>
 <link rel="stylesheet" href="shared.css">
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
 <style>
@@ -90,7 +90,7 @@
     <h3>Endnotes</h3>
     <ol>
       <li id="note-1">Mahbub ul Haq's original 1990 framing of the HDI is documented in the inaugural <em>Human Development Report</em>; subsequent refinements (the inequality-adjusted HDI, the gender development index) are surveyed in UNDP's <a href="https://hdr.undp.org/data-center/documentation-and-downloads" target="_blank" rel="noopener">Documentation &amp; Downloads</a> page. For Amartya Sen's contribution to the underlying capabilities approach see Sen (1977), cited on the <a href="citations.html">Citations</a> page.</li>
-      <li id="note-2">United Nations Development Programme, <em>Human Development Report 2023/2024 — Composite Indices Time Series</em>, accessed via the HDRO data centre.</li>
+      <li id="note-2">United Nations Development Programme, <em>Human Development Report 2023/2024: Composite Indices Time Series</em>, accessed via the HDRO data centre.</li>
       <li id="note-3">See the <a href="stories.html">Stories</a> page for narrative reconstructions of these episodes.</li>
     </ol>
   </div>
@@ -140,7 +140,7 @@ function renderExplorer(country) {
     {x: rows.map(r=>r.Year), y: rows.map(r=>r.Value), name: country + ' HDI×100', mode:'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:5}},
     {x: rows.map(r=>r.Year), y: rows.map(r=>r.LOO),   name:'World LOO mean',       mode:'lines',         line:{color:'#888',width:1.6,dash:'dash'}}
   ], window.scrBaseLayout({
-    title:{text: country + ' — HDI×100 vs world LOO mean', font:{size:13}},
+    title:{text: country + ': HDI×100 vs world LOO mean', font:{size:13}},
     xaxis:{title:'Year'},
     yaxis:{title:'HDI × 100'}
   }), cfg);
@@ -150,7 +150,7 @@ function renderExplorer(country) {
     {x: rows.map(r=>r.Year), y: rows.map(r=>r.M2), name: 'M2: Within-group %ile', mode:'lines+markers', line:{color:'#C0392B',width:2}, marker:{size:4}, yaxis:'y2'},
     {x: rows.map(r=>r.Year), y: rows.map(r=>r.M4), name: 'M4: Value · z-score',   mode:'lines+markers', line:{color:'#2E7D32',width:2}, marker:{size:4}}
   ], window.scrBaseLayout({
-    title:{text: country + ' — relative HDI measures', font:{size:13}},
+    title:{text: country + ': relative HDI measures', font:{size:13}},
     xaxis:{title:'Year'},
     yaxis:{title:'M1, M4'},
     yaxis2:{title:'M2 percentile', overlaying:'y', side:'right', range:[0,100], showgrid:false}
@@ -166,7 +166,7 @@ function renderExplorer(country) {
     {x: rows.map(r=>r.Year),    y: rows.map(r=>r.Value), name:'HDI × 100',                      mode:'lines+markers', line:{color:'#1a1a1a',width:2}, marker:{size:4}},
     {x: credit.map(r=>r.Year),  y: credit.map(r=>r.Score), name:'Composite credit score (0–60)', mode:'lines+markers', line:{color:'#1B4F8A',width:2}, marker:{size:4}, yaxis:'y2'}
   ], window.scrBaseLayout({
-    title:{text: country + ' — HDI vs credit composite', font:{size:13}},
+    title:{text: country + ': HDI vs credit composite', font:{size:13}},
     xaxis:{title:'Year'},
     yaxis:{title:'HDI × 100'},
     yaxis2:{title:'Composite (0–60)', overlaying:'y', side:'right', range:[0,60], showgrid:false}
@@ -178,63 +178,4 @@ function renderDistributions() {
   // Latest-year HDI cross-section
   const latestYear = Math.max(...EXTRAS.hdi.map(r => r.Year));
   const vals = EXTRAS.hdi.filter(r => r.Year === latestYear).map(r => r.Value).sort((a,b)=>a-b);
-  if (!vals.length) return;
-  const n = vals.length;
-  const cdfX = vals;
-  const cdfY = vals.map((_, i) => (i+1)/n);
-  const cfg = {displayModeBar: true, responsive: true, modeBarButtonsToRemove:['lasso2d','select2d']};
-  const baseLayout = {plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)', font:{family:'Helvetica Neue, Arial, sans-serif',size:11}, margin:{l:56,r:50,t:40,b:90}, legend:{orientation:'h',y:-0.32,x:0.5,xanchor:'center'}};
-  Plotly.newPlot('hdi-cdf', [
-    {x:cdfX, y:cdfY, mode:'lines', line:{color:'#1a1a1a',width:2}, name:'Empirical CDF'},
-    {x:cdfX, y:cdfX.map(v => v/Math.max(...cdfX)), mode:'lines', line:{color:'#888',width:1.5,dash:'dot'}, name:'Linear reference'}
-  ], Object.assign({}, baseLayout, {
-    title:{text:'HDI100 empirical CDF (' + latestYear + ', n=' + n + ' reporting countries)', font:{size:13}},
-    xaxis:{title:'HDI × 100', gridcolor:'rgba(128,128,128,0.2)'},
-    yaxis:{title:'Cumulative share', gridcolor:'rgba(128,128,128,0.2)', range:[0,1]}
-  }), cfg);
-
-  // Lorenz curve + inequality quotient (Gini-like) on HDI100 values
-  const total = vals.reduce((a,b)=>a+b,0);
-  let cum=0;
-  const lorenzX = [0], lorenzY = [0];
-  vals.forEach((v,i)=>{ cum += v; lorenzX.push((i+1)/n); lorenzY.push(cum/total); });
-  // Trapezoidal area under Lorenz
-  let areaUnder = 0;
-  for (let i=1;i<lorenzX.length;i++) areaUnder += (lorenzX[i]-lorenzX[i-1])*(lorenzY[i]+lorenzY[i-1])/2;
-  const inequality = 1 - 2*areaUnder; // standard Gini interpretation
-  Plotly.newPlot('hdi-lorenz', [
-    {x:lorenzX, y:lorenzY, mode:'lines', line:{color:'#1a1a1a',width:2}, name:'Lorenz curve', fill:'tonexty', fillcolor:'rgba(150,150,150,0.18)'},
-    {x:[0,1], y:[0,1], mode:'lines', line:{color:'#666',width:1,dash:'dash'}, name:'45° equality line'}
-  ], Object.assign({}, baseLayout, {
-    title:{text:'HDI100 Lorenz-style curve — inequality quotient = ' + inequality.toFixed(3), font:{size:13}},
-    xaxis:{title:'Cumulative share of countries', gridcolor:'rgba(128,128,128,0.2)', range:[0,1]},
-    yaxis:{title:'Cumulative share of HDI mass', gridcolor:'rgba(128,128,128,0.2)', range:[0,1]}
-  }), cfg);
-
-  // Histogram + normal overlay
-  const mean = vals.reduce((a,b)=>a+b,0)/n;
-  const variance = vals.reduce((a,b)=>a+(b-mean)*(b-mean),0)/(n-1);
-  const sd = Math.sqrt(variance);
-  const binCount = 18;
-  const minV=Math.min(...vals), maxV=Math.max(...vals);
-  const binW = (maxV-minV)/binCount;
-  const bins = Array(binCount).fill(0);
-  vals.forEach(v => { let i = Math.min(binCount-1, Math.floor((v-minV)/binW)); bins[i]++; });
-  const binCenters = bins.map((_,i) => minV + (i+0.5)*binW);
-  // Normal PDF scaled to histogram counts
-  const nPts = 80;
-  const xs = []; const ys = [];
-  for (let i=0;i<=nPts;i++) { const x = minV + (maxV-minV)*i/nPts; xs.push(x); ys.push((1/(sd*Math.sqrt(2*Math.PI)))*Math.exp(-0.5*((x-mean)/sd)**2)*n*binW); }
-  Plotly.newPlot('hdi-hist', [
-    {x:binCenters, y:bins, type:'bar', name:'Frequency', marker:{color:'#1a1a1a'}, opacity:0.85},
-    {x:xs, y:ys, mode:'lines', line:{color:'#888',width:2}, name:'Normal(μ='+mean.toFixed(1)+', σ='+sd.toFixed(1)+')'}
-  ], Object.assign({}, baseLayout, {
-    title:{text:'HDI100 histogram with fitted normal density (' + latestYear + ')', font:{size:13}},
-    xaxis:{title:'HDI × 100', gridcolor:'rgba(128,128,128,0.2)'},
-    yaxis:{title:'Count', gridcolor:'rgba(128,128,128,0.2)'},
-    bargap:0.04
-  }), cfg);
-}
-</script>
-</body>
-</html>
+  if (!vals

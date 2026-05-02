@@ -415,16 +415,18 @@ sup.note-ref a:hover { color: var(--link-hover-fg); background: var(--link-hover
 #floating-toc li { margin-bottom: 6px; line-height: 1.4; }
 #floating-toc li.h3 { padding-left: 14px; font-size: 0.74rem; }
 #floating-toc a {
-  color: var(--ink-soft);
+  color: var(--ink);
   text-decoration: none;
   display: block;
   padding: 2px 0 2px 8px;
   margin-left: -10px;
   border-left: 2px solid transparent;
   background: transparent;
+  opacity: 0.85;
 }
-#floating-toc a:hover { color: var(--ink); border-left-color: var(--accent); background: transparent; }
-#floating-toc a.current { color: var(--ink); font-weight: 700; border-left-color: var(--accent); }
+#floating-toc a:hover { color: var(--ink); opacity: 1; border-left-color: var(--accent); background: transparent; }
+#floating-toc a.current { color: var(--ink); opacity: 1; font-weight: 700; border-left-color: var(--accent); }
+#floating-toc .toc-title { color: var(--ink-soft); }
 
 @media (max-width: 1180px) { #floating-toc { display: none; } }
 
@@ -553,9 +555,20 @@ body.no-notes .endnotes,
 body.no-notes sup.note-ref,
 body.no-notes .chart-note { display: none !important; }
 
-/* ── Dark-mode chart text ─────────────────────────────────────── */
-body.dark .js-plotly-plot .main-svg text { fill: #e8e8e8 !important; }
-body.dark .modebar-btn path { fill: #ccc !important; }
+/* ── Plotly chart contrast — light mode: ensure axis/legend text is properly black ─ */
+.js-plotly-plot .main-svg text { fill: #1a1a1a; }
+.js-plotly-plot .xtick text,
+.js-plotly-plot .ytick text,
+.js-plotly-plot .gtitle,
+.js-plotly-plot .legend text,
+.js-plotly-plot .annotation-text { fill: #1a1a1a !important; }
+
+/* ── Dark mode: invert SVG so dark trace lines/bars become light against dark bg ── */
+body.dark .chart-box .main-svg { filter: invert(0.92) hue-rotate(180deg); }
+/* But keep the modebar icons un-inverted (cancel the parent filter) */
+body.dark .chart-box .modebar { filter: invert(0.92) hue-rotate(180deg); }
+/* Force chart text white in dark mode (post-filter, this renders as readable light) */
+body.dark .chart-box .js-plotly-plot text { fill: #1a1a1a !important; }
 
 /* ── Copy-PNG overlay button (tables, examples, figures) ──────── */
 .copyable-wrap { position: relative; }

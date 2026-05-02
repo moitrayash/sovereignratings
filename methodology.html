@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Methodology &mdash; Sovereign Credit Rating Explorer</title>
+<title>Methodology: Sovereign Credit Rating Explorer</title>
 <link rel="stylesheet" href="shared.css">
 </head>
 <body>
@@ -48,7 +48,7 @@
   </table>
 
   <details class="example">
-    <summary>Worked example 1.1 &mdash; Converting an S&amp;P rating to a 0&ndash;60 score</summary>
+    <summary>Worked example 1.1: Converting an S&amp;P rating to a 0&ndash;60 score</summary>
     <div class="ex-body">
       <p>Suppose S&amp;P assigns India the rating <strong>BBB&minus; with a stable outlook</strong> on 18 May 2024. Step through the conversion:</p>
       <span class="step">1. Locate BBB&minus; in the major-grade table → BBB band starts at 42, BBB&minus; is the lowest of the three notches (BBB+, BBB, BBB&minus;), so its base score is <code>42 &minus; 3 = 39</code>.</span>
@@ -63,7 +63,7 @@
   </details>
 
   <details class="example">
-    <summary>Worked example 1.2 &mdash; Converting a Moody's rating with negative outlook</summary>
+    <summary>Worked example 1.2: Converting a Moody's rating with negative outlook</summary>
     <div class="ex-body">
       <p>Moody's rates Pakistan <strong>Caa3 with a negative outlook</strong> in early 2023.</p>
       <span class="step">1. Caa is a single 6-point band centred at score 12; Caa3 is the lowest of three notches (Caa1, Caa2, Caa3), so its base score is <code>12 &minus; 3 = 9</code>.</span>
@@ -86,7 +86,7 @@
       <tr><td>score_60</td><td>0&ndash;60</td><td>higher = better</td><td>This project (refined Basu mapping)</td><td>Outlook fits inside the notch without fractions; intuitive sign.</td></tr>
       <tr><td>score_21</td><td>1&ndash;21</td><td>higher = better</td><td>Standard 21-notch academic norm</td><td>Whole numbers, but no room for outlook without fractions.</td></tr>
       <tr><td>score_20</td><td>0&ndash;20</td><td>higher = better</td><td>Bank for International Settlements (2015)</td><td>Coarser at the upper end; default zone narrower.</td></tr>
-      <tr><td>score_17</td><td>1&ndash;17</td><td>higher = better</td><td>Afonso, Furceri and Gomes (2011)</td><td>Collapses the bottom notches into a single &ldquo;default&rdquo; bucket, which loses precision in the distress zone.</td></tr>
+      <tr><td>score_17</td><td>1&ndash;17</td><td>higher = better</td><td>Afonso, Furceri, and Gomes (2011)</td><td>Collapses the bottom notches into a single &ldquo;default&rdquo; bucket, which loses precision in the distress zone.</td></tr>
       <tr><td>score_16</td><td>1&ndash;16</td><td>higher = better</td><td>Cantor and Packer (1996)</td><td>Coarsest; useful for cross-sectional regressions but obscures within-grade variation.</td></tr>
       <tr><td>score_basu60</td><td>1&ndash;60</td><td>smaller = better</td><td>Basu, De, Ratha &amp; Timmer (2013) ×3 directional</td><td>Same precision as score_60 but inverted sign; useful for default-probability framing.</td></tr>
       <tr><td>score_norm01</td><td>0&ndash;1</td><td>higher = better</td><td>Min-max normalised</td><td>Compact; less interpretable as &ldquo;notches&rdquo; but useful for ML pipelines.</td></tr>
@@ -95,13 +95,13 @@
   </table>
 
   <details class="example">
-    <summary>Worked example 1.3 &mdash; Converting one country between all eight scales</summary>
+    <summary>Worked example 1.3: Converting one country between all eight scales</summary>
     <div class="ex-body">
       <p>Take a hypothetical country rated A&minus; (S&amp;P) with stable outlook. The mapping across the eight scales is:</p>
       <span class="step">score_60: A is at 48, A&minus; subtracts 3 → <strong>45</strong>. Stable outlook adds 0.</span>
       <span class="step">score_21: A is rank 16, A&minus; rank 15.</span>
       <span class="step">score_20: A is 14.3, A&minus; is 13.6 (linear rescale of score_21).</span>
-      <span class="step">score_17: A&minus; falls into rank 12 in the Afonso, Furceri and Gomes mapping (which collapses the bottom four notches).</span>
+      <span class="step">score_17: A&minus; falls into rank 12 in the Afonso, Furceri, and Gomes mapping (which collapses the bottom four notches).</span>
       <span class="step">score_16: rank 11 in the Cantor and Packer 16-notch mapping.</span>
       <span class="step">score_basu60: 60 &minus; 45 = <strong>15</strong> (smaller is better in the Basu mirror).</span>
       <span class="step">score_norm01: 45 / 60 = <strong>0.75</strong>.</span>
@@ -136,7 +136,7 @@
   </div>
 
   <details class="example">
-    <summary>Worked example 2.1 &mdash; Computing the composite for a fully-rated country</summary>
+    <summary>Worked example 2.1: Computing the composite for a fully-rated country</summary>
     <div class="ex-body">
       <p>Brazil in 2020 was rated by all three agencies: S&amp;P at BB&minus; (score 33), Moody's at Ba2 (score 36), DBRS Morningstar at BB (high) (score 38).</p>
       <span class="step">Composite = (33 + 36 + 38) / 3 = <strong>35.67</strong></span>
@@ -145,7 +145,7 @@
   </details>
 
   <details class="example">
-    <summary>Worked example 2.2 &mdash; Composite when only one agency rates the country</summary>
+    <summary>Worked example 2.2: Composite when only one agency rates the country</summary>
     <div class="ex-body">
       <p>Belize in 2018 was rated only by S&amp;P, which had it at CC (score 12). Moody's withdrew in 2008; DBRS does not cover Belize.</p>
       <span class="step">Composite = 12 / 1 = <strong>12</strong></span>
@@ -168,7 +168,7 @@
   <!-- ═══════════════════════════════════════════════════════ -->
   <h2 id="sec4"><span class="section-num">4</span> Relative Rating Methods (M1&ndash;M4)</h2>
 
-  <p>Absolute scores measure a country's credit quality on a fixed scale. Relative ratings measure a country's standing <em>within its peer group</em>. Four methods are implemented, building on the relative-risk-rating framework introduced by Dr.&nbsp;<a href="https://en.wikipedia.org/wiki/Kaushik_Basu" target="_blank" rel="noopener">Kaushik Basu</a>, Supriyo De, <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a>, and <a href="https://en.wikipedia.org/wiki/Hans_Timmer" target="_blank" rel="noopener">Hans Timmer</a> (2013), and the broader relativization family surveyed by De, <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a> and Ratha (2020).<sup class="note-ref"><a href="#note-3">3</a></sup></p>
+  <p>Absolute scores measure a country's credit quality on a fixed scale. Relative ratings measure a country's standing <em>within its peer group</em>. Four methods are implemented, building on the relative-risk-rating framework introduced by Dr.&nbsp;<a href="https://en.wikipedia.org/wiki/Kaushik_Basu" target="_blank" rel="noopener">Kaushik Basu</a>, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a>, and <a href="https://en.wikipedia.org/wiki/Hans_Timmer" target="_blank" rel="noopener">Hans Timmer</a> (2013), and the broader relativization family surveyed by De, <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a> and Ratha (2020).<sup class="note-ref"><a href="#note-3">3</a></sup></p>
 
   <h3 id="loo">Leave-One-Out (LOO) Group Mean</h3>
   <p>All relative methods use a <span class="term" data-term="loo-mean"><strong>leave-one-out (LOO) mean</strong></span> as the group benchmark.</p>
@@ -179,7 +179,7 @@
   </div>
 
   <details class="example">
-    <summary>Worked example 4.1 &mdash; LOO for the GCC peer group</summary>
+    <summary>Worked example 4.1: LOO for the GCC peer group</summary>
     <div class="ex-body">
       <p>The Gulf Cooperation Council in 2024 has six members with the following composite scores: Bahrain 30, Kuwait 50, Oman 38, Qatar 51, Saudi Arabia 48, United Arab Emirates 53.</p>
       <p>Saudi Arabia's LOO mean (excluding itself):</p>
@@ -189,7 +189,7 @@
   </details>
 
   <details class="example">
-    <summary>Worked example 4.2 &mdash; LOO for the World group (large N)</summary>
+    <summary>Worked example 4.2: LOO for the World group (large N)</summary>
     <div class="ex-body">
       <p>India 2024: composite = 33. World group N = 150 reporting countries with sum-of-scores 4,977.</p>
       <span class="step">LOO = (4977 − 33) / 149 = 4944 / 149 = <strong>33.18</strong></span>
@@ -197,13 +197,13 @@
     </div>
   </details>
 
-  <h3 id="m1"><span class="term" data-term="m1">M1</span> &mdash; Current Relative Rating</h3>
+  <h3 id="m1"><span class="term" data-term="m1">M1</span>: Current Relative Rating</h3>
   <div class="formula-block">
-    <span class="label">M1 &mdash; Score² / Current LOO Mean</span>
+    <span class="label">M1: Score² / Current LOO Mean</span>
     M1<sub>igt</sub> = Score<sub>it</sub>² / LOO<sub>igt</sub>
   </div>
   <details class="example">
-    <summary>Worked example 4.3 &mdash; M1 for India in the BRICS group, 2020</summary>
+    <summary>Worked example 4.3: M1 for India in the BRICS group, 2020</summary>
     <div class="ex-body">
       <p>BRICS in 2020 (Brazil 36, Russia 36, India 33, China 51, South Africa 30). India's LOO:</p>
       <span class="step">LOO = (36 + 36 + 51 + 30) / 4 = 38.25</span>
@@ -212,29 +212,29 @@
     </div>
   </details>
 
-  <h3 id="m2"><span class="term" data-term="m2">M2</span> &mdash; Within-Year Percentile Rank (Raw Count)</h3>
+  <h3 id="m2"><span class="term" data-term="m2">M2</span>: Within-Year Percentile Rank (Raw Count)</h3>
   <div class="formula-block">
-    <span class="label">M2 &mdash; Within-Group Rank</span>
+    <span class="label">M2: Within-Group Rank</span>
     M2<sub>igt</sub> = rank of Score<sub>it</sub> among { Score<sub>jt</sub> : j ∈ g }
   </div>
   <details class="example">
-    <summary>Worked example 4.4 &mdash; M2 for India in the BRICS group, 2020</summary>
+    <summary>Worked example 4.4: M2 for India in the BRICS group, 2020</summary>
     <div class="ex-body">
       <p>Sorted BRICS scores 2020: South Africa 30 (rank 1), India 33 (rank 2), Brazil 36 (rank 3 tied), Russia 36 (rank 3 tied), China 51 (rank 5).</p>
       <span class="step">M2(India) = <strong>2</strong> out of 5</span>
     </div>
   </details>
 
-  <h3 id="m3"><span class="term" data-term="m3">M3</span> &mdash; Lagged Relative Rating</h3>
+  <h3 id="m3"><span class="term" data-term="m3">M3</span>: Lagged Relative Rating</h3>
   <div class="formula-block">
-    <span class="label">M3 &mdash; Score² / Lagged LOO Mean</span>
+    <span class="label">M3: Score² / Lagged LOO Mean</span>
     M3<sub>igt</sub> = Score<sub>it</sub>² / LOO<sub>ig,t−1</sub>
   </div>
   <p>M3 is most useful for studying the speed of adjustment in relative ratings. At crisis onset, M3 is systematically more optimistic than M1 because last year's LOO mean has not yet absorbed the group's deterioration.</p>
 
-  <h3 id="m4"><span class="term" data-term="m4">M4</span> &mdash; Within-Year Percentile (0&ndash;1)</h3>
+  <h3 id="m4"><span class="term" data-term="m4">M4</span>: Within-Year Percentile (0&ndash;1)</h3>
   <div class="formula-block">
-    <span class="label">M4 &mdash; Normalised Percentile Rank</span>
+    <span class="label">M4: Normalised Percentile Rank</span>
     M4<sub>igt</sub> = M2<sub>igt</sub> / N<sub>gt</sub>
   </div>
 
@@ -244,7 +244,7 @@
     <thead><tr><th>Method</th><th>Best used for…</th><th>Key limitation</th></tr></thead>
     <tbody>
       <tr><td>M1</td><td>Primary relative measure; tracking passive drift; cross-group comparisons</td><td>Sensitive to group mean level; unbounded above</td></tr>
-      <tr><td>M2</td><td>Robust ordinal ranking; non-parametric analysis</td><td>Raw count &mdash; not comparable across groups of different sizes</td></tr>
+      <tr><td>M2</td><td>Robust ordinal ranking; non-parametric analysis</td><td>Raw count: not comparable across groups of different sizes</td></tr>
       <tr><td>M3</td><td>Studying adjustment speed at rating transitions</td><td>Not defined in the first year; diverges from M1 at structural breaks</td></tr>
       <tr><td>M4</td><td>Group-size-normalised ranking; comparable across all groups</td><td>Same ordinal limitations as M2; adds only size normalisation</td></tr>
     </tbody>
@@ -260,7 +260,7 @@
     where scores are sorted in ascending order and μ is the group mean
   </div>
   <details class="example">
-    <summary>Worked example 6.1 &mdash; Gini for the GCC in 2024</summary>
+    <summary>Worked example 6.1: Gini for the GCC in 2024</summary>
     <div class="ex-body">
       <p>Sorted: Bahrain 30, Oman 38, Saudi Arabia 48, Kuwait 50, Qatar 51, UAE 53. N = 6, μ = 45.</p>
       <span class="step">Σ i·Score = 1·30 + 2·38 + 3·48 + 4·50 + 5·51 + 6·53 = 30+76+144+200+255+318 = 1023</span>
@@ -277,10 +277,10 @@
   <table>
     <thead><tr><th>Model</th><th>Specification</th><th>Fixed Effects</th><th>Key Finding</th></tr></thead>
     <tbody>
-      <tr><td>A</td><td>Score ~ GDP growth + FDI</td><td>Country + Year</td><td><span class="term" data-term="within-r2">R²(within)</span> ≈ 0 &mdash; macro flows explain almost no within-country variation</td></tr>
-      <tr><td>B</td><td>Score ~ GDP growth + FDI + log GDPpc</td><td>Country + Year</td><td><span class="term" data-term="beta">β</span> ≈ 23.3*** within FE (collinear with country FE &mdash; inflated)</td></tr>
+      <tr><td>A</td><td>Score ~ GDP growth + FDI</td><td>Country + Year</td><td><span class="term" data-term="within-r2">R²(within)</span> ≈ 0: macro flows explain almost no within-country variation</td></tr>
+      <tr><td>B</td><td>Score ~ GDP growth + FDI + log GDPpc</td><td>Country + Year</td><td><span class="term" data-term="beta">β</span> ≈ 23.3*** within FE (collinear with country FE: inflated)</td></tr>
       <tr><td>C</td><td>Score ~ GDP growth + FDI + log GDP(bn)</td><td>Country + Year</td><td>Similar to B; GDP level vs per capita comparison</td></tr>
-      <tr><td>D (<span class="term" data-term="pooled-ols">Pooled OLS</span>)</td><td>Score ~ GDP growth + FDI + log GDPpc</td><td>None</td><td>R² = 0.90; log GDPpc β ≈ 9.2*** &mdash; cross-sectional variation dominates</td></tr>
+      <tr><td>D (<span class="term" data-term="pooled-ols">Pooled OLS</span>)</td><td>Score ~ GDP growth + FDI + log GDPpc</td><td>None</td><td>R² = 0.90; log GDPpc β ≈ 9.2***: cross-sectional variation dominates</td></tr>
     </tbody>
   </table>
 
@@ -294,7 +294,7 @@
 
   <!-- ═══════════════════════════════════════════════════════ -->
   <h2 id="sec10"><span class="section-num">10</span> Relative Risk Rating &amp; the Comparative Rating Index for Sovereigns (CRIS)</h2>
-  <p>Dr.&nbsp;<a href="https://en.wikipedia.org/wiki/Kaushik_Basu" target="_blank" rel="noopener">Kaushik Basu</a>, Supriyo De, <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a>, and <a href="https://en.wikipedia.org/wiki/Hans_Timmer" target="_blank" rel="noopener">Hans Timmer</a> (2013) introduce the <span class="term" data-term="rrr"><strong>Relative Risk Rating (RR)</strong></span> for sovereigns and the closely related <span class="term" data-term="cris"><strong>Comparative Rating Index for Sovereigns (CRIS)</strong></span>.<sup class="note-ref"><a href="#note-7">7</a></sup></p>
+  <p>Dr.&nbsp;<a href="https://en.wikipedia.org/wiki/Kaushik_Basu" target="_blank" rel="noopener">Kaushik Basu</a>, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a>, and <a href="https://en.wikipedia.org/wiki/Hans_Timmer" target="_blank" rel="noopener">Hans Timmer</a> (2013) introduce the <span class="term" data-term="rrr"><strong>Relative Risk Rating (RR)</strong></span> for sovereigns and the closely related <span class="term" data-term="cris"><strong>Comparative Rating Index for Sovereigns (CRIS)</strong></span>.<sup class="note-ref"><a href="#note-7">7</a></sup></p>
 
   <h3 id="rr">Relative Risk Rating (RR)</h3>
   <div class="formula-block">
@@ -302,7 +302,7 @@
     RR<sub>it</sub> = r<sub>it</sub> − Σ<sub>j</sub> w<sub>jt</sub> · r<sub>jt</sub>
   </div>
   <details class="example">
-    <summary>Worked example 10.1 &mdash; RR for India 2020 with three peers, GDP-weighted</summary>
+    <summary>Worked example 10.1: RR for India 2020 with three peers, GDP-weighted</summary>
     <div class="ex-body">
       <p>Suppose the world consists of India (score 33, GDP $2.7T), United States (60, $21T), China (51, $14T), Japan (60, $5T). Total GDP = $42.7T.</p>
       <span class="step">GDP-weighted world score = (33·2.7 + 60·21 + 51·14 + 60·5) / 42.7 = (89.1 + 1260 + 714 + 300) / 42.7 = 2363.1 / 42.7 = <strong>55.34</strong></span>
@@ -317,7 +317,7 @@
     CRIS<sub>it</sub> = 100 × r<sub>it</sub> / (Σ<sub>j</sub> w<sub>jt</sub> · r<sub>jt</sub>)
   </div>
   <details class="example">
-    <summary>Worked example 10.2 &mdash; CRIS for the same India 2020 case</summary>
+    <summary>Worked example 10.2: CRIS for the same India 2020 case</summary>
     <div class="ex-body">
       <span class="step">CRIS(India) = 100 × 33 / 55.34 = <strong>59.6</strong></span>
       <p>India sits at 59.6 percent of the GDP-weighted world rating. CRIS = 100 means a country is exactly at the world benchmark; CRIS &gt; 100 above-average, &lt; 100 below.</p>
@@ -331,8 +331,8 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════════════ -->
-  <h2 id="sec11"><span class="section-num">11</span> Linear Relativizations (De, Mohapatra and Ratha 2020)</h2>
-  <p>Supriyo De, Sanket Mohapatra and Dilip Ratha (2020) survey a wider family of relativizations of sovereign ratings.<sup class="note-ref"><a href="#note-8">8</a></sup> Ten variants are computed for every (country, year) pair on <code>score_60</code> (saved in <code>de_relative_panel.csv</code>):</p>
+  <h2 id="sec11"><span class="section-num">11</span> Linear Relativizations (De, Mohapatra, and Ratha 2020)</h2>
+  <p><a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a> and Dilip Ratha (2020) survey a wider family of relativizations of sovereign ratings.<sup class="note-ref"><a href="#note-8">8</a></sup> Ten variants are computed for every (country, year) pair on <code>score_60</code> (saved in <code>de_relative_panel.csv</code>):</p>
 
   <table>
     <thead><tr><th>Family</th><th>Variant</th><th>Construction</th></tr></thead>
@@ -351,7 +351,7 @@
   </table>
 
   <details class="example">
-    <summary>Worked example 11.1 &mdash; Comparing all 10 variants for one country</summary>
+    <summary>Worked example 11.1: Comparing all 10 variants for one country</summary>
     <div class="ex-body">
       <p>India 2020: Score = 33. World stats (rated countries): equal-weighted mean = 35.5, GDP-weighted mean = 55.3, population-weighted mean = 31.8, median = 33, SD = 16.2, max = 60, min = 0.</p>
       <span class="step">rel_eq      = 33 − 35.5 = <strong>−2.5</strong></span>
@@ -369,10 +369,10 @@
 
   <!-- ═══════════════════════════════════════════════════════ -->
   <h2 id="sec12"><span class="section-num">12</span> Shadow Rating Model</h2>
-  <p>Following <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a>, Supriyo De and Sanket Mohapatra (2007/2011), a <span class="term" data-term="shadow-rating"><strong>shadow rating</strong></span> is the rating implied by a country's macro and institutional fundamentals.<sup class="note-ref"><a href="#note-9">9</a></sup> Five nested OLS specifications are estimated (S0&ndash;S4); the preferred benchmark is S2 (R² = 0.76, <span class="term" data-term="rmse">RMSE</span> = 8.05 points ≈ 2.7 letter-grade notches). Macro covariates from <a href="https://databank.worldbank.org/source/world-development-indicators" target="_blank" rel="noopener">World Development Indicators</a>; <span class="term" data-term="rule-of-law">Rule of Law</span> from the <a href="https://www.worldbank.org/en/publication/worldwide-governance-indicators" target="_blank" rel="noopener">Worldwide Governance Indicators</a>, methodology in <a href="https://en.wikipedia.org/wiki/Daniel_Kaufmann_(economist)" target="_blank" rel="noopener">Daniel Kaufmann</a>, <a href="https://en.wikipedia.org/wiki/Aart_Kraay" target="_blank" rel="noopener">Aart Kraay</a> and Massimo Mastruzzi (2010).<sup class="note-ref"><a href="#note-10">10</a></sup></p>
+  <p>Following <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a>, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a> and <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a> (2007/2011), a <span class="term" data-term="shadow-rating"><strong>shadow rating</strong></span> is the rating implied by a country's macro and institutional fundamentals.<sup class="note-ref"><a href="#note-9">9</a></sup> Five nested OLS specifications are estimated (S0&ndash;S4); the preferred benchmark is S2 (R² = 0.76, <span class="term" data-term="rmse">RMSE</span> = 8.05 points ≈ 2.7 letter-grade notches). Macro covariates from <a href="https://databank.worldbank.org/source/world-development-indicators" target="_blank" rel="noopener">World Development Indicators</a>; <span class="term" data-term="rule-of-law">Rule of Law</span> from the <a href="https://www.worldbank.org/en/publication/worldwide-governance-indicators" target="_blank" rel="noopener">Worldwide Governance Indicators</a>, methodology in <a href="https://en.wikipedia.org/wiki/Daniel_Kaufmann_(economist)" target="_blank" rel="noopener">Daniel Kaufmann</a>, <a href="https://en.wikipedia.org/wiki/Aart_Kraay" target="_blank" rel="noopener">Aart Kraay</a> and <a href="https://www.researchgate.net/profile/Massimo-Mastruzzi" target="_blank" rel="noopener">Massimo Mastruzzi</a> (2010).<sup class="note-ref"><a href="#note-10">10</a></sup></p>
 
   <details class="example">
-    <summary>Worked example 12.1 &mdash; Computing the shadow rating for one country (Spec S2)</summary>
+    <summary>Worked example 12.1: Computing the shadow rating for one country (Spec S2)</summary>
     <div class="ex-body">
       <p>S2 fitted coefficients (pooled OLS, cluster-robust SE):</p>
       <span class="step">const = −10.23  ·  log GDPpc = +11.25*** ·  GDP_growth = +0.026  ·  GrowthVol_5y = −0.074*  ·  Inflation = −0.105***  ·  RuleOfLaw = +7.53***  ·  CurrentAccount = +0.241***</span>
@@ -392,16 +392,16 @@
   <div class="endnotes" id="endnotes">
     <h3>Endnotes</h3>
     <ol>
-      <li id="note-1">The conversion convention is the &ldquo;refined Basu mapping&rdquo; documented in Dr.&nbsp;Kaushik Basu, Supriyo De, Dilip Ratha and Hans Timmer, &ldquo;Sovereign Ratings in the Post-Crisis World,&rdquo; <em>World Bank Policy Research Working Paper</em> 6641 (2013), §2.1, with the directional sign flipped so that higher = better. Earlier proposals are in Uri Dadush and Dipak Dasgupta (2001) and Norbert Gaillard, &ldquo;The Determinants of Moody's Sub-Sovereign Ratings,&rdquo; <em>International Research Journal of Finance and Economics</em> 31 (2009): 194&ndash;209.</li>
+      <li id="note-1">The conversion convention is the &ldquo;refined Basu mapping&rdquo; documented in Dr.&nbsp;Kaushik Basu, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, Dilip Ratha and Hans Timmer, &ldquo;Sovereign Ratings in the Post-Crisis World,&rdquo; <em>World Bank Policy Research Working Paper</em> 6641 (2013), §2.1, with the directional sign flipped so that higher = better. Earlier proposals are in Uri Dadush and Dipak Dasgupta (2001) and Norbert Gaillard, &ldquo;The Determinants of Moody's Sub-Sovereign Ratings,&rdquo; <em>International Research Journal of Finance and Economics</em> 31 (2009): 194&ndash;209.</li>
       <li id="note-2"><a href="https://en.wikipedia.org/wiki/Amartya_Sen" target="_blank" rel="noopener">Amartya Sen</a>, &ldquo;On Weights and Measures: Informational Constraints in Social Welfare Analysis,&rdquo; <em>Econometrica</em> 45, no. 7 (1977): 1539&ndash;72. The relevant theorem is that any monotone cardinal transformation of an ordinal index preserves all rank-based welfare comparisons.</li>
-      <li id="note-3">Basu, De, Ratha and Timmer (2013), <em>op. cit.</em>; Supriyo De, Sanket Mohapatra and Dilip Ratha, &ldquo;Sovereign Credit Ratings, Relative Risk Ratings, and Private Capital Flows,&rdquo; <em>World Bank Policy Research Working Paper</em> 9401 (2020). Both are mirrored on the <a href="citations.html">Citations</a> page; PDFs available where licensing permits.</li>
+      <li id="note-3">Basu, De, Ratha, and Timmer (2013), <em>op. cit.</em>; <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a> and Dilip Ratha, &ldquo;Sovereign Credit Ratings, Relative Risk Ratings, and Private Capital Flows,&rdquo; <em>World Bank Policy Research Working Paper</em> 9401 (2020). Both are mirrored on the <a href="citations.html">Citations</a> page; PDFs available where licensing permits.</li>
       <li id="note-4">Corrado Gini, <em>Variabilit&agrave; e Mutabilit&agrave;</em> (Bologna: Tipografia di Paolo Cuppini, 1912). The modern algebraic statement is in <a href="https://en.wikipedia.org/wiki/Gini_coefficient" target="_blank" rel="noopener">the standard Wikipedia derivation</a>.</li>
       <li id="note-5">A. Colin Cameron and Pravin K. Trivedi, <em>Microeconometrics: Methods and Applications</em> (Cambridge: Cambridge University Press, 2005), chap. 21. The cluster-robust SE result is also rigorously derived in Cameron and Douglas L. Miller, &ldquo;A Practitioner's Guide to Cluster-Robust Inference,&rdquo; <em>Journal of Human Resources</em> 50, no. 2 (2015): 317&ndash;72.</li>
       <li id="note-6"><a href="https://en.wikipedia.org/wiki/Daniel_McFadden" target="_blank" rel="noopener">Daniel McFadden</a>, &ldquo;Conditional Logit Analysis of Qualitative Choice Behavior,&rdquo; in <em>Frontiers in Econometrics</em>, ed. Paul Zarembka (New York: Academic Press, 1974), 105&ndash;42.</li>
-      <li id="note-7">Basu, De, Ratha and Timmer (2013), <em>op. cit.</em>, §3. CRIS stands for &ldquo;Comparative Rating Index for Sovereigns&rdquo; (not, as occasionally mis-cited, &ldquo;Country-level Risk-Indexing System&rdquo;).</li>
-      <li id="note-8">De, Mohapatra and Ratha (2020), <em>op. cit.</em>, §2.</li>
-      <li id="note-9">Dilip Ratha, Supriyo De and Sanket Mohapatra, &ldquo;Shadow Sovereign Ratings for Unrated Developing Countries,&rdquo; <em>World Bank Policy Research Working Paper</em> 4269 (2007).</li>
-      <li id="note-10"><a href="https://en.wikipedia.org/wiki/Daniel_Kaufmann_(economist)" target="_blank" rel="noopener">Daniel Kaufmann</a>, <a href="https://en.wikipedia.org/wiki/Aart_Kraay" target="_blank" rel="noopener">Aart Kraay</a> and Massimo Mastruzzi, &ldquo;The Worldwide Governance Indicators: Methodology and Analytical Issues,&rdquo; <em>World Bank Policy Research Working Paper</em> 5430 (2010).</li>
+      <li id="note-7">Basu, De, Ratha, and Timmer (2013), <em>op. cit.</em>, §3. CRIS stands for &ldquo;Comparative Rating Index for Sovereigns&rdquo; (not, as occasionally mis-cited, &ldquo;Country-level Risk-Indexing System&rdquo;).</li>
+      <li id="note-8">De, Mohapatra, and Ratha (2020), <em>op. cit.</em>, §2.</li>
+      <li id="note-9">Dilip Ratha, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a> and <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a>, &ldquo;Shadow Sovereign Ratings for Unrated Developing Countries,&rdquo; <em>World Bank Policy Research Working Paper</em> 4269 (2007).</li>
+      <li id="note-10"><a href="https://en.wikipedia.org/wiki/Daniel_Kaufmann_(economist)" target="_blank" rel="noopener">Daniel Kaufmann</a>, <a href="https://en.wikipedia.org/wiki/Aart_Kraay" target="_blank" rel="noopener">Aart Kraay</a> and <a href="https://www.researchgate.net/profile/Massimo-Mastruzzi" target="_blank" rel="noopener">Massimo Mastruzzi</a>, &ldquo;The Worldwide Governance Indicators: Methodology and Analytical Issues,&rdquo; <em>World Bank Policy Research Working Paper</em> 5430 (2010).</li>
     </ol>
   </div>
 
