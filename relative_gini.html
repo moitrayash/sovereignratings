@@ -51,13 +51,31 @@
   <div class="controls">
     <label for="country">Country</label>
     <select id="country"></select>
+    <label for="peerset" style="margin-left:14px">Compare against</label>
+    <select id="peerset">
+      <option value="world">World (all reporting countries)</option>
+      <option value="region">Same continent</option>
+      <option value="custom">Custom subset…</option>
+    </select>
+    <span id="peer-info" style="margin-left:10px;color:#888;font-size:0.78rem"></span>
+  </div>
+
+  <div id="custom-picker" class="controls" style="display:none;margin-top:-6px">
+    <label for="custom-countries" style="display:block;margin-bottom:4px">Custom peer set (Cmd/Ctrl-click to multi-select; min 2)</label>
+    <select id="custom-countries" multiple style="height:130px;width:100%;max-width:520px"></select>
+    <div style="margin-top:6px">
+      <button type="button" id="custom-apply" style="padding:4px 10px;font-size:0.78rem;cursor:pointer">Apply</button>
+      <button type="button" id="custom-clear" style="padding:4px 10px;font-size:0.78rem;cursor:pointer;margin-left:6px">Clear</button>
+    </div>
   </div>
 
   <div class="chart-box"><div id="gini-abs" style="height:340px"></div></div>
   <div class="chart-box"><div id="gini-rel" style="height:340px"></div></div>
   <div class="chart-box"><div id="gini-vs-credit" style="height:340px"></div></div>
 
-  <p>The first chart plots a country's raw Gini against the leave-one-out global mean of reporting countries; gaps in the line are years where the country did not report. The second shows the relative measures M1, M4 (percentile), and the pairwise gap (GiniInv &minus; LOO). The third overlays the inverted Gini against the credit composite score. The hypothesis sometimes advanced—that more equal countries enjoy better sovereign ratings—has weak support in this data: cross-sectional correlation between GiniInv and credit composite is positive but modest (r &asymp; 0.35), and within-country variation in Gini is too small over the panel window to drive credit movements.</p>
+  <p>The <strong>Compare against</strong> control lets the peer set be re-cast on the fly. The default is the world (all reporters in that year). <em>Same continent</em> restricts the leave-one-out mean and the rank-based M2 / M4 to the focal country's UN-style continent — useful for inequality questions that are mostly regional in nature (Latin American income inequality vs. East Asian, for example). <em>Custom subset</em> lets you build an ad-hoc set; combined with Gini's spotty annual reporting this means small custom sets may yield very few country-years (when N drops below 2 in a year, the LOO is undefined and that year is dropped).</p>
+
+  <p>The first chart plots a country's raw Gini against the leave-one-out peer-set mean; gaps in the line are years where the country did not report. The second shows the relative measures M1, M2 (rank), and M4 (percentile). The third overlays the inverted Gini against the credit composite score. The hypothesis sometimes advanced—that more equal countries enjoy better sovereign ratings—has weak support in this data: cross-sectional correlation between GiniInv and credit composite is positive but modest (r &asymp; 0.35), and within-country variation in Gini is too small over the panel window to drive credit movements.</p>
 
 
   <h2 id="distribution"><span class="section-num">3</span> Distribution shape (latest year)</h2>
@@ -88,6 +106,7 @@
 <script defer src="shared.js"></script>
 <script defer>
 let EXTRAS = null;
+let CUSTOM_PEERS = [];
 window.addEventListener('load', () => {
   if (!window.scrLoadExtras) {
     document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">shared.js failed to load.</p>');
@@ -96,6 +115,7 @@ window.addEventListener('load', () => {
   window.scrLoadExtras().then(j => {
     EXTRAS = j;
     populateCountries();
+    wirePeerControls();
     renderDistributions();
   }).catch(err => {
     document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">Could not load extras.json: ' + err.message + '</p>');
@@ -110,34 +130,99 @@ function populateCountries() {
   countries.forEach(c => sel.appendChild(new Option(c, c)));
   const def = countries.includes('South Africa') ? 'South Africa' : countries[0];
   sel.value = def;
-  sel.onchange = () => renderExplorer(sel.value);
+  sel.onchange = () => { renderExplorer(sel.value); renderDistributions(); };
   renderExplorer(def);
 }
 
+function wirePeerControls() {
+  const peerSel = document.getElementById('peerset');
+  const customBox = document.getElementById('custom-picker');
+  const customSel = document.getElementById('custom-countries');
+  const all = Array.from(new Set(EXTRAS.gini_rel.map(r => r.Country))).sort();
+  customSel.innerHTML = '';
+  all.forEach(c => customSel.appendChild(new Option(c, c)));
+  peerSel.onchange = () => {
+    customBox.style.display = (peerSel.value === 'custom') ? 'block' : 'none';
+    if (peerSel.value !== 'custom') {
+      renderExplorer(document.getElementById('country').value);
+      renderDistributions();
+    }
+  };
+  document.getElementById('custom-apply').onclick = () => {
+    CUSTOM_PEERS = Array.from(customSel.selectedOptions).map(o => o.value);
+    if (CUSTOM_PEERS.length < 2) { alert('Pick at least 2 countries.'); return; }
+    const focal = document.getElementById('country').value;
+    if (!CUSTOM_PEERS.includes(focal)) CUSTOM_PEERS.push(focal);
+    renderExplorer(focal);
+    renderDistributions();
+  };
+  document.getElementById('custom-clear').onclick = () => {
+    Array.from(customSel.options).forEach(o => o.selected = false);
+  };
+}
+
+function currentPeerSet(focal) {
+  const mode = document.getElementById('peerset').value;
+  const all = new Set(EXTRAS.gini_rel.map(r => r.Country));
+  if (mode === 'world') return {set: all, label: 'World'};
+  if (mode === 'region') {
+    const reg = window.SCR_REGION_OF[focal];
+    if (!reg) return {set: all, label: 'World (focal has no region mapping)'};
+    const peers = new Set(window.SCR_COUNTRIES_IN(reg).filter(c => all.has(c)));
+    peers.add(focal);
+    return {set: peers, label: reg + ' (' + peers.size + ' countries)'};
+  }
+  const peers = new Set(CUSTOM_PEERS.length ? CUSTOM_PEERS : [focal]);
+  peers.add(focal);
+  return {set: peers, label: 'Custom (' + peers.size + ' countries)'};
+}
+
+// Gini panel uses field name "Gini" (not "Value"). Adapt for the recompute.
+function peerRowsFor(focal) {
+  const {set, label} = currentPeerSet(focal);
+  const allWorld = new Set(EXTRAS.gini_rel.map(r => r.Country));
+  let rows;
+  if (set.size === allWorld.size) {
+    rows = EXTRAS.gini_rel.filter(r => r.Country === focal).sort((a,b) => a.Year - b.Year);
+  } else {
+    // Build {Country, Year, Value} from EXTRAS.gini for the subset, then recompute
+    const giniRows = EXTRAS.gini.filter(r => set.has(r.Country)).map(r => ({Country: r.Country, Year: r.Year, Value: r.Gini}));
+    const recomputed = window.scrRecomputeRelative(giniRows, set);
+    rows = recomputed.filter(r => r.Country === focal).sort((a,b) => a.Year - b.Year);
+  }
+  document.getElementById('peer-info').textContent = '· peers: ' + label;
+  return {rows, label};
+}
+
 function renderExplorer(country) {
-  const rows = EXTRAS.gini_rel.filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
-  if (!rows.length) return;
+  const {rows, label} = peerRowsFor(country);
+  if (!rows.length) {
+    document.getElementById('gini-abs').innerHTML = '<p style="padding:20px;color:#888">' + country + ' has no Gini observations against the selected peer set.</p>';
+    document.getElementById('gini-rel').innerHTML = '';
+    document.getElementById('gini-vs-credit').innerHTML = '';
+    return;
+  }
   const cfg = window.scrChartConfig;
-  // Chart 1: country Gini vs leave-one-out world mean
+  // Chart 1: country Gini vs leave-one-out peer mean
   Plotly.newPlot('gini-abs', [
     {x: rows.map(r=>r.Year), y: rows.map(r=>r.Value), name: country + ' Gini', mode:'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:5}, connectgaps:false},
-    {x: rows.map(r=>r.Year), y: rows.map(r=>r.LOO),   name: 'World LOO mean (reporters)', mode:'lines',         line:{color:'#888',width:1.6,dash:'dash'}}
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.LOO),   name: label + ' LOO mean (reporters)', mode:'lines',         line:{color:'#888',width:1.6,dash:'dash'}}
   ], window.scrBaseLayout({
-    title:{text: country + ': Gini vs world LOO mean', font:{size:13}},
+    title:{text: country + ': Gini vs ' + label + ' LOO mean', font:{size:13}},
     xaxis:{title:'Year'},
     yaxis:{title:'Gini index (higher = more unequal)'}
   }), cfg);
 
-  // Chart 2: relative measures M1, M2 (percentile), M4
+  // Chart 2: relative measures M1, M2 (rank), M4 (percentile)
   Plotly.newPlot('gini-rel', [
-    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M1), name: 'M1: Value² / LOO', mode:'lines+markers', line:{color:'#1B4F8A',width:2}, marker:{size:4}},
-    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M2), name: 'M2: Within-group %ile', mode:'lines+markers', line:{color:'#C0392B',width:2}, marker:{size:4}, yaxis:'y2'},
-    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M4), name: 'M4: Value · z-score', mode:'lines+markers', line:{color:'#2E7D32',width:2}, marker:{size:4}}
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M1), name: 'M1: Value² / LOO',                 mode:'lines+markers', line:{color:'#1B4F8A',width:2}, marker:{size:4}},
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M2), name: 'M2: Rank within peers',            mode:'lines+markers', line:{color:'#C0392B',width:2}, marker:{size:4}, yaxis:'y2'},
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M4), name: 'M4: Percentile (rank ÷ N peers)',  mode:'lines+markers', line:{color:'#2E7D32',width:2}, marker:{size:4}}
   ], window.scrBaseLayout({
-    title:{text: country + ': relative Gini measures', font:{size:13}},
+    title:{text: country + ': relative Gini measures vs ' + label, font:{size:13}},
     xaxis:{title:'Year'},
     yaxis:{title:'M1, M4'},
-    yaxis2:{title:'M2 percentile', overlaying:'y', side:'right', range:[0,100], showgrid:false}
+    yaxis2:{title:'M2 rank within peers', overlaying:'y', side:'right', showgrid:false}
   }), cfg);
 
   // Chart 3: inverted Gini vs credit composite
@@ -162,8 +247,10 @@ function renderExplorer(country) {
 
 function renderDistributions() {
   if (!EXTRAS) return;
+  const focal = (document.getElementById('country') || {}).value;
+  const {set: peerSet, label: peerLabel} = currentPeerSet(focal);
   const latestYear = Math.max(...EXTRAS.gini.map(r => r.Year));
-  const vals = EXTRAS.gini.filter(r => r.Year === latestYear).map(r => r.Gini).sort((a,b)=>a-b);
+  const vals = EXTRAS.gini.filter(r => r.Year === latestYear && peerSet.has(r.Country)).map(r => r.Gini).sort((a,b)=>a-b);
   if (!vals.length) return;
   const n = vals.length;
   const cdfX = vals;
@@ -173,7 +260,7 @@ function renderDistributions() {
   Plotly.newPlot('gini-cdf', [
     {x:cdfX, y:cdfY, mode:'lines', line:{color:'#1a1a1a',width:2}, name:'Empirical CDF'}
   ], Object.assign({}, baseLayout, {
-    title:{text:'Gini index empirical CDF (' + latestYear + ', n=' + n + ')', font:{size:13}},
+    title:{text:'Gini index empirical CDF — ' + peerLabel + ' (' + latestYear + ', n=' + n + ')', font:{size:13}},
     xaxis:{title:'Gini index (0 = perfect equality, 100 = max inequality)', gridcolor:'rgba(128,128,128,0.2)'},
     yaxis:{title:'Cumulative share of countries', gridcolor:'rgba(128,128,128,0.2)', range:[0,1]}
   }), cfg);
@@ -191,7 +278,7 @@ function renderDistributions() {
     {x:lorenzX, y:lorenzY, mode:'lines', line:{color:'#1a1a1a',width:2}, name:'Lorenz curve', fill:'tonexty', fillcolor:'rgba(150,150,150,0.18)'},
     {x:[0,1], y:[0,1], mode:'lines', line:{color:'#666',width:1,dash:'dash'}, name:'45° equality line'}
   ], Object.assign({}, baseLayout, {
-    title:{text:'Inverted Gini Lorenz-style curve: inequality quotient = ' + inequality.toFixed(3), font:{size:13}},
+    title:{text:'Inverted Gini Lorenz curve — ' + peerLabel + ': inequality quotient = ' + inequality.toFixed(3), font:{size:13}},
     xaxis:{title:'Cumulative share of countries', gridcolor:'rgba(128,128,128,0.2)', range:[0,1]},
     yaxis:{title:'Cumulative share of GiniInv mass', gridcolor:'rgba(128,128,128,0.2)', range:[0,1]}
   }), cfg);
@@ -213,7 +300,7 @@ function renderDistributions() {
     {x:binCenters, y:bins, type:'bar', name:'Frequency', marker:{color:'#1a1a1a'}, opacity:0.85},
     {x:xs, y:ys, mode:'lines', line:{color:'#888',width:2}, name:'Normal(μ='+mean.toFixed(1)+', σ='+sd.toFixed(1)+')'}
   ], Object.assign({}, baseLayout, {
-    title:{text:'Gini index histogram with fitted normal density (' + latestYear + ')', font:{size:13}},
+    title:{text:'Gini index histogram + fitted normal — ' + peerLabel + ' (' + latestYear + ')', font:{size:13}},
     xaxis:{title:'Gini index', gridcolor:'rgba(128,128,128,0.2)'},
     yaxis:{title:'Count', gridcolor:'rgba(128,128,128,0.2)'},
     bargap:0.04

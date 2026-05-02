@@ -73,13 +73,31 @@
   <div class="controls">
     <label for="country">Country</label>
     <select id="country"></select>
+    <label for="peerset" style="margin-left:14px">Compare against</label>
+    <select id="peerset">
+      <option value="world">World (all reporting countries)</option>
+      <option value="region">Same continent</option>
+      <option value="custom">Custom subset…</option>
+    </select>
+    <span id="peer-info" style="margin-left:10px;color:#888;font-size:0.78rem"></span>
+  </div>
+
+  <div id="custom-picker" class="controls" style="display:none;margin-top:-6px">
+    <label for="custom-countries" style="display:block;margin-bottom:4px">Custom peer set (Cmd/Ctrl-click to multi-select; min 2)</label>
+    <select id="custom-countries" multiple style="height:130px;width:100%;max-width:520px"></select>
+    <div style="margin-top:6px">
+      <button type="button" id="custom-apply" style="padding:4px 10px;font-size:0.78rem;cursor:pointer">Apply</button>
+      <button type="button" id="custom-clear" style="padding:4px 10px;font-size:0.78rem;cursor:pointer;margin-left:6px">Clear</button>
+    </div>
   </div>
 
   <div class="chart-box"><div id="hdi-abs" style="height:340px"></div></div>
   <div class="chart-box"><div id="hdi-rel" style="height:340px"></div></div>
   <div class="chart-box"><div id="hdi-vs-credit" style="height:340px"></div></div>
 
-  <p>The first chart shows absolute HDI100 over time alongside the leave-one-out world mean. The second plots the M1, M4, and pairwise (HDI &minus; world mean) trajectories. The third overlays HDI100 on the credit composite score for the same country, both on the 0&ndash;100 scale (credit scaled up by 5/3) so the two are visually comparable. Most countries' HDI evolves slowly and monotonically; the credit score is more reactive and can fall sharply on a default. Where the two diverge sharply within a short window, the underlying story is almost always a financial crisis whose human-development consequences are absorbed only over several subsequent years—Argentina 2001, Iceland 2009, Greece 2012, Ghana 2022.<sup class="note-ref"><a href="#note-3">3</a></sup></p>
+  <p>The <strong>Compare against</strong> control above the charts lets the comparison set be re-cast on the fly. The default is the world (all 142 reporting countries). <em>Same continent</em> restricts the leave-one-out mean and the rank-based M2 / M4 to the focal country's UN-style continent (Africa, Asia, Europe, North America, Oceania, or South America); this makes the most sense for countries whose human-development trajectory is shaped primarily by regional conditions (a Gulf state versus other Gulf states, a Sub-Saharan low-income country against Sub-Saharan peers). <em>Custom subset</em> lets you build an ad-hoc comparison set — useful for SIDS clusters, BRICS, OECD, ASEAN, or any other peer grouping you care about. M1, M2, and M4 are recomputed client-side against whatever set is active.</p>
+
+  <p>The first chart shows absolute HDI100 over time alongside the leave-one-out peer-set mean. The second plots the M1, M2 (rank), and M4 (percentile) trajectories. The third overlays HDI100 on the credit composite score for the same country, both on the 0&ndash;100 scale (credit scaled up by 5/3) so the two are visually comparable. Most countries' HDI evolves slowly and monotonically; the credit score is more reactive and can fall sharply on a default. Where the two diverge sharply within a short window, the underlying story is almost always a financial crisis whose human-development consequences are absorbed only over several subsequent years—Argentina 2001, Iceland 2009, Greece 2012, Ghana 2022.<sup class="note-ref"><a href="#note-3">3</a></sup></p>
 
 
   <h2 id="distribution"><span class="section-num">3</span> Distribution shape (latest year)</h2>
@@ -111,6 +129,7 @@
 <script defer src="shared.js"></script>
 <script defer>
 let EXTRAS = null;
+let CUSTOM_PEERS = [];   // user-chosen subset for "custom" mode
 window.addEventListener('load', () => {
   if (!window.scrLoadExtras) {
     document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">shared.js failed to load.</p>');
@@ -119,6 +138,7 @@ window.addEventListener('load', () => {
   window.scrLoadExtras().then(j => {
     EXTRAS = j;
     populateCountries();
+    wirePeerControls();
     renderDistributions();
   }).catch(err => {
     document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">Could not load extras.json: ' + err.message + '</p>');
@@ -133,33 +153,105 @@ function populateCountries() {
   countries.forEach(c => sel.appendChild(new Option(c, c)));
   const def = countries.includes('Norway') ? 'Norway' : countries[0];
   sel.value = def;
-  sel.onchange = () => renderExplorer(sel.value);
+  sel.onchange = () => { renderExplorer(sel.value); renderDistributions(); };
   renderExplorer(def);
 }
 
+function wirePeerControls() {
+  const peerSel = document.getElementById('peerset');
+  const customBox = document.getElementById('custom-picker');
+  const customSel = document.getElementById('custom-countries');
+  // Populate custom multi-select with all reporting countries
+  const all = Array.from(new Set(EXTRAS.hdi_rel.map(r => r.Country))).sort();
+  customSel.innerHTML = '';
+  all.forEach(c => customSel.appendChild(new Option(c, c)));
+  peerSel.onchange = () => {
+    customBox.style.display = (peerSel.value === 'custom') ? 'block' : 'none';
+    if (peerSel.value !== 'custom') {
+      renderExplorer(document.getElementById('country').value);
+      renderDistributions();
+    }
+  };
+  document.getElementById('custom-apply').onclick = () => {
+    CUSTOM_PEERS = Array.from(customSel.selectedOptions).map(o => o.value);
+    if (CUSTOM_PEERS.length < 2) { alert('Pick at least 2 countries.'); return; }
+    // Make sure focal country is included so it has a relative measure
+    const focal = document.getElementById('country').value;
+    if (!CUSTOM_PEERS.includes(focal)) CUSTOM_PEERS.push(focal);
+    renderExplorer(focal);
+    renderDistributions();
+  };
+  document.getElementById('custom-clear').onclick = () => {
+    Array.from(customSel.options).forEach(o => o.selected = false);
+  };
+}
+
+// Build the peer set (Set of country names) for the current selector state.
+// For "world" we return all unique country names in the HDI panel.
+// For "region" we look up the focal country's continent and return its members
+// intersected with countries that actually appear in the HDI panel.
+// For "custom" we return CUSTOM_PEERS verbatim (with focal forced in).
+function currentPeerSet(focal) {
+  const mode = document.getElementById('peerset').value;
+  const all = new Set(EXTRAS.hdi_rel.map(r => r.Country));
+  if (mode === 'world') return {set: all, label: 'World'};
+  if (mode === 'region') {
+    const reg = window.SCR_REGION_OF[focal];
+    if (!reg) return {set: all, label: 'World (focal has no region mapping)'};
+    const peers = new Set(window.SCR_COUNTRIES_IN(reg).filter(c => all.has(c)));
+    peers.add(focal);
+    return {set: peers, label: reg + ' (' + peers.size + ' countries)'};
+  }
+  // custom
+  const peers = new Set(CUSTOM_PEERS.length ? CUSTOM_PEERS : [focal]);
+  peers.add(focal);
+  return {set: peers, label: 'Custom (' + peers.size + ' countries)'};
+}
+
+// Returns rows for the focal country, computed against the current peer set.
+// Falls back to bundled hdi_rel if the peer set IS the world (zero-cost path).
+function peerRowsFor(focal) {
+  const {set, label} = currentPeerSet(focal);
+  const allWorld = new Set(EXTRAS.hdi_rel.map(r => r.Country));
+  let rows;
+  if (set.size === allWorld.size) {
+    rows = EXTRAS.hdi_rel.filter(r => r.Country === focal).sort((a,b) => a.Year - b.Year);
+  } else {
+    const recomputed = window.scrRecomputeRelative(EXTRAS.hdi, set);
+    rows = recomputed.filter(r => r.Country === focal).sort((a,b) => a.Year - b.Year);
+  }
+  document.getElementById('peer-info').textContent = '· peers: ' + label;
+  return {rows, label};
+}
+
 function renderExplorer(country) {
-  const rows = EXTRAS.hdi_rel.filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
-  if (!rows.length) return;
+  const {rows, label} = peerRowsFor(country);
+  if (!rows.length) {
+    document.getElementById('hdi-abs').innerHTML = '<p style="padding:20px;color:#888">' + country + ' has no observations against the selected peer set.</p>';
+    document.getElementById('hdi-rel').innerHTML = '';
+    document.getElementById('hdi-vs-credit').innerHTML = '';
+    return;
+  }
   const cfg = window.scrChartConfig;
   // Chart 1: HDI100 vs LOO mean
   Plotly.newPlot('hdi-abs', [
     {x: rows.map(r=>r.Year), y: rows.map(r=>r.Value), name: country + ' HDI×100', mode:'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:5}},
-    {x: rows.map(r=>r.Year), y: rows.map(r=>r.LOO),   name:'World LOO mean',       mode:'lines',         line:{color:'#888',width:1.6,dash:'dash'}}
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.LOO),   name: label + ' LOO mean',  mode:'lines',         line:{color:'#888',width:1.6,dash:'dash'}}
   ], window.scrBaseLayout({
-    title:{text: country + ': HDI×100 vs world LOO mean', font:{size:13}},
+    title:{text: country + ': HDI×100 vs ' + label + ' LOO mean', font:{size:13}},
     xaxis:{title:'Year'},
     yaxis:{title:'HDI × 100'}
   }), cfg);
-  // Chart 2: M1, M2 (percentile), M4
+  // Chart 2: M1, M2 (rank), M4 (percentile)
   Plotly.newPlot('hdi-rel', [
-    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M1), name: 'M1: Value² / LOO',     mode:'lines+markers', line:{color:'#1B4F8A',width:2}, marker:{size:4}},
-    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M2), name: 'M2: Within-group %ile', mode:'lines+markers', line:{color:'#C0392B',width:2}, marker:{size:4}, yaxis:'y2'},
-    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M4), name: 'M4: Value · z-score',   mode:'lines+markers', line:{color:'#2E7D32',width:2}, marker:{size:4}}
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M1), name: 'M1: Value² / LOO',                mode:'lines+markers', line:{color:'#1B4F8A',width:2}, marker:{size:4}},
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M2), name: 'M2: Rank within peers',           mode:'lines+markers', line:{color:'#C0392B',width:2}, marker:{size:4}, yaxis:'y2'},
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M4), name: 'M4: Percentile (rank ÷ N peers)', mode:'lines+markers', line:{color:'#2E7D32',width:2}, marker:{size:4}}
   ], window.scrBaseLayout({
-    title:{text: country + ': relative HDI measures', font:{size:13}},
+    title:{text: country + ': relative HDI measures vs ' + label, font:{size:13}},
     xaxis:{title:'Year'},
     yaxis:{title:'M1, M4'},
-    yaxis2:{title:'M2 percentile', overlaying:'y', side:'right', range:[0,100], showgrid:false}
+    yaxis2:{title:'M2 rank within peers', overlaying:'y', side:'right', showgrid:false}
   }), cfg);
   // Chart 3: HDI vs credit composite
   const credit = [];
@@ -181,9 +273,11 @@ function renderExplorer(country) {
 
 function renderDistributions() {
   if (!EXTRAS) return;
-  // Latest-year HDI cross-section
+  // Latest-year HDI cross-section, restricted to current peer set
+  const focal = (document.getElementById('country') || {}).value;
+  const {set: peerSet, label: peerLabel} = currentPeerSet(focal);
   const latestYear = Math.max(...EXTRAS.hdi.map(r => r.Year));
-  const vals = EXTRAS.hdi.filter(r => r.Year === latestYear).map(r => r.Value).sort((a,b)=>a-b);
+  const vals = EXTRAS.hdi.filter(r => r.Year === latestYear && peerSet.has(r.Country)).map(r => r.Value).sort((a,b)=>a-b);
   if (!vals.length) return;
   const n = vals.length;
   const cdfX = vals;
@@ -194,7 +288,7 @@ function renderDistributions() {
     {x:cdfX, y:cdfY, mode:'lines', line:{color:'#1a1a1a',width:2}, name:'Empirical CDF'},
     {x:cdfX, y:cdfX.map(v => v/Math.max(...cdfX)), mode:'lines', line:{color:'#888',width:1.5,dash:'dot'}, name:'Linear reference'}
   ], Object.assign({}, baseLayout, {
-    title:{text:'HDI100 empirical CDF (' + latestYear + ', n=' + n + ' reporting countries)', font:{size:13}},
+    title:{text:'HDI100 empirical CDF — ' + peerLabel + ' (' + latestYear + ', n=' + n + ')', font:{size:13}},
     xaxis:{title:'HDI × 100', gridcolor:'rgba(128,128,128,0.2)'},
     yaxis:{title:'Cumulative share', gridcolor:'rgba(128,128,128,0.2)', range:[0,1]}
   }), cfg);
@@ -212,7 +306,7 @@ function renderDistributions() {
     {x:lorenzX, y:lorenzY, mode:'lines', line:{color:'#1a1a1a',width:2}, name:'Lorenz curve', fill:'tonexty', fillcolor:'rgba(150,150,150,0.18)'},
     {x:[0,1], y:[0,1], mode:'lines', line:{color:'#666',width:1,dash:'dash'}, name:'45° equality line'}
   ], Object.assign({}, baseLayout, {
-    title:{text:'HDI100 Lorenz-style curve: inequality quotient = ' + inequality.toFixed(3), font:{size:13}},
+    title:{text:'HDI100 Lorenz curve — ' + peerLabel + ': inequality quotient = ' + inequality.toFixed(3), font:{size:13}},
     xaxis:{title:'Cumulative share of countries', gridcolor:'rgba(128,128,128,0.2)', range:[0,1]},
     yaxis:{title:'Cumulative share of HDI mass', gridcolor:'rgba(128,128,128,0.2)', range:[0,1]}
   }), cfg);
@@ -235,7 +329,7 @@ function renderDistributions() {
     {x:binCenters, y:bins, type:'bar', name:'Frequency', marker:{color:'#1a1a1a'}, opacity:0.85},
     {x:xs, y:ys, mode:'lines', line:{color:'#888',width:2}, name:'Normal(μ='+mean.toFixed(1)+', σ='+sd.toFixed(1)+')'}
   ], Object.assign({}, baseLayout, {
-    title:{text:'HDI100 histogram with fitted normal density (' + latestYear + ')', font:{size:13}},
+    title:{text:'HDI100 histogram + fitted normal — ' + peerLabel + ' (' + latestYear + ')', font:{size:13}},
     xaxis:{title:'HDI × 100', gridcolor:'rgba(128,128,128,0.2)'},
     yaxis:{title:'Count', gridcolor:'rgba(128,128,128,0.2)'},
     bargap:0.04

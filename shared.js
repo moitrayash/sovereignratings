@@ -726,6 +726,63 @@
     return _extrasPromise;
   };
 
+  // ── Country → continent map (for peer-set selectors on Relative HDI / Gini) ─
+  // Six UN-style continents; mutually exclusive and collectively exhaustive
+  // across the 142 countries that appear in the HDI ∪ Gini panels.
+  window.SCR_REGIONS = ['Africa','Asia','Europe','North America','Oceania','South America'];
+  window.SCR_REGION_OF = (function(){
+    const groups = {
+      'Africa': ['Angola','Benin','Botswana','Burkina Faso','Cameroon','Cape Verde','Chad','Egypt','Ethiopia','Gabon','Ghana','Guinea','Ivory Coast','Kenya','Madagascar','Mali','Mauritius','Morocco','Mozambique','Niger','Nigeria','Republic of the Congo','Rwanda','Senegal','South Africa','Swaziland','Tanzania','Togo','Tunisia','Uganda','Zambia'],
+      'Asia': ['Armenia','Azerbaijan','Bahrain','Bangladesh','Cambodia','China','Georgia','Hong Kong','India','Indonesia','Iraq','Israel','Japan','Jordan','Kazakhstan','Kuwait','Kyrgyzstan','Laos','Malaysia','Maldives','Mongolia','Oman','Pakistan','Philippines','Qatar','Saudi Arabia','Singapore','South Korea','Sri Lanka','Tajikistan','Thailand','Turkey','United Arab Emirates','Uzbekistan','Vietnam'],
+      'Europe': ['Albania','Andorra','Austria','Belarus','Belgium','Bosnia and Herzegovina','Bulgaria','Croatia','Cyprus','Czech Republic','Denmark','Estonia','Finland','France','Germany','Greece','Hungary','Iceland','Ireland','Italy','Latvia','Liechtenstein','Lithuania','Luxembourg','Macedonia','Malta','Moldova','Montenegro','Netherlands','Norway','Poland','Portugal','Romania','Russia','San Marino','Serbia','Slovakia','Slovenia','Spain','Sweden','Switzerland','Ukraine','United Kingdom'],
+      'North America': ['Bahamas','Barbados','Belize','Canada','Costa Rica','Cuba','Dominican Republic','El Salvador','Guatemala','Honduras','Jamaica','Mexico','Nicaragua','Panama','St Vincent and The Grenadines','Trinidad and Tobago','United States'],
+      'Oceania': ['Australia','Fiji','New Zealand','Papua New Guinea','Solomon Islands'],
+      'South America': ['Argentina','Bolivia','Brazil','Chile','Colombia','Ecuador','Paraguay','Peru','Suriname','Uruguay','Venezuela']
+    };
+    const flat = {};
+    for (const r in groups) groups[r].forEach(c => flat[c] = r);
+    return flat;
+  })();
+  // Convenience: list of countries in a region
+  window.SCR_COUNTRIES_IN = function(region) {
+    return Object.keys(window.SCR_REGION_OF).filter(c => window.SCR_REGION_OF[c] === region);
+  };
+
+  // Compute leave-one-out mean + M1/M2/M4 for a country in a year, restricted
+  // to a peerSet (Set<string> of country names). Used by relative_hdi/gini.html
+  // when the user picks a non-world comparison set.
+  // rows: array of {Country, Year, Value} for one indicator
+  // Returns array enriched with {LOO, M1, M2, M4, peerN}
+  window.scrRecomputeRelative = function(rows, peerSet) {
+    // Group by year
+    const byYear = {};
+    rows.forEach(r => {
+      if (!peerSet.has(r.Country)) return;
+      (byYear[r.Year] ||= []).push(r);
+    });
+    const out = [];
+    for (const yrStr in byYear) {
+      const yr = parseInt(yrStr);
+      const arr = byYear[yrStr];
+      const n = arr.length;
+      if (n < 2) continue;
+      const sum = arr.reduce((s,r) => s + r.Value, 0);
+      // For each country in the peer subset for this year, compute LOO + M1/M2/M4
+      // Sort once for ranks
+      const sorted = arr.slice().sort((a,b) => a.Value - b.Value);
+      const rankOf = {};
+      sorted.forEach((r,i) => { rankOf[r.Country] = i + 1; }); // 1-based
+      arr.forEach(r => {
+        const loo = (sum - r.Value) / (n - 1);
+        const m1  = (r.Value * r.Value) / loo;
+        const m2  = rankOf[r.Country];           // raw rank within peer set
+        const m4  = m2 / n;                      // percentile (0,1]
+        out.push({Country: r.Country, Year: yr, Value: r.Value, LOO: loo, M1: m1, M2: m2, M4: m4, peerN: n});
+      });
+    }
+    return out;
+  };
+
   // ── Toast (small transient confirmation, e.g. "Copied") ───────────
   let toastEl = null, toastTimer = null;
   function flashToast(msg) {
