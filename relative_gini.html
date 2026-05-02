@@ -80,7 +80,8 @@
 <script defer src="nav.js"></script>
 <script defer src="tips.js"></script>
 <script defer>document.addEventListener("DOMContentLoaded", () => renderNav("relative_gini.html"));</script>
-<script defer src="shared.js">
+<script defer src="shared.js"></script>
+<script defer>
 function renderDistributions() {
   if (!EXTRAS) return;
   const latestYear = Math.max(...EXTRAS.gini.map(r => r.Year));
