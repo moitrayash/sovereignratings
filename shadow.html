@@ -386,18 +386,67 @@ function renderHeatmap() {
   });
   const xLabels = Array.from({length: Sn}, (_, i) => `${i*5}–${i*5+5}`);
   const yLabels = Array.from({length: Hn}, (_, i) => `${30+i*5}–${30+i*5+5}`);
+  // Latest-year-per-country snapshot for the country dot overlay
+  const points = [];
+  const seen = new Set();
+  Object.keys(sm).map(Number).sort((a,b)=>b-a).forEach(yr => {
+    const hM = hdiMap[yr] || {};
+    Object.keys(sm[yr]).forEach(c => {
+      if (seen.has(c)) return;
+      const s = sm[yr][c]; const h = hM[c];
+      if (s == null || h == null) return;
+      seen.add(c); points.push({country:c, score:s, hdi:h});
+    });
+  });
+  // OLS regression for the diagonal anchor
+  const n = points.length;
+  const sx = points.reduce((a,p)=>a+p.score,0);
+  const syA = points.reduce((a,p)=>a+p.hdi,0);
+  const sxx = points.reduce((a,p)=>a+p.score*p.score,0);
+  const sxy = points.reduce((a,p)=>a+p.score*p.hdi,0);
+  const bSlope = (n*sxy - sx*syA)/(n*sxx - sx*sx);
+  const aInt = (syA - bSlope*sx)/n;
+  const withRes = points.map(p => Object.assign({}, p, {res: p.hdi-(aInt+bSlope*p.score)}));
+  withRes.sort((p,q)=>q.res-p.res);
+  const labelSet = new Set([...withRes.slice(0,7).map(p=>p.country), ...withRes.slice(-7).map(p=>p.country)]);
   try {
-    Plotly.newPlot('heatmap-chart', [{
-      z: grid, x: xLabels, y: yLabels,
-      type: 'heatmap', colorscale: 'YlOrRd',
-      hovertemplate: 'Score: %{x}<br>HDI×100: %{y}<br>Count: %{z}<extra></extra>'
-    }], {
+    Plotly.newPlot('heatmap-chart', [
+      // Density topo: smooth contour fills using YlOrRd
+      { type:'histogram2dcontour',
+        x: points.map(p=>p.score), y: points.map(p=>p.hdi),
+        colorscale:'YlOrRd', contours:{coloring:'fill', showlines:false}, ncontours:14,
+        opacity:0.88, hoverinfo:'skip', showscale:true,
+        colorbar:{title:'Country density', thickness:12, len:0.55, x:1.02, tickfont:{size:9}}
+      },
+      // Country dots
+      { type:'scatter', mode:'markers',
+        x: points.map(p=>p.score), y: points.map(p=>p.hdi),
+        text: points.map(p=>p.country),
+        marker:{size:6, color:'rgba(20,20,20,0.85)', line:{color:'rgba(255,255,255,0.85)',width:0.8}},
+        hovertemplate:'<b>%{text}</b><br>Score: %{x:.1f}<br>HDI×100: %{y:.1f}<extra></extra>',
+        showlegend:false
+      },
+      // OLS regression line
+      { type:'scatter', mode:'lines',
+        x:[0,60], y:[aInt, aInt+bSlope*60],
+        line:{color:'rgba(255,255,255,0.55)', width:1.5, dash:'dash'},
+        hoverinfo:'skip', name:'OLS regression'
+      },
+      // Outlier labels
+      { type:'scatter', mode:'text',
+        x: withRes.filter(p=>labelSet.has(p.country)).map(p=>p.score),
+        y: withRes.filter(p=>labelSet.has(p.country)).map(p=>p.hdi),
+        text: withRes.filter(p=>labelSet.has(p.country)).map(p=>p.country),
+        textposition:'top right', textfont:{size:9, color:'#ffffff'},
+        hoverinfo:'skip', showlegend:false
+      }
+    ], {
       plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
       font:{family:'Helvetica Neue, Arial, sans-serif',size:11,color:'#1a1a1a'},
-      title: {text: 'Composite credit score × HDI×100, all country-years 2010–2022', font: {size: 13}},
-      xaxis: {title: 'Composite credit score (0–60)'},
-      yaxis: {title: 'HDI × 100'},
-      margin: {l: 80, r: 60, t: 50, b: 70}
+      title: {text: 'Composite credit score × HDI×100 — country positions + density topography', font: {size: 13}},
+      xaxis: {title: 'Composite credit score (0–60)', range:[0,62]},
+      yaxis: {title: 'HDI × 100', range:[28,100]},
+      margin: {l: 80, r: 90, t: 50, b: 70}
     }, window.scrChartConfig || (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
   } catch(e) { console.error('heatmap failed:', e); }
 }

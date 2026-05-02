@@ -33,5 +33,7 @@
       if (item.href === activeHref) a.classList.add('active');
       nav.appendChild(a);
     });
+    // Re-apply persisted language now that nav items exist with data-en attrs
+    if (window.scrReapplyLang) window.scrReapplyLang();
   };
 })();

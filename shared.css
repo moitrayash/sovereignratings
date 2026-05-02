@@ -588,6 +588,57 @@ body.dark .js-plotly-plot path[style*="stroke: rgb(136, 136, 136)"] { stroke: rg
 body.dark .js-plotly-plot .annotation path { stroke: #ececec !important; }
 body.dark .js-plotly-plot .infolayer .annotation-text-g text { fill: #ececec !important; }
 
+/* ── Hover labels: uniform high-contrast bg + readable text ─────── */
+/* Cover all the SVG element types Plotly uses for hover bubble:
+   - hovertext > path  (scatter trace hover)
+   - hovertext > rect  (heatmap hover)
+   - g.hovertext path  (newer plotly)
+   - all descendants for text  */
+body.dark .js-plotly-plot g.hovertext path,
+body.dark .js-plotly-plot g.hovertext rect,
+body.dark .js-plotly-plot .hovertext path,
+body.dark .js-plotly-plot .hovertext rect {
+  fill: #1a1a1a !important;
+  stroke: #f0f0f0 !important;
+  stroke-width: 1.5px !important;
+  fill-opacity: 1 !important;
+}
+body.dark .js-plotly-plot g.hovertext text,
+body.dark .js-plotly-plot g.hovertext text tspan,
+body.dark .js-plotly-plot .hovertext text,
+body.dark .js-plotly-plot .hovertext text tspan {
+  fill: #ffffff !important;
+  font-weight: 600 !important;
+}
+/* Light mode equivalent */
+body:not(.dark) .js-plotly-plot g.hovertext path,
+body:not(.dark) .js-plotly-plot g.hovertext rect,
+body:not(.dark) .js-plotly-plot .hovertext path,
+body:not(.dark) .js-plotly-plot .hovertext rect {
+  fill: #ffffff !important;
+  stroke: #1a1a1a !important;
+  stroke-width: 1.5px !important;
+  fill-opacity: 1 !important;
+}
+body:not(.dark) .js-plotly-plot g.hovertext text,
+body:not(.dark) .js-plotly-plot g.hovertext text tspan,
+body:not(.dark) .js-plotly-plot .hovertext text,
+body:not(.dark) .js-plotly-plot .hovertext text tspan {
+  fill: #1a1a1a !important;
+  font-weight: 600 !important;
+}
+
+/* ── Modebar: replace white highlight with simple invert on hover ── */
+.js-plotly-plot .modebar-btn { transition: filter 0.12s ease, opacity 0.12s ease; }
+.js-plotly-plot .modebar-btn:hover {
+  filter: invert(1) hue-rotate(180deg) !important;
+  background: transparent !important;
+}
+body.dark .js-plotly-plot .modebar-btn:hover {
+  filter: invert(0) brightness(1.5) !important;
+  background: transparent !important;
+}
+
 /* ── Dark mode: neon-glow hover halo on each trace line ──────── */
 /* Make traces hoverable as line strokes (Plotly disables pointer events by default) */
 body.dark .js-plotly-plot .scatterlayer .trace path.js-line {

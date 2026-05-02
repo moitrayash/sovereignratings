@@ -61,43 +61,49 @@
 
   // ── Language picker ────────────────────────────────────────────────
   const I18N = {
-    'en': {label:'EN', nav:{}},
+    'en': {label:'EN', nav:{}, h1:'Sovereign Credit Rating Explorer', tagline:null},
     'ar': {label:'AR', nav:{
       'Citations':'المراجع','Glossary':'مسرد المصطلحات','Methodology':'المنهجية',
       'Relative Ratings':'التصنيفات النسبية','Paired, Grouped & Regional Ratings':'تصنيفات مزدوجة ومجموعة وإقليمية',
-      'Distance-graded Ratings':'تصنيفات مدرجة بالمسافة','Relative HDI':'مؤشر التنمية البشرية النسبي',
+      'Distance-graded Ratings':'تصنيفات مدرجة بالمسافة','Shadow Ratings':'التصنيفات الظلية','Relative HDI':'مؤشر التنمية البشرية النسبي',
       'Relative Gini':'معامل جيني النسبي','Stories':'قصص','Land Acknowledgement':'إقرار بالأرض'
-    }},
+    }, h1:'مستكشف التصنيف الائتماني السيادي',
+       tagline:'151 دولة · ستاندرد آند بورز، موديز، دي بي آر إس مورنينغستار · 2000–2025 · درجات مركبة (0–60) · طرق نسبية M1–M4'},
     'zh': {label:'ZH', nav:{
       'Citations':'引文','Glossary':'术语表','Methodology':'方法论',
       'Relative Ratings':'相对评级','Paired, Grouped & Regional Ratings':'配对、分组与区域评级',
-      'Distance-graded Ratings':'按距离分级的评级','Relative HDI':'相对人类发展指数',
+      'Distance-graded Ratings':'按距离分级的评级','Shadow Ratings':'影子评级','Relative HDI':'相对人类发展指数',
       'Relative Gini':'相对基尼系数','Stories':'故事','Land Acknowledgement':'土地致谢'
-    }},
+    }, h1:'主权信用评级浏览器',
+       tagline:'151 个国家 · 标普、穆迪、DBRS Morningstar · 2000–2025 · 综合评分 (0–60) · 相对方法 M1–M4'},
     'fr': {label:'FR', nav:{
       'Citations':'Citations','Glossary':'Glossaire','Methodology':'Méthodologie',
       'Relative Ratings':'Notations relatives','Paired, Grouped & Regional Ratings':'Notations appariées, groupées et régionales',
-      'Distance-graded Ratings':'Notations pondérées par distance','Relative HDI':'IDH relatif',
+      'Distance-graded Ratings':'Notations pondérées par distance','Shadow Ratings':'Notations implicites','Relative HDI':'IDH relatif',
       'Relative Gini':'Gini relatif','Stories':'Récits','Land Acknowledgement':'Reconnaissance du territoire'
-    }},
+    }, h1:'Explorateur de notations souveraines de crédit',
+       tagline:'151 pays · S&P, Moody’s, DBRS Morningstar · 2000–2025 · Scores composites (0–60) · Méthodes relatives M1–M4'},
     'hi': {label:'HI', nav:{
       'Citations':'संदर्भ','Glossary':'शब्दावली','Methodology':'पद्धति',
       'Relative Ratings':'सापेक्ष रेटिंग','Paired, Grouped & Regional Ratings':'युग्मित, समूहीकृत एवं क्षेत्रीय रेटिंग',
-      'Distance-graded Ratings':'दूरी-श्रेणीबद्ध रेटिंग','Relative HDI':'सापेक्ष मानव विकास सूचकांक',
+      'Distance-graded Ratings':'दूरी-श्रेणीबद्ध रेटिंग','Shadow Ratings':'छाया रेटिंग','Relative HDI':'सापेक्ष मानव विकास सूचकांक',
       'Relative Gini':'सापेक्ष जिनी','Stories':'कहानियाँ','Land Acknowledgement':'भूमि स्वीकृति'
-    }},
+    }, h1:'संप्रभु क्रेडिट रेटिंग एक्सप्लोरर',
+       tagline:'151 देश · S&P, मूडीज़, DBRS Morningstar · 2000–2025 · संयुक्त स्कोर (0–60) · सापेक्ष विधियाँ M1–M4'},
     'ru': {label:'RU', nav:{
       'Citations':'Источники','Glossary':'Глоссарий','Methodology':'Методология',
       'Relative Ratings':'Относительные рейтинги','Paired, Grouped & Regional Ratings':'Парные, групповые и региональные рейтинги',
-      'Distance-graded Ratings':'Рейтинги с учётом расстояния','Relative HDI':'Относительный ИЧР',
+      'Distance-graded Ratings':'Рейтинги с учётом расстояния','Shadow Ratings':'Теневые рейтинги','Relative HDI':'Относительный ИЧР',
       'Relative Gini':'Относительный Джини','Stories':'Истории','Land Acknowledgement':'Признание земли'
-    }},
+    }, h1:'Обозреватель суверенных кредитных рейтингов',
+       tagline:'151 страна · S&P, Moody’s, DBRS Morningstar · 2000–2025 · Сводные оценки (0–60) · Относительные методы M1–M4'},
     'es': {label:'ES', nav:{
       'Citations':'Citas','Glossary':'Glosario','Methodology':'Metodología',
       'Relative Ratings':'Calificaciones relativas','Paired, Grouped & Regional Ratings':'Calificaciones emparejadas, agrupadas y regionales',
-      'Distance-graded Ratings':'Calificaciones por distancia','Relative HDI':'IDH relativo',
+      'Distance-graded Ratings':'Calificaciones por distancia','Shadow Ratings':'Calificaciones sombra','Relative HDI':'IDH relativo',
       'Relative Gini':'Gini relativo','Stories':'Relatos','Land Acknowledgement':'Reconocimiento territorial'
-    }}
+    }, h1:'Explorador de calificaciones crediticias soberanas',
+       tagline:'151 países · S&P, Moody’s, DBRS Morningstar · 2000–2025 · Puntuaciones compuestas (0–60) · Métodos relativos M1–M4'}
   };
 
   function applyLang(code) {
@@ -108,10 +114,25 @@
       const en = a.dataset.en;
       a.textContent = lang.nav[en] || en;
     });
+    // Header h1 and sub-tagline
+    const h1 = document.querySelector('header.site h1');
+    if (h1) {
+      if (!h1.dataset.en) h1.dataset.en = h1.textContent.trim();
+      h1.textContent = lang.h1 || h1.dataset.en;
+    }
+    const tag = document.querySelector('header.site .sub-tagline');
+    if (tag) {
+      if (!tag.dataset.en) tag.dataset.en = tag.innerHTML;
+      tag.innerHTML = lang.tagline || tag.dataset.en;
+    }
     LS.set('lang', code);
     const btn = document.querySelector('[data-pill="lang"]');
     if (btn) btn.firstChild.nodeValue = (lang.label || 'EN') + ' ';
   }
+  // Expose so nav.js can re-apply after rendering nav items with data-en
+  window.scrReapplyLang = function() {
+    applyLang(LS.get('lang', 'en'));
+  };
 
   // ── Build the top-right control rail ──────────────────────────────
   function buildControls() {
@@ -469,28 +490,57 @@
           };
         }
         const orig = trace._scrOrig;
-        const newLine   = swapColor(orig.line, dark);
-        const newMarker = swapColor(orig.marker, dark);
-        const newFill   = swapColor(orig.fill, dark);
-        restyleUpdate['line.color'][i]   = newLine !== undefined ? newLine : null;
+        // Handle both string colors and arrays of colors (per-bar coloring)
+        function swapMaybeArray(v) {
+          if (Array.isArray(v)) return v.map(c => swapColor(c, dark));
+          return swapColor(v, dark);
+        }
+        const newLine   = swapMaybeArray(orig.line);
+        const newMarker = swapMaybeArray(orig.marker);
+        const newFill   = swapMaybeArray(orig.fill);
+        restyleUpdate['line.color'][i]   = newLine   !== undefined ? newLine   : null;
         restyleUpdate['marker.color'][i] = newMarker !== undefined ? newMarker : null;
-        restyleUpdate['fillcolor'][i]    = newFill !== undefined ? newFill : null;
-        if (newLine !== orig.line || newMarker !== orig.marker || newFill !== orig.fill) needsUpdate = true;
+        restyleUpdate['fillcolor'][i]    = newFill   !== undefined ? newFill   : null;
+        needsUpdate = true; // always restyle to be safe (idempotent)
       });
       if (needsUpdate) {
         try { window.Plotly.restyle(div, restyleUpdate); } catch(e) { console.warn('chart theme restyle failed:', e); }
       }
-      // Also relayout font/axis colors
+      // Re-apply formatting standard: text colors, grid (major+minor),
+      // zero anchor, axis lines + tickmarks, plus directional arrows.
       const fg = dark ? '#ececec' : '#1a1a1a';
       const grid = dark ? 'rgba(220,220,220,0.18)' : 'rgba(60,60,60,0.18)';
+      const minorGrid = dark ? 'rgba(220,220,220,0.08)' : 'rgba(60,60,60,0.08)';
       try {
         window.Plotly.relayout(div, {
           'font.color': fg,
-          'xaxis.color': fg, 'xaxis.gridcolor': grid, 'xaxis.linecolor': fg, 'xaxis.tickcolor': fg, 'xaxis.zerolinecolor': fg,
-          'yaxis.color': fg, 'yaxis.gridcolor': grid, 'yaxis.linecolor': fg, 'yaxis.tickcolor': fg, 'yaxis.zerolinecolor': fg,
+          'xaxis.color': fg, 'xaxis.gridcolor': grid,
+          'xaxis.linecolor': fg, 'xaxis.linewidth': 1.2, 'xaxis.showline': true, 'xaxis.mirror': false,
+          'xaxis.tickcolor': fg, 'xaxis.ticks': 'outside', 'xaxis.ticklen': 5,
+          'xaxis.zeroline': true, 'xaxis.zerolinecolor': fg, 'xaxis.zerolinewidth': 1.2,
+          'xaxis.minor.showgrid': true, 'xaxis.minor.gridcolor': minorGrid,
+          'xaxis.minor.ticks': 'outside', 'xaxis.minor.ticklen': 3,
+          'yaxis.color': fg, 'yaxis.gridcolor': grid,
+          'yaxis.linecolor': fg, 'yaxis.linewidth': 1.2, 'yaxis.showline': true, 'yaxis.mirror': false,
+          'yaxis.tickcolor': fg, 'yaxis.ticks': 'outside', 'yaxis.ticklen': 5,
+          'yaxis.zeroline': true, 'yaxis.zerolinecolor': fg, 'yaxis.zerolinewidth': 1.2,
+          'yaxis.minor.showgrid': true, 'yaxis.minor.gridcolor': minorGrid,
+          'yaxis.minor.ticks': 'outside', 'yaxis.minor.ticklen': 3,
           'yaxis2.color': fg, 'yaxis2.gridcolor': grid,
           'legend.font.color': fg
         });
+        // Inject directional arrow annotations at axis ends if not already present
+        const lo = div._fullLayout || {};
+        const titleX = (lo.xaxis && lo.xaxis.title && (lo.xaxis.title.text || '')) || '';
+        const titleY = (lo.yaxis && lo.yaxis.title && (lo.yaxis.title.text || '')) || '';
+        const existing = (lo.annotations || []).filter(a => !a._scrAxisArrow);
+        const arrows = [
+          { _scrAxisArrow: true, xref:'paper', yref:'paper', x:1.005, y:0, xanchor:'left', yanchor:'middle',
+            showarrow:false, text: '→ ' + (titleX || ''), font:{size:10, color:fg}, opacity:0.85 },
+          { _scrAxisArrow: true, xref:'paper', yref:'paper', x:0, y:1.02, xanchor:'right', yanchor:'bottom',
+            showarrow:false, text: '↑', font:{size:14, color:fg}, opacity:0.85 }
+        ];
+        window.Plotly.relayout(div, { annotations: existing.concat(arrows) });
       } catch(e) {}
     });
   };
