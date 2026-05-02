@@ -556,46 +556,57 @@
   // opacity so the clicked one stands out; clicking it again restores all.
   // Works for both solid and dashed series independently. Plotly's default
   // legend toggle is preserved via shift-click (handled inline below).
-  // Inject directional arrow annotations + 0,0 union marker, ONCE per chart.
-  // Reads each axis's existing title text to label the arrow with the unit.
+  // Idempotent axis-arrow injector. Re-applies on every Plotly render via
+  // plotly_afterplot — pages that call Plotly.newPlot in slider handlers wipe
+  // annotations, so we re-add them. Guard against relayout itself triggering
+  // afterplot infinitely with _scrInjectingArrows flag.
   function applyAxisArrows(gd) {
-    if (!gd || gd._scrArrowsApplied) return;
-    if (!window.Plotly || !gd._fullLayout) return;
-    gd._scrArrowsApplied = true;
+    if (!gd || !window.Plotly) return;
     const lo = gd._fullLayout;
+    if (!lo) return;
+    if (gd._scrInjectingArrows) return;
+    const hasOurs = (lo.annotations || []).some(a => a && a._scrAxisArrow);
+    if (hasOurs) return; // arrows already present; no-op
     const fg = document.body.classList.contains('dark') ? '#ececec' : '#1a1a1a';
     const titleX = (lo.xaxis && lo.xaxis.title && (lo.xaxis.title.text || '')) || '';
     const titleY = (lo.yaxis && lo.yaxis.title && (lo.yaxis.title.text || '')) || '';
     const existing = (lo.annotations || []).filter(a => !a._scrAxisArrow);
     const arrows = [
-      // X-axis arrow with unit at right end of axis line
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 1, y: 0,
         xanchor: 'left', yanchor: 'middle', xshift: 4, yshift: 0,
         showarrow: false, text: '→ ' + (titleX || ''),
         font: { size: 10, color: fg, family: 'Helvetica Neue, Arial, sans-serif' }, opacity: 0.92 },
-      // Y-axis arrow with unit at top end of axis line
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 1,
         xanchor: 'middle', yanchor: 'bottom', xshift: 0, yshift: 4,
         showarrow: false, text: '↑ ' + (titleY || ''),
         font: { size: 10, color: fg, family: 'Helvetica Neue, Arial, sans-serif' }, opacity: 0.92 },
-      // 0,0 union marker at the chart origin
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 0,
         xanchor: 'right', yanchor: 'top', xshift: -4, yshift: -4,
         showarrow: false, text: '0,0',
         font: { size: 10, color: fg, family: 'Helvetica Neue, Arial, sans-serif' }, opacity: 0.95 }
     ];
+    gd._scrInjectingArrows = true;
     try {
       window.Plotly.relayout(gd, { annotations: existing.concat(arrows) });
     } catch(e) { console.warn('axis arrows relayout failed:', e); }
+    setTimeout(() => { gd._scrInjectingArrows = false; }, 80);
   }
   window.scrApplyAxisArrows = applyAxisArrows;
 
   function wireChartHooks(gd) {
     if (!gd || gd._scrHooksWired) return;
-    gd._scrHooksWired = true;
+    // CRITICAL: only set _scrHooksWired AFTER confirming gd.on exists.
+    // Otherwise an early call (before Plotly attaches) marks the chart wired
+    // forever and the hover glow never gets attached.
     if (!window.Plotly || !gd.on) return;
+    gd._scrHooksWired = true;
     // Bake arrows in once
     setTimeout(() => applyAxisArrows(gd), 50);
+    // After every Plotly redraw (newPlot/restyle/relayout), re-check arrows.
+    // Page-specific code (e.g. distance_graded slider) wipes annotations on
+    // every Plotly.newPlot — afterplot fires, applyAxisArrows is idempotent
+    // and re-injects only when needed.
+    gd.on('plotly_afterplot', function() { applyAxisArrows(gd); });
     let isolated = -1;
     gd.on('plotly_legendclick', function(e) {
       if (e && e.event && e.event.shiftKey) return true; // Shift-click → default toggle
