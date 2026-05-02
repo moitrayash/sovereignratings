@@ -571,15 +571,33 @@
     const titleX = (lo.xaxis && lo.xaxis.title && (lo.xaxis.title.text || '')) || '';
     const titleY = (lo.yaxis && lo.yaxis.title && (lo.yaxis.title.text || '')) || '';
     const existing = (lo.annotations || []).filter(a => !a._scrAxisArrow);
+    // Each arrow IS the visual extension of its axis line: ax/ay is the start
+    // point right where the axis ends, (x, y) is the tip with a chunky arrowhead.
+    // Then a separate text-only annotation sits beside the arrowhead with the unit.
     const arrows = [
-      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 1, y: 0,
+      // X-axis line extension — runs along y=0 from inside the chart out past x=1
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper',
+        ax: 0.995, ay: 0, axref: 'paper', ayref: 'paper',
+        x: 1.04, y: 0,
+        showarrow: true, arrowhead: 3, arrowsize: 1.2, arrowwidth: 1.4, arrowcolor: fg,
+        text: '', standoff: 0, startstandoff: 0 },
+      // X-axis unit label
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 1.045, y: 0,
         xanchor: 'left', yanchor: 'middle', xshift: 4, yshift: 0,
-        showarrow: false, text: '→ ' + (titleX || ''),
-        font: { size: 10, color: fg, family: 'Helvetica Neue, Arial, sans-serif' }, opacity: 0.92 },
-      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 1,
-        xanchor: 'middle', yanchor: 'bottom', xshift: 0, yshift: 4,
-        showarrow: false, text: '↑ ' + (titleY || ''),
-        font: { size: 10, color: fg, family: 'Helvetica Neue, Arial, sans-serif' }, opacity: 0.92 },
+        showarrow: false, text: titleX || '',
+        font: { size: 10, color: fg, family: 'Helvetica Neue, Arial, sans-serif' }, opacity: 0.95 },
+      // Y-axis line extension — runs along x=0 from inside the chart up past y=1
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper',
+        ax: 0, ay: 0.995, axref: 'paper', ayref: 'paper',
+        x: 0, y: 1.05,
+        showarrow: true, arrowhead: 3, arrowsize: 1.2, arrowwidth: 1.4, arrowcolor: fg,
+        text: '', standoff: 0, startstandoff: 0 },
+      // Y-axis unit label
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 1.055,
+        xanchor: 'left', yanchor: 'bottom', xshift: 8, yshift: 4,
+        showarrow: false, text: titleY || '',
+        font: { size: 10, color: fg, family: 'Helvetica Neue, Arial, sans-serif' }, opacity: 0.95 },
+      // 0,0 union marker at the chart origin
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 0,
         xanchor: 'right', yanchor: 'top', xshift: -4, yshift: -4,
         showarrow: false, text: '0,0',
