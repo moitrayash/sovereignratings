@@ -68,7 +68,7 @@
   <div class="head-row">
     <div class="head-text">
       <h1>Sovereign Credit Rating Explorer</h1>
-            <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
+      <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
     </div>
   </div>
 </header>
@@ -437,8 +437,153 @@
     <h2>R</h2>
     <dl>
 
-      <div class="e
+      <div class="entry" data-terms="relative rating relative standing">
+        <dt>Relative Rating</dt>
+        <dd>
+          <p>A measure of a country's credit standing <em>within</em> a peer group, as opposed to its absolute score on the 0&ndash;60 scale. Four relative rating methods are implemented (M1&ndash;M4). Relative ratings can change even when absolute scores are unchanged&mdash;for instance, when the peer group mean deteriorates, a country with a fixed score improves in relative terms. See <a href="methodology.html#sec4">Methodology &sect;4</a>.</p>
+          <p>Beyond M1&ndash;M4, the dataset implements three literature-standard families: <strong>Basu RR / CRIS</strong> (GDP-weighted benchmark), the <strong>De relativizations</strong> (ten variants spanning subtraction, standardisation, ranking, and anchoring), and <strong>pairwise / distance-graded</strong> measures. All families correlate at r &ge; 0.93 with one another.</p>
+        </dd>
+      </div>
+
+      <div class="entry" data-terms="residual rating gap actual minus shadow over rated under rated">
+        <dt>Residual (Rating Gap)</dt>
+        <dd>
+          <p>The difference between a country's actual composite score and its shadow rating: <code>Residual = Actual &minus; Shadow</code>. Positive residuals indicate over-rating relative to fundamentals; negative residuals indicate under-rating.</p>
+          <p>In the S2 benchmark, the average gap among rated African countries is &asymp; &minus;0.8 (small under-rating); South America averages &minus;2.9 to &minus;3.6; advanced economies (European Union, United States, Germany, Canada, Australia) are over-rated by +11 to +17&mdash;an "advanced-economy premium" not explained by macro and institutional fundamentals. The most under-rated countries are in active distress (Sri Lanka, Ghana, Ukraine, Ethiopia, Barbados).</p>
+        </dd>
+      </div>
+
+      <div class="entry" data-terms="rule of law wgi worldwide governance indicators institutional quality kaufmann kraay mastruzzi">
+        <dt>Rule of Law <span class="abbr">WGI Indicator</span></dt>
+        <dd>
+          <p>A <a href="https://www.worldbank.org/en/publication/worldwide-governance-indicators" target="_blank" rel="noopener">Worldwide Governance Indicator</a> on the range &minus;2.5 to +2.5 capturing perceptions of contract enforcement, property rights, the police, the courts, and the likelihood of crime and violence; methodology in Daniel Kaufmann, Aart Kraay, and Massimo Mastruzzi (2010). Sourced via the data360 API. After log GDP per capita, Rule of Law is the second-largest predictor of sovereign ratings in the shadow model (S2 coefficient &asymp; +7.5, p &lt; 0.001)&mdash;consistent with the UNDP critique that subjective governance perceptions are an important driver of agency ratings.</p>
+        </dd>
+      </div>
+
+    </dl>
+  </div>
+
+  <!-- ─── S ─────────────────────────────────────────────── -->
+  <div class="alpha-section" id="sec-S">
+    <h2>S</h2>
+    <dl>
+
+      <div class="entry" data-terms="score numeric score 0 60 scale rating scale">
+        <dt>Score (0&ndash;60 Scale)</dt>
+        <dd>
+          <p>The numeric representation of a letter credit rating on a uniform 0&ndash;60 scale, where 60 = AAA/Aaa (best) and 0 = D/SD/C (default). The scale is constructed so that each full letter-grade notch corresponds to approximately 3 points (e.g. AA+ &asymp; 57, AA &asymp; 54, AA&minus; &asymp; 51). The 0&ndash;60 scale is applied uniformly across S&amp;P, Moody's, and DBRS Morningstar after mapping each agency's notation to the equivalent grade.</p>
+        </dd>
+      </div>
+
+      <div class="entry" data-terms="shadow rating predicted rating fundamentals model ratha de mohapatra">
+        <dt>Shadow Rating</dt>
+        <dd>
+          <p>The rating implied by a country's macro and institutional fundamentals, estimated by OLS regression of the observed composite score on a set of structural covariates and then applied to all 150 countries&mdash;including those rated by no agency or only one. Following Dilip Ratha, Supriyo De, and Sanket Mohapatra in <a href="https://openknowledge.worldbank.org/handle/10986/7363" target="_blank" rel="noopener">World Bank Policy Research Working Paper 4269</a> (2007).</p>
+          <p>Five nested specifications S0&ndash;S4 are estimated with cluster-robust standard errors at the country level. <strong>S2 is the preferred benchmark</strong>: log GDPpc, GDP growth, 5-yr growth volatility, inflation, Rule of Law, and current account % GDP, fit on N = 2,578 country&ndash;years with R&sup2; = 0.76 and RMSE = 8.05 points (&asymp; 2.7 letter-grade notches). Saved in <code>shadow_panel.csv</code>. See <a href="methodology.html#sec12">Methodology &sect;12</a>.</p>
+        </dd>
+      </div>
+
+      <div class="entry" data-terms="sovereign default default rating">
+        <dt>Sovereign Default</dt>
+        <dd>
+          <p>A failure by a government to meet its debt obligations (missed payment, restructuring, or distressed exchange). Reflected in the rating scale as D or SD (Selective Default) at the bottom of the 0&ndash;60 range (score &asymp; 0&ndash;6). Rating agencies typically downgrade to this level on or around the event date.</p>
+        </dd>
+      </div>
+
+    </dl>
+  </div>
+
+  <!-- ─── T ─────────────────────────────────────────────── -->
+  <div class="alpha-section" id="sec-T">
+    <h2>T</h2>
+    <dl>
+
+      <div class="entry" data-terms="transition rating transition upgrade downgrade stable">
+        <dt>Transition (Rating Transition)</dt>
+        <dd>
+          <p>A year-on-year change in composite score. Classified as: <strong>Upgrade</strong> (score rose), <strong>Stable</strong> (no change), or <strong>Downgrade</strong> (score fell). In the dataset: ~17 percent upgrades, ~70 percent stable, ~13 percent downgrades. Stability is the dominant outcome because credit scores are highly persistent&mdash;agencies change ratings infrequently.</p>
+        </dd>
+      </div>
+
+    </dl>
+  </div>
+
+  <!-- ─── U ─────────────────────────────────────────────── -->
+  <div class="alpha-section" id="sec-U">
+    <h2>U</h2>
+    <dl>
+
+      <div class="entry" data-terms="upgrade upgrade downgrade">
+        <dt>Upgrade</dt>
+        <dd>
+          <p>An increase in a country's composite score from one year to the next. Upgrades average +4.4 points, smaller in magnitude than downgrades (&minus;6.1 points), consistent with the stylised fact that agencies are more cautious about upgrading than downgrading (asymmetric conservatism). There have been 802 upgrades vs 604 downgrades in the full 1949&ndash;2026 history.</p>
+        </dd>
+      </div>
+
+    </dl>
+  </div>
+
+  <!-- ─── W ─────────────────────────────────────────────── -->
+  <div class="alpha-section" id="sec-W">
+    <h2>W</h2>
+    <dl>
+
+      <div class="entry" data-terms="within estimator within R squared fixed effects panel">
+        <dt>Within R&sup2; <span class="abbr">R&sup2;(within)</span></dt>
+        <dd>
+          <p>The share of variance in the dependent variable that is explained by the regressors <em>after removing country and year means</em> (i.e. after partialing out fixed effects). In Model A (growth + FDI only), R&sup2;(within) &asymp; 0&mdash;macro flows explain almost none of the year-to-year variation in a country's score, once its average level is controlled for. By contrast, Pooled OLS R&sup2; = 0.90, reflecting that almost all variation is <em>between</em> countries (structural differences in wealth).</p>
+        </dd>
+      </div>
+
+      <div class="entry" data-terms="world group world benchmark all countries">
+        <dt>World Group</dt>
+        <dd>
+          <p>The broadest peer group, consisting of all 150 rated countries. Used as the global benchmark for the &ldquo;World LOO mean&rdquo;&mdash;the average composite score across all countries, excluding the focal country. Relative ratings against the World group measure a country's standing in the global distribution rather than within a regional or political subgroup.</p>
+        </dd>
+      </div>
+
+    </dl>
+  </div>
+
+  </div><!-- /glossary-body -->
+
+  <p class="page-footer">For full formula derivations and regression specifications, see the <a href="methodology.html">Methodology</a>. For all citations and source documents, see the <a href="citations.html">Citations</a> page.</p>
+
+</main>
+
+<script defer src="shared.js"></script>
+<script>
+const sections = document.querySelectorAll('.alpha-section');
+const idx = document.getElementById('alpha-index');
+sections.forEach(sec => {
+  const letter = sec.querySelector('h2').textContent.trim();
+  const a = document.createElement('a');
+  a.href = '#sec-' + letter;
+  a.textContent = letter;
+  idx.appendChild(a);
+});
+
+function filterGlossary() {
+  const q = document.getElementById('gloss-search').value.toLowerCase().trim();
+  const entries = document.querySelectorAll('.entry');
+  let visible = 0;
+  entries.forEach(entry => {
+    const terms = (entry.dataset.terms || '').toLowerCase();
+    const text  = entry.textContent.toLowerCase();
+    const match = !q || terms.includes(q) || text.includes(q);
+    entry.classList.toggle('hidden', !match);
+    if (match) visible++;
+  });
+  sections.forEach(sec => {
+    const anyVisible = [...sec.querySelectorAll('.entry')].some(e => !e.classList.contains('hidden'));
+    sec.classList.toggle('hidden', !anyVisible);
+  });
+  document.getElementById('search-count').textContent = q ? `${visible} result${visible !== 1 ? 's' : ''}` : '';
+}
+</script>
 <script defer src="nav.js"></script>
 <script defer src="tips.js"></script>
 <script defer src="shared.js"></script>
 <script defer>document.addEventListener("DOMContentLoaded", () => renderNav("glossary.html"));</script>
+</body>
+</html>
