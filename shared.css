@@ -588,6 +588,24 @@ body.dark .js-plotly-plot path[style*="stroke: rgb(136, 136, 136)"] { stroke: rg
 body.dark .js-plotly-plot .annotation path { stroke: #ececec !important; }
 body.dark .js-plotly-plot .infolayer .annotation-text-g text { fill: #ececec !important; }
 
+/* ── Dark mode: code, formula, and pre blocks render terminal-green-on-black ── */
+body.dark code,
+body.dark pre.code-block,
+body.dark .formula-block,
+body.dark span.formula,
+body.dark .copyable pre,
+body.dark .example pre {
+  background: #000 !important;
+  color: #43ff7e !important;
+  border-color: #1f5530 !important;
+  text-shadow: 0 0 6px rgba(67, 255, 126, 0.45);
+  font-family: 'Courier New', 'Consolas', monospace !important;
+}
+body.dark code { padding: 1px 4px; border-radius: 2px; }
+body.dark pre.code-block { box-shadow: 0 0 12px rgba(67, 255, 126, 0.18) inset; }
+body.dark .formula-block { box-shadow: 0 0 8px rgba(67, 255, 126, 0.12) inset; }
+body.dark .formula-block .label { color: #b0e8c0 !important; text-shadow: none; }
+
 /* ── Plotly legend background — dark mode needs dark fill + light text ── */
 body.dark .js-plotly-plot .legend > rect.bg,
 body.dark .js-plotly-plot .legend rect:first-child {

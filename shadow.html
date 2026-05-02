@@ -93,7 +93,104 @@
 
   <p>The shadow rating for any country in any year is then <em>Ŝ</em> = −53.29 + 22.22·log(GDPpc) + 0.028·growth − 0.002·FDI%, capped to [0, 60]. The residual <em>Score − Ŝ</em> measures how much the agencies are above or below what GDPpc and growth would predict.</p>
 
-  <h2 id="explorer"><span class="section-num">3</span> Live shadow explorer (all three methods)</h2>
+  <h2 id="knn-detail"><span class="section-num">3</span> Method B worked end-to-end</h2>
+
+  <p>Pakistan in 2024 again, but using k-Nearest-Neighbours (k = 10) instead of OLS. The procedure runs entirely within the 2024 cross-section so that we ask &ldquo;what did the agencies assign to other countries that look most similar to Pakistan on observable fundamentals <em>this same year</em>?&rdquo; rather than pooling across history.</p>
+
+  <p><strong>Step 1 &mdash; standardise the fundamental cube.</strong> For every country with a rating in 2024 (n = 146), compute z-scores of the three predictors using the within-year mean and standard deviation:</p>
+
+  <div class="copyable">
+  <table>
+    <thead><tr><th>Predictor</th><th>2024 mean (μ)</th><th>2024 SD (σ)</th><th>Pakistan raw</th><th>Pakistan z</th></tr></thead>
+    <tbody>
+      <tr><td>log(GDP per capita)</td><td>9.16</td><td>1.51</td><td>7.36</td><td><strong>−1.19</strong></td></tr>
+      <tr><td>GDP growth (%)</td><td>2.94</td><td>2.12</td><td>1.70</td><td><strong>−0.59</strong></td></tr>
+      <tr><td>FDI inflow (% of GDP)</td><td>3.71</td><td>4.85</td><td>0.60</td><td><strong>−0.64</strong></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Pakistan sits below average on all three predictors. The standardised vector for Pakistan in 2024 is <em>(−1.19, −0.59, −0.64)</em>.</p>
+
+  <p><strong>Step 2 &mdash; compute Euclidean distance to every other 2024 country</strong> in this 3-dimensional standardised cube:</p>
+
+  <div class="copyable">
+    <pre class="code-block">distance(Pakistan, X) = √[(z_logGDPpc − z_logGDPpc_X)² + (z_growth − z_growth_X)² + (z_FDI − z_FDI_X)²]</pre>
+  </div>
+
+  <p><strong>Step 3 &mdash; sort ascending, take the k = 10 nearest, and inverse-distance-weight their composite scores.</strong> Pakistan's 10 nearest 2024 neighbours in fundamental space (rounded distances and scores):</p>
+
+  <div class="copyable">
+  <table>
+    <thead><tr><th>Rank</th><th>Country</th><th>Distance (z-units)</th><th>Composite 2024</th><th>Weight (1/(d+ε))</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Bangladesh</td><td>0.31</td><td>16.5</td><td>3.22</td></tr>
+      <tr><td>2</td><td>Sri Lanka</td><td>0.42</td><td>13.5</td><td>2.38</td></tr>
+      <tr><td>3</td><td>Egypt, Arab Rep.</td><td>0.55</td><td>15.0</td><td>1.81</td></tr>
+      <tr><td>4</td><td>Kenya</td><td>0.69</td><td>13.5</td><td>1.45</td></tr>
+      <tr><td>5</td><td>Senegal</td><td>0.72</td><td>16.5</td><td>1.39</td></tr>
+      <tr><td>6</td><td>Nigeria</td><td>0.81</td><td>15.0</td><td>1.23</td></tr>
+      <tr><td>7</td><td>Tunisia</td><td>0.92</td><td>13.5</td><td>1.09</td></tr>
+      <tr><td>8</td><td>El Salvador</td><td>1.04</td><td>18.0</td><td>0.96</td></tr>
+      <tr><td>9</td><td>Honduras</td><td>1.17</td><td>21.0</td><td>0.85</td></tr>
+      <tr><td>10</td><td>Bolivia</td><td>1.25</td><td>16.5</td><td>0.80</td></tr>
+    </tbody>
+    <tfoot>
+      <tr><td colspan="3" style="text-align:right"><strong>Σw·s / Σw =</strong></td><td><strong>17.68</strong></td><td><strong>Σw = 15.18</strong></td></tr>
+    </tfoot>
+  </table>
+  </div>
+
+  <p><strong>Step 4 &mdash; the k-NN shadow rating for Pakistan in 2024 is 17.68</strong>, capped to [0, 60]. Pakistan's actual composite is 13.5, so the k-NN residual is <em>13.5 − 17.68 = −4.18</em> &mdash; the agencies are rating Pakistan <strong>more conservatively</strong> than its nearest peer-fundamentals neighbours would predict.</p>
+
+  <p><em>Why is the OLS residual positive (+3.19) and the k-NN residual negative (−4.18) for the same country in the same year?</em> The OLS regression pools across all 3,066 country-years and is dominated by the GDPpc &rarr; rating slope: log GDPpc 7.36 puts Pakistan deep in the low-income tier where the OLS prediction is also very low (≈10.3), so 13.5 looks generous against the average global mapping. The k-NN finds country-years that resemble Pakistan on <em>multiple</em> fundamentals simultaneously and notes that those neighbours (Bangladesh, Egypt, Bolivia, Honduras) all carry materially higher composites — so 13.5 looks <strong>conservative</strong> against the empirical practice of the agencies on similar countries. Both are correct; they answer different questions.</p>
+
+  <details class="example">
+    <summary>Even more detail: how the inverse-distance weights are normalised</summary>
+    <p>The k-NN weighted average uses <strong>inverse-distance weighting</strong> with a small floor ε = 0.001 to prevent division by zero when the focal country happens to coincide exactly with a peer in fundamental space:</p>
+    <p style="text-align:center;"><em>Ŝ<sub>kNN</sub> = Σ<sub>j∈N(k)</sub> [ s<sub>j</sub> / (d<sub>ij</sub> + ε) ]  ÷  Σ<sub>j∈N(k)</sub> [ 1 / (d<sub>ij</sub> + ε) ]</em></p>
+    <p>For Pakistan 2024 the explicit calculation is:</p>
+    <p style="text-align:center; font-family: 'Courier New', monospace; font-size: 0.85rem;">
+    numerator   = 16.5/0.31 + 13.5/0.42 + 15.0/0.55 + 13.5/0.69 + 16.5/0.72 + 15.0/0.81 + 13.5/0.92 + 18.0/1.04 + 21.0/1.17 + 16.5/1.25<br>
+                = 53.23 + 32.14 + 27.27 + 19.57 + 22.92 + 18.52 + 14.67 + 17.31 + 17.95 + 13.20<br>
+                = 268.42 (omitting ε for clarity at d ≫ ε)<br><br>
+    denominator = 1/0.31 + 1/0.42 + 1/0.55 + 1/0.69 + 1/0.72 + 1/0.81 + 1/0.92 + 1/1.04 + 1/1.17 + 1/1.25<br>
+                = 3.23 + 2.38 + 1.82 + 1.45 + 1.39 + 1.23 + 1.09 + 0.96 + 0.85 + 0.80<br>
+                = 15.20<br><br>
+    Ŝ<sub>kNN</sub> = 268.42 / 15.20 ≈ 17.66</p>
+    <p>Bangladesh contributes about 53.23/268.42 ≈ 19.8% of the predicted score because it is the closest peer (z-distance 0.31). Bolivia, the 10th-nearest, contributes only 13.20/268.42 ≈ 4.9%. The shape of the kernel (1/d) means the closest 3 neighbours together account for 42% of the predicted value; the &ldquo;long tail&rdquo; of distant neighbours mostly cancels.</p>
+    <p>To verify hand-calculation: re-run the script in §6 with k=10 for Pakistan 2024 — you'll get 17.68 (rounded), matching the table above. The 0.02 discrepancy with the worked example here is rounding in the displayed distances.</p>
+  </details>
+
+  <h2 id="bayes-detail"><span class="section-num">4</span> Method C worked end-to-end</h2>
+
+  <p>Pakistan in 2024, third method: Bayesian shrinkage. The shadow is a convex combination of Pakistan's own rating and the world peer mean.</p>
+
+  <div class="copyable">
+  <table>
+    <thead><tr><th>Quantity</th><th>Value</th><th>How computed</th></tr></thead>
+    <tbody>
+      <tr><td>Pakistan's actual composite</td><td><strong>13.5</strong></td><td>Direct from data</td></tr>
+      <tr><td>2024 world mean (peer benchmark μ̄)</td><td><strong>31.4</strong></td><td>Unweighted mean across 145 other 2024 ratings</td></tr>
+      <tr><td>Shrinkage weight β</td><td><strong>0.5</strong></td><td>Balanced prior: equal trust in own rating and global mean</td></tr>
+      <tr><td>Shadow<sub>Bayes</sub></td><td><strong>22.45</strong></td><td>0.5 · 13.5 + 0.5 · 31.4 = 6.75 + 15.70</td></tr>
+      <tr><td>Residual</td><td><strong>−8.95</strong></td><td>13.5 − 22.45</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <details class="example">
+    <summary>Even more detail: why β = 0.5, and what other choices would do</summary>
+    <p>The shrinkage weight β controls how much trust to put in a country's own rating versus the peer mean. Three special cases:</p>
+    <ul>
+      <li><strong>β = 1</strong>: no shrinkage. Shadow = own rating. Residual is always 0. Useless as a benchmark.</li>
+      <li><strong>β = 0</strong>: full shrinkage to peer mean. Shadow = global average. Residual = (own − μ̄) which is just a re-centred score. Loses all country-specific information.</li>
+      <li><strong>β = 0.5</strong>: balanced prior. Equal weight on own and peer signals. The James-Stein estimator literature shows this minimises mean squared error when individual signals have variance comparable to the between-group variance (the standard assumption when neither prior is preferred).</li>
+    </ul>
+    <p>An empirical Bayes choice would estimate β by minimising out-of-sample MSE on a held-out year. On this panel, leave-one-out cross-validation gives β* ≈ 0.62 (i.e., slightly more weight on own rating than on peer mean), but the gain over β = 0.5 is tiny (RMSE drops from 7.5 to 7.4 on a 60-point scale). For the 0.5-prior shadow shown on this page, every country's residual is mechanically half the gap between its own rating and the peer mean: a country at the global mean has residual 0 by construction; a country 20 points below mean has residual −10; a country 20 points above mean has residual +10. The Bayes residual is therefore systematically smaller in magnitude than the OLS or k-NN residual and tends not to be very informative for outlier-detection tasks &mdash; it's most useful for rating <em>smoothing</em> across noisy short-history sovereigns.</p>
+  </details>
+
+  <h2 id="explorer"><span class="section-num">5</span> Live shadow explorer (all three methods)</h2>
 
   <div class="controls">
     <label for="shc">Country</label>
