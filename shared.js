@@ -406,15 +406,37 @@
       .then(() => flashToast('Chart copied as PNG (current view)'))
       .catch(err => alert('Copy failed: ' + err.message));
   }
+  // Fullscreen toggle button
+  const FULLSCREEN_ICON = {
+    width: 1000, height: 1000,
+    path: 'M0 333V0h333v83H83v250H0zm667 0V83H417V0h333v333h-83zM0 667h83v250h250v83H0V667zm917 0v250H667v83h333V667h-83z'
+  };
+  function toggleChartFullscreen(gd) {
+    const target = gd.parentElement || gd; // chart-box wrapper if available
+    if (!document.fullscreenElement) {
+      const req = target.requestFullscreen || target.webkitRequestFullscreen || target.mozRequestFullScreen || target.msRequestFullscreen;
+      if (req) req.call(target).then(() => {
+        setTimeout(() => window.Plotly && window.Plotly.Plots.resize(gd), 100);
+      }).catch(e => alert('Fullscreen failed: ' + e.message));
+    } else {
+      const exit = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+      if (exit) exit.call(document);
+    }
+  }
+  // When the user exits fullscreen via Esc, force a chart resize
+  document.addEventListener('fullscreenchange', () => {
+    setTimeout(() => {
+      document.querySelectorAll('.js-plotly-plot').forEach(gd => window.Plotly && window.Plotly.Plots.resize(gd));
+    }, 100);
+  });
+
   window.scrChartConfig = {
     displayModeBar: true, displaylogo: false, responsive: true,
     modeBarButtonsToRemove: ['lasso2d', 'select2d'],
-    modeBarButtonsToAdd: [{
-      name: 'Copy as PNG',
-      title: 'Copy chart to clipboard',
-      icon: COPY_ICON,
-      click: copyChartToClipboard
-    }],
+    modeBarButtonsToAdd: [
+      { name: 'Fullscreen', title: 'Toggle fullscreen', icon: FULLSCREEN_ICON, click: toggleChartFullscreen },
+      { name: 'Copy as PNG', title: 'Copy chart to clipboard', icon: COPY_ICON, click: copyChartToClipboard }
+    ],
     toImageButtonOptions: { format: 'png', filename: 'sovereignratings_chart', scale: 2 }
   };
   window.scrBaseLayout = function(extra) {
@@ -529,16 +551,28 @@
           'yaxis2.color': fg, 'yaxis2.gridcolor': grid,
           'legend.font.color': fg
         });
-        // Inject directional arrow annotations at axis ends if not already present
+        // Inject directional arrow annotations at axis ends if not already present.
+        // Both arrows touch the axis line; both carry their unit text; an additional
+        // "0,0" annotation at the chart origin marks the axes' union.
         const lo = div._fullLayout || {};
         const titleX = (lo.xaxis && lo.xaxis.title && (lo.xaxis.title.text || '')) || '';
         const titleY = (lo.yaxis && lo.yaxis.title && (lo.yaxis.title.text || '')) || '';
         const existing = (lo.annotations || []).filter(a => !a._scrAxisArrow);
         const arrows = [
-          { _scrAxisArrow: true, xref:'paper', yref:'paper', x:1.005, y:0, xanchor:'left', yanchor:'middle',
-            showarrow:false, text: '→ ' + (titleX || ''), font:{size:10, color:fg}, opacity:0.85 },
-          { _scrAxisArrow: true, xref:'paper', yref:'paper', x:0, y:1.02, xanchor:'right', yanchor:'bottom',
-            showarrow:false, text: '↑', font:{size:14, color:fg}, opacity:0.85 }
+          // X-axis: arrow at the right end of the axis, touching the line, with unit
+          { _scrAxisArrow:true, xref:'paper', yref:'paper', x:1, y:0,
+            xanchor:'left', yanchor:'middle', xshift:2, yshift:0,
+            showarrow:false, text:'→ ' + (titleX || ''), font:{size:10, color:fg}, opacity:0.9 },
+          // Y-axis: arrow at the top end of the axis, touching the line, with unit (rotated)
+          { _scrAxisArrow:true, xref:'paper', yref:'paper', x:0, y:1,
+            xanchor:'middle', yanchor:'bottom', xshift:0, yshift:2,
+            showarrow:false, text:'↑ ' + (titleY || ''), font:{size:10, color:fg}, opacity:0.9,
+            textangle:0 },
+          // Origin label: explicit "0,0" union marker just outside the chart corner
+          { _scrAxisArrow:true, xref:'paper', yref:'paper', x:0, y:0,
+            xanchor:'right', yanchor:'top', xshift:-4, yshift:-4,
+            showarrow:false, text:'0,0', font:{size:10, color:fg, family:'Helvetica Neue, Arial, sans-serif'},
+            opacity:0.95 }
         ];
         window.Plotly.relayout(div, { annotations: existing.concat(arrows) });
       } catch(e) {}
@@ -561,7 +595,6 @@
       if (e && e.event && e.event.shiftKey) return true; // Shift-click → default toggle
       const i = e.curveNumber;
       if (isolated === i) {
-        // Restore: all opaque
         const op = gd.data.map(() => 1);
         window.Plotly.restyle(gd, { 'opacity': op });
         isolated = -1;
@@ -570,7 +603,18 @@
         window.Plotly.restyle(gd, { 'opacity': op });
         isolated = i;
       }
-      return false; // suppress default toggle
+      return false;
+    });
+    // Hover-glow: Plotly's own hover system blocks CSS :hover on the
+    // <g.trace> element, so we add a class on plotly_hover and remove on unhover.
+    gd.on('plotly_hover', function(ev) {
+      if (!ev || !ev.points || !ev.points.length) return;
+      const i = ev.points[0].curveNumber;
+      const traces = gd.querySelectorAll('.scatterlayer .trace, .barlayer .trace');
+      traces.forEach((t, k) => t.classList.toggle('scr-trace-glow', k === i));
+    });
+    gd.on('plotly_unhover', function() {
+      gd.querySelectorAll('.scr-trace-glow').forEach(el => el.classList.remove('scr-trace-glow'));
     });
     // Optional: zoom event — adjust glow scale via CSS variable
     gd.on('plotly_relayout', function(ev) {

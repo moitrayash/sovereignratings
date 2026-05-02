@@ -639,24 +639,20 @@ body.dark .js-plotly-plot .modebar-btn:hover {
   background: transparent !important;
 }
 
-/* ── Dark mode: neon-glow hover halo on each trace line ──────── */
-/* Make traces hoverable as line strokes (Plotly disables pointer events by default) */
-body.dark .js-plotly-plot .scatterlayer .trace path.js-line {
-  pointer-events: stroke;
-  transition: filter 0.18s ease, stroke-width 0.18s ease;
-}
-/* Hovering any segment of a trace lights up its full path with a soft white halo */
-body.dark .js-plotly-plot .scatterlayer .trace:hover path.js-line {
+/* ── Dark-mode neon-glow hover halo: triggered by JS class via plotly_hover ── */
+body.dark .js-plotly-plot .scatterlayer .trace.scr-trace-glow path.js-line {
   filter:
     drop-shadow(0 0 calc(3px * var(--scr-zoom, 1)) rgba(255,255,255,0.95))
     drop-shadow(0 0 calc(8px * var(--scr-zoom, 1)) rgba(255,255,255,0.55));
 }
-/* Bar traces: glow on the visible bar */
-body.dark .js-plotly-plot .barlayer .trace .point path:hover {
+body.dark .js-plotly-plot .barlayer .trace.scr-trace-glow .point path {
   filter:
     drop-shadow(0 0 calc(3px * var(--scr-zoom, 1)) rgba(255,255,255,0.95))
     drop-shadow(0 0 calc(8px * var(--scr-zoom, 1)) rgba(255,255,255,0.5));
-  pointer-events: all;
+}
+.js-plotly-plot .scatterlayer .trace path.js-line,
+.js-plotly-plot .barlayer .trace .point path {
+  transition: filter 0.18s ease;
 }
 
 /* ── Copy-PNG overlay button (tables, examples, figures) ──────── */
@@ -686,6 +682,24 @@ body.dark .js-plotly-plot .barlayer .trace .point path:hover {
 .copy-png-btn[disabled] { opacity: 0.7; cursor: progress; }
 body.dark .copy-png-btn { background: rgba(40,40,40,0.94); color: #ddd; border-color: #555; }
 body.dark .copy-png-btn:hover { background: var(--accent); color: var(--bg-card); }
+
+/* ── Fullscreen chart styling ──────────────────────────────── */
+.chart-box:fullscreen,
+.chart-box:-webkit-full-screen,
+.chart-box:-moz-full-screen {
+  background: var(--bg-card);
+  padding: 24px;
+  display: flex; flex-direction: column;
+}
+.chart-box:fullscreen .js-plotly-plot,
+.chart-box:-webkit-full-screen .js-plotly-plot {
+  width: 100% !important; height: 100% !important; flex: 1;
+}
+body.dark .chart-box:fullscreen { background: #161821; }
+
+/* Also support the html2canvas wrapper */
+.copyable-wrap:fullscreen { background: var(--bg-card); padding: 24px; }
+body.dark .copyable-wrap:fullscreen { background: #161821; }
 
 /* ── Toast (Copy confirmation, etc) ───────────────────────────── */
 #scr-toast {
