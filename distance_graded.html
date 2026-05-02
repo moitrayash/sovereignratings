@@ -284,33 +284,47 @@ function renderMap(focal, weights, lam, exp) {
     [0.0, '#f3e7c9'], [0.2, '#e0c896'], [0.4, '#c2a266'],
     [0.6, '#9d7a3a'], [0.8, '#6e521e'], [1.0, '#3d2c0e']
   ];
+  // Peer markers: small precise x-thin marks, much smaller than before so the
+  // map reads as a quiet field rather than a cluttered cluster.
   const peerTrace = {
     type: 'scattergeo', mode: 'markers',
     lat: peerPts.map(p => caps[p.country][0]),
     lon: peerPts.map(p => caps[p.country][1]),
     text: peerPts.map(p => p.country),
     marker: {
-      size: peerPts.map(p => 9 + 26 * Math.sqrt(p.w)),
+      size: peerPts.map(p => 3 + 9 * Math.sqrt(p.w)),
       symbol: 'x-thin',
       color: peerPts.map(p => p.w),
       colorscale: sepiaScale, cmin: 0, cmax: 1,
-      line: {color: '#3d2c0e', width: 1.6},
-      opacity: 0.95,
-      colorbar: {title: 'Kernel weight', thickness: 14, len: 0.6, x: 1.02, tickfont: {color: '#3d2c0e'}}
+      line: {color: '#3d2c0e', width: 1.1},
+      opacity: 0.92,
+      colorbar: {title: 'Kernel weight', thickness: 12, len: 0.55, x: 1.02, tickfont: {size: 9, color: '#3d2c0e'}}
     },
     customdata: peerPts.map(p => [p.dist, p.w]),
     hovertemplate: '<b>%{text}</b><br>distance: %{customdata[0]:.0f} km<br>weight: %{customdata[1]:.4f}<extra></extra>',
     name: 'Peer countries'
   };
-  // Focal marker — large peaceful cross in deep sepia, with name label
+  // Focal marker — dagger glyph (†), like author-attribution footnote, in burnt
+  // sienna. Rendered as text so it's a true Latin cross rather than Plotly's
+  // plus-sign 'cross' marker. Country name floats just below.
   const focalTrace = {
-    type: 'scattergeo', mode: 'markers+text',
+    type: 'scattergeo', mode: 'text',
     lat: [lat0], lon: [lon0],
-    text: [focal], textposition: 'top center',
-    textfont: {size: 13, color: '#3d2c0e', family: 'Helvetica Neue, Arial, sans-serif'},
-    marker: {size: 26, color: '#7a3a2e', symbol: 'cross-thin', line: {color: '#3d2c0e', width: 3}},
+    text: ['†'],
+    textposition: 'middle center',
+    textfont: {size: 22, color: '#7a3a2e', family: 'Georgia, "Times New Roman", serif'},
     name: 'Focal country',
-    hoverinfo: 'text'
+    hoverinfo: 'skip'
+  };
+  // Country-name label as a separate small annotation just below the dagger
+  const focalLabelTrace = {
+    type: 'scattergeo', mode: 'text',
+    lat: [lat0 - 1.5], lon: [lon0],
+    text: [focal],
+    textposition: 'bottom center',
+    textfont: {size: 10, color: '#3d2c0e', family: 'Helvetica Neue, Arial, sans-serif'},
+    showlegend: false,
+    hoverinfo: 'skip'
   };
   const layout = {
     title: {text: focal + ': kernel influence map (λ='+lam.toFixed(2)+', p='+exp.toFixed(2)+')', font: {size: 13, color: '#3d2c0e'}},
@@ -333,7 +347,7 @@ function renderMap(focal, weights, lam, exp) {
     legend: {orientation: 'h', y: -0.02, x: 0.5, xanchor: 'center', font: {size: 9}},
     showlegend: true
   };
-  Plotly.newPlot('dist-map', ringTraces.concat([peerTrace, focalTrace]), layout, window.scrChartConfig || (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
+  Plotly.newPlot('dist-map', ringTraces.concat([peerTrace, focalLabelTrace, focalTrace]), layout, window.scrChartConfig || {displayModeBar: true, responsive: true});
 }
 </script>
 </body>
