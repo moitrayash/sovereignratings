@@ -8,7 +8,7 @@
 <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
 <script src="data.js"></script>
 <style>
-  /* Page-specific overrides for explorer width */
+  /* Page-specific: explorer needs more width than the 820px shared default */
   main { max-width: 1180px !important; }
 
 
@@ -264,7 +264,7 @@
   <div class="head-row">
     <div class="head-text">
       <h1>Sovereign Credit Rating Explorer</h1>
-            <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
+      <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
     </div>
   </div>
 </header>
@@ -1015,9 +1015,16 @@ function copyCSV() {
   const s = d.s;
   let csv = 'Year,Score,LOO_Mean,M1,M2,M3,M4,Delta_M1\n';
   s.years.forEach((yr, i) => {
+    csv += `${yr},${s.score[i]??''},${s.loo[i]??''},${s.m1[i]??''},${s.m2[i]??''},${s.m3[i]??''},${s.m4[i]??''},${s.dm1[i]??''}\n`;
+  });
+  navigator.clipboard.writeText(csv).then(() => alert('CSV copied to clipboard.'));
+}
+</script>
 
 <script defer src="nav.js"></script>
 <script defer src="tips.js"></script>
 <script defer src="shared.js"></script>
 <script defer>document.addEventListener("DOMContentLoaded", () => renderNav("index.html"));</script>
 
+</body>
+</html>
