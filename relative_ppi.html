@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relative PPI: Sovereign Credit Rating Explorer</title>
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<style>
+  .controls {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 14px 18px;
+    margin: 18px 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.86rem;
+  }
+  .controls label {
+    font-weight: 700;
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #555;
+    margin-right: 6px;
+  }
+  .controls select {
+    font-family: inherit;
+    font-size: 0.86rem;
+    padding: 4px 8px;
+    border: 1px solid #aaa;
+    background: #fff;
+    margin-right: 14px;
+  }
+  .chart-box { background: #fff; border: 1px solid #ccc; padding: 8px; margin: 14px 0; }
+
+  /* Download block at the bottom of the page */
+  .raw-download {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 18px 22px;
+    margin: 30px 0 12px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .raw-download h3 {
+    margin: 0 0 8px; font-size: 1.0rem; letter-spacing: 0.04em;
+    text-transform: uppercase; color: #555;
+  }
+  .raw-download a.dl-pill {
+    display: inline-block;
+    margin: 8px 12px 8px 0;
+    padding: 9px 16px;
+    border: 1px solid #1a1a1a;
+    background: #1a1a1a;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.84rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .raw-download a.dl-pill:hover { background: #fff; color: #1a1a1a; }
+  .raw-download a.dl-secondary {
+    display: inline-block; margin: 8px 12px 8px 0;
+    padding: 8px 14px; border: 1px solid #888; color: #1a1a1a;
+    text-decoration: none; font-size: 0.78rem; letter-spacing: 0.04em;
+    text-transform: uppercase; font-weight: 600;
+  }
+  .raw-download a.dl-secondary:hover { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .raw-download .dl-meta { font-size: 0.78rem; color: #666; margin-top: 6px; line-height: 1.6; }
+  .raw-download table { font-size: 0.82rem; margin-top: 14px; border-collapse: collapse; width: 100%; max-width: 720px; }
+  .raw-download table th, .raw-download table td { text-align: left; padding: 5px 10px; border-bottom: 1px solid #e3e3e3; }
+  .raw-download table th { font-weight: 700; color: #555; }
+
+  /* Dark-mode overrides */
+  body.dark .controls,
+  body.dark .chart-box,
+  body.dark .raw-download { background: var(--bg-card); border-color: var(--border); }
+  body.dark .controls label, body.dark .raw-download h3 { color: var(--ink-soft); }
+  body.dark .controls select { background: var(--bg-card); color: var(--ink); border-color: var(--border); }
+  body.dark .raw-download a.dl-pill { background: var(--ink); color: var(--bg-card); border-color: var(--ink); }
+  body.dark .raw-download a.dl-pill:hover { background: var(--bg-card); color: var(--ink); }
+  body.dark .raw-download a.dl-secondary { color: var(--ink); border-color: var(--muted); }
+  body.dark .raw-download a.dl-secondary:hover { background: var(--ink); color: var(--bg-card); }
+  body.dark .raw-download .dl-meta { color: var(--muted); }
+  body.dark .raw-download table th, body.dark .raw-download table td { border-color: var(--border); }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="head-row">
+    <div class="head-text">
+      <h1>Sovereign Credit Rating Explorer</h1>
+            <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4</p>
+    </div>
+  </div>
+</header>
+<nav class="site"></nav>
+
+<main>
+
+  <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Relative Planetary Pressure Index</h2>
+  <p>The Planetary Pressure Index, introduced by the <a href="https://hdr.undp.org" target="_blank" rel="noopener">United Nations Development Programme</a> in the <em>2020 Human Development Report</em> alongside the Planetary pressures-Adjusted Human Development Index (PHDI), captures the per-capita environmental burden a country imposes on the biosphere through its production and consumption.<sup class="note-ref"><a href="#note-1">1</a></sup> It is constructed from two normalised inputs &mdash; production-side CO<sub>2</sub> emissions per capita and material footprint per capita &mdash; and reported as an index <em>P</em> &isin; [0, 1] where higher values mean a heavier per-person environmental burden. By definition PHDI = HDI &times; (1 &minus; <em>P</em>); we recover <em>P</em> directly from the published PHDI/HDI ratio. This page applies the same relative-rating logic as &sect;4 of the <a href="methodology.html#sec4">Methodology</a> to PPI, scaled by 100 (PPI100), and asks the natural question: how does a country's standing in the planetary-pressure distribution compare to its standing in the credit-rating, HDI, and Gini distributions? <strong>Note on direction: unlike HDI or credit ratings, higher PPI means worse environmental position.</strong> M2 rank and M4 percentile follow the same arithmetic, but a country at the 95th percentile of PPI is the most polluting, not the cleanest.</p>
+
+  <h2 id="construction"><span class="section-num">1</span> Construction</h2>
+  <p>The 2023/24 UNDP HDR composite-indices file<sup class="note-ref"><a href="#note-2">2</a></sup> provides annual HDI and PHDI values from 1990 through 2022 for the 88 entities for which both inputs (Material Footprint and production CO<sub>2</sub>) are reported in every year. The Planetary Pressure Index is recovered as <em>P</em><sub>it</sub> = 1 &minus; PHDI<sub>it</sub> / HDI<sub>it</sub>. Multiplying by 100 yields <code>PPI100</code> &isin; [0, 100]. For each country&ndash;year, the leave-one-out world mean is computed, and four relative measures follow the same definitions as the credit-rating M1&ndash;M4:</p>
+
+  <div class="formula-block">
+    <span class="label">M1 (PPI)</span>PPI100<sub>it</sub><sup>2</sup> / LOO<sub>it</sub>
+    <br><span class="label">M2 (PPI)</span>rank of PPI100<sub>it</sub> within world, year <em>t</em> (low rank = light footprint)
+    <br><span class="label">M4 (PPI)</span>M2 / N
+  </div>
+
+  <p>The two inputs (CO<sub>2</sub> per capita and material footprint per capita) are themselves rescaled by UNDP onto a common 0&ndash;1 axis using fixed planetary-boundary references &mdash; not data-driven percentiles &mdash; so the PPI is anchored to absolute environmental thresholds rather than to whichever sample of countries happens to be reporting. As a result, the world mean drifts upward over time (planetary pressure has risen, in absolute terms, almost everywhere since 1990); a country whose PPI100 is flat is therefore <em>improving</em> relative to its peers even though its own footprint has not fallen. The relative measures M1, M2, M4 surface this dynamic; the absolute series alone obscures it.</p>
+
+  <h2 id="explorer"><span class="section-num">2</span> Country explorer</h2>
+
+  <div class="controls">
+    <label for="country">Country</label>
+    <select id="country"></select>
+    <label for="peerset" style="margin-left:14px">Compare against</label>
+    <select id="peerset">
+      <optgroup label="Geographic">
+        <option value="world">World (all reporting countries)</option>
+        <option value="region">Same continent</option>
+      </optgroup>
+      <optgroup label="Multilateral / political / economic" id="peerset-presets">
+        <!-- presets injected at runtime from SCR_PRESET_ORDER -->
+      </optgroup>
+      <optgroup label="Custom">
+        <option value="custom">Custom subset&hellip;</option>
+      </optgroup>
+    </select>
+    <span id="peer-info" style="margin-left:10px;color:#888;font-size:0.78rem"></span>
+  </div>
+
+  <div id="custom-picker" class="controls" style="display:none;margin-top:-6px">
+    <label for="custom-countries" style="display:block;margin-bottom:4px">Custom peer set (Cmd/Ctrl-click to multi-select; min 2)</label>
+    <select id="custom-countries" multiple style="height:130px;width:100%;max-width:520px"></select>
+    <div style="margin-top:6px">
+      <button type="button" id="custom-apply" style="padding:4px 10px;font-size:0.78rem;cursor:pointer">Apply</button>
+      <button type="button" id="custom-clear" style="padding:4px 10px;font-size:0.78rem;cursor:pointer;margin-left:6px">Clear</button>
+    </div>
+  </div>
+
+  <div class="chart-box"><div id="ppi-abs" style="height:340px"></div></div>
+  <div class="chart-box"><div id="ppi-rel" style="height:340px"></div></div>
+  <div class="chart-box"><div id="ppi-vs-credit" style="height:340px"></div></div>
+
+  <p>The <strong>Compare against</strong> control above the charts lets the comparison set be re-cast on the fly. The default is the world (all 88 reporting countries with valid PHDI). <em>Same continent</em> restricts the leave-one-out mean and the rank-based M2 / M4 to the focal country's UN-style continent (Africa, Asia, Europe, North America, Oceania, or South America); this makes the most sense when a country's environmental trajectory is shaped primarily by regional industrial structure (oil-exporting Gulf states against each other, low-income Sub-Saharan economies against Sub-Saharan peers). <em>Custom subset</em> lets you build an ad-hoc comparison set &mdash; useful for SIDS clusters, BRICS, OECD, ASEAN, G7, or any other peer grouping you care about. M1, M2, and M4 are recomputed client-side against whatever set is active.</p>
+
+  <p>The first chart shows absolute PPI&times;100 over time alongside the leave-one-out peer-set mean. The second plots the M1, M2 (rank), and M4 (percentile) trajectories. The third overlays PPI&times;100 on the credit composite score for the same country, both on the 0&ndash;100 scale (credit scaled up by 5/3) so the two are visually comparable. Most countries' PPI evolves slowly and monotonically (the energy mix and material economy don't restructure overnight); the credit score is more reactive and can fall sharply on a default. Where the two diverge, the underlying story is usually political &mdash; an oil exporter whose credit rating reflects fiscal strength while its environmental footprint scales with extraction; a low-income country whose creditworthiness is fragile while its per-capita pressure is structurally low.<sup class="note-ref"><a href="#note-3">3</a></sup></p>
+
+
+  <h2 id="distribution"><span class="section-num">3</span> Distribution shape (latest year)</h2>
+  <p>Three views of how PPI values are distributed across the world in the most recent year of the panel: the <span class="term" data-term="cdf">empirical CDF</span> sorts every reporting country and shows the cumulative share at each value; the <a href="https://en.wikipedia.org/wiki/Lorenz_curve" target="_blank" rel="noopener">Lorenz-style curve</a> with the inequality quotient (twice the area between the 45&deg; equality line and the curve, computed on PPI100 values rather than incomes &mdash; here the &ldquo;mass&rdquo; being shared is environmental burden, not income); and the histogram with a fitted <span class="term" data-term="normal-distribution">normal density</span> overlay. The PPI distribution is much more skewed than HDI: a small handful of high-emitting, high-material-footprint countries account for a disproportionate share of total planetary pressure, so the Lorenz quotient on PPI typically runs 0.55&ndash;0.65 &mdash; well above HDI's ~0.10.</p>
+
+  <div class="chart-box"><div id="ppi-cdf" style="height:340px"></div></div>
+  <div class="chart-box"><div id="ppi-lorenz" style="height:340px"></div></div>
+  <div class="chart-box"><div id="ppi-hist" style="height:340px"></div></div>
+
+  <h2 id="evolution"><span class="section-num">4</span> PPI evolution over time</h2>
+  <p>Two animated views of how the PPI distribution moves year by year. The first is a horizontal racing bar of the top-25 PPI countries (highest planetary pressure); the second is a scatter of PPI&times;100 against M4 percentile (rank within the active peer set), with each country a dot. Both respect the <strong>Compare against</strong> selector at the top of the page &mdash; pick a peer set there, then press Play below to watch ranks shift across the panel. Watch for the rapid rise of Gulf states and East-Asian industrialisers between 2000 and 2015; the relative descent of de-industrialising EU economies; and the persistent low pressure of South Asian and most African countries even as they accumulate population.</p>
+
+  <div class="chart-box"><div id="ppi-time-bars" style="height:560px"></div></div>
+  <div class="chart-caption">Figure 4.1: Top-25 by PPI&times;100 in the active peer set (highest planetary pressure). Press Play or drag the slider to scrub through years. Bar order re-sorts each frame, so countries visibly overtake or fall behind one another as the panel advances.</div>
+
+  <div class="chart-box"><div id="ppi-time-scatter" style="height:480px"></div></div>
+  <div class="chart-caption">Figure 4.2: PPI&times;100 (x) vs M4 percentile within the active peer set (y), one dot per country, colored by continent. The diagonal cloud means PPI level and within-peer rank track closely; vertical movement at fixed PPI shows a country gaining or losing rank because its peers moved, not because it did. Note: high M4 percentile here means HIGH planetary pressure (the opposite of HDI).</div>
+
+  <h2 id="caveats"><span class="section-num">5</span> Caveats</h2>
+  <p>The PPI is updated annually but is methodologically backward-looking: the latest year typically reflects material-footprint and CO<sub>2</sub> data released with a one-to-three year lag. The PPI panel here ends in 2022 because UNDP HDR 2023/24 had not yet released subsequent vintages at the time of this build; updates would extend the series without changing the methodology. The world used for the leave-one-out mean is the union of countries with valid PHDI in every year of the panel (88 countries), which is narrower than the 142 covered by HDI alone &mdash; UNDP can compute PHDI only where Material Footprint estimates exist, which is a stricter coverage criterion than HDI's. Restricting the PPI benchmark to the credit-rated subset shifts the world mean upward (rated economies are systematically more industrialised) but leaves country-level relative ranks largely unchanged.</p>
+  <p>Two further caveats are specific to the index. First, the PPI is a <em>per-capita</em> measure: India and China have large total emissions but moderate per-capita pressure, while small high-income countries (Luxembourg, Iceland, Qatar) score high. Aggregate-mass and per-capita interpretations produce different rankings; both are legitimate, but they answer different questions. Second, production-side CO<sub>2</sub> understates the footprint of countries that import emissions-intensive goods and overstates the footprint of countries that export them. A consumption-based variant would shift the cleanest league tables (Switzerland, Norway, France slip downward; China and India slip upward), but UNDP's headline number is the production-side figure and we follow that convention here for comparability with the published PHDI.</p>
+
+  <div class="endnotes" id="endnotes">
+    <h3>Endnotes</h3>
+    <ol>
+      <li id="note-1">United Nations Development Programme, <em>Human Development Report 2020: The Next Frontier&mdash;Human Development and the Anthropocene</em> (New York: UNDP, 2020). The PHDI methodology is documented in Technical Note 6 of the same report.</li>
+      <li id="note-2">United Nations Development Programme, <em>Human Development Report 2023/2024: Composite Indices Time Series</em>, accessed via the HDRO data centre at <a href="https://hdr.undp.org/data-center/documentation-and-downloads" target="_blank" rel="noopener">hdr.undp.org</a>. The downloadable archive at the bottom of this page bundles the raw UNDP CSV alongside the derived PPI panel and relative-measures table.</li>
+      <li id="note-3">For an extended discussion of the political economy of credit-versus-environmental performance see the <a href="stories.html">Stories</a> page; for the parallel HDI analysis see <a href="relative_hdi.html">Relative HDI</a>.</li>
+    </ol>
+  </div>
+
+  <!-- Raw-data download block: ZIP + individual CSVs + manifest table -->
+  <div class="raw-download" id="raw-download">
+    <h3>Download the raw data</h3>
+    <p style="margin:6px 0 12px;font-size:0.86rem;line-height:1.55">Everything used to build this page, in machine-readable form. The ZIP bundles the UNDP source file, the derived planetary-pressure panel, the relative-measures table (M1, M2, M4 against the world peer set), and a README with full methodology notes. License: source data subject to UNDP terms; derived columns released under MIT.</p>
+    <a class="dl-pill" href="ppi_raw_data.zip" download>&#x21E9; Download all (ZIP, ~590 KB)</a>
+    <a class="dl-secondary" href="ppi_panel.csv" download>ppi_panel.csv</a>
+    <a class="dl-secondary" href="ppi_relative.csv" download>ppi_relative.csv</a>
+    <div class="dl-meta">
+      ZIP contents:
+    </div>
+    <table>
+      <thead><tr><th>File</th><th>Rows</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><code>ppi_panel.csv</code></td><td>2,738</td><td>Country &times; Year panel: ISO3, Country, Region, Year, HDI, PHDI, MF_pc (tons/cap), CO2_pc (tons/cap), PPI100. 88 countries, 1990&ndash;2022.</td></tr>
+        <tr><td><code>ppi_relative.csv</code></td><td>2,738</td><td>Same panel + leave-one-out world mean and relative measures M1, M2 (rank), M4 (percentile), peerN.</td></tr>
+        <tr><td><code>undp_hdr_2023-24_composite_indices.csv</code></td><td>108</td><td>Verbatim UNDP source file (truncated to first 1 MB of the official 2023/24 release; sufficient for the 88 PHDI-complete countries above).</td></tr>
+        <tr><td><code>README.txt</code></td><td>&mdash;</td><td>Methodology, license, and reproduction notes.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="page-footer">Relative PPI series are pre-computed and bundled into <code>extras.json</code>. Source: UNDP HDR 2023/24, 88 countries with full PHDI coverage 1990&ndash;2022.</p>
+
+</main>
+
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("relative_ppi.html"));</script>
+<script defer src="shared.js"></script>
+<script defer>
+let EXTRAS = null;
+let CUSTOM_PEERS = [];   // user-chosen subset for "custom" mode
+window.addEventListener('load', () => {
+  if (!window.scrLoadExtras) {
+    document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">shared.js failed to load.</p>');
+    return;
+  }
+  window.scrLoadExtras().then(j => {
+    EXTRAS = j;
+    if (!EXTRAS.ppi_rel || !EXTRAS.ppi) {
+      document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">PPI data not yet bundled into extras.json — push v46 first.</p>');
+      return;
+    }
+    populateCountries();
+    wirePeerControls();
+    renderDistributions();
+  }).catch(err => {
+    document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">Could not load extras.json: ' + err.message + '</p>');
+  });
+});
+
+function populateCountries() {
+  const sel = document.getElementById('country');
+  if (!sel) return;
+  const countries = Array.from(new Set(EXTRAS.ppi_rel.map(r => r.Country))).sort();
+  sel.innerHTML = '';
+  countries.forEach(c => sel.appendChild(new Option(c, c)));
+  // Default to a high-PPI country to make the visual story obvious
+  let def = countries[0];
+  for (const c of ['United States','Qatar','Australia','Saudi Arabia','Canada']) {
+    if (countries.includes(c)) { def = c; break; }
+  }
+  sel.value = def;
+  sel.onchange = () => { renderExplorer(sel.value); renderDistributions(); };
+  renderExplorer(def);
+}
+
+function wirePeerControls() {
+  const peerSel = document.getElementById('peerset');
+  const customBox = document.getElementById('custom-picker');
+  const customSel = document.getElementById('custom-countries');
+  const all = Array.from(new Set(EXTRAS.ppi_rel.map(r => r.Country))).sort();
+  customSel.innerHTML = '';
+  all.forEach(c => customSel.appendChild(new Option(c, c)));
+  const presetOg = document.getElementById('peerset-presets');
+  if (presetOg && window.SCR_PRESET_ORDER) {
+    presetOg.innerHTML = '';
+    window.SCR_PRESET_ORDER.forEach(name => {
+      const members = (window.SCR_PRESET_GROUPS[name] || []).filter(c => all.includes(c));
+      if (!members.length) return;
+      const opt = new Option(name + ' (' + members.length + ')', 'preset:' + name);
+      presetOg.appendChild(opt);
+    });
+  }
+  peerSel.onchange = () => {
+    customBox.style.display = (peerSel.value === 'custom') ? 'block' : 'none';
+    if (peerSel.value !== 'custom') {
+      renderExplorer(document.getElementById('country').value);
+      renderDistributions();
+    }
+  };
+  document.getElementById('custom-apply').onclick = () => {
+    CUSTOM_PEERS = Array.from(customSel.selectedOptions).map(o => o.value);
+    if (CUSTOM_PEERS.length < 2) { alert('Pick at least 2 countries.'); return; }
+    const focal = document.getElementById('country').value;
+    if (!CUSTOM_PEERS.includes(focal)) CUSTOM_PEERS.push(focal);
+    renderExplorer(focal);
+    renderDistributions();
+  };
+  document.getElementById('custom-clear').onclick = () => {
+    Array.from(customSel.options).forEach(o => o.selected = false);
+  };
+}
+
+function currentPeerSet(focal) {
+  const mode = document.getElementById('peerset').value;
+  const all = new Set(EXTRAS.ppi_rel.map(r => r.Country));
+  if (mode === 'world') return {set: all, label: 'World'};
+  if (mode === 'region') {
+    const reg = window.SCR_REGION_OF[focal];
+    if (!reg) return {set: all, label: 'World (focal has no region mapping)'};
+    const peers = new Set(window.SCR_COUNTRIES_IN(reg).filter(c => all.has(c)));
+    peers.add(focal);
+    return {set: peers, label: reg + ' (' + peers.size + ' countries)'};
+  }
+  if (mode.startsWith('preset:')) {
+    const name = mode.slice(7);
+    const members = (window.SCR_PRESET_GROUPS[name] || []).filter(c => all.has(c));
+    const peers = new Set(members);
+    peers.add(focal);
+    return {set: peers, label: name + ' (' + peers.size + ' countries)'};
+  }
+  const peers = new Set(CUSTOM_PEERS.length ? CUSTOM_PEERS : [focal]);
+  peers.add(focal);
+  return {set: peers, label: 'Custom (' + peers.size + ' countries)'};
+}
+
+function peerRowsFor(focal) {
+  const {set, label} = currentPeerSet(focal);
+  const allWorld = new Set(EXTRAS.ppi_rel.map(r => r.Country));
+  let rows;
+  if (set.size === allWorld.size) {
+    rows = EXTRAS.ppi_rel.filter(r => r.Country === focal).sort((a,b) => a.Year - b.Year);
+  } else {
+    const recomputed = window.scrRecomputeRelative(EXTRAS.ppi, set);
+    rows = recomputed.filter(r => r.Country === focal).sort((a,b) => a.Year - b.Year);
+  }
+  document.getElementById('peer-info').textContent = '· peers: ' + label;
+  return {rows, label};
+}
+
+function renderExplorer(country) {
+  const {rows, label} = peerRowsFor(country);
+  if (!rows.length) {
+    document.getElementById('ppi-abs').innerHTML = '<p style="padding:20px;color:#888">' + country + ' has no observations against the selected peer set.</p>';
+    document.getElementById('ppi-rel').innerHTML = '';
+    document.getElementById('ppi-vs-credit').innerHTML = '';
+    return;
+  }
+  const cfg = window.scrChartConfig;
+  Plotly.newPlot('ppi-abs', [
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.Value), name: country + ' PPI×100', mode:'lines+markers', line:{color:'#1a1a1a',width:2.4}, marker:{size:5}},
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.LOO),   name: label + ' LOO mean',  mode:'lines',         line:{color:'#888',width:1.6,dash:'dash'}}
+  ], window.scrBaseLayout({
+    title:{text: country + ': PPI×100 vs ' + label + ' LOO mean (higher = more pressure)', font:{size:13}},
+    xaxis:{title:'Year'},
+    yaxis:{title:'PPI × 100'}
+  }), cfg);
+  Plotly.newPlot('ppi-rel', [
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M1), name: 'M1: Value² / LOO',                mode:'lines+markers', line:{color:'#1B4F8A',width:2}, marker:{size:4}},
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M2), name: 'M2: Rank within peers',           mode:'lines+markers', line:{color:'#C0392B',width:2}, marker:{size:4}, yaxis:'y2'},
+    {x: rows.map(r=>r.Year), y: rows.map(r=>r.M4), name: 'M4: Percentile (rank ÷ N peers)', mode:'lines+markers', line:{color:'#2E7D32',width:2}, marker:{size:4}}
+  ], window.scrBaseLayout({
+    title:{text: country + ': relative PPI measures vs ' + label + ' (high rank = high pressure)', font:{size:13}},
+    xaxis:{title:'Year'},
+    yaxis:{title:'M1, M4'},
+    yaxis2:{title:'M2 rank within peers', overlaying:'y', side:'right', showgrid:false}
+  }), cfg);
+  const credit = [];
+  for (const yr of Object.keys(EXTRAS.score_matrix)) {
+    const row = EXTRAS.score_matrix[yr][country];
+    if (row != null) credit.push({Year: parseInt(yr), Score: row});
+  }
+  credit.sort((a,b) => a.Year - b.Year);
+  Plotly.newPlot('ppi-vs-credit', [
+    {x: rows.map(r=>r.Year),    y: rows.map(r=>r.Value), name:'PPI × 100',                      mode:'lines+markers', line:{color:'#1a1a1a',width:2}, marker:{size:4}},
+    {x: credit.map(r=>r.Year),  y: credit.map(r=>r.Score), name:'Composite credit score (0–60)', mode:'lines+markers', line:{color:'#1B4F8A',width:2}, marker:{size:4}, yaxis:'y2'}
+  ], window.scrBaseLayout({
+    title:{text: country + ': PPI vs credit composite (PPI higher=worse, credit higher=better)', font:{size:13}},
+    xaxis:{title:'Year'},
+    yaxis:{title:'PPI × 100'},
+    yaxis2:{title:'Composite (0–60)', overlaying:'y', side:'right', range:[0,60], showgrid:false}
+  }), cfg);
+}
+
+function renderDistributions() {
+  if (!EXTRAS) return;
+  const focal = (document.getElementById('country') || {}).value;
+  const {set: peerSet, label: peerLabel} = currentPeerSet(focal);
+  const latestYear = Math.max(...EXTRAS.ppi.map(r => r.Year));
+  const vals = EXTRAS.ppi.filter(r => r.Year === latestYear && peerSet.has(r.Country)).map(r => r.Value).sort((a,b)=>a-b);
+  if (!vals.length) return;
+  const n = vals.length;
+  const cdfX = vals;
+  const cdfY = vals.map((_, i) => (i+1)/n);
+  const cfg = (window.scrChartConfig || {displayModeBar: true, responsive: true});
+  const baseLayout = {plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)', font:{family:'Helvetica Neue, Arial, sans-serif',size:11}, margin:{l:56,r:50,t:40,b:90}, legend:{orientation:'h',y:-0.32,x:0.5,xanchor:'center'}};
+  Plotly.newPlot('ppi-cdf', [
+    {x:cdfX, y:cdfY, mode:'lines', line:{color:'#1a1a1a',width:2}, name:'Empirical CDF'},
+    {x:cdfX, y:cdfX.map(v => v/Math.max(...cdfX)), mode:'lines', line:{color:'#888',width:1.5,dash:'dot'}, name:'Linear reference'}
+  ], Object.assign({}, baseLayout, {
+    title:{text:'PPI100 empirical CDF — ' + peerLabel + ' (' + latestYear + ', n=' + n + ')', font:{size:13}},
+    xaxis:{title:'PPI × 100', gridcolor:'rgba(128,128,128,0.2)'},
+    yaxis:{title:'Cumulative share', gridcolor:'rgba(128,128,128,0.2)', range:[0,1]}
+  }), cfg);
+
+  const total = vals.reduce((a,b)=>a+b,0);
+  let cum=0;
+  const lorenzX = [0], lorenzY = [0];
+  vals.forEach((v,i)=>{ cum += v; lorenzX.push((i+1)/n); lorenzY.push(cum/total); });
+  let areaUnder = 0;
+  for (let i=1;i<lorenzX.length;i++) areaUnder += (lorenzX[i]-lorenzX[i-1])*(lorenzY[i]+lorenzY[i-1])/2;
+  const inequality = 1 - 2*areaUnder;
+  Plotly.newPlot('ppi-lorenz', [
+    {x:lorenzX, y:lorenzY, mode:'lines', line:{color:'#1a1a1a',width:2}, name:'Lorenz curve', fill:'tonexty', fillcolor:'rgba(150,150,150,0.18)'},
+    {x:[0,1], y:[0,1], mode:'lines', line:{color:'#666',width:1,dash:'dash'}, name:'45° equality line'}
+  ], Object.assign({}, baseLayout, {
+    title:{text:'PPI100 Lorenz curve — ' + peerLabel + ': inequality quotient = ' + inequality.toFixed(3), font:{size:13}},
+    xaxis:{title:'Cumulative share of countries', gridcolor:'rgba(128,128,128,0.2)', range:[0,1]},
+    yaxis:{title:'Cumulative share of total planetary pressure', gridcolor:'rgba(128,128,128,0.2)', range:[0,1]}
+  }), cfg);
+
+  const mean = vals.reduce((a,b)=>a+b,0)/n;
+  const variance = vals.reduce((a,b)=>a+(b-mean)*(b-mean),0)/(n-1);
+  const sd = Math.sqrt(variance);
+  const binCount = 18;
+  const minV=Math.min(...vals), maxV=Math.max(...vals);
+  const binW = (maxV-minV)/binCount;
+  const bins = Array(binCount).fill(0);
+  vals.forEach(v => { let i = Math.min(binCount-1, Math.floor((v-minV)/binW)); bins[i]++; });
+  const binCenters = bins.map((_,i) => minV + (i+0.5)*binW);
+  const nPts = 80;
+  const xs = []; const ys = [];
+  for (let i=0;i<=nPts;i++) { const x = minV + (maxV-minV)*i/nPts; xs.push(x); ys.push((1/(sd*Math.sqrt(2*Math.PI)))*Math.exp(-0.5*((x-mean)/sd)**2)*n*binW); }
+  Plotly.newPlot('ppi-hist', [
+    {x:binCenters, y:bins, type:'bar', name:'Frequency', marker:{color:'#1a1a1a'}, opacity:0.85},
+    {x:xs, y:ys, mode:'lines', line:{color:'#888',width:2}, name:'Normal(μ='+mean.toFixed(1)+', σ='+sd.toFixed(1)+')'}
+  ], Object.assign({}, baseLayout, {
+    title:{text:'PPI100 histogram + fitted normal — ' + peerLabel + ' (' + latestYear + ')', font:{size:13}},
+    xaxis:{title:'PPI × 100', gridcolor:'rgba(128,128,128,0.2)'},
+    yaxis:{title:'Count', gridcolor:'rgba(128,128,128,0.2)'},
+    bargap:0.04
+  }), cfg);
+
+  renderTimeAnimations(peerSet, peerLabel);
+}
+
+function renderTimeAnimations(peerSet, peerLabel) {
+  if (!EXTRAS || !EXTRAS.ppi || !EXTRAS.ppi.length) return;
+  const cfg = window.scrChartConfig || {displayModeBar: true, responsive: true};
+  const allRows = EXTRAS.ppi.filter(r => peerSet.has(r.Country));
+  const years = Array.from(new Set(allRows.map(r => r.Year))).sort((a,b)=>a-b);
+  if (years.length < 2) return;
+  const REGION_COLOR = {
+    'Africa':'#C0392B', 'Asia':'#1B4F8A', 'Europe':'#2E7D32',
+    'North America':'#7B3F8F', 'Oceania':'#B7642E', 'South America':'#444'
+  };
+  const TOP_N = 25;
+
+  const barFrames = years.map(yr => {
+    const yrRows = allRows.filter(r => r.Year === yr).sort((a,b) => b.Value - a.Value).slice(0, TOP_N);
+    return {
+      name: String(yr),
+      data: [{
+        type:'bar', orientation:'h',
+        x: yrRows.map(r => r.Value).reverse(),
+        y: yrRows.map(r => r.Country).reverse(),
+        marker: {color: yrRows.map(r => REGION_COLOR[window.SCR_REGION_OF[r.Country]] || '#888').reverse()},
+        text: yrRows.map(r => r.Value.toFixed(1)).reverse(),
+        textposition:'outside', textfont:{size:10},
+        hovertemplate:'%{y}: %{x:.1f}<extra></extra>'
+      }]
+    };
+  });
+  const barInitial = barFrames[barFrames.length - 1].data[0];
+
+  const sliderSteps = years.map(yr => ({
+    label: String(yr), method:'animate',
+    args: [[String(yr)], {mode:'immediate', frame:{duration:300, redraw:true}, transition:{duration:200}}]
+  }));
+
+  const maxPPI = Math.max(...allRows.map(r => r.Value));
+  const xMax = Math.max(50, Math.ceil(maxPPI * 1.1));
+
+  Plotly.newPlot('ppi-time-bars', [barInitial], window.scrBaseLayout({
+    title: {text: 'Top-' + TOP_N + ' by PPI×100 — ' + peerLabel + ' (drag slider or press Play; higher = more pressure)', font:{size:13}},
+    xaxis: {title:'PPI × 100', range:[0, xMax]},
+    yaxis: {title:'', automargin:true, tickfont:{size:10}},
+    margin: {l: 160, r: 60, t: 60, b: 80},
+    showlegend: false,
+    updatemenus: [{
+      type:'buttons', direction:'left', x:0.05, y:-0.18, xanchor:'left', yanchor:'top',
+      pad:{t:0,r:6}, showactive:false,
+      buttons:[
+        {label:'▶ Play', method:'animate',
+         args:[null, {fromcurrent:true, mode:'immediate', frame:{duration:600, redraw:true}, transition:{duration:300}}]},
+        {label:'❚❚ Pause', method:'animate',
+         args:[[null], {mode:'immediate', frame:{duration:0, redraw:false}, transition:{duration:0}}]}
+      ]
+    }],
+    sliders: [{
+      active: years.length - 1, currentvalue:{prefix:'Year: ', font:{size:12}},
+      pad:{t:40, l:80}, x:0.18, len:0.78, steps: sliderSteps
+    }]
+  }), cfg).then(gd => Plotly.addFrames(gd, barFrames));
+
+  const yearStats = {};
+  years.forEach(yr => {
+    const yrRows = allRows.filter(r => r.Year === yr);
+    if (yrRows.length < 2) return;
+    const sorted = yrRows.slice().sort((a,b) => a.Value - b.Value);
+    const n = sorted.length;
+    yearStats[yr] = sorted.map((r, i) => ({
+      Country: r.Country, Value: r.Value, M4: ((i+1)/n)*100,
+      Region: window.SCR_REGION_OF[r.Country] || 'Other'
+    }));
+  });
+
+  const scatterFrames = years.map(yr => {
+    const rows = yearStats[yr] || [];
+    return {
+      name: String(yr),
+      data: [{
+        type:'scatter', mode:'markers',
+        x: rows.map(r => r.Value),
+        y: rows.map(r => r.M4),
+        text: rows.map(r => r.Country),
+        marker: {
+          size: 10,
+          color: rows.map(r => REGION_COLOR[r.Region] || '#888'),
+          line: {color:'rgba(0,0,0,0.3)', width:0.5}
+        },
+        hovertemplate:'<b>%{text}</b><br>PPI×100: %{x:.1f}<br>M4 percentile: %{y:.1f}<extra></extra>'
+      }]
+    };
+  });
+  const scatterInitial = scatterFrames[scatterFrames.length - 1].data[0];
+
+  const scatterSliderSteps = years.map(yr => ({
+    label: String(yr), method:'animate',
+    args: [[String(yr)], {mode:'immediate', frame:{duration:300, redraw:true}, transition:{duration:200}}]
+  }));
+
+  Plotly.newPlot('ppi-time-scatter', [scatterInitial], window.scrBaseLayout({
+    title: {text: 'PPI×100 vs M4 percentile — ' + peerLabel + ' (drag slider or press Play; high = more pressure)', font:{size:13}},
+    xaxis: {title:'PPI × 100', range:[0, xMax]},
+    yaxis: {title:'M4 percentile within peers', range:[0, 105]},
+    showlegend: false,
+    updatemenus: [{
+      type:'buttons', direction:'left', x:0.05, y:-0.18, xanchor:'left', yanchor:'top',
+      pad:{t:0,r:6}, showactive:false,
+      buttons:[
+        {label:'▶ Play', method:'animate',
+         args:[null, {fromcurrent:true, mode:'immediate', frame:{duration:600, redraw:true}, transition:{duration:300}}]},
+        {label:'❚❚ Pause', method:'animate',
+         args:[[null], {mode:'immediate', frame:{duration:0, redraw:false}, transition:{duration:0}}]}
+      ]
+    }],
+    sliders: [{
+      active: years.length - 1, currentvalue:{prefix:'Year: ', font:{size:12}},
+      pad:{t:40, l:80}, x:0.18, len:0.78, steps: scatterSliderSteps
+    }]
+  }), cfg).then(gd => Plotly.addFrames(gd, scatterFrames));
+}
+</script>
+</body>
+</html>

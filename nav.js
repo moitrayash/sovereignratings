@@ -15,6 +15,7 @@
     {href:'shadow.html',                      label:'Shadow Ratings',                side:'right'},
     {href:'relative_hdi.html',                label:'Relative HDI',                  side:'right'},
     {href:'relative_gini.html',               label:'Relative Gini',                 side:'right'},
+    {href:'relative_ppi.html',                label:'Relative PPI',                  side:'right'},
     {href:'stories.html',                     label:'Stories',                       side:'right'},
     {spacer:true},
     {href:'land_acknowledgement.html',        label:'Land Acknowledgement',          side:'right'}
