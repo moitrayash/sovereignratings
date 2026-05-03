@@ -114,7 +114,16 @@
   <div class="chart-box"><div id="hdi-lorenz" style="height:340px"></div></div>
   <div class="chart-box"><div id="hdi-hist" style="height:340px"></div></div>
 
-  <h2 id="caveats"><span class="section-num">3</span> Caveats</h2>
+  <h2 id="evolution"><span class="section-num">4</span> HDI evolution over time</h2>
+  <p>Two animated views of how the HDI distribution moves year by year. The first is a horizontal racing bar of the top-25 HDI countries; the second is a scatter of HDI&times;100 against M4 percentile (rank within the active peer set), with each country a dot. Both respect the <strong>Compare against</strong> selector at the top of the page &mdash; pick a peer set there, then press Play below to watch ranks shift across the panel.</p>
+
+  <div class="chart-box"><div id="hdi-time-bars" style="height:560px"></div></div>
+  <div class="chart-caption">Figure 4.1: Top-25 by HDI&times;100 in the active peer set. Press Play or drag the slider to scrub through years. Bar order re-sorts each frame, so countries visibly overtake or fall behind one another as the panel advances.</div>
+
+  <div class="chart-box"><div id="hdi-time-scatter" style="height:480px"></div></div>
+  <div class="chart-caption">Figure 4.2: HDI&times;100 (x) vs M4 percentile within the active peer set (y), one dot per country, colored by continent. The diagonal cloud means HDI level and within-peer rank track closely; vertical movement at fixed HDI shows a country gaining or losing rank because its peers moved, not because it did.</div>
+
+  <h2 id="caveats"><span class="section-num">5</span> Caveats</h2>
   <p>The HDI is updated annually but is methodologically backward-looking: the latest year's value typically reflects life-expectancy and education data released with a one-to-three year lag. The HDI panel here ends in 2022 because UNDP HDR 2023/24 had not yet released subsequent vintages at the time of this build; updates would extend the series without changing the methodology. The world used for the leave-one-out mean is the union of HDI-reporting countries (191), which is broader than the 150 rated by the three credit-rating agencies. Restricting the HDI benchmark to the rated subset shifts the world mean upward by approximately 4 HDI100 points but leaves country-level relative ranks essentially unchanged.</p>
 
   <div class="endnotes" id="endnotes">
@@ -361,6 +370,132 @@ function renderDistributions() {
     yaxis:{title:'Count', gridcolor:'rgba(128,128,128,0.2)'},
     bargap:0.04
   }), cfg);
+
+  renderTimeAnimations(peerSet, peerLabel);
+}
+
+// ── Animated charts: top-25 racing bar + HDI-vs-M4 scatter, frame per year ──
+// Both respect the active peer set (so M4 is computed against whichever peers
+// the user picked above). Year slider + Play button injected by Plotly via
+// `frames` + `sliders` + `updatemenus` config.
+function renderTimeAnimations(peerSet, peerLabel) {
+  if (!EXTRAS || !EXTRAS.hdi || !EXTRAS.hdi.length) return;
+  const cfg = window.scrChartConfig || {displayModeBar: true, responsive: true};
+  // Group HDI rows by year, restricted to peer set
+  const allRows = EXTRAS.hdi.filter(r => peerSet.has(r.Country));
+  const years = Array.from(new Set(allRows.map(r => r.Year))).sort((a,b)=>a-b);
+  if (years.length < 2) return;
+  // Continent lookup for scatter colors
+  const REGION_COLOR = {
+    'Africa':'#C0392B', 'Asia':'#1B4F8A', 'Europe':'#2E7D32',
+    'North America':'#7B3F8F', 'Oceania':'#B7642E', 'South America':'#444'
+  };
+  const TOP_N = 25;
+
+  // Build one frame per year for the racing bar chart
+  const barFrames = years.map(yr => {
+    const yrRows = allRows.filter(r => r.Year === yr).sort((a,b) => b.Value - a.Value).slice(0, TOP_N);
+    return {
+      name: String(yr),
+      data: [{
+        type:'bar', orientation:'h',
+        x: yrRows.map(r => r.Value).reverse(),  // reverse so largest is at top of axis
+        y: yrRows.map(r => r.Country).reverse(),
+        marker: {color: yrRows.map(r => REGION_COLOR[window.SCR_REGION_OF[r.Country]] || '#888').reverse()},
+        text: yrRows.map(r => r.Value.toFixed(1)).reverse(),
+        textposition:'outside', textfont:{size:10},
+        hovertemplate:'%{y}: %{x:.1f}<extra></extra>'
+      }]
+    };
+  });
+  const barInitial = barFrames[barFrames.length - 1].data[0];  // start at latest year
+
+  const sliderSteps = years.map(yr => ({
+    label: String(yr), method:'animate',
+    args: [[String(yr)], {mode:'immediate', frame:{duration:300, redraw:true}, transition:{duration:200}}]
+  }));
+
+  Plotly.newPlot('hdi-time-bars', [barInitial], window.scrBaseLayout({
+    title: {text: 'Top-' + TOP_N + ' by HDI×100 — ' + peerLabel + ' (drag slider or press Play)', font:{size:13}},
+    xaxis: {title:'HDI × 100', range:[0, 105]},
+    yaxis: {title:'', automargin:true, tickfont:{size:10}},
+    margin: {l: 160, r: 60, t: 60, b: 80},
+    showlegend: false,
+    updatemenus: [{
+      type:'buttons', direction:'left', x:0.05, y:-0.18, xanchor:'left', yanchor:'top',
+      pad:{t:0,r:6}, showactive:false,
+      buttons:[
+        {label:'▶ Play', method:'animate',
+         args:[null, {fromcurrent:true, mode:'immediate', frame:{duration:600, redraw:true}, transition:{duration:300}}]},
+        {label:'❚❚ Pause', method:'animate',
+         args:[[null], {mode:'immediate', frame:{duration:0, redraw:false}, transition:{duration:0}}]}
+      ]
+    }],
+    sliders: [{
+      active: years.length - 1, currentvalue:{prefix:'Year: ', font:{size:12}},
+      pad:{t:40, l:80}, x:0.18, len:0.78, steps: sliderSteps
+    }]
+  }), cfg).then(gd => Plotly.addFrames(gd, barFrames));
+
+  // ── Scatter: HDI100 (x) vs M4 percentile (y), one dot per country, frames=year ──
+  // Compute M4 per (year, country) for the active peer set, year by year
+  const yearStats = {};
+  years.forEach(yr => {
+    const yrRows = allRows.filter(r => r.Year === yr);
+    if (yrRows.length < 2) return;
+    const sorted = yrRows.slice().sort((a,b) => a.Value - b.Value);
+    const n = sorted.length;
+    yearStats[yr] = sorted.map((r, i) => ({
+      Country: r.Country, Value: r.Value, M4: ((i+1)/n)*100,
+      Region: window.SCR_REGION_OF[r.Country] || 'Other'
+    }));
+  });
+
+  const scatterFrames = years.map(yr => {
+    const rows = yearStats[yr] || [];
+    return {
+      name: String(yr),
+      data: [{
+        type:'scatter', mode:'markers',
+        x: rows.map(r => r.Value),
+        y: rows.map(r => r.M4),
+        text: rows.map(r => r.Country),
+        marker: {
+          size: 10,
+          color: rows.map(r => REGION_COLOR[r.Region] || '#888'),
+          line: {color:'rgba(0,0,0,0.3)', width:0.5}
+        },
+        hovertemplate:'<b>%{text}</b><br>HDI×100: %{x:.1f}<br>M4 percentile: %{y:.1f}<extra></extra>'
+      }]
+    };
+  });
+  const scatterInitial = scatterFrames[scatterFrames.length - 1].data[0];
+
+  const scatterSliderSteps = years.map(yr => ({
+    label: String(yr), method:'animate',
+    args: [[String(yr)], {mode:'immediate', frame:{duration:300, redraw:true}, transition:{duration:200}}]
+  }));
+
+  Plotly.newPlot('hdi-time-scatter', [scatterInitial], window.scrBaseLayout({
+    title: {text: 'HDI×100 vs M4 percentile — ' + peerLabel + ' (drag slider or press Play)', font:{size:13}},
+    xaxis: {title:'HDI × 100', range:[0, 105]},
+    yaxis: {title:'M4 percentile within peers', range:[0, 105]},
+    showlegend: false,
+    updatemenus: [{
+      type:'buttons', direction:'left', x:0.05, y:-0.18, xanchor:'left', yanchor:'top',
+      pad:{t:0,r:6}, showactive:false,
+      buttons:[
+        {label:'▶ Play', method:'animate',
+         args:[null, {fromcurrent:true, mode:'immediate', frame:{duration:600, redraw:true}, transition:{duration:300}}]},
+        {label:'❚❚ Pause', method:'animate',
+         args:[[null], {mode:'immediate', frame:{duration:0, redraw:false}, transition:{duration:0}}]}
+      ]
+    }],
+    sliders: [{
+      active: years.length - 1, currentvalue:{prefix:'Year: ', font:{size:12}},
+      pad:{t:40, l:80}, x:0.18, len:0.78, steps: scatterSliderSteps
+    }]
+  }), cfg).then(gd => Plotly.addFrames(gd, scatterFrames));
 }
 </script>
 </body>

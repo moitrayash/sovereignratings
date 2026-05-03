@@ -363,12 +363,97 @@
     document.querySelectorAll('[data-tip]').forEach(el => el.classList.add('term'));
   }
 
+  // ── Auto-decorate technical vocabulary across the site ───────────
+  // Reads window.TIPS_ALIASES (alias text → tips key) and walks the body
+  // for the first occurrence of each alias. Wraps that occurrence with
+  // <span class="term" data-term="key">…</span> so the existing hover
+  // tooltip system picks it up. First-occurrence-per-page only keeps the
+  // page from becoming a forest of dotted underlines.
+  //
+  // Skip rules (do NOT auto-wrap inside these):
+  //   - any <code>, <script>, <style>, <pre>, <a>, <button>, <sup>, <input>, <textarea>
+  //   - any element already inside a .term, .copy-png-bar, .controls-rail
+  //   - any heading (h1–h6) or table header (th)
+  //   - the floating ToC, nav, footer, control rail, and chart modebar
+  //   - elements with data-no-autotip attribute (escape hatch)
+  function scrAutoDecorateTerms() {
+    if (!window.TIPS_ALIASES || !window.TIPS) return;
+    const seen = new Set();
+    // Sort aliases longest-first so "credit ratings" matches before "rating"
+    const aliases = Object.keys(window.TIPS_ALIASES).sort((a, b) => b.length - a.length);
+    if (!aliases.length) return;
+    // Build one big regex: \b(alias1|alias2|…)\b — case-insensitive
+    function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+    const re = new RegExp('\\b(' + aliases.map(escRe).join('|') + ')\\b', 'i');
+
+    const SKIP_TAGS = new Set(['CODE','SCRIPT','STYLE','PRE','A','BUTTON','SUP','INPUT','TEXTAREA','SELECT','OPTION','LABEL','TH','H1','H2','H3','H4','H5','H6','SVG','CANVAS']);
+    function isInsideSkip(node) {
+      let p = node.parentNode;
+      while (p && p !== document.body) {
+        if (p.nodeType === 1) {
+          if (SKIP_TAGS.has(p.tagName)) return true;
+          if (p.dataset && p.dataset.noAutotip !== undefined) return true;
+          const cl = p.classList;
+          if (cl && (cl.contains('term') || cl.contains('copy-png-bar') ||
+                     cl.contains('controls-rail') || cl.contains('controls') ||
+                     cl.contains('lang-menu') || cl.contains('chart-note') ||
+                     cl.contains('section-num') || cl.contains('back-ref'))) return true;
+          if (p.id === 'floating-toc' || p.id === 'tip-box' || p.id === 'scr-toast') return true;
+        }
+        p = p.parentNode;
+      }
+      return false;
+    }
+
+    // Containers worth scanning. Restricted to main content + a few callouts;
+    // everything else (nav, footer, controls, charts) is ignored.
+    const scopes = document.querySelectorAll(
+      'main p, main li, main td, main dd, main summary, main figcaption, ' +
+      'main .callout, main .ex-body, main .step, main blockquote'
+    );
+    scopes.forEach(scope => {
+      // Walk text nodes inside this scope. We collect them first because
+      // mutating the tree inside the walker would invalidate it.
+      const walker = document.createTreeWalker(scope, NodeFilter.SHOW_TEXT, {
+        acceptNode: n => (n.nodeValue && n.nodeValue.trim().length > 1 && !isInsideSkip(n))
+          ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT
+      });
+      const textNodes = [];
+      while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+      textNodes.forEach(tn => {
+        const txt = tn.nodeValue;
+        const m = txt.match(re);
+        if (!m) return;
+        const surface = m[1];
+        const key = window.TIPS_ALIASES[surface.toLowerCase()];
+        if (!key || seen.has(key) || !window.TIPS[key]) return;
+        const idx = m.index;
+        const before = txt.slice(0, idx);
+        const after  = txt.slice(idx + surface.length);
+        const span = document.createElement('span');
+        span.className = 'term';
+        span.dataset.term = key;
+        span.dataset.autotip = '1'; // tag for debugging / future cleanup
+        span.textContent = surface;
+        const parent = tn.parentNode;
+        if (before) parent.insertBefore(document.createTextNode(before), tn);
+        parent.insertBefore(span, tn);
+        if (after) parent.insertBefore(document.createTextNode(after), tn);
+        parent.removeChild(tn);
+        seen.add(key);
+      });
+    });
+  }
+  window.scrAutoDecorateTerms = scrAutoDecorateTerms;
+
   // ── Init ───────────────────────────────────────────────────────────
   function init() {
     buildControls();
     injectImprint();
     injectFooter();
     decorateTerms();
+    scrAutoDecorateTerms();
     const toc = buildToc();
     indexLinks(toc);
     wireFade(toc);
