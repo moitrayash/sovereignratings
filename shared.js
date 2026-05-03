@@ -945,6 +945,211 @@
     _shadowPromise = loader.then(extras => (extras && extras.shadow) || null).catch(() => null);
     return _shadowPromise;
   };
+  // ── Flag-based country color palette ─────────────────────────────────
+  //  Lightweight aesthetic touch: when a chart shows N lines for a single
+  //  country, draw them in the country's first N flag colors. When a chart
+  //  shows one line per country across many countries, give each line that
+  //  country's primary flag color. Falls back to a deterministic
+  //  hash-derived hue for any country not in the table.
+  //
+  //  Order within each entry is canonical-flag, but for countries whose
+  //  topmost stripe is white we put white last so single-line charts get a
+  //  visible primary. Pakistan green-then-white per user spec; Saudi dark
+  //  green for single-line use; France blue-white-red for the tricolor.
+  window.SCR_COUNTRY_COLORS = {
+    // North America
+    'United States':       ['#B22234','#3C3B6E','#FFFFFF'],
+    'Canada':              ['#FF0000','#FFFFFF'],
+    'Mexico':              ['#006847','#CE1126','#FFFFFF'],
+    // South America
+    'Brazil':              ['#009C3B','#FFDF00','#002776'],
+    'Argentina':           ['#74ACDF','#F6B40E','#FFFFFF'],
+    'Chile':               ['#0039A6','#D52B1E','#FFFFFF'],
+    'Colombia':            ['#FCD116','#003893','#CE1126'],
+    'Peru':                ['#D91023','#FFFFFF'],
+    'Uruguay':             ['#0038A8','#FCD116','#FFFFFF'],
+    'Venezuela':           ['#FCD116','#003893','#CE1126'],
+    'Ecuador':             ['#FFD100','#003893','#CE1126'],
+    'Bolivia':             ['#D52B1E','#FCD116','#007934'],
+    'Paraguay':            ['#D52B1E','#0038A8','#FFFFFF'],
+    'Suriname':            ['#377E3F','#B40A2D','#FFFFFF'],
+    // Western & Central Europe
+    'United Kingdom':      ['#012169','#C8102E','#FFFFFF'],
+    'France':              ['#0055A4','#FFFFFF','#EF4135'],
+    'Germany':             ['#000000','#DD0000','#FFCE00'],
+    'Italy':               ['#009246','#CE2B37','#FFFFFF'],
+    'Spain':               ['#AA151B','#F1BF00'],
+    'Portugal':            ['#046A38','#DA291C'],
+    'Netherlands':         ['#21468B','#AE1C28','#FFFFFF'],
+    'Belgium':             ['#000000','#FAE042','#ED2939'],
+    'Switzerland':         ['#DA291C','#FFFFFF'],
+    'Austria':             ['#ED2939','#FFFFFF'],
+    'Ireland':             ['#169B62','#FF883E','#FFFFFF'],
+    'Liechtenstein':       ['#002780','#CF1126'],
+    'Luxembourg':          ['#ED2939','#00A1DE','#FFFFFF'],
+    'Andorra':             ['#10069F','#FCDD09','#D52B1E'],
+    'San Marino':          ['#5EB6E4','#FFFFFF'],
+    // Nordic
+    'Denmark':             ['#C8102E','#FFFFFF'],
+    'Norway':              ['#BA0C2F','#00205B','#FFFFFF'],
+    'Sweden':              ['#006AA7','#FECC02'],
+    'Finland':             ['#003580','#FFFFFF'],
+    'Iceland':             ['#02529C','#DC1E35','#FFFFFF'],
+    // Eastern Europe
+    'Russia':              ['#D52B1E','#0039A6','#FFFFFF'],
+    'Ukraine':             ['#0057B7','#FFD500'],
+    'Poland':              ['#DC143C','#FFFFFF'],
+    'Czech Republic':      ['#D7141A','#11457E','#FFFFFF'],
+    'Slovakia':            ['#0B4EA2','#EE1C25','#FFFFFF'],
+    'Hungary':             ['#CD2A3E','#436F4D','#FFFFFF'],
+    'Romania':             ['#002B7F','#FCD116','#CE1126'],
+    'Bulgaria':            ['#00966E','#D62612','#FFFFFF'],
+    'Greece':              ['#0D5EAF','#FFFFFF'],
+    'Turkey':              ['#E30A17','#FFFFFF'],
+    'Serbia':              ['#C6363C','#0C4076','#FFFFFF'],
+    'Croatia':             ['#FF0000','#171796','#FFFFFF'],
+    'Slovenia':            ['#005DA4','#ED1C24','#FFFFFF'],
+    'Bosnia and Herzegovina': ['#002F6C','#FECB00'],
+    'Albania':             ['#FF0000','#000000'],
+    'Macedonia':           ['#D20000','#FFE600'],
+    'Montenegro':          ['#D52B1E','#C9AB59'],
+    'Cyprus':              ['#D57800','#FFFFFF'],
+    'Estonia':             ['#0072CE','#000000','#FFFFFF'],
+    'Latvia':              ['#9E3039','#FFFFFF'],
+    'Lithuania':           ['#FDB913','#006A44','#C1272D'],
+    'Malta':               ['#CF142B','#FFFFFF'],
+    'Moldova':             ['#003DA5','#FFD100','#CC092F'],
+    'Belarus':             ['#CE1720','#4AA657','#FFFFFF'],
+    // South Asia
+    'India':               ['#FF9933','#FFFFFF','#138808'],
+    'Pakistan':            ['#01411C','#FFFFFF'],
+    'Bangladesh':          ['#006A4E','#F42A41'],
+    'Sri Lanka':           ['#FFB100','#8D153A','#00534E','#EB7400'],
+    'Nepal':               ['#DC143C','#003893'],
+    'Maldives':            ['#D21034','#007E3A','#FFFFFF'],
+    // East Asia
+    'China':               ['#DE2910','#FFDE00'],
+    'Japan':               ['#BC002D','#FFFFFF'],
+    'South Korea':         ['#003478','#C60C30','#000000','#FFFFFF'],
+    'Mongolia':            ['#C4272F','#015197','#F9CF02'],
+    'Hong Kong':           ['#DE2408','#FFFFFF'],
+    'Taiwan':              ['#FE0000','#000095','#FFFFFF'],
+    // Southeast Asia
+    'Indonesia':           ['#FF0000','#FFFFFF'],
+    'Malaysia':            ['#CC0001','#010066','#FFCC00','#FFFFFF'],
+    'Singapore':           ['#EF3340','#FFFFFF'],
+    'Vietnam':             ['#DA251D','#FFFF00'],
+    'Thailand':            ['#A51931','#2D2A4A','#FFFFFF'],
+    'Philippines':         ['#0038A8','#CE1126','#FCD116','#FFFFFF'],
+    'Cambodia':            ['#032EA1','#E00025','#FFFFFF'],
+    'Laos':                ['#CE1126','#002868','#FFFFFF'],
+    'Myanmar':             ['#FECB00','#34B233','#EA2839'],
+    'Brunei':              ['#F7E017','#000000','#CF1126','#FFFFFF'],
+    // Central Asia & Caucasus
+    'Kazakhstan':          ['#00AFCA','#FEC50C'],
+    'Kyrgyzstan':          ['#E8112D','#FFEF00'],
+    'Tajikistan':          ['#CC0000','#006600','#FFFFFF'],
+    'Uzbekistan':          ['#0099B5','#1EB53A','#CE1126','#FFFFFF'],
+    'Turkmenistan':        ['#00853F','#CA0008','#FFFFFF'],
+    'Armenia':             ['#D90012','#0033A0','#F2A800'],
+    'Azerbaijan':          ['#00B5E2','#EF3340','#509E2F'],
+    'Georgia':             ['#FF0000','#FFFFFF'],
+    // Middle East / GCC
+    'Saudi Arabia':        ['#006C35','#FFFFFF'],
+    'United Arab Emirates': ['#00732F','#FF0000','#000000','#FFFFFF'],
+    'Qatar':               ['#8A1538','#FFFFFF'],
+    'Kuwait':              ['#007A3D','#CE1126','#000000','#FFFFFF'],
+    'Bahrain':             ['#CE1126','#FFFFFF'],
+    'Oman':                ['#DB161B','#008733','#FFFFFF'],
+    'Iran':                ['#239F40','#DA0000','#FFFFFF'],
+    'Iraq':                ['#CE1126','#007A3D','#000000','#FFFFFF'],
+    'Israel':              ['#0038B8','#FFFFFF'],
+    'Jordan':              ['#CE1126','#007A3D','#000000','#FFFFFF'],
+    'Lebanon':             ['#ED1C24','#00A651','#FFFFFF'],
+    'Syria':               ['#CE1126','#007A3D','#000000','#FFFFFF'],
+    'Yemen':               ['#CE1126','#000000','#FFFFFF'],
+    // North Africa
+    'Egypt':               ['#CE1126','#000000','#FFFFFF'],
+    'Morocco':             ['#C1272D','#006233'],
+    'Tunisia':             ['#E70013','#FFFFFF'],
+    'Algeria':             ['#006233','#D21034','#FFFFFF'],
+    'Libya':               ['#E70013','#239E46','#000000'],
+    // Sub-Saharan Africa
+    'South Africa':        ['#007A4D','#FFB612','#DE3831','#002395','#000000','#FFFFFF'],
+    'Nigeria':             ['#008751','#FFFFFF'],
+    'Kenya':               ['#000000','#BB0000','#006600','#FFFFFF'],
+    'Ethiopia':            ['#078930','#FCDD09','#DA121A'],
+    'Ghana':               ['#CE1126','#FCD116','#006B3F'],
+    'Senegal':             ['#00853F','#FDEF42','#E31B23'],
+    'Zambia':              ['#198A00','#DE2010','#EF7D00','#000000'],
+    'Uganda':              ['#FCDC04','#000000','#D90000'],
+    'Tanzania':            ['#1EB53A','#FCD116','#00A3DD','#000000'],
+    'Mozambique':          ['#007168','#FCE100','#D21034','#000000'],
+    'Angola':              ['#CE1126','#FFCB00','#000000'],
+    'Cameroon':            ['#007A5E','#CE1126','#FCD116'],
+    'Ivory Coast':         ['#F77F00','#009E60','#FFFFFF'],
+    'Mali':                ['#14B53A','#FCD116','#CE1126'],
+    'Burkina Faso':        ['#EF2B2D','#009E49','#FCD116'],
+    'Niger':               ['#E05206','#0DB02B','#FFFFFF'],
+    'Madagascar':          ['#FC3D32','#007E3A','#FFFFFF'],
+    'Rwanda':              ['#00A1DE','#20603D','#FAD201'],
+    'Botswana':            ['#75AADB','#000000','#FFFFFF'],
+    'Mauritius':           ['#EA2839','#1A206D','#FFD500','#00A551'],
+    'Cape Verde':          ['#003893','#CF2027','#F7D116','#FFFFFF'],
+    'Benin':               ['#008751','#FCD116','#E8112D'],
+    'Togo':                ['#006A4E','#FFCE00','#D21034','#FFFFFF'],
+    'Gabon':               ['#3A75C4','#FFE700','#009E60'],
+    'Republic of the Congo': ['#009543','#DC241F','#FBDE4A'],
+    'Chad':                ['#002664','#FECB00','#C60C30'],
+    'Guinea':              ['#CE1126','#FCD116','#009460'],
+    'Swaziland':           ['#3E5EB9','#FFD201','#B10C0C','#000000'],
+    // Oceania
+    'Australia':           ['#012169','#E4002B','#FFFFFF'],
+    'New Zealand':         ['#012169','#C8102E','#FFFFFF'],
+    'Papua New Guinea':    ['#000000','#CE1126','#FCD117'],
+    'Fiji':                ['#68BFE5','#012169','#CE1126','#FFFFFF'],
+    'Solomon Islands':     ['#0051BA','#215B33','#FCD116','#FFFFFF'],
+    // Caribbean / Central America
+    'Cuba':                ['#002A8F','#CF142B','#FFFFFF'],
+    'Dominican Republic':  ['#002D62','#CE1126','#FFFFFF'],
+    'Bahamas':             ['#00778B','#FFC72C','#000000'],
+    'Jamaica':             ['#009B3A','#FED100','#000000'],
+    'Trinidad and Tobago': ['#CE1126','#000000','#FFFFFF'],
+    'Barbados':            ['#00267F','#FFC726'],
+    'Belize':              ['#003F87','#CE1126','#FFFFFF'],
+    'Honduras':            ['#0073CE','#FFFFFF'],
+    'Guatemala':           ['#4997D0','#FFFFFF'],
+    'El Salvador':         ['#0047AB','#FFFFFF'],
+    'Nicaragua':           ['#0067C6','#FFFFFF'],
+    'Costa Rica':          ['#CE1126','#002B7F','#FFFFFF'],
+    'Panama':              ['#005AA7','#D21034','#FFFFFF'],
+    'St Vincent and The Grenadines': ['#002F87','#FCD116','#007A33']
+  };
+  // Returns N color hex strings for the given country, derived from its flag.
+  // Falls back to a deterministic hash-based HSL when the country isn't in the
+  // table (so the same unmapped country always gets the same color).
+  window.scrCountryColors = function(country, n) {
+    n = Math.max(1, n || 1);
+    const arr = (window.SCR_COUNTRY_COLORS && window.SCR_COUNTRY_COLORS[country]) || null;
+    if (arr && arr.length) {
+      const out = [];
+      for (let i = 0; i < n; i++) out.push(arr[i % arr.length]);
+      return out;
+    }
+    // Hash-based fallback
+    let h = 0;
+    for (let i = 0; i < (country || '').length; i++) h = (h * 31 + country.charCodeAt(i)) | 0;
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      const hue = (((h * (i + 1)) % 360) + 360) % 360;
+      out.push('hsl(' + Math.round(hue) + ', 60%, 52%)');
+    }
+    return out;
+  };
+  window.scrCountryColor = function(country) {
+    return window.scrCountryColors(country, 1)[0];
+  };
+
   // Cached compute of M4 percentile per (country,year) from EXTRAS.score_matrix.
   //   M4 = within-year fractional rank against ALL countries that have a score.
   //   Used by pages that don't bundle a relative panel.

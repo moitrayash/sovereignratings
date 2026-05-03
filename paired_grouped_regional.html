@@ -199,6 +199,10 @@ function renderPairView(divId, a, b, view) {
   const years = Object.keys(EXTRAS.score_matrix).map(Number).sort((x,y)=>x-y);
   const div = document.getElementById(divId);
   const cfg = window.scrChartConfig || {displayModeBar: true, responsive: true};
+  // Each country gets its primary flag color so the line carries a tiny
+  // visual cue about which country it represents.
+  const colA = (window.scrCountryColor ? window.scrCountryColor(a) : '#1B4F8A');
+  const colB = (window.scrCountryColor ? window.scrCountryColor(b) : '#C0392B');
   const baseLayout = {
     plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
     font:{family:'Helvetica Neue, Arial, sans-serif', size:11},
@@ -220,8 +224,8 @@ function renderPairView(divId, a, b, view) {
     });
     if (!xs.length) { div.innerHTML = '<p style="padding:20px;color:var(--muted)">' + a + ' or ' + b + ' missing.</p>'; return; }
     plotIt(divId, [
-      {x:xs,y:ya,name:a,mode:'lines+markers',line:{color:'#1B4F8A',width:2.2},marker:{size:4}},
-      {x:xs,y:yb,name:b,mode:'lines+markers',line:{color:'#C0392B',width:2.2,dash:'dash'},marker:{size:4}}
+      {x:xs,y:ya,name:a,mode:'lines+markers',line:{color:colA,width:2.2},marker:{color:colA,size:4}},
+      {x:xs,y:yb,name:b,mode:'lines+markers',line:{color:colB,width:2.2,dash:'dash'},marker:{color:colB,size:4}}
     ], Object.assign({}, baseLayout, {
       title:{text:a+' vs '+b+': absolute composite score',font:{size:13}},
       xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
@@ -236,8 +240,8 @@ function renderPairView(divId, a, b, view) {
     });
     if (!xs.length) { div.innerHTML = '<p style="padding:20px;color:var(--muted)">' + a + ' or ' + b + ' missing from relative panel.</p>'; return; }
     plotIt(divId, [
-      {x:xs,y:ya,name:a + ' (M4 percentile)',mode:'lines+markers',line:{color:'#1B4F8A',width:2.2},marker:{size:4}},
-      {x:xs,y:yb,name:b + ' (M4 percentile)',mode:'lines+markers',line:{color:'#C0392B',width:2.2,dash:'dash'},marker:{size:4}}
+      {x:xs,y:ya,name:a + ' (M4 percentile)',mode:'lines+markers',line:{color:colA,width:2.2},marker:{color:colA,size:4}},
+      {x:xs,y:yb,name:b + ' (M4 percentile)',mode:'lines+markers',line:{color:colB,width:2.2,dash:'dash'},marker:{color:colB,size:4}}
     ], Object.assign({}, baseLayout, {
       title:{text:a+' vs '+b+': relative — M4 within-year percentile vs all rated sovereigns',font:{size:12}},
       xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
@@ -254,12 +258,12 @@ function renderPairView(divId, a, b, view) {
       div.innerHTML = '';
       const traces = [];
       if (olsA.length) {
-        traces.push({x:olsA.map(r=>r.Year), y:olsA.map(r=>r.Actual), name:a + ' actual', mode:'lines+markers', line:{color:'#1B4F8A',width:2.2}, marker:{size:4}, legendgroup:a});
-        traces.push({x:olsA.map(r=>r.Year), y:olsA.map(r=>r.Shadow_OLS), name:a + ' shadow OLS', mode:'lines', line:{color:'#1B4F8A',width:1.5,dash:'dash'}, legendgroup:a});
+        traces.push({x:olsA.map(r=>r.Year), y:olsA.map(r=>r.Actual), name:a + ' actual', mode:'lines+markers', line:{color:colA,width:2.2}, marker:{color:colA,size:4}, legendgroup:a});
+        traces.push({x:olsA.map(r=>r.Year), y:olsA.map(r=>r.Shadow_OLS), name:a + ' shadow OLS', mode:'lines', line:{color:colA,width:1.5,dash:'dash'}, legendgroup:a});
       }
       if (olsB.length) {
-        traces.push({x:olsB.map(r=>r.Year), y:olsB.map(r=>r.Actual), name:b + ' actual', mode:'lines+markers', line:{color:'#C0392B',width:2.2}, marker:{size:4}, legendgroup:b});
-        traces.push({x:olsB.map(r=>r.Year), y:olsB.map(r=>r.Shadow_OLS), name:b + ' shadow OLS', mode:'lines', line:{color:'#C0392B',width:1.5,dash:'dash'}, legendgroup:b});
+        traces.push({x:olsB.map(r=>r.Year), y:olsB.map(r=>r.Actual), name:b + ' actual', mode:'lines+markers', line:{color:colB,width:2.2}, marker:{color:colB,size:4}, legendgroup:b});
+        traces.push({x:olsB.map(r=>r.Year), y:olsB.map(r=>r.Shadow_OLS), name:b + ' shadow OLS', mode:'lines', line:{color:colB,width:1.5,dash:'dash'}, legendgroup:b});
       }
       plotIt(divId, traces, Object.assign({}, baseLayout, {
         title:{text:a+' vs '+b+': actual (solid) vs shadow OLS (dashed)',font:{size:12}},

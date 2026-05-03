@@ -644,18 +644,22 @@ function renderModeA() {
   currentData = { mode: 'a', country, group, s };
 
   const years = s.years;
-  const color = PALETTE[0];
+  // Flag-based colors for the focal country (lightweight aesthetic). Falls
+  // back to the default palette where the country isn't in the country-color
+  // table (deterministic hash fallback inside scrCountryColors).
+  const flag = (window.scrCountryColors ? window.scrCountryColors(country, 5) : null);
+  const color    = flag ? flag[0] : PALETTE[0];
   const colorLoo = '#888888';
-  const colorM1  = PALETTE[0];
-  const colorM3  = PALETTE[1];
-  const colorM2  = PALETTE[2];
+  const colorM1  = flag ? flag[0] : PALETTE[0];
+  const colorM3  = flag ? flag[1] : PALETTE[1];
+  const colorM2  = flag ? flag[2] : PALETTE[2];
   const colorDm1 = PALETTE[3];
+  const colorM4  = flag ? flag[0] : PALETTE[4];
 
-  // ── Chart A1: View-switcher — Shadow (default) · Absolute · Relative ──
+  // ── Chart A1: View-switcher — Relative (default) · Shadow · Absolute ──
   //   User picks which perspective to view; only one shown at a time.
-  _chartA1State = { country, group, s, color, colorLoo, years };
+  _chartA1State = { country, group, s, color, colorLoo, years, flag };
   ensureChartASwitcher();
-  renderChartA1View('shadow');
 
   // ── Chart A2: M1 over time ────────────────────────────────────────────
   plotAndWire('chart-a2', [
@@ -704,7 +708,7 @@ function renderModeA() {
 
   // ── Chart A5: M4 (percentile, alternative) ────────────────────────────
   plotAndWire('chart-a5', [
-    lineTrace(years, s.m4, 'M4: percentile (0–1)', PALETTE[4]),
+    lineTrace(years, s.m4, 'M4: percentile (0–1)', colorM4),
   ], layout({
     title: { text: 'M4: Within-Group Percentile Rank (0–1 scale)', font: { size: 12, family: FONT_SERIF } },
     xaxis: { title: { text: 'Year' } },
@@ -784,7 +788,8 @@ function plotAndWire(divId, data, layoutObj, cfg) {
 
 function renderChartA1View(view) {
   if (!_chartA1State) return;
-  const { country, group, s, color, colorLoo, years } = _chartA1State;
+  const { country, group, s, color, colorLoo, years, flag } = _chartA1State;
+  const c2 = (flag && flag[1]) || PALETTE[1] || '#888';
   const div = document.getElementById('chart-a1');
   if (view === 'absolute') {
     plotAndWire('chart-a1', [
@@ -799,7 +804,7 @@ function renderChartA1View(view) {
   } else if (view === 'relative') {
     plotAndWire('chart-a1', [
       lineTrace(years, s.m4, country + ' — M4 percentile within ' + group, color),
-      lineTrace(years, s.m1, country + ' — M1 (score² / LOO mean), right axis', PALETTE[1] || '#888', { yaxis: 'y2', line: { dash: 'dash', width: 1.6, color: PALETTE[1] || '#888' } })
+      lineTrace(years, s.m1, country + ' — M1 (score² / LOO mean), right axis', c2, { yaxis: 'y2', line: { dash: 'dash', width: 1.6, color: c2 } })
     ], layout({
       title: { text: country + ': relative rating within ' + group, font: { size: 13, family: FONT_SERIF } },
       xaxis: { title: { text: 'Year' } },
@@ -933,14 +938,16 @@ function renderModeB() {
   currentData = { mode: 'b', countries: selected, group };
 
   const series = selected.map((c, i) => ({
-    country: c, color: PALETTE[i % PALETTE.length],
+    country: c,
+    // Each country line takes that country's flag-primary color where mapped;
+    // unmapped countries fall back to a deterministic hash-based hue.
+    color: (window.scrCountryColor ? window.scrCountryColor(c) : PALETTE[i % PALETTE.length]),
     s: DB.series[`${c}|${group}`]
   }));
 
-  // ── Chart B1: View-switcher — Shadow (default) · Absolute · Relative ──
+  // ── Chart B1: View-switcher — Relative (default) · Shadow · Absolute ──
   _chartB1State = { series, group };
   ensureChartBSwitcher();
-  renderChartB1View('shadow');
 
   // ── Chart B2: M1 ─────────────────────────────────────────────────────
   plotAndWire('chart-b2', [
