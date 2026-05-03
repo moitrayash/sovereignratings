@@ -862,6 +862,19 @@
   }
   window.scrApplyAxisArrows = applyAxisArrows;
 
+  // Force-rewire hover/legend/arrow hooks on a chart div. Needed after every
+  // Plotly.newPlot — purge wipes registered listeners but leaves the
+  // _scrHooksWired flag stale, so the MutationObserver sees no new node and
+  // skips wiring. Pages should call this immediately after each newPlot:
+  //   Plotly.newPlot(div, data, layout, cfg).then(() => window.scrWireChart(div))
+  window.scrWireChart = function(gd) {
+    if (!gd) return;
+    gd._scrHooksWired = false;
+    gd._scrArrowsApplied = false;
+    try { wireChartHooks(gd); } catch(e) { console.warn('scrWireChart wire failed:', e); }
+    try { applyAxisArrows(gd); } catch(e) {}
+  };
+
   function wireChartHooks(gd) {
     if (!gd || gd._scrHooksWired) return;
     // CRITICAL: only set _scrHooksWired AFTER confirming gd.on exists.

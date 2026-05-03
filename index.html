@@ -378,32 +378,28 @@
 
     <div class="section-title" id="output-title">Charts</div>
 
-    <!-- Mode A layout: combined 3-line headline + relative breakdown + shadow detail -->
+    <!-- Mode A layout: headline chart with view-switcher (default Shadow) + relative detail grid -->
     <div id="charts-a">
-      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Headline: absolute · relative · shadow on one plot</div>
+      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Headline — pick a perspective</div>
       <div class="chart-wrap full" style="margin-bottom:20px"><div id="chart-a1"></div></div>
-      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Relative — M1, M2, ΔM1, M4 detail</div>
+      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Relative methods — M1, M2, ΔM1, M4 detail</div>
       <div class="charts-grid-2">
         <div class="chart-wrap"><div id="chart-a2"></div></div>
         <div class="chart-wrap"><div id="chart-a3"></div></div>
         <div class="chart-wrap"><div id="chart-a4"></div></div>
         <div class="chart-wrap"><div id="chart-a5"></div></div>
       </div>
-      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:18px 2px 4px;">Shadow — three model variants (OLS · k-NN · Bayes)</div>
-      <div class="chart-wrap full" style="margin-bottom:20px"><div id="chart-a6"></div></div>
     </div>
 
-    <!-- Mode B layout: combined 3-line per-country headline + relative breakdown + shadow detail -->
+    <!-- Mode B layout: headline chart with view-switcher (default Shadow) + relative detail -->
     <div id="charts-b" style="display:none">
-      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Headline: per-country absolute · relative · shadow on one plot</div>
+      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Headline — pick a perspective</div>
       <div class="chart-wrap full" style="margin-bottom:20px"><div id="chart-b1"></div></div>
-      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Relative — M1 + M4 detail</div>
+      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Relative methods — M1 + M4 detail</div>
       <div class="charts-grid-2">
         <div class="chart-wrap"><div id="chart-b2"></div></div>
         <div class="chart-wrap"><div id="chart-b3"></div></div>
       </div>
-      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:18px 2px 4px;">Shadow — multi-country actual vs OLS prediction</div>
-      <div class="chart-wrap full" style="margin-bottom:20px"><div id="chart-b4"></div></div>
     </div>
 
     <!-- Summary table -->
@@ -655,54 +651,14 @@ function renderModeA() {
   const colorM2  = PALETTE[2];
   const colorDm1 = PALETTE[3];
 
-  // ── Chart A1: All three perspectives in one — absolute · relative · shadow ─
-  //   Solid = absolute composite score (left axis, 0–60)
-  //   Dotted = M4 percentile within peer group (right axis, 0–1)
-  //   Dashed = shadow OLS prediction (left axis, 0–60) — added async
-  Plotly.newPlot('chart-a1', [
-    {
-      x: years, y: s.score, name: country + ' — absolute score',
-      type: 'scatter', mode: 'lines+markers',
-      line: { color: color, width: 2.2 }, marker: { color: color, size: 4.5, symbol: 'circle' },
-      yaxis: 'y', connectgaps: false
-    },
-    {
-      x: years, y: s.m4, name: 'Relative — M4 percentile (right axis)',
-      type: 'scatter', mode: 'lines+markers',
-      line: { color: PALETTE[2], width: 1.6, dash: 'dot' }, marker: { color: PALETTE[2], size: 3.5, symbol: 'square' },
-      yaxis: 'y2', connectgaps: false
-    },
-    {
-      x: years, y: s.loo, name: group + ' LOO mean (peer benchmark)',
-      type: 'scatter', mode: 'lines',
-      line: { color: colorLoo, width: 1.2, dash: 'dot' },
-      yaxis: 'y', connectgaps: false
-    }
-  ], layout({
-    title: { text: 'Three perspectives in one chart: Absolute · Relative · Shadow', font: { size: 13, family: FONT_SERIF } },
-    xaxis: { title: { text: 'Year' } },
-    yaxis: { title: { text: 'Composite Score (0–60) · Shadow' }, range: [0, 65] },
-    yaxis2: { title: { text: 'M4 percentile (0–1)' }, overlaying: 'y', side: 'right', range: [0, 1.05], showgrid: false },
-    height: 340
-  }), PLOT_CONFIG);
-  // Shadow line added asynchronously once extras.json loads
-  loadShadowData().then(sh => {
-    if (!sh || !sh.ols) return;
-    const ols = sh.ols.filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
-    if (!ols.length) return;
-    try {
-      Plotly.addTraces('chart-a1', {
-        x: ols.map(r => r.Year), y: ols.map(r => r.Shadow_OLS),
-        name: 'Shadow — Method C (OLS)',
-        type: 'scatter', mode: 'lines',
-        line: { color: PALETTE[1], width: 1.7, dash: 'dash' },
-        yaxis: 'y'
-      });
-    } catch(e) { console.warn('add shadow trace to chart-a1 failed:', e); }
-  });
+  // ── Chart A1: View-switcher — Shadow (default) · Absolute · Relative ──
+  //   User picks which perspective to view; only one shown at a time.
+  _chartA1State = { country, group, s, color, colorLoo, years };
+  ensureChartASwitcher();
+  renderChartA1View('shadow');
 
   // ── Chart A2: M1 over time ────────────────────────────────────────────
-  Plotly.newPlot('chart-a2', [
+  plotAndWire('chart-a2', [
     lineTrace(years, s.m1, 'M1 (current group mean)', colorM1),
     lineTrace(years, s.m3, 'M3 (lagged group mean)',  colorM3, { line: { dash: 'dash', width: 1.6 }, marker: { symbol: 'square', size: 4 } }),
   ], layout({
@@ -710,11 +666,11 @@ function renderModeA() {
     xaxis: { title: { text: 'Year' } },
     yaxis: { title: { text: 'M1 / M3' } },
     height: 280,
-  }), PLOT_CONFIG);
+  }));
 
   // ── Chart A3: M2 percentile ───────────────────────────────────────────
   const groupSize = (DB.group_countries[group] || []).length;
-  Plotly.newPlot('chart-a3', [
+  plotAndWire('chart-a3', [
     lineTrace(years, s.m2, 'M2: percentile rank', colorM2),
   ], layout({
     title: { text: `M2: Within-Group Percentile Rank (n ≈ ${groupSize})`, font: { size: 12, family: FONT_SERIF } },
@@ -727,11 +683,11 @@ function renderModeA() {
       y0: groupSize / 2, y1: groupSize / 2,
       line: { color: '#aaa', dash: 'dot', width: 1 }
     }],
-  }), PLOT_CONFIG);
+  }));
 
   // ── Chart A4: M1 annual delta ─────────────────────────────────────────
   const dColors = s.dm1.map(v => v === null ? '#ccc' : v >= 0 ? PALETTE[2] : PALETTE[1]);
-  Plotly.newPlot('chart-a4', [{
+  plotAndWire('chart-a4', [{
     type: 'bar',
     x: years,
     y: s.dm1.map(v => v === null ? 0 : v),
@@ -744,10 +700,10 @@ function renderModeA() {
     yaxis: { title: { text: 'ΔM1' }, zeroline: true, zerolinecolor: '#999', zerolinewidth: 1 },
     height: 280,
     showlegend: false,
-  }), PLOT_CONFIG);
+  }));
 
   // ── Chart A5: M4 (percentile, alternative) ────────────────────────────
-  Plotly.newPlot('chart-a5', [
+  plotAndWire('chart-a5', [
     lineTrace(years, s.m4, 'M4: percentile (0–1)', PALETTE[4]),
   ], layout({
     title: { text: 'M4: Within-Group Percentile Rank (0–1 scale)', font: { size: 12, family: FONT_SERIF } },
@@ -760,10 +716,7 @@ function renderModeA() {
       y0: 0.5, y1: 0.5,
       line: { color: '#aaa', dash: 'dot', width: 1 }
     }],
-  }), PLOT_CONFIG);
-
-  // ── Chart A6: Shadow rating (actual vs OLS / k-NN / Bayes) ────────────
-  renderShadowA(country);
+  }));
 
   // ── Tables ────────────────────────────────────────────────────────────
   renderSummaryTableA(country, group, s);
@@ -790,83 +743,203 @@ function loadShadowData() {
   return SHADOW_PROMISE;
 }
 
-function renderShadowA(country) {
-  const div = document.getElementById('chart-a6');
-  if (!div) return;
-  div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">Loading shadow predictions…</p>';
-  loadShadowData().then(sh => {
-    if (!sh || !sh.ols) {
-      div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">Shadow data unavailable. (extras.json did not load.)</p>';
-      return;
-    }
-    const ols = sh.ols.filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
-    if (!ols.length) {
-      div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">No shadow predictions for ' + country + ' (likely missing macro fundamentals — log GDPpc, growth, FDI%).</p>';
-      return;
-    }
-    const knn   = (sh.knn   || []).filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
-    const bayes = (sh.bayes || []).filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
-    div.innerHTML = '';
-    Plotly.newPlot('chart-a6', [
-      { x: ols.map(r => r.Year), y: ols.map(r => r.Actual),
-        name: country + ' — actual',
-        mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 }, marker: { size: 4.5, symbol: 'circle' } },
-      { x: ols.map(r => r.Year), y: ols.map(r => r.Shadow_OLS),
-        name: 'Shadow — Method C (OLS, log GDPpc + growth + FDI)',
-        mode: 'lines', line: { color: '#1B4F8A', width: 1.8, dash: 'dash' } },
-      { x: knn.map(r => r.Year), y: knn.map(r => r.Shadow_kNN),
-        name: 'Shadow — Method D (k-NN on macro features)',
-        mode: 'lines', line: { color: '#C0392B', width: 1.8, dash: 'dot' } },
-      { x: bayes.map(r => r.Year), y: bayes.map(r => r.Shadow_Bayes),
-        name: 'Shadow — Bayesian shrinkage (β=0.5)',
-        mode: 'lines', line: { color: '#2E7D32', width: 1.8, dash: 'dashdot' } }
-    ], layout({
-      title: { text: country + ': actual composite vs three model-implied shadow ratings', font: { size: 12, family: FONT_SERIF } },
-      xaxis: { title: { text: 'Year' } },
-      yaxis: { title: { text: 'Composite (0–60)' }, range: [0, 65] },
-      height: 320
-    }), PLOT_CONFIG);
+// ─────────────────────────────────────────────────────────────────────────
+//  View-switcher pattern: Shadow (default) · Absolute · Relative
+//  Used on chart-a1 and chart-b1. State stashed in module globals so the
+//  user can flip views without re-clicking Generate.
+// ─────────────────────────────────────────────────────────────────────────
+let _chartA1State = null;
+let _chartB1State = null;
+const VIEW_KEYS = ['shadow', 'absolute', 'relative'];
+const VIEW_LABELS = { shadow: 'Shadow', absolute: 'Absolute', relative: 'Relative' };
+
+function makeSwitcherBar(activeKey, onChange) {
+  const bar = document.createElement('div');
+  bar.className = 'view-switcher';
+  bar.style.cssText = 'display:flex;gap:6px;margin:0 0 10px 0;flex-wrap:wrap;';
+  const buttons = {};
+  VIEW_KEYS.forEach(k => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = VIEW_LABELS[k];
+    b.dataset.viewKey = k;
+    b.style.cssText = 'padding:5px 14px;font-size:0.78rem;letter-spacing:0.04em;text-transform:uppercase;font-family:inherit;cursor:pointer;border-radius:3px;border:1px solid var(--rule, #ccc);background:transparent;color:var(--ink, #1a1a1a);transition:background 0.12s, color 0.12s;';
+    b.onmouseenter = () => { if (b.dataset.active !== '1') b.style.background = 'rgba(128,128,128,0.12)'; };
+    b.onmouseleave = () => { if (b.dataset.active !== '1') b.style.background = 'transparent'; };
+    b.onclick = () => {
+      VIEW_KEYS.forEach(kk => {
+        const btn = buttons[kk];
+        btn.dataset.active = '0';
+        btn.style.background = 'transparent';
+        btn.style.color = 'var(--ink, #1a1a1a)';
+        btn.style.fontWeight = '400';
+      });
+      b.dataset.active = '1';
+      b.style.background = 'var(--ink, #1a1a1a)';
+      b.style.color = 'var(--bg, #fff)';
+      b.style.fontWeight = '600';
+      onChange(k);
+    };
+    buttons[k] = b;
+    bar.appendChild(b);
+  });
+  // Activate default
+  setTimeout(() => buttons[activeKey].click(), 0);
+  return bar;
+}
+
+function ensureChartASwitcher() {
+  const wrap = document.getElementById('chart-a1').parentNode;
+  const old = wrap.querySelector('.view-switcher');
+  if (old) old.remove();
+  const bar = makeSwitcherBar('shadow', renderChartA1View);
+  wrap.insertBefore(bar, document.getElementById('chart-a1'));
+}
+function ensureChartBSwitcher() {
+  const wrap = document.getElementById('chart-b1').parentNode;
+  const old = wrap.querySelector('.view-switcher');
+  if (old) old.remove();
+  const bar = makeSwitcherBar('shadow', renderChartB1View);
+  wrap.insertBefore(bar, document.getElementById('chart-b1'));
+}
+
+// Plotly.newPlot purges hooks; this wraps it so the glow + arrows + theme
+// re-attach on every re-render. Takes optional cfg (defaults to PLOT_CONFIG).
+function plotAndWire(divId, data, layoutObj, cfg) {
+  Plotly.newPlot(divId, data, layoutObj, cfg || PLOT_CONFIG).then(() => {
+    const gd = document.getElementById(divId);
+    if (window.scrWireChart) window.scrWireChart(gd);
+    if (window.scrApplyChartTheme) window.scrApplyChartTheme();
   });
 }
 
-function renderShadowB(selected) {
-  const div = document.getElementById('chart-b4');
-  if (!div) return;
-  div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">Loading shadow predictions…</p>';
-  loadShadowData().then(sh => {
-    if (!sh || !sh.ols) {
-      div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">Shadow data unavailable. (extras.json did not load.)</p>';
-      return;
-    }
-    const traces = [];
-    const missing = [];
-    selected.forEach((c, i) => {
-      const color = PALETTE[i % PALETTE.length];
-      const rows = sh.ols.filter(r => r.Country === c).sort((a,b) => a.Year - b.Year);
-      if (!rows.length) { missing.push(c); return; }
-      traces.push({
-        x: rows.map(r => r.Year), y: rows.map(r => r.Actual),
-        name: c + ' (actual)', mode: 'lines+markers',
-        line: { color, width: 2 }, marker: { size: 4 }
-      });
-      traces.push({
-        x: rows.map(r => r.Year), y: rows.map(r => r.Shadow_OLS),
-        name: c + ' (shadow OLS)', mode: 'lines',
-        line: { color, width: 1.4, dash: 'dash' }
-      });
-    });
-    if (!traces.length) {
-      div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">No shadow predictions for any selected country.</p>';
-      return;
-    }
-    div.innerHTML = '';
-    Plotly.newPlot('chart-b4', traces, layout({
-      title: { text: 'Actual vs Shadow (Method C — OLS): solid = actual, dashed = shadow' + (missing.length ? '  ·  no shadow data: ' + missing.join(', ') : ''), font: { size: 12, family: FONT_SERIF } },
+function renderChartA1View(view) {
+  if (!_chartA1State) return;
+  const { country, group, s, color, colorLoo, years } = _chartA1State;
+  const div = document.getElementById('chart-a1');
+  if (view === 'absolute') {
+    plotAndWire('chart-a1', [
+      dottedTrace(years, s.loo, group + ' LOO mean (peer benchmark)', colorLoo),
+      lineTrace(years, s.score, country + ' — composite score', color)
+    ], layout({
+      title: { text: country + ': absolute composite credit score vs ' + group + ' peer mean', font: { size: 13, family: FONT_SERIF } },
       xaxis: { title: { text: 'Year' } },
-      yaxis: { title: { text: 'Composite (0–60)' }, range: [0, 65] },
-      height: 360
-    }), PLOT_CONFIG);
-  });
+      yaxis: { title: { text: 'Composite Score (0–60)' }, range: [0, 65] },
+      height: 320
+    }));
+  } else if (view === 'relative') {
+    plotAndWire('chart-a1', [
+      lineTrace(years, s.m4, country + ' — M4 percentile within ' + group, color),
+      lineTrace(years, s.m1, country + ' — M1 (score² / LOO mean), right axis', PALETTE[1] || '#888', { yaxis: 'y2', line: { dash: 'dash', width: 1.6, color: PALETTE[1] || '#888' } })
+    ], layout({
+      title: { text: country + ': relative rating within ' + group, font: { size: 13, family: FONT_SERIF } },
+      xaxis: { title: { text: 'Year' } },
+      yaxis: { title: { text: 'M4 percentile (0–1)' }, range: [0, 1.05] },
+      yaxis2: { title: { text: 'M1 (Basu et al. ratio)' }, overlaying: 'y', side: 'right', showgrid: false },
+      height: 320,
+      shapes: [{ type: 'line', x0: years[0], x1: years[years.length-1], y0: 0.5, y1: 0.5, line: { color: '#aaa', dash: 'dot', width: 1 } }]
+    }));
+  } else { // shadow
+    div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">Loading shadow predictions…</p>';
+    loadShadowData().then(sh => {
+      if (!sh || !sh.ols) {
+        div.innerHTML = '<p style="padding:32px;color:var(--muted);font-size:0.9rem;text-align:center">Shadow data unavailable.</p>';
+        return;
+      }
+      const ols   = sh.ols  .filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
+      if (!ols.length) {
+        div.innerHTML = '<p style="padding:32px;color:var(--muted);font-size:0.9rem;text-align:center">No shadow predictions for ' + country + ' (likely missing macro fundamentals — log GDPpc, growth, FDI%).</p>';
+        return;
+      }
+      const knn   = (sh.knn   || []).filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
+      const bayes = (sh.bayes || []).filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
+      div.innerHTML = '';
+      plotAndWire('chart-a1', [
+        { x: ols.map(r => r.Year), y: ols.map(r => r.Actual),
+          name: country + ' — actual', type: 'scatter', mode: 'lines+markers',
+          line: { color: color, width: 2.4 }, marker: { color: color, size: 4.5 } },
+        { x: ols.map(r => r.Year), y: ols.map(r => r.Shadow_OLS),
+          name: 'Shadow — Method C (OLS, log GDPpc + growth + FDI)',
+          type: 'scatter', mode: 'lines', line: { color: '#1B4F8A', width: 1.7, dash: 'dash' } },
+        { x: knn.map(r => r.Year), y: knn.map(r => r.Shadow_kNN),
+          name: 'Shadow — Method D (k-NN on macro features)',
+          type: 'scatter', mode: 'lines', line: { color: '#C0392B', width: 1.7, dash: 'dot' } },
+        { x: bayes.map(r => r.Year), y: bayes.map(r => r.Shadow_Bayes),
+          name: 'Shadow — Bayesian shrinkage (β=0.5)',
+          type: 'scatter', mode: 'lines', line: { color: '#2E7D32', width: 1.7, dash: 'dashdot' } }
+      ], layout({
+        title: { text: country + ': actual composite vs three model-implied shadow ratings', font: { size: 12, family: FONT_SERIF } },
+        xaxis: { title: { text: 'Year' } },
+        yaxis: { title: { text: 'Composite (0–60)' }, range: [0, 65] },
+        height: 320
+      }));
+    });
+  }
+}
+
+function renderChartB1View(view) {
+  if (!_chartB1State) return;
+  const { series, group } = _chartB1State;
+  const div = document.getElementById('chart-b1');
+  if (view === 'absolute') {
+    const s0 = series[0].s;
+    const looT = dottedTrace(s0.years, s0.loo, group + ' LOO mean (avg)', '#999');
+    const traces = [looT].concat(series.map(({ country, color, s }) =>
+      lineTrace(s.years, s.score, country, color)
+    ));
+    plotAndWire('chart-b1', traces, layout({
+      title: { text: 'Composite Credit Score: ' + group + ' group', font: { size: 13, family: FONT_SERIF } },
+      xaxis: { title: { text: 'Year' } },
+      yaxis: { title: { text: 'Composite Score (0–60)' }, range: [0, 65] },
+      height: 340
+    }));
+  } else if (view === 'relative') {
+    const traces = series.map(({ country, color, s }) =>
+      lineTrace(s.years, s.m4, country, color, { marker: { symbol: 'square', size: 4 } })
+    );
+    plotAndWire('chart-b1', traces, layout({
+      title: { text: 'Relative — M4 within-group percentile rank: ' + group + ' group', font: { size: 13, family: FONT_SERIF } },
+      xaxis: { title: { text: 'Year' } },
+      yaxis: { title: { text: 'M4 percentile (0–1)' }, range: [0, 1.05] },
+      height: 340,
+      shapes: [{ type: 'line', x0: 2000, x1: 2025, y0: 0.5, y1: 0.5, line: { color: '#aaa', dash: 'dot', width: 1 } }]
+    }));
+  } else { // shadow
+    div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">Loading shadow predictions…</p>';
+    loadShadowData().then(sh => {
+      if (!sh || !sh.ols) {
+        div.innerHTML = '<p style="padding:32px;color:var(--muted);font-size:0.9rem;text-align:center">Shadow data unavailable.</p>';
+        return;
+      }
+      const traces = [];
+      const missing = [];
+      series.forEach(({ country, color }) => {
+        const rows = sh.ols.filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
+        if (!rows.length) { missing.push(country); return; }
+        traces.push({
+          x: rows.map(r => r.Year), y: rows.map(r => r.Actual),
+          name: country + ' — actual', type: 'scatter', mode: 'lines+markers',
+          line: { color, width: 2 }, marker: { color, size: 4 }, legendgroup: country
+        });
+        traces.push({
+          x: rows.map(r => r.Year), y: rows.map(r => r.Shadow_OLS),
+          name: country + ' — shadow OLS', type: 'scatter', mode: 'lines',
+          line: { color, width: 1.4, dash: 'dash' }, legendgroup: country
+        });
+      });
+      if (!traces.length) {
+        div.innerHTML = '<p style="padding:32px;color:var(--muted);font-size:0.9rem;text-align:center">No shadow predictions for any selected country.</p>';
+        return;
+      }
+      div.innerHTML = '';
+      plotAndWire('chart-b1', traces, layout({
+        title: { text: 'Actual vs Shadow (Method C — OLS): solid = actual, dashed = shadow' + (missing.length ? '  ·  no shadow: ' + missing.join(', ') : ''), font: { size: 12, family: FONT_SERIF } },
+        xaxis: { title: { text: 'Year' } },
+        yaxis: { title: { text: 'Composite (0–60)' }, range: [0, 65] },
+        height: 360
+      }));
+    });
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -895,56 +968,13 @@ function renderModeB() {
     s: DB.series[`${c}|${group}`]
   }));
 
-  // ── Chart B1: All three perspectives per country — absolute · relative · shadow ─
-  //   Per country, paired by color:
-  //     solid   = absolute score (left axis 0–60)
-  //     dotted  = M4 percentile (right axis 0–1)
-  //     dashed  = shadow OLS    (left axis 0–60) — added async
-  const traces = [];
-  series.forEach(({ country, color, s }) => {
-    traces.push({
-      x: s.years, y: s.score, name: country + ' — absolute',
-      type: 'scatter', mode: 'lines+markers',
-      line: { color: color, width: 2 }, marker: { color: color, size: 4 },
-      yaxis: 'y', connectgaps: false, legendgroup: country
-    });
-    traces.push({
-      x: s.years, y: s.m4, name: country + ' — M4 percentile (right)',
-      type: 'scatter', mode: 'lines',
-      line: { color: color, width: 1.4, dash: 'dot' },
-      yaxis: 'y2', connectgaps: false, legendgroup: country
-    });
-  });
-  Plotly.newPlot('chart-b1', traces, layout({
-    title: { text: 'Three perspectives per country: Absolute (solid) · Relative M4 (dotted, right axis) · Shadow (dashed, added when loaded)', font: { size: 12, family: FONT_SERIF } },
-    xaxis: { title: { text: 'Year' } },
-    yaxis: { title: { text: 'Composite Score (0–60) · Shadow' }, range: [0, 65] },
-    yaxis2: { title: { text: 'M4 percentile (0–1)' }, overlaying: 'y', side: 'right', range: [0, 1.05], showgrid: false },
-    height: 380
-  }), PLOT_CONFIG);
-  // Shadow lines per country added asynchronously
-  loadShadowData().then(sh => {
-    if (!sh || !sh.ols) return;
-    const newTraces = [];
-    series.forEach(({ country, color }) => {
-      const rows = sh.ols.filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
-      if (!rows.length) return;
-      newTraces.push({
-        x: rows.map(r => r.Year), y: rows.map(r => r.Shadow_OLS),
-        name: country + ' — shadow OLS',
-        type: 'scatter', mode: 'lines',
-        line: { color: color, width: 1.4, dash: 'dash' },
-        yaxis: 'y', legendgroup: country
-      });
-    });
-    if (newTraces.length) {
-      try { Plotly.addTraces('chart-b1', newTraces); }
-      catch(e) { console.warn('add shadow traces to chart-b1 failed:', e); }
-    }
-  });
+  // ── Chart B1: View-switcher — Shadow (default) · Absolute · Relative ──
+  _chartB1State = { series, group };
+  ensureChartBSwitcher();
+  renderChartB1View('shadow');
 
   // ── Chart B2: M1 ─────────────────────────────────────────────────────
-  Plotly.newPlot('chart-b2', [
+  plotAndWire('chart-b2', [
     ...series.map(({ country, color, s }) =>
       lineTrace(s.years, s.m1, country, color)
     ),
@@ -953,10 +983,10 @@ function renderModeB() {
     xaxis: { title: { text: 'Year' } },
     yaxis: { title: { text: 'M1' } },
     height: 300,
-  }), PLOT_CONFIG);
+  }));
 
   // ── Chart B3: M4 percentile ───────────────────────────────────────────
-  Plotly.newPlot('chart-b3', [
+  plotAndWire('chart-b3', [
     ...series.map(({ country, color, s }) =>
       lineTrace(s.years, s.m4, country, color, { marker: { symbol: 'square', size: 4 } })
     ),
@@ -969,10 +999,7 @@ function renderModeB() {
       type: 'line', x0: 2000, x1: 2025, y0: 0.5, y1: 0.5,
       line: { color: '#aaa', dash: 'dot', width: 1 }
     }],
-  }), PLOT_CONFIG);
-
-  // ── Chart B4: Multi-country shadow ratings (actual vs OLS shadow) ─────
-  renderShadowB(selected);
+  }));
 
   // ── Tables ────────────────────────────────────────────────────────────
   renderSummaryTableB(series, group);
