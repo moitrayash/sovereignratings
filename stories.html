@@ -462,6 +462,36 @@ function renderAll() {
   renderStoryShad('emdc-shadow',      'african_distress',['Ghana','Sri Lanka','Zambia','Ethiopia'],       'Frontier');
   renderStoryRel ('iceland-relative', 'iceland_nordic',  ['Iceland','Ireland'],                           'Nordic-Atlantic');
   renderStoryShad('iceland-shadow',   'iceland_nordic',  ['Iceland','Ireland'],                           'Nordic-Atlantic');
+
+  // Per-story view-switcher: hide/show the absolute / relative / shadow chart-boxes.
+  // Default Relative across the board to match the rest of the site.
+  ['arg','euro','ip','emdc','iceland'].forEach(prefix => {
+    const absDiv  = document.getElementById(prefix + '-chart');
+    const relDiv  = document.getElementById(prefix + '-relative');
+    const shadDiv = document.getElementById(prefix + '-shadow');
+    if (!absDiv || !relDiv || !shadDiv) return;
+    const absBox  = absDiv.closest('.chart-box');
+    const relBox  = relDiv.closest('.chart-box');
+    const shadBox = shadDiv.closest('.chart-box');
+    if (!absBox || !relBox || !shadBox) return;
+    const switcherDiv = document.createElement('div');
+    switcherDiv.style.margin = '8px 0 0';
+    absBox.parentNode.insertBefore(switcherDiv, absBox);
+    function applyView(v) {
+      absBox.style.display  = (v === 'absolute') ? '' : 'none';
+      relBox.style.display  = (v === 'relative') ? '' : 'none';
+      shadBox.style.display = (v === 'shadow')   ? '' : 'none';
+    }
+    function build() {
+      if (!window.scrMakeViewSwitcher) { setTimeout(build, 100); return; }
+      window.scrMakeViewSwitcher(switcherDiv, {
+        keys: ['relative','shadow','absolute'],
+        default: 'relative',
+        onChange: applyView
+      });
+    }
+    build();
+  });
 }
 
 // ── Relative-measures chart per story (M1, M2 percentile, M4) ────────────────
