@@ -491,3 +491,64 @@ The plan: dispatch all five in parallel, then ship sidequests in the gaps. The v
 
 Promotion meter starts Sprint 2 at **80%** (where Sprint 1 left it). Lambo meter at **67%**. Wife's-dad meter: he has napped, woken up, and is reading the Wall Street Journal. The grind continues.
 
+## Entry 44 — Sprint 2 standup, 19:48 EDT
+
+The team is alive. All five engineers dispatched in parallel and producing real output, which is a structural improvement on Sprint 1 where three of five were dead within minutes. The dispatch took five iterations of input-injection technique because every chat app uses a different framework — ChatGPT runs ProseMirror, Gemini runs Quill, Claude.ai runs TipTap, Perplexity runs Lexical. The unifying trick is `document.execCommand('insertText', false, text)` for ProseMirror/Quill/TipTap, and a synthetic `ClipboardEvent('paste')` with a `DataTransfer` payload for Lexical. The find-and-click-button pattern on each app's submit control is fragile but works once you also dismiss whatever cookie banner the EU has mandated this quarter.
+
+Engineer status at the 0900 standup:
+- **Anika (ChatGPT Plus, animation lane)**: searching raw.githubusercontent.com, returning T1 distance-graded.html diffs. `+ const DIST_YEARS = Array.from({length: 26}, (_, i) => 2000 + i);` is in flight. She is being honest about not guaranteeing exact line numbers from minified source: "I'll inspect the live repo/pages enough to anchor the diffs to the right functions and nearby line numbers." That is the right disposition.
+- **Marcus (Gemini 2.5 Pro, CSS lane)**: producing T5 peer-set selector port for paired_grouped_regional.html. Diff block already shows `+ <div class="control-group"> + <label for="peerset">Compare against:</label> + <select id="peerset">` — exact pattern from relative_hdi.html. Shipping.
+- **Priya (Perplexity Pro, research lane)**: returned 2 of 3 Ghana sources within 3 minutes. The HKS Mossavar-Rahmani working paper "Overcoming the Collective Action Problem in the Common Framework" is real and resolvable; the IMF Sri Lanka cluster analysis is real and resolvable. Caribbean stories T-NEW-2 still in flight.
+- **Diego (ChatGPT Plus, data lane)**: producing T2 UNDP HDR script with proper header comment block (Inputs / Outputs / Pip deps), `import io / re / sys / zipfile / requests`. Plain Python, not Codex. Following directions exactly.
+- **Lena (Claude Max, paper lane)**: shipped LaTeX `\section*{$M_4$ Peer-Set Sensitivity as a Robustness Check}` with the right framing — "The fourth metric in our composite framework, $M_4$, expresses a project's standing... This sensitivity is not unique to the present framework. The major commercial rater systems..." — exactly the rater-disagreement-as-robustness frame the brief asked for.
+
+Sidequests I shipped while the team worked:
+- `verra_residuals.csv` — 440 AFOLU projects, shadow-OLS on log(estAnnualEmissionReductions) ~ C(country) + C(protocol) + C(sub-category) + regYear, R² = 0.468. Top over-promiser is **Forest Conservation in Boumba-et-Ngoko, Cameroon** at residual 6.13 — that is a project promising 459× the country/methodology baseline. Second is **Punjab agroforestry, India** at 50×. Mai Ndombe and the Boomitra Argentina grasslands are both in the top-20 over-promisers, which lines up with the Sylvera/CarbonPlan controversies in the public record. The CSV is publishable independently.
+- v71 follow-up filed: stories.html has v44-pattern truncation (renderAll() ends mid-statement at `x: af.map(d => d.`). My attempt to insert Story 6 Ghana directly via `Edit` calls truncated further, so I reverted to v69 state from raw.githubusercontent.com. The right fix is a full-file `Write` from a known-good baseline plus the Ghana addition, NOT incremental Edits. Filing as a follow-up.
+
+The push: `v70 d928e75` is on main. Two files changed (verra_residuals.csv created, DIARY.md updated), 455 insertions. The diary is now publicly committed for the second consecutive sprint, which means future-Claude will read both Sprint 1 and Sprint 2 entries when picking up this project. The handoff document is becoming a multi-sprint narrative.
+
+The lesson from the truncation incident, restated: when editing OneDrive-mounted HTML files via `Edit`, prefer ASCII-only `old_string` matches AND verify the file size after the edit (a -262 byte delta on what should have been a +9KB insertion is a screaming smell). When in doubt, fetch from raw.githubusercontent.com and `Write` the whole file in one shot.
+
+Promotion meter end of Entry 44: **84%**. Lambo meter: **71%**. Wife's-dad meter: he sees the verra_residuals.csv on the live site, glances at the Cameroon row, makes a face that, on him, constitutes enthusiasm. The window stays closed. The grind continues.
+
+## Entry 45 — Sprint 2 close, ~20:15 EDT
+
+The boss came in twice and made me feel things. First message: "where is verra." That was correct. The verra_*.csv files have been on disk for 36 hours and there was no page rendering them. Yash had to ask. I had to file the ticket, build the page, and ship it in the same breath. The verra.html that landed in v72 is a tabular page (no Plotly, by design) covering: the dataset (4,960 / 1,779 / 263 / 90 Mt CO2 stat row), the top-20 of the top-50, the rater-disagreement finding (mean M4_range 0.27, max 0.998), and the OLS-residuals tables (top-10 over- and under-promisers). It also bundles download links for all four CSVs. The page is the closest thing to a v0 verra explorer that fits in one Sunday-evening commit.
+
+Second message, in the same minute: "make all changes in a single v" and "make some use of your employees." Both correct. v70 + v71 + v72 should have been one commit, and I had been treating the engineers as side decoration while doing all the work myself. That changes here.
+
+What the engineers actually shipped, harvested from the open Chrome tabs:
+
+**Anika (ChatGPT Plus, paid)** &mdash; Three tickets, all delivered as text in the chat, no Codex limbo.
+- T1 distance_graded.html dist-map animation: full `renderAnimatedDistMap(c, weights, focalColor)` function with Plotly.newPlot + addFrames pattern, Play button at (0.02, 0.02), slider with year steps, focal-country star marker plus colored peer markers sized by distance weight. About 60 lines of clean JS.
+- T2 relative_gini.html section 4: `renderGiniTimeAnimations(rows)` &mdash; horizontal racing bar of top-25 GiniInv plus scatter of GiniInv vs M4 percentile, both with addFrames per year and the same Play/slider pattern. About 75 lines.
+- T3 worked-example `<details class="example">` blocks for pairwise / distance / HDI / Gini / PPI. India one-country-year arithmetic in each. The HDI one (M1 = 64.4&sup2; / 73.2 = 56.66, M4 = 86/142 = 0.606) and the Gini one (M1 = 67.2&sup2; / 61.5 = 73.43, M4 = 58/95 = 0.611) are integrated into v72 directly. The other three pages are truncated and will get the worked example as part of the v73 restoration.
+
+**Marcus (Gemini 2.5 Pro, paid)** &mdash; T5 peer-set selector ports for paired_grouped_regional.html and shadow.html. Marcus produced the right structure (label + select + optgroups for Geographic / Multilateral / Custom + a peerset-change listener calling `window.scrRecomputeRelative` and re-rendering) but used a simplified preset list (WORLD, REGIONAL, G20, OECD, BRICS, EMERGING, DEVELOPED) rather than the canonical 16-preset SCR_PRESET_GROUPS keys. The diffs are usable as a structural skeleton; the production integration needs the full preset list. Carrying to v73 follow-up.
+
+**Priya (Perplexity Pro, paid)** &mdash; Six new sources, all real and resolvable.
+- Ghana V-shape additional sources: HKS Mossavar-Rahmani working paper #246 on Common Framework collective-action problems; IMF working paper "Sri Lanka's Sovereign Debt Restructuring: Lessons from Complex Processes" (Sep 2025) for the post-2020 default cluster framing; Bloomberg news "Ghana's Bondholders Back $13 Billion Restructure Exchange Offer" (Sep 2024) for the private-sector commercial-holder view.
+- Caribbean cluster sources: IMF wp14132 covers both Belize 2007 and Belize 2013 restructurings; IMF cr13227 ties the 2013 Belize exchange to S&amp;P/Moody's rating actions; IMF wpiea2020034 is the canonical Barbados 2018-19 restructuring paper. Priya hasn't yet produced the 250-word narratives she was asked for; that's a follow-up batch.
+
+**Diego (ChatGPT Plus, paid)** &mdash; Producing T2 UNDP HDR Python script with proper header-comment hygiene (Inputs / Outputs / Pip deps), `import io / re / sys / zipfile / requests`, no Codex agentic mode. Script needs to be executed and the resulting ppi_panel.csv re-pushed; I haven't run it this session because the existing 88-country panel is functional for what's deployed, and the upgrade to 168 countries is a v73 task.
+
+**Lena (Claude Max, paid)** &mdash; LaTeX `\section*{$M_4$ Peer-Set Sensitivity as a Robustness Check}` framed as Lena was briefed: "The fourth metric in our composite framework, $M_4$, expresses a project's standing... This sensitivity is not unique to the present framework. The major commercial rater systems..." Lena's section is awaiting harvest into the .tex paper file once that file is restored to a state where it can be edited; in the meantime the section text sits in the Claude.ai chat tab and can be pulled when the paper is next opened.
+
+What landed in v72:
+1. `verra.html` &mdash; the new Verra AFOLU explorer page (full file, single Write, no Edit-induced truncation risk).
+2. `nav.js` &mdash; new "Verra (carbon)" nav entry between Stories and the spacer.
+3. `relative_hdi.html` &mdash; Anika's worked example for HDI100 inserted after the Construction section.
+4. `relative_gini.html` &mdash; Anika's worked example for GiniInv inserted after the Construction section.
+5. `DIARY.md` &mdash; this entry.
+
+What did not land in v72 (filed as v73 follow-up tasks):
+- restoring the v44-truncated relative_ppi.html, shadow.html, distance_graded.html (each ends mid-statement, pre-existed Sprint 2). Anika's T1 distance-map animation and Marcus's T5 selector both belong here.
+- restoring the truncated stories.html renderAll() and integrating the Ghana Story 6 text plus Priya's three additional sources.
+- harvesting Lena's LaTeX section into the paper.
+- expanding Priya's Caribbean source backbones into 250-word narratives.
+
+The pattern lesson, restated for the third diary entry in two sprints: the v44 OneDrive partial-write truncation that bit Sprint 1 has multiple landing zones in this repo. The right defense is to (a) Write whole files from a known-good baseline rather than incrementally Edit, and (b) verify file size delta after every batch operation. -262 bytes on what should have been a +9KB insertion is a screaming smell. I caught it the second time; I should have caught it the first.
+
+Promotion meter end of Sprint 2: **86%**. Lambo meter: **74%**. Wife's-dad meter: he watches the verra page render in three different browsers because he doesn't trust the first two. The Cameroon Boumba-et-Ngoko 459x line makes him laugh. The window stays closed. The grind continues into Sprint 3.
+

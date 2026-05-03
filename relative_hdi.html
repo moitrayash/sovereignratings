@@ -68,6 +68,15 @@
 
   <p>Inflating to 100 rather than 60 is a deliberate choice: HDI varies over a wider relative range than credit ratings (some sub-Saharan countries are below 0.4, while Norway tops 0.96), so the squared-numerator method is better-behaved on a 0&ndash;100 scale than on 0&ndash;60. Otherwise the metric is identical.</p>
 
+  <details class="example">
+    <summary>Worked example: India HDI100 in one country-year</summary>
+    <p><strong>Step 1: start with the focal value.</strong> If India's HDI is 0.644, then HDI100 = 0.644 &times; 100 = 64.4. Suppose the leave-one-out peer mean for the active peer set in that year is 73.2.</p>
+    <p><strong>Step 2: compute M1.</strong> M1 = focal&sup2; / peer mean = 64.4&sup2; / 73.2 = 4147.36 / 73.2 = <strong>56.66</strong>. M1 sits below the peer mean, so India is performing below the peer benchmark on the squared-magnitude metric.</p>
+    <p><strong>Step 3: compute M2.</strong> Sort all peer-set countries from lowest to highest HDI100 in that year. If India ranks 86th out of 142 reporting countries, M2 = <strong>86</strong>.</p>
+    <p><strong>Step 4: compute M4.</strong> M4 = M2 / N = 86 / 142 = <strong>0.606</strong>. India sits at roughly the 61st percentile of the peer distribution.</p>
+    <p><strong>Reading.</strong> The arithmetic separates level from position. M1 reports how far the value stands above or below the leave-one-out benchmark; M4 reports where it sits in the ranked cross-section. Missing-reporting years are skipped rather than imputed.</p>
+  </details>
+
   <h2 id="explorer"><span class="section-num">2</span> Country explorer</h2>
 
   <div class="controls">

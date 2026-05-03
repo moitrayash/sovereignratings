@@ -17,6 +17,7 @@
     {href:'relative_gini.html',               label:'Relative Gini',                 side:'right'},
     {href:'relative_ppi.html',                label:'Relative PPI',                  side:'right'},
     {href:'stories.html',                     label:'Stories',                       side:'right'},
+    {href:'verra.html',                       label:'Verra (carbon)',                side:'right'},
     {spacer:true},
     {href:'land_acknowledgement.html',        label:'Land Acknowledgement',          side:'right'}
   ];

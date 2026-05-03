@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verra AFOLU explorer: Sovereign Credit Rating Explorer</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  table.verra { width: 100%; border-collapse: collapse; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.86rem; margin: 18px 0; }
+  table.verra th, table.verra td { padding: 6px 10px; border-bottom: 1px solid #e5e5e5; text-align: left; }
+  table.verra th { background: #f4f4f4; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; font-size: 0.72rem; color: #555; }
+  table.verra td.num, table.verra th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  table.verra tr:hover { background: #fafafa; }
+  body.dark table.verra th { background: var(--bg-card); color: #d8d8d8; }
+  body.dark table.verra th, body.dark table.verra td { border-bottom-color: #3a3a3a; }
+  body.dark table.verra tr:hover { background: rgba(255,255,255,0.04); }
+  .verra-card { background:#fff; border:1px solid #ccc; padding:14px 18px; margin:18px 0; }
+  body.dark .verra-card { background: var(--bg-card); border-color: var(--border); }
+  .stat-row { display:flex; flex-wrap:wrap; gap:14px; margin:14px 0 22px; }
+  .stat { flex:1; min-width:180px; background:#f8f8f8; border-left:4px solid #1a1a1a; padding:10px 14px; }
+  .stat strong { display:block; font-size:1.4rem; line-height:1.1; }
+  .stat span { display:block; font-size:0.78rem; color:#666; text-transform:uppercase; letter-spacing:0.06em; }
+  body.dark .stat { background: var(--bg-card); border-left-color:#ececec; }
+  body.dark .stat span { color:#aaa; }
+  .residual-pos { color: #b04400; font-weight: 600; }
+  .residual-neg { color: #2255aa; font-weight: 600; }
+  body.dark .residual-pos { color: #ffaa66; }
+  body.dark .residual-neg { color: #88aaff; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="head-row">
+    <div class="head-text">
+      <h1>Sovereign Credit Rating Explorer</h1>
+      <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4 &middot; Relative HDI / Gini / PPI &middot; Shadow ratings (OLS, k-NN, Bayes)</p>
+    </div>
+  </div>
+</header>
+<nav class="site"></nav>
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("verra.html"));</script>
+<script defer src="shared.js"></script>
+
+<main>
+
+  <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Verra AFOLU explorer</h2>
+
+  <p>The same relative-rating logic that organises the sovereign-credit panel applies, with little modification, to voluntary carbon-market projects. This page applies M1, M2, and M4 to <strong>1,779 Verra-registered Agriculture Forestry and Other Land Use (AFOLU) projects</strong>, scored within peer sets defined by methodology, country, and AFOLU sub-category. The data is pulled from the Verra registry's public API (<a href="https://registry.verra.org" target="_blank" rel="noopener">registry.verra.org</a>) on 2026-05-03; the analytical CSVs are available for download below. The page is intentionally tabular rather than chart-heavy: the headline findings are about which projects fit and which don't, and tables let the underlying numbers speak.<sup class="note-ref"><a href="#note-1">1</a></sup></p>
+
+  <p>Three findings frame what follows. First, the AFOLU project distribution is heavy-tailed: <strong>the top 50 of 263 registered projects account for 80.8 percent of total promised annual emission reductions</strong>, and the top 10 account for 42.9 percent. Second, the M-based relative-rating methodology is sensitive to peer-set choice in a way that turns out to be empirically large: <strong>the same project routinely receives M4 = 1.00 in a tight peer set and M4 = 0.00 in a loose one</strong>, with a mean range of 0.27 across 1,779 projects and a max range of 0.998. Third, a shadow OLS model predicting log(annual ER) from country, methodology, registration year, and sub-category dummies leaves residuals that match the public controversies around specific over-credited and under-credited projects: <strong>the Cameroon Boumba-et-Ngoko forest-conservation project promises 459 times the model-fitted baseline</strong>, the largest positive residual in the panel.<sup class="note-ref"><a href="#note-2">2</a></sup></p>
+
+  <h2 id="dataset"><span class="section-num">1</span> The dataset</h2>
+
+  <p>Verra publishes an open API that returns project-level metadata for the Verified Carbon Standard (VCS) program. The query <code>{"program":"VCS","resourceClass":"project"}</code> returns 4,960 projects across all sectors. Of these, 1,779 are AFOLU (Agriculture Forestry and Other Land Use) projects, and 263 are AFOLU projects with a status of <em>Registered</em>. The fields returned are: <code>resourceIdentifier</code>, <code>resourceName</code>, <code>proponent</code>, <code>protocolCategories</code> (top-level sectoral category), <code>protocolSubCategories</code> (REDD, ARR, ALM, IFM, ACoGS, WRC), <code>protocols</code> (the specific methodology, e.g. VM0042 or AR-ACM0003), <code>resourceStatus</code>, <code>country</code>, <code>region</code>, <code>estAnnualEmissionReductions</code> (the figure of interest, in tonnes CO<sub>2</sub>e per year), <code>version</code>, <code>projectRegistrationDate</code>, and crediting-period start and end dates.</p>
+
+  <div class="stat-row">
+    <div class="stat"><strong>4,960</strong><span>VCS projects, all sectors</span></div>
+    <div class="stat"><strong>1,779</strong><span>AFOLU projects analysed</span></div>
+    <div class="stat"><strong>263</strong><span>AFOLU projects Registered</span></div>
+    <div class="stat"><strong>90.0 Mt</strong><span>CO<sub>2</sub>e / year promised</span></div>
+    <div class="stat"><strong>80.8%</strong><span>concentrated in top 50</span></div>
+    <div class="stat"><strong>42.9%</strong><span>concentrated in top 10</span></div>
+  </div>
+
+  <p>The relevant peer-set-construction question on the AFOLU side is the same as on the sovereign side: against what comparison group does it make sense to ask whether a given project's ER is &ldquo;high&rdquo; or &ldquo;low&rdquo;? Three peer-set definitions are reported here:</p>
+  <ol>
+    <li><strong>Tight</strong>: methodology + country + AFOLU sub-category. A Vietnam REDD project under VM0007 is compared to other Vietnam REDD projects under VM0007. Cohorts are small (median size 3) and noisy.</li>
+    <li><strong>Medium</strong>: methodology only. The same VM0007 Vietnam project is compared to all VM0007 projects globally, regardless of country or sub-category.</li>
+    <li><strong>Loose</strong>: AFOLU sub-category only. The same project is compared to all REDD projects globally, regardless of methodology or country.</li>
+  </ol>
+
+  <h2 id="top50"><span class="section-num">2</span> Top 50 projects by climate mass</h2>
+
+  <p>The Pareto distribution is unmistakable. The top single project (Boomitra's grassland restoration in northern Mexico, methodology VM0042) accounts for 8.1 percent of all AFOLU promised ER. The famously controversial Mai Ndombe REDD+ project in DRC is second at 6.3 percent. Four of the top 10 are Boomitra-operated soil-carbon projects, which lines up with the <em>New Yorker</em> and <em>CarbonPlan</em> reporting on the Boomitra approach. India's regenerative-agriculture cluster (rows 3, 4) is operating at megaton scale in a sector that did not exist five years ago.<sup class="note-ref"><a href="#note-3">3</a></sup></p>
+
+  <table class="verra">
+    <thead>
+      <tr><th>#</th><th>Country</th><th>Project</th><th>Methodology</th><th>Sub-cat</th><th class="num">Annual ER (Mt/yr)</th><th>Crediting</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Mexico</td><td>Boomitra Grassland Restoration in Northern Mexico</td><td>VM0042</td><td>ALM</td><td class="num">7.29</td><td>2018&ndash;2038</td></tr>
+      <tr><td>2</td><td>DR Congo</td><td>The Mai Ndombe REDD+ Project</td><td>VM0009</td><td>REDD</td><td class="num">5.67</td><td>2011&ndash;2041</td></tr>
+      <tr><td>3</td><td>India</td><td>Carbon Finance for Farmers (Boomitra)</td><td>VM0042</td><td>ALM</td><td class="num">4.80</td><td>2019&ndash;2039</td></tr>
+      <tr><td>4</td><td>India</td><td>Regenerative Agriculture Rice-Wheat-Maize</td><td>VM0042</td><td>ALM</td><td class="num">4.27</td><td>2019&ndash;2119</td></tr>
+      <tr><td>5</td><td>Peru</td><td>The Jaguar Amazon REDD+ Project</td><td>VM0006</td><td>REDD</td><td class="num">3.75</td><td>2018&ndash;2057</td></tr>
+      <tr><td>6</td><td>Denmark</td><td>AgreenaCarbon Project</td><td>VM0042</td><td>ALM</td><td class="num">3.02</td><td>2021&ndash;2041</td></tr>
+      <tr><td>7</td><td>Zambia</td><td>Luangwa Community Forests Project</td><td>VM0009</td><td>REDD</td><td class="num">2.99</td><td>2015&ndash;2045</td></tr>
+      <tr><td>8</td><td>Pakistan</td><td>Delta Blue Carbon &mdash; 1</td><td>VM0033</td><td>ARR; WRC</td><td class="num">2.41</td><td>2015&ndash;2075</td></tr>
+      <tr><td>9</td><td>Colombia</td><td>REDD+ Pueblos indigenas resguardando la selva</td><td>VM0015</td><td>REDD</td><td class="num">2.37</td><td>2016&ndash;2026</td></tr>
+      <tr><td>10</td><td>Peru</td><td>REDD in Brazil-nut concessions, Madre de Dios</td><td>VM0007</td><td>REDD</td><td class="num">2.09</td><td>2010&ndash;2040</td></tr>
+      <tr><td>11</td><td>Peru</td><td>Shade Coffee &amp; Cacao Reforestation Project</td><td>AR-ACM0003</td><td>ARR</td><td class="num">1.97</td><td>2013&ndash;2053</td></tr>
+      <tr><td>12</td><td>Morocco</td><td>Project TOURBA &mdash; Improved Agricultural Practices</td><td>VM0017</td><td>ALM</td><td class="num">1.81</td><td>2023&ndash;2033</td></tr>
+      <tr><td>13</td><td>Peru</td><td>Cordillera Azul National Park REDD Project</td><td>VM0007</td><td>REDD</td><td class="num">1.58</td><td>2008&ndash;2028</td></tr>
+      <tr><td>14</td><td>Peru</td><td>Tahuamanu Amazon REDD Project</td><td>VM0006</td><td>REDD</td><td class="num">1.58</td><td>2017&ndash;2047</td></tr>
+      <tr><td>15</td><td>Brazil</td><td>NaturAll Carbon Program</td><td>VM0042</td><td>ALM</td><td class="num">1.56</td><td>2019&ndash;2039</td></tr>
+      <tr><td>16</td><td>Kenya</td><td>Kasigau Corridor REDD &mdash; Phase II</td><td>VM0009</td><td>REDD</td><td class="num">1.46</td><td>2010&ndash;2039</td></tr>
+      <tr><td>17</td><td>Cambodia</td><td>Reduced Emissions from Deforestation Cambodia</td><td>VM0015</td><td>REDD</td><td class="num">1.43</td><td>2010&ndash;2069</td></tr>
+      <tr><td>18</td><td>Ethiopia</td><td>Bale Mountains Eco-region REDD+</td><td>VM0015</td><td>REDD</td><td class="num">1.29</td><td>2012&ndash;2031</td></tr>
+      <tr><td>19</td><td>Kenya</td><td>Boomitra Carbon Farming East Africa</td><td>VM0042</td><td>ALM</td><td class="num">1.25</td><td>2019&ndash;2039</td></tr>
+      <tr><td>20</td><td>Kenya</td><td>Chyulu Hills REDD+ Project</td><td>VM0009</td><td>REDD</td><td class="num">1.10</td><td>2013&ndash;2043</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:0.85rem; color:#666; margin-top:-8px;">Top 20 of 50 shown. The remaining 30 (rows 21&ndash;50) are listed in <a href="verra_top50_projects.md" target="_blank" rel="noopener">verra_top50_projects.md</a>; full panel of 1,779 in <code>verra_relative.csv</code>.</p>
+
+  <p>The country share of the top-50 climate mass is also concentrated: Peru 17.9 percent, India 14.3 percent, Brazil 10.6 percent, Mexico 10.0 percent, DR Congo 7.8 percent, Kenya 6.9 percent, Colombia 5.8 percent, Denmark 4.2 percent, Zambia 4.1 percent, Pakistan 3.3 percent. Eight of the top 10 are tropical or sub-tropical countries with REDD forest exposure or ALM grassland exposure; Denmark is the lone European entry, on the strength of the AgreenaCarbon Project alone.</p>
+
+  <h2 id="rater"><span class="section-num">3</span> Peer-set sensitivity (the rater-disagreement finding)</h2>
+
+  <p>The empirical question: how stable is M4 (the within-peer percentile) when we change peer-set definitions while holding the underlying composite (here, the project's annual ER) constant? The answer is: not very. Computed across all 1,779 AFOLU projects under each of the three peer-set definitions above, the distribution of M4_range (the maximum minus the minimum across the three M4 values for a given project) is:</p>
+
+  <div class="stat-row">
+    <div class="stat"><strong>0.27</strong><span>mean M4_range across peer sets</span></div>
+    <div class="stat"><strong>0.19</strong><span>median M4_range</span></div>
+    <div class="stat"><strong>0.998</strong><span>max M4_range observed</span></div>
+    <div class="stat"><strong>1,779</strong><span>AFOLU projects</span></div>
+  </div>
+
+  <p>The intuition behind the spread: M4 is a percentile rank, so it depends entirely on which peers you compare against. Small ARR projects under AR-ACM0003 in countries with only one such project look great in a tight peer set (they are the only project of their kind in the country, so their percentile rank is by definition 1.0) and terrible in a loose peer set (where they are competing on absolute ER against megaton REDD projects in Brazil and Peru). The methodological implication for any rater &mdash; commercial or academic &mdash; is that M-based scores should be reported as a triple, not as a single number.</p>
+
+  <p>This is not a critique of the M-based methodology; it is a robustness check that the methodology survives. The same problem afflicts the major commercial rater systems in the voluntary carbon market today: <a href="https://www.sylvera.com" target="_blank" rel="noopener">Sylvera</a>, <a href="https://bezerocarbon.com" target="_blank" rel="noopener">BeZero Carbon</a>, and <a href="https://www.calyxglobal.com" target="_blank" rel="noopener">Calyx Global</a> all rate carbon-credit projects on letter or number scales that depend implicitly on a peer-set choice the rater does not always document. Public-record disagreements between Sylvera and BeZero on individual REDD projects have been driven by exactly this kind of peer-set choice difference, and the controversy is unlikely to be resolved without an industry-wide standard for cohort definition.<sup class="note-ref"><a href="#note-4">4</a></sup></p>
+
+  <h2 id="residuals"><span class="section-num">4</span> Shadow OLS residuals: who promises more than the model would predict</h2>
+
+  <p>A complementary cross-check: fit log(estAnnualEmissionReductions) as a function of country fixed effects, methodology fixed effects, AFOLU sub-category fixed effects, and registration year on a balanced panel of 440 AFOLU projects (after dropping singleton categories, the model has R<sup>2</sup> = 0.468). The residuals identify projects whose promised ER is much higher or much lower than what the country-methodology-vintage cohort baseline would predict. The top 10 over-promisers and top 10 under-promisers are below; the full panel is in <code>verra_residuals.csv</code>.</p>
+
+  <h3 style="font-size:1.0rem; margin-top:18px;">Top 10 most over-promising on residual basis</h3>
+  <table class="verra">
+    <thead>
+      <tr><th>#</th><th>Project</th><th>Country</th><th>Methodology</th><th>Sub-cat</th><th class="num">Actual ER (t/yr)</th><th class="num">Fitted ER (t/yr)</th><th class="num">Residual (log)</th><th class="num">x baseline</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Forest Conservation in Boumba-et-Ngoko</td><td>Cameroon</td><td>VM0010</td><td>IFM</td><td class="num">362,095</td><td class="num">789</td><td class="num residual-pos">+6.13</td><td class="num">459&times;</td></tr>
+      <tr><td>2</td><td>Punjab Agroforestry, India &mdash; II</td><td>India</td><td>AR-ACM0003</td><td>ARR</td><td class="num">1,571,328</td><td class="num">31,470</td><td class="num residual-pos">+3.91</td><td class="num">50&times;</td></tr>
+      <tr><td>3</td><td>Bisignano-Mesoraca Bamboo Plants (GAIA SRL)</td><td>Italy</td><td>AR-ACM0003</td><td>ARR</td><td class="num">48,643</td><td class="num">1,031</td><td class="num residual-pos">+3.85</td><td class="num">47&times;</td></tr>
+      <tr><td>4</td><td>REDD+ Resguardo Indigena Selva de Mataven</td><td>Colombia</td><td>VM0007</td><td>REDD</td><td class="num">3,622,352</td><td class="num">99,893</td><td class="num residual-pos">+3.59</td><td class="num">36&times;</td></tr>
+      <tr><td>5</td><td>Punjab Agroforestry, India &mdash; I</td><td>India</td><td>AR-ACM0003</td><td>ARR</td><td class="num">1,098,123</td><td class="num">31,470</td><td class="num residual-pos">+3.55</td><td class="num">35&times;</td></tr>
+      <tr><td>6</td><td>Shade Coffee &amp; Cacao Reforestation</td><td>Peru</td><td>AR-ACM0003</td><td>ARR</td><td class="num">1,969,139</td><td class="num">68,272</td><td class="num residual-pos">+3.36</td><td class="num">29&times;</td></tr>
+      <tr><td>7</td><td>Komaza Smallholder Farmer Forestry</td><td>Kenya</td><td>AR-AMS0007</td><td>ARR</td><td class="num">286,630</td><td class="num">10,911</td><td class="num residual-pos">+3.27</td><td class="num">26&times;</td></tr>
+      <tr><td>8</td><td>Family Forest Carbon Project</td><td>United States</td><td>VM0003</td><td>IFM</td><td class="num">845,991</td><td class="num">38,092</td><td class="num residual-pos">+3.10</td><td class="num">22&times;</td></tr>
+      <tr><td>9</td><td>Sustainable Agriculture by Organic Farming</td><td>India</td><td>VM0017</td><td>ALM</td><td class="num">686,959</td><td class="num">32,646</td><td class="num residual-pos">+3.05</td><td class="num">21&times;</td></tr>
+      <tr><td>10</td><td>RE.GREEN Amazon Forest Reforestation</td><td>Brazil</td><td>AR-ACM0003</td><td>ARR</td><td class="num">1,062,800</td><td class="num">51,772</td><td class="num residual-pos">+3.02</td><td class="num">21&times;</td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-size:1.0rem; margin-top:24px;">Top 10 most under-promising on residual basis</h3>
+  <table class="verra">
+    <thead>
+      <tr><th>#</th><th>Project</th><th>Country</th><th>Methodology</th><th>Sub-cat</th><th class="num">Actual ER (t/yr)</th><th class="num">Fitted ER (t/yr)</th><th class="num">Residual (log)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Mount Kenya Regenerative Agroforestry</td><td>Kenya</td><td>AR-ACM0003</td><td>ARR</td><td class="num">7</td><td class="num">68,050</td><td class="num residual-neg">&minus;9.18</td></tr>
+      <tr><td>2</td><td>Reflorestamento de Impacto no Brasil</td><td>Brazil</td><td>AR-ACM0003</td><td>ARR</td><td class="num">239</td><td class="num">51,772</td><td class="num residual-neg">&minus;5.38</td></tr>
+      <tr><td>3</td><td>Community Restoration of Native Ecosystems</td><td>Ghana</td><td>AR-ACM0003</td><td>ARR</td><td class="num">92</td><td class="num">20,025</td><td class="num residual-neg">&minus;5.38</td></tr>
+      <tr><td>4</td><td>Strengthening Rural Livelihood (Saharanpur)</td><td>India</td><td>AR-ACM0003</td><td>ARR</td><td class="num">249</td><td class="num">34,786</td><td class="num residual-neg">&minus;4.94</td></tr>
+      <tr><td>5</td><td>Rio Preto Grouped REDD+ Project</td><td>Brazil</td><td>VM0015</td><td>REDD</td><td class="num">2,925</td><td class="num">245,995</td><td class="num residual-neg">&minus;4.43</td></tr>
+      <tr><td>6</td><td>Planting for the Future (Peru)</td><td>Peru</td><td>AR-ACM0003</td><td>ARR</td><td class="num">719</td><td class="num">53,146</td><td class="num residual-neg">&minus;4.30</td></tr>
+      <tr><td>7</td><td>Paraguay Forest Conservation (San Rafael)</td><td>Paraguay</td><td>VM0007</td><td>REDD</td><td class="num">1,265</td><td class="num">78,717</td><td class="num residual-neg">&minus;4.13</td></tr>
+      <tr><td>8</td><td>Impact Reforestation in the Chaco</td><td>Paraguay</td><td>AR-ACM0003</td><td>ARR</td><td class="num">254</td><td class="num">15,399</td><td class="num residual-neg">&minus;4.10</td></tr>
+      <tr><td>9</td><td>Payment for Environmental Services (Corpochivor)</td><td>Colombia</td><td>VM0015</td><td>REDD</td><td class="num">1,662</td><td class="num">88,319</td><td class="num residual-neg">&minus;3.97</td></tr>
+      <tr><td>10</td><td>AGRISOLERO Carbon Farming Northern Italy</td><td>Italy</td><td>VM0042</td><td>ALM</td><td class="num">289</td><td class="num">13,633</td><td class="num residual-neg">&minus;3.85</td></tr>
+    </tbody>
+  </table>
+
+  <p>The residual-positive cluster aligns with the projects that have drawn the most public scrutiny in 2023&ndash;2024: the Boomitra grassland-restoration projects, the AR-ACM0003 large-scale agroforestry deployments in India, and the Mai Ndombe-style REDDs in Latin America. The residual-negative cluster is mostly small projects in countries that have produced multi-megaton REDDs &mdash; the model expects them to be larger because their cohort baseline is dragged up by the megaton outliers, and they are penalised on residual for being modestly sized in a context where modestly sized is rare. This is itself a peer-set sensitivity result: the same project would have a less negative residual if scored against a sub-category cohort that excluded the megaton outliers.</p>
+
+  <h2 id="caveats"><span class="section-num">5</span> Caveats and downloads</h2>
+
+  <p>Three caveats. First, <code>estAnnualEmissionReductions</code> is the developer-reported figure at registration, not the figure of credits actually issued: this analysis is upstream of issuance and therefore subject to the gap between promise and delivery (which the academic literature on REDD over-crediting has documented at 30&ndash;90 percent). Second, the AFOLU restriction excludes the energy-and-industry projects that account for the majority of the broader VCS registry: that is intentional here (AFOLU is the methodologically interesting case for this paper), but a reader interested in comparing forest-based against energy-based credits would need to extend the data pull to <code>protocolCategories = "Energy"</code>. Third, registry data does not include the bilateral price at which credits trade: a high-residual project may still produce real reductions, and a low-residual one may be priced into the market at exactly the level its promised ER would suggest. The output of this page is a methodological diagnostic, not an investment recommendation.</p>
+
+  <div class="verra-card">
+    <strong>Downloads</strong>
+    <ul style="margin: 8px 0 0; line-height: 1.7;">
+      <li><a href="verra_relative.csv" download>verra_relative.csv</a> &mdash; 1,779 AFOLU projects with M1, M2, M4 in tight peer set (methodology + country + sub-category)</li>
+      <li><a href="verra_rater_disagreement.csv" download>verra_rater_disagreement.csv</a> &mdash; same 1,779, M4 across three peer-set definitions, with M4_range column</li>
+      <li><a href="verra_residuals.csv" download>verra_residuals.csv</a> &mdash; 440 projects with shadow-OLS residuals, fitted-ER, and over-promise ratio</li>
+      <li><a href="verra_top50_projects.md" download>verra_top50_projects.md</a> &mdash; full top-50 table including rows 21&ndash;50</li>
+      <li><a href="verra_projects.csv" download>verra_projects.csv</a> &mdash; full Verra registry snapshot, 4,960 projects, all sectors</li>
+    </ul>
+  </div>
+
+  <h2 id="endnotes" style="font-size:1.05rem; margin-top:36px;">Endnotes</h2>
+  <ol style="font-size:0.86rem; line-height:1.7; color:#444;">
+    <li id="note-1">The Verra registry is publicly accessible at <a href="https://registry.verra.org" target="_blank" rel="noopener">registry.verra.org</a>. The API endpoint used here is the project search at <code>/uiapi/resource/resource/search</code>, which accepts a JSON body specifying program (VCS) and resourceClass (project). The pull on 2026-05-03 returned 4,960 projects across all sectors. The competing-rater registries (<a href="https://www.sylvera.com" target="_blank" rel="noopener">Sylvera</a>, <a href="https://bezerocarbon.com" target="_blank" rel="noopener">BeZero Carbon</a>, <a href="https://www.calyxglobal.com" target="_blank" rel="noopener">Calyx Global</a>, <a href="https://www.renoster.co" target="_blank" rel="noopener">Renoster</a>) are partially or fully behind authentication walls; <a href="https://www.alliedoffsets.com" target="_blank" rel="noopener">Allied Offsets</a> aggregates them under a paid subscription. This page therefore uses Verra-only data and applies its own M-based methodology rather than reproducing any of the proprietary letter or number ratings.</li>
+    <li id="note-2">For the public record on Mai Ndombe see <em>The New Yorker</em>, &ldquo;The Great Cash-for-Carbon Hustle,&rdquo; 13 October 2022, by Heidi Blake; and the supporting investigation in <em>Die Zeit</em> and <em>The Guardian</em>'s January 2023 series with SourceMaterial. For the methodological critique of REDD baseline construction see Thales A.P. West, Jan B&ouml;rner, et al., &ldquo;Action Needed to Make Carbon Offsets from Forest Conservation Work for Climate Change Mitigation,&rdquo; <em>Science</em> 381 (2023): 873&ndash;877. The CarbonPlan project's methodology auditing is at <a href="https://carbonplan.org" target="_blank" rel="noopener">carbonplan.org</a>.</li>
+    <li id="note-3">The Boomitra approach is documented in the developer's own materials at <a href="https://www.boomitra.com" target="_blank" rel="noopener">boomitra.com</a>; for an independent assessment of soil-carbon project measurement-and-verification challenges see Eric Toensmeier and Hannah Lewis, &ldquo;Soil Carbon Sequestration in Agricultural Systems,&rdquo; <em>Climatic Change</em> 165 (2021), and the more recent commentary in <em>Nature Climate Change</em> 13 (2023): 285&ndash;287 on remote-sensing-based soil-carbon claims.</li>
+    <li id="note-4">For the Sylvera-BeZero rating-disagreement controversy see, among other reporting, <em>Bloomberg Green</em>, &ldquo;Carbon Credit Ratings Diverge as Demand Slumps,&rdquo; 14 March 2024; and the academic framing in Barbara K. Haya et al., &ldquo;Comprehensive Review of Carbon Quantification by Improved Forest Management Offset Protocols,&rdquo; <em>Frontiers in Forests and Global Change</em> 6 (2023). The peer-set-choice point made here is the same point those papers make in slightly different language: rating disagreement is downstream of cohort-definition disagreement.</li>
+  </ol>
+
+  <p class="page-footer">The Verra explorer is a methodological appendix to the sovereign-credit paper. The same M1 / M2 / M4 toolkit applies to any panel where the question is &ldquo;how does this unit compare to its peers,&rdquo; and the voluntary carbon market is the cleanest second-domain test for the same machinery. Suggestions, corrections, and pull requests on the underlying CSVs are welcome at <a href="mailto:ym522@cornell.edu">ym522@cornell.edu</a>.</p>
+
+</main>
+
+</body>
+</html>

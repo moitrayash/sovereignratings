@@ -46,6 +46,15 @@
 
   <p>The world used for the leave-one-out mean is the set of countries reporting in that year only—there is no plausible imputation strategy at country&times;year resolution—so N<sub>t</sub> varies between roughly 25 and 95 across the panel. This sparse-and-unbalanced structure makes inter-year comparisons noisier than for the credit-rating or HDI panels; the explorer below shows the underlying observation density alongside the relative measures.</p>
 
+  <details class="example">
+    <summary>Worked example: India GiniInv in one country-year</summary>
+    <p><strong>Step 1: invert the Gini.</strong> Lower inequality is conventionally treated as better, so the metric is inverted before relative-rating arithmetic. If India's reported Gini is 32.8, then GiniInv = 100 &minus; 32.8 = <strong>67.2</strong>.</p>
+    <p><strong>Step 2: compute M1.</strong> If the leave-one-out peer mean for GiniInv that year is 61.5, M1 = focal&sup2; / peer mean = 67.2&sup2; / 61.5 = 4515.84 / 61.5 = <strong>73.43</strong>.</p>
+    <p><strong>Step 3: compute M2.</strong> Sort all reporting countries that year from lowest to highest GiniInv. If India ranks 58th out of 95 reporting countries, M2 = <strong>58</strong>.</p>
+    <p><strong>Step 4: compute M4.</strong> M4 = M2 / N<sub>t</sub> = 58 / 95 = <strong>0.611</strong>.</p>
+    <p><strong>Reading.</strong> Because Gini reporting is sparser than HDI, the N<sub>t</sub> denominator changes from year to year. The same country at the same Gini can therefore receive a different M4 depending on how many other countries reported in that year &mdash; another reason to read M4 alongside M2 rather than in isolation.</p>
+  </details>
+
   <h2 id="explorer"><span class="section-num">2</span> Country explorer</h2>
 
   <div class="controls">
