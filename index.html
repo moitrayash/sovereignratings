@@ -378,24 +378,32 @@
 
     <div class="section-title" id="output-title">Charts</div>
 
-    <!-- Mode A layout: 1 full-width + 2×2 grid -->
+    <!-- Mode A layout: 1 full-width absolute + 2×2 relative grid + 1 full-width shadow -->
     <div id="charts-a">
+      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Absolute composite score</div>
       <div class="chart-wrap full" style="margin-bottom:20px"><div id="chart-a1"></div></div>
+      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Relative methods M1–M4</div>
       <div class="charts-grid-2">
         <div class="chart-wrap"><div id="chart-a2"></div></div>
         <div class="chart-wrap"><div id="chart-a3"></div></div>
         <div class="chart-wrap"><div id="chart-a4"></div></div>
         <div class="chart-wrap"><div id="chart-a5"></div></div>
       </div>
+      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:18px 2px 4px;">Shadow ratings (OLS / k-NN / Bayes)</div>
+      <div class="chart-wrap full" style="margin-bottom:20px"><div id="chart-a6"></div></div>
     </div>
 
-    <!-- Mode B layout: 3 full-width stacked -->
+    <!-- Mode B layout: 1 full-width absolute + 2-up relative + 1 full-width shadow -->
     <div id="charts-b" style="display:none">
+      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Absolute composite score</div>
       <div class="chart-wrap full" style="margin-bottom:20px"><div id="chart-b1"></div></div>
+      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Relative methods M1 + M4</div>
       <div class="charts-grid-2">
         <div class="chart-wrap"><div id="chart-b2"></div></div>
         <div class="chart-wrap"><div id="chart-b3"></div></div>
       </div>
+      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:18px 2px 4px;">Shadow ratings (multi-country, Method C — OLS)</div>
+      <div class="chart-wrap full" style="margin-bottom:20px"><div id="chart-b4"></div></div>
     </div>
 
     <!-- Summary table -->
@@ -719,9 +727,111 @@ function renderModeA() {
     }],
   }), PLOT_CONFIG);
 
+  // ── Chart A6: Shadow rating (actual vs OLS / k-NN / Bayes) ────────────
+  renderShadowA(country);
+
   // ── Tables ────────────────────────────────────────────────────────────
   renderSummaryTableA(country, group, s);
   renderDetailTableA(country, group, s);
+}
+
+// ── Shadow-rating data loader (cached) ────────────────────────────────
+//  index.html doesn't bundle shadow predictions in data.js — they live in
+//  extras.json under .shadow.{ols,knn,bayes}. Load once, cache forever.
+let SHADOW_DATA = null;
+let SHADOW_PROMISE = null;
+function loadShadowData() {
+  if (SHADOW_DATA !== null) return Promise.resolve(SHADOW_DATA);
+  if (SHADOW_PROMISE) return SHADOW_PROMISE;
+  const loader = (window.scrLoadExtras ? window.scrLoadExtras() : fetch('extras.json').then(r => r.json()));
+  SHADOW_PROMISE = loader.then(extras => {
+    SHADOW_DATA = (extras && extras.shadow) || false;
+    return SHADOW_DATA;
+  }).catch(err => {
+    console.warn('shadow load failed:', err);
+    SHADOW_DATA = false;
+    return false;
+  });
+  return SHADOW_PROMISE;
+}
+
+function renderShadowA(country) {
+  const div = document.getElementById('chart-a6');
+  if (!div) return;
+  div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">Loading shadow predictions…</p>';
+  loadShadowData().then(sh => {
+    if (!sh || !sh.ols) {
+      div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">Shadow data unavailable. (extras.json did not load.)</p>';
+      return;
+    }
+    const ols = sh.ols.filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
+    if (!ols.length) {
+      div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">No shadow predictions for ' + country + ' (likely missing macro fundamentals — log GDPpc, growth, FDI%).</p>';
+      return;
+    }
+    const knn   = (sh.knn   || []).filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
+    const bayes = (sh.bayes || []).filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
+    div.innerHTML = '';
+    Plotly.newPlot('chart-a6', [
+      { x: ols.map(r => r.Year), y: ols.map(r => r.Actual),
+        name: country + ' — actual',
+        mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 }, marker: { size: 4.5, symbol: 'circle' } },
+      { x: ols.map(r => r.Year), y: ols.map(r => r.Shadow_OLS),
+        name: 'Shadow — Method C (OLS, log GDPpc + growth + FDI)',
+        mode: 'lines', line: { color: '#1B4F8A', width: 1.8, dash: 'dash' } },
+      { x: knn.map(r => r.Year), y: knn.map(r => r.Shadow_kNN),
+        name: 'Shadow — Method D (k-NN on macro features)',
+        mode: 'lines', line: { color: '#C0392B', width: 1.8, dash: 'dot' } },
+      { x: bayes.map(r => r.Year), y: bayes.map(r => r.Shadow_Bayes),
+        name: 'Shadow — Bayesian shrinkage (β=0.5)',
+        mode: 'lines', line: { color: '#2E7D32', width: 1.8, dash: 'dashdot' } }
+    ], layout({
+      title: { text: country + ': actual composite vs three model-implied shadow ratings', font: { size: 12, family: FONT_SERIF } },
+      xaxis: { title: { text: 'Year' } },
+      yaxis: { title: { text: 'Composite (0–60)' }, range: [0, 65] },
+      height: 320
+    }), PLOT_CONFIG);
+  });
+}
+
+function renderShadowB(selected) {
+  const div = document.getElementById('chart-b4');
+  if (!div) return;
+  div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">Loading shadow predictions…</p>';
+  loadShadowData().then(sh => {
+    if (!sh || !sh.ols) {
+      div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">Shadow data unavailable. (extras.json did not load.)</p>';
+      return;
+    }
+    const traces = [];
+    const missing = [];
+    selected.forEach((c, i) => {
+      const color = PALETTE[i % PALETTE.length];
+      const rows = sh.ols.filter(r => r.Country === c).sort((a,b) => a.Year - b.Year);
+      if (!rows.length) { missing.push(c); return; }
+      traces.push({
+        x: rows.map(r => r.Year), y: rows.map(r => r.Actual),
+        name: c + ' (actual)', mode: 'lines+markers',
+        line: { color, width: 2 }, marker: { size: 4 }
+      });
+      traces.push({
+        x: rows.map(r => r.Year), y: rows.map(r => r.Shadow_OLS),
+        name: c + ' (shadow OLS)', mode: 'lines',
+        line: { color, width: 1.4, dash: 'dash' }
+      });
+    });
+    if (!traces.length) {
+      div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">No shadow predictions for any selected country.</p>';
+      return;
+    }
+    div.innerHTML = '';
+    Plotly.newPlot('chart-b4', traces, layout({
+      title: { text: 'Actual vs Shadow (Method C — OLS): solid = actual, dashed = shadow' + (missing.length ? '  ·  no shadow data: ' + missing.join(', ') : ''), font: { size: 12, family: FONT_SERIF } },
+      xaxis: { title: { text: 'Year' } },
+      yaxis: { title: { text: 'Composite (0–60)' }, range: [0, 65] },
+      height: 360
+    }), PLOT_CONFIG);
+  });
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -796,6 +906,9 @@ function renderModeB() {
       line: { color: '#aaa', dash: 'dot', width: 1 }
     }],
   }), PLOT_CONFIG);
+
+  // ── Chart B4: Multi-country shadow ratings (actual vs OLS shadow) ─────
+  renderShadowB(selected);
 
   // ── Tables ────────────────────────────────────────────────────────────
   renderSummaryTableB(series, group);
