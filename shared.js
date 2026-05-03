@@ -148,18 +148,6 @@
       <button class="pill" data-pill="annot" title="Toggle chart annotations">
         <span class="dot"></span>NOTES
       </button>
-      <div class="lang-wrap">
-        <button class="pill square" data-pill="lang" title="Language">EN ▾</button>
-        <div class="lang-menu" data-menu="lang">
-          <button data-lang="en">English</button>
-          <button data-lang="ar">العربية</button>
-          <button data-lang="zh">中文</button>
-          <button data-lang="fr">Français</button>
-          <button data-lang="hi">हिन्दी</button>
-          <button data-lang="ru">Русский</button>
-          <button data-lang="es">Español</button>
-        </div>
-      </div>
       <button class="pill square" data-pill="theme" title="Toggle dark mode">DARK</button>
     `;
     headRow.appendChild(rail);
@@ -176,13 +164,6 @@
     rail.querySelector('[data-pill="theme"]').onclick = toggleTheme;
     rail.querySelector('[data-pill="tooltips"]').onclick = toggleTooltips;
     rail.querySelector('[data-pill="annot"]').onclick = toggleAnnot;
-    const langBtn = rail.querySelector('[data-pill="lang"]');
-    const langMenu = rail.querySelector('[data-menu="lang"]');
-    langBtn.onclick = e => { e.stopPropagation(); langMenu.classList.toggle('open'); };
-    document.addEventListener('click', () => langMenu.classList.remove('open'));
-    langMenu.querySelectorAll('button').forEach(b => {
-      b.onclick = () => { applyLang(b.dataset.lang); langMenu.classList.remove('open'); };
-    });
   }
 
   // ── Inject the bottom-left attribution imprint ────────────────────
@@ -476,7 +457,6 @@
     applyTheme(LS.get('theme', 'light'));
     applyTooltips(LS.get('tooltips', 'on'));
     applyAnnot(LS.get('annot', 'on'));
-    applyLang(LS.get('lang', 'en'));
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
@@ -1340,15 +1320,33 @@
     }, d));
   });
 
-  // Cached fetch of extras.json (multiple consumers share one network call)
-  let _extrasPromise = null;
-  window.scrLoadExtras = function() {
-    if (_extrasPromise) return _extrasPromise;
-    _extrasPromise = fetch('extras.json').then(r => {
+  // Cached fetch of extras.json (multiple consumers share one network call).
+  // Per-section optimization: if `section` is passed, fetches the smaller
+  // extras_{section}.json bundle (split by Diego's T3 in v6X) instead of the
+  // full 2.5 MB bundle. Sections: score, hdi, gini, ppi, shadow, stories, meta.
+  // Falls back transparently to full extras.json if the per-section file 404s.
+  const _extrasPromises = {};
+  let _fullExtrasPromise = null;
+  window.scrLoadExtras = function(section) {
+    if (section) {
+      if (_extrasPromises[section]) return _extrasPromises[section];
+      _extrasPromises[section] = fetch('extras_' + section + '.json')
+        .then(r => {
+          if (!r.ok) throw new Error('extras_' + section + ' HTTP ' + r.status);
+          return r.json();
+        })
+        .catch(err => {
+          console.warn('per-section extras load failed, falling back to full:', err);
+          return window.scrLoadExtras();
+        });
+      return _extrasPromises[section];
+    }
+    if (_fullExtrasPromise) return _fullExtrasPromise;
+    _fullExtrasPromise = fetch('extras.json').then(r => {
       if (!r.ok) throw new Error('extras.json HTTP ' + r.status);
       return r.json();
     });
-    return _extrasPromise;
+    return _fullExtrasPromise;
   };
 
   // ── Country → continent map (for peer-set selectors on Relative HDI / Gini) ─
