@@ -98,9 +98,25 @@
     </div>
   </div>
 
-  <div class="chart-box"><div id="hdi-abs" style="height:340px"></div></div>
-  <div class="chart-box"><div id="hdi-rel" style="height:340px"></div></div>
+  <div id="hdi-headline-switcher" style="margin-top:8px"></div>
+  <div class="chart-box" id="hdi-abs-box"><div id="hdi-abs" style="height:340px"></div></div>
+  <div class="chart-box" id="hdi-rel-box"><div id="hdi-rel" style="height:340px"></div></div>
   <div class="chart-box"><div id="hdi-vs-credit" style="height:340px"></div></div>
+  <script>
+    // Wire up Relative · Absolute switcher above the headline panel — default Relative.
+    document.addEventListener('DOMContentLoaded', function() {
+      const wrap = document.getElementById('hdi-headline-switcher');
+      function applyView(v) {
+        document.getElementById('hdi-abs-box').style.display = (v === 'absolute') ? '' : 'none';
+        document.getElementById('hdi-rel-box').style.display = (v === 'relative') ? '' : 'none';
+      }
+      function build() {
+        if (!window.scrMakeViewSwitcher) { setTimeout(build, 80); return; }
+        window.scrMakeViewSwitcher(wrap, { keys: ['relative','absolute'], default: 'relative', onChange: applyView });
+      }
+      build();
+    });
+  </script>
 
   <p>The <strong>Compare against</strong> control above the charts lets the comparison set be re-cast on the fly. The default is the world (all 142 reporting countries). <em>Same continent</em> restricts the leave-one-out mean and the rank-based M2 / M4 to the focal country's UN-style continent (Africa, Asia, Europe, North America, Oceania, or South America); this makes the most sense for countries whose human-development trajectory is shaped primarily by regional conditions (a Gulf state versus other Gulf states, a Sub-Saharan low-income country against Sub-Saharan peers). <em>Custom subset</em> lets you build an ad-hoc comparison set — useful for SIDS clusters, BRICS, OECD, ASEAN, or any other peer grouping you care about. M1, M2, and M4 are recomputed client-side against whatever set is active.</p>
 

@@ -76,8 +76,23 @@
     </div>
   </div>
 
-  <div class="chart-box"><div id="gini-abs" style="height:340px"></div></div>
-  <div class="chart-box"><div id="gini-rel" style="height:340px"></div></div>
+  <div id="gini-headline-switcher" style="margin-top:8px"></div>
+  <div class="chart-box" id="gini-abs-box"><div id="gini-abs" style="height:340px"></div></div>
+  <div class="chart-box" id="gini-rel-box"><div id="gini-rel" style="height:340px"></div></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const wrap = document.getElementById('gini-headline-switcher');
+      function applyView(v) {
+        document.getElementById('gini-abs-box').style.display = (v === 'absolute') ? '' : 'none';
+        document.getElementById('gini-rel-box').style.display = (v === 'relative') ? '' : 'none';
+      }
+      function build() {
+        if (!window.scrMakeViewSwitcher) { setTimeout(build, 80); return; }
+        window.scrMakeViewSwitcher(wrap, { keys: ['relative','absolute'], default: 'relative', onChange: applyView });
+      }
+      build();
+    });
+  </script>
   <div class="chart-box"><div id="gini-vs-credit" style="height:340px"></div></div>
 
   <p>The <strong>Compare against</strong> control lets the peer set be re-cast on the fly. The default is the world (all reporters in that year). <em>Same continent</em> restricts the leave-one-out mean and the rank-based M2 / M4 to the focal country's UN-style continent — useful for inequality questions that are mostly regional in nature (Latin American income inequality vs. East Asian, for example). <em>Custom subset</em> lets you build an ad-hoc set; combined with Gini's spotty annual reporting this means small custom sets may yield very few country-years (when N drops below 2 in a year, the LOO is undefined and that year is dropped).</p>
