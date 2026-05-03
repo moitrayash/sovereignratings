@@ -875,6 +875,97 @@
     try { applyAxisArrows(gd); } catch(e) {}
   };
 
+  // ── Reusable view-switcher used on every "perspective" chart ──────────
+  //  Inserts a small pill-button bar above the chart so the user can swap
+  //  between Relative / Shadow / Absolute perspectives. Default order is
+  //  Rel → Shad → Abs (left-to-right) and Relative is the default-active
+  //  button. For HDI / Gini / PPI charts (no shadow data exists) pass
+  //  keys: ['relative','absolute'] for a 2-button bar.
+  //
+  //  Usage:
+  //    window.scrMakeViewSwitcher(chartWrapEl, {
+  //      keys: ['relative','shadow','absolute'],   // optional, default this
+  //      default: 'relative',                       // optional, default 'relative'
+  //      onChange: function(activeKey) { ... }
+  //    });
+  const SCR_VIEW_LABELS = { relative: 'Relative', shadow: 'Shadow', absolute: 'Absolute' };
+  window.scrMakeViewSwitcher = function(parentEl, opts) {
+    if (!parentEl) return null;
+    opts = opts || {};
+    const keys = opts.keys || ['relative', 'shadow', 'absolute'];
+    const defaultKey = opts.default || 'relative';
+    const onChange = opts.onChange || function(){};
+    const labels = Object.assign({}, SCR_VIEW_LABELS, opts.labels || {});
+    // Remove any existing switcher in parentEl
+    const old = parentEl.querySelector('.scr-view-switcher');
+    if (old) old.remove();
+    const bar = document.createElement('div');
+    bar.className = 'scr-view-switcher';
+    bar.style.cssText = 'display:flex;gap:6px;margin:0 0 10px 0;flex-wrap:wrap;align-items:center;';
+    const tag = document.createElement('span');
+    tag.textContent = 'View:';
+    tag.style.cssText = 'font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted,#888);margin-right:6px;';
+    bar.appendChild(tag);
+    const buttons = {};
+    keys.forEach(k => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = labels[k] || k;
+      b.dataset.viewKey = k;
+      b.style.cssText = 'padding:5px 14px;font-size:0.78rem;letter-spacing:0.04em;text-transform:uppercase;font-family:inherit;cursor:pointer;border-radius:3px;border:1px solid var(--rule,#ccc);background:transparent;color:var(--ink,#1a1a1a);transition:background 0.12s,color 0.12s,border-color 0.12s;';
+      b.onmouseenter = () => { if (b.dataset.active !== '1') b.style.background = 'rgba(128,128,128,0.12)'; };
+      b.onmouseleave = () => { if (b.dataset.active !== '1') b.style.background = 'transparent'; };
+      b.onclick = () => {
+        Object.values(buttons).forEach(x => {
+          x.dataset.active = '0';
+          x.style.background = 'transparent';
+          x.style.color = 'var(--ink,#1a1a1a)';
+          x.style.fontWeight = '400';
+          x.style.borderColor = 'var(--rule,#ccc)';
+        });
+        b.dataset.active = '1';
+        b.style.background = 'var(--ink,#1a1a1a)';
+        b.style.color = 'var(--bg,#fff)';
+        b.style.fontWeight = '600';
+        b.style.borderColor = 'var(--ink,#1a1a1a)';
+        try { onChange(k); } catch(e) { console.warn('view-switcher onChange failed:', e); }
+      };
+      buttons[k] = b;
+      bar.appendChild(b);
+    });
+    parentEl.insertBefore(bar, parentEl.firstChild);
+    setTimeout(() => { (buttons[defaultKey] || buttons[keys[0]]).click(); }, 0);
+    return bar;
+  };
+  // Cached small loader for shadow data (ols/knn/bayes), reused on any page
+  let _shadowPromise = null;
+  window.scrLoadShadow = function() {
+    if (_shadowPromise) return _shadowPromise;
+    const loader = (window.scrLoadExtras ? window.scrLoadExtras() : fetch('extras.json').then(r => r.json()));
+    _shadowPromise = loader.then(extras => (extras && extras.shadow) || null).catch(() => null);
+    return _shadowPromise;
+  };
+  // Cached compute of M4 percentile per (country,year) from EXTRAS.score_matrix.
+  //   M4 = within-year fractional rank against ALL countries that have a score.
+  //   Used by pages that don't bundle a relative panel.
+  let _m4Cache = null;
+  window.scrComputeCreditM4 = function(scoreMatrix) {
+    if (_m4Cache && _m4Cache.src === scoreMatrix) return _m4Cache.data;
+    const out = {}; // out[year][country] = percentile (0,1]
+    if (!scoreMatrix) return out;
+    Object.keys(scoreMatrix).forEach(y => {
+      const m = scoreMatrix[y];
+      const entries = Object.entries(m).filter(([c,v]) => v != null);
+      const sorted = entries.slice().sort((a,b) => a[1] - b[1]);
+      const N = sorted.length;
+      const yr = {};
+      sorted.forEach(([c,v], i) => { yr[c] = (i + 1) / N; });
+      out[y] = yr;
+    });
+    _m4Cache = { src: scoreMatrix, data: out };
+    return out;
+  };
+
   function wireChartHooks(gd) {
     if (!gd || gd._scrHooksWired) return;
     // CRITICAL: only set _scrHooksWired AFTER confirming gd.on exists.

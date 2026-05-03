@@ -744,63 +744,32 @@ function loadShadowData() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-//  View-switcher pattern: Shadow (default) · Absolute · Relative
+//  View-switcher pattern: Relative (default) · Shadow · Absolute
 //  Used on chart-a1 and chart-b1. State stashed in module globals so the
 //  user can flip views without re-clicking Generate.
 // ─────────────────────────────────────────────────────────────────────────
 let _chartA1State = null;
 let _chartB1State = null;
-const VIEW_KEYS = ['shadow', 'absolute', 'relative'];
-const VIEW_LABELS = { shadow: 'Shadow', absolute: 'Absolute', relative: 'Relative' };
-
-function makeSwitcherBar(activeKey, onChange) {
-  const bar = document.createElement('div');
-  bar.className = 'view-switcher';
-  bar.style.cssText = 'display:flex;gap:6px;margin:0 0 10px 0;flex-wrap:wrap;';
-  const buttons = {};
-  VIEW_KEYS.forEach(k => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.textContent = VIEW_LABELS[k];
-    b.dataset.viewKey = k;
-    b.style.cssText = 'padding:5px 14px;font-size:0.78rem;letter-spacing:0.04em;text-transform:uppercase;font-family:inherit;cursor:pointer;border-radius:3px;border:1px solid var(--rule, #ccc);background:transparent;color:var(--ink, #1a1a1a);transition:background 0.12s, color 0.12s;';
-    b.onmouseenter = () => { if (b.dataset.active !== '1') b.style.background = 'rgba(128,128,128,0.12)'; };
-    b.onmouseleave = () => { if (b.dataset.active !== '1') b.style.background = 'transparent'; };
-    b.onclick = () => {
-      VIEW_KEYS.forEach(kk => {
-        const btn = buttons[kk];
-        btn.dataset.active = '0';
-        btn.style.background = 'transparent';
-        btn.style.color = 'var(--ink, #1a1a1a)';
-        btn.style.fontWeight = '400';
-      });
-      b.dataset.active = '1';
-      b.style.background = 'var(--ink, #1a1a1a)';
-      b.style.color = 'var(--bg, #fff)';
-      b.style.fontWeight = '600';
-      onChange(k);
-    };
-    buttons[k] = b;
-    bar.appendChild(b);
-  });
-  // Activate default
-  setTimeout(() => buttons[activeKey].click(), 0);
-  return bar;
-}
 
 function ensureChartASwitcher() {
   const wrap = document.getElementById('chart-a1').parentNode;
-  const old = wrap.querySelector('.view-switcher');
-  if (old) old.remove();
-  const bar = makeSwitcherBar('shadow', renderChartA1View);
-  wrap.insertBefore(bar, document.getElementById('chart-a1'));
+  if (window.scrMakeViewSwitcher) {
+    window.scrMakeViewSwitcher(wrap, {
+      keys: ['relative', 'shadow', 'absolute'],
+      default: 'relative',
+      onChange: renderChartA1View
+    });
+  }
 }
 function ensureChartBSwitcher() {
   const wrap = document.getElementById('chart-b1').parentNode;
-  const old = wrap.querySelector('.view-switcher');
-  if (old) old.remove();
-  const bar = makeSwitcherBar('shadow', renderChartB1View);
-  wrap.insertBefore(bar, document.getElementById('chart-b1'));
+  if (window.scrMakeViewSwitcher) {
+    window.scrMakeViewSwitcher(wrap, {
+      keys: ['relative', 'shadow', 'absolute'],
+      default: 'relative',
+      onChange: renderChartB1View
+    });
+  }
 }
 
 // Plotly.newPlot purges hooks; this wraps it so the glow + arrows + theme

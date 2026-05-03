@@ -177,63 +177,133 @@ function initPair() {
   countries.forEach(c => { A.add(new Option(c,c)); B.add(new Option(c,c)); });
   A.value = 'India'; B.value = 'Pakistan';
   A.onchange = renderPair; B.onchange = renderPair;
-  renderPair();
-  // Render the six historical case studies once on load.
-  renderCase('case-armaze', 'Armenia',        'Azerbaijan');
-  renderCase('case-czsk',   'Czech Republic', 'Slovakia');
-  renderCase('case-grde',   'Greece',         'Germany');
-  renderCase('case-cymt',   'Cyprus',         'Malta');
-  renderCase('case-ruua',   'Russia',         'Ukraine');
-  renderCase('case-arcl',   'Argentina',      'Chile');
+  setupPairSwitcher();
+  // Render the six historical case studies once on load — each gets its own
+  // Relative · Shadow · Absolute switcher.
+  setupCaseChart('case-armaze', 'Armenia',        'Azerbaijan');
+  setupCaseChart('case-czsk',   'Czech Republic', 'Slovakia');
+  setupCaseChart('case-grde',   'Greece',         'Germany');
+  setupCaseChart('case-cymt',   'Cyprus',         'Malta');
+  setupCaseChart('case-ruua',   'Russia',         'Ukraine');
+  setupCaseChart('case-arcl',   'Argentina',      'Chile');
 }
 
-// Pre-rendered historical pair: dual-axis chart with absolute scores (left) and spread (right).
-function renderCase(divId, a, b) {
+// Cached caches for relative + shadow lookups
+function _m4Of(country, year) {
+  const m = (window.scrComputeCreditM4 ? window.scrComputeCreditM4(EXTRAS.score_matrix) : {});
+  return (m[year] && m[year][country] != null) ? m[year][country] : null;
+}
+
+// Render any country-pair chart in the chosen view (relative / shadow / absolute)
+function renderPairView(divId, a, b, view) {
   const years = Object.keys(EXTRAS.score_matrix).map(Number).sort((x,y)=>x-y);
-  const xs=[], ya=[], yb=[], spread=[];
-  years.forEach(y => {
-    const m = EXTRAS.score_matrix[y];
-    if (m[a]!=null && m[b]!=null) { xs.push(y); ya.push(m[a]); yb.push(m[b]); spread.push(m[a]-m[b]); }
-  });
-  if (!xs.length) { document.getElementById(divId).innerHTML = '<p style="padding:20px;color:#888">' + a + ' or ' + b + ' missing from dataset.</p>'; return; }
-  const cfg = window.scrChartConfig || (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true}));
-  const layout = (window.scrBaseLayout || ((x)=>x))({
-    title: {text: a + ' vs ' + b + ': composite scores and paired spread', font: {size: 13}},
-    xaxis: {title: 'Year'},
-    yaxis: {title: 'Composite (0–60)', range: [0, 65]},
-    yaxis2: {title: 'Spread P('+a+' − '+b+')', overlaying: 'y', side: 'right', showgrid: false}
-  });
-  Plotly.newPlot(divId, [
-    {x: xs, y: ya, name: a,                  mode:'lines+markers', line:{color:'#1B4F8A', width:2.2}, marker:{size:4}},
-    {x: xs, y: yb, name: b,                  mode:'lines+markers', line:{color:'#C0392B', width:2.2, dash:'dash'}, marker:{size:4}},
-    {x: xs, y: spread, name:'Spread (right)', mode:'lines',         line:{color:'#444',    width:1.6}, yaxis:'y2'}
-  ], layout, cfg);
-}
-
-function renderPair() {
-  const a = document.getElementById('paira').value;
-  const b = document.getElementById('pairb').value;
-  const years = Object.keys(EXTRAS.score_matrix).map(Number).sort((a,b)=>a-b);
-  const xs=[], ya=[], yb=[], spread=[];
-  years.forEach(y => {
-    const m = EXTRAS.score_matrix[y];
-    if (m[a]!=null && m[b]!=null) { xs.push(y); ya.push(m[a]); yb.push(m[b]); spread.push(m[a]-m[b]); }
-  });
-  const cfg = (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true}));
+  const div = document.getElementById(divId);
+  const cfg = window.scrChartConfig || {displayModeBar: true, responsive: true};
   const baseLayout = {
     plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
     font:{family:'Helvetica Neue, Arial, sans-serif', size:11},
     margin:{l:56,r:50,t:40,b:90},
     legend:{orientation:'h', y:-0.32, x:0.5, xanchor:'center'}
   };
-  Plotly.newPlot('pair-chart', [
-    {x:xs,y:ya,name:a,mode:'lines+markers',line:{color:'#1a1a1a',width:2},marker:{size:5}},
-    {x:xs,y:yb,name:b,mode:'lines+markers',line:{color:'#888',width:2,dash:'dash'},marker:{size:5}}
-  ], Object.assign({}, baseLayout, {
-    title:{text:a+' vs '+b+': absolute composite score',font:{size:13}},
-    xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
-    yaxis:{title:'Composite (0–60)',range:[0,60],gridcolor:'rgba(128,128,128,0.2)'}
-  }), cfg);
+  function plotIt(divId, traces, layoutObj) {
+    Plotly.newPlot(divId, traces, layoutObj, cfg).then(() => {
+      const gd = document.getElementById(divId);
+      if (window.scrWireChart) window.scrWireChart(gd);
+      if (window.scrApplyChartTheme) window.scrApplyChartTheme();
+    });
+  }
+  if (view === 'absolute') {
+    const xs=[], ya=[], yb=[];
+    years.forEach(y => {
+      const m = EXTRAS.score_matrix[y];
+      if (m[a]!=null && m[b]!=null) { xs.push(y); ya.push(m[a]); yb.push(m[b]); }
+    });
+    if (!xs.length) { div.innerHTML = '<p style="padding:20px;color:var(--muted)">' + a + ' or ' + b + ' missing.</p>'; return; }
+    plotIt(divId, [
+      {x:xs,y:ya,name:a,mode:'lines+markers',line:{color:'#1B4F8A',width:2.2},marker:{size:4}},
+      {x:xs,y:yb,name:b,mode:'lines+markers',line:{color:'#C0392B',width:2.2,dash:'dash'},marker:{size:4}}
+    ], Object.assign({}, baseLayout, {
+      title:{text:a+' vs '+b+': absolute composite score',font:{size:13}},
+      xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
+      yaxis:{title:'Composite (0–60)',range:[0,60],gridcolor:'rgba(128,128,128,0.2)'}
+    }));
+  } else if (view === 'relative') {
+    const m4 = (window.scrComputeCreditM4 ? window.scrComputeCreditM4(EXTRAS.score_matrix) : {});
+    const xs=[], ya=[], yb=[];
+    years.forEach(y => {
+      const yr = m4[y];
+      if (yr && yr[a] != null && yr[b] != null) { xs.push(y); ya.push(yr[a]); yb.push(yr[b]); }
+    });
+    if (!xs.length) { div.innerHTML = '<p style="padding:20px;color:var(--muted)">' + a + ' or ' + b + ' missing from relative panel.</p>'; return; }
+    plotIt(divId, [
+      {x:xs,y:ya,name:a + ' (M4 percentile)',mode:'lines+markers',line:{color:'#1B4F8A',width:2.2},marker:{size:4}},
+      {x:xs,y:yb,name:b + ' (M4 percentile)',mode:'lines+markers',line:{color:'#C0392B',width:2.2,dash:'dash'},marker:{size:4}}
+    ], Object.assign({}, baseLayout, {
+      title:{text:a+' vs '+b+': relative — M4 within-year percentile vs all rated sovereigns',font:{size:12}},
+      xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
+      yaxis:{title:'M4 percentile (0–1)',range:[0,1.05],gridcolor:'rgba(128,128,128,0.2)'},
+      shapes:[{type:'line',x0:xs[0],x1:xs[xs.length-1],y0:0.5,y1:0.5,line:{color:'#aaa',dash:'dot',width:1}}]
+    }));
+  } else { // shadow
+    div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">Loading shadow predictions…</p>';
+    (window.scrLoadShadow ? window.scrLoadShadow() : Promise.resolve(EXTRAS.shadow || null)).then(sh => {
+      if (!sh || !sh.ols) { div.innerHTML = '<p style="padding:20px;color:var(--muted)">Shadow data unavailable.</p>'; return; }
+      const olsA = sh.ols.filter(r => r.Country === a).sort((x,y) => x.Year - y.Year);
+      const olsB = sh.ols.filter(r => r.Country === b).sort((x,y) => x.Year - y.Year);
+      if (!olsA.length && !olsB.length) { div.innerHTML = '<p style="padding:20px;color:var(--muted)">No shadow predictions for ' + a + ' or ' + b + '.</p>'; return; }
+      div.innerHTML = '';
+      const traces = [];
+      if (olsA.length) {
+        traces.push({x:olsA.map(r=>r.Year), y:olsA.map(r=>r.Actual), name:a + ' actual', mode:'lines+markers', line:{color:'#1B4F8A',width:2.2}, marker:{size:4}, legendgroup:a});
+        traces.push({x:olsA.map(r=>r.Year), y:olsA.map(r=>r.Shadow_OLS), name:a + ' shadow OLS', mode:'lines', line:{color:'#1B4F8A',width:1.5,dash:'dash'}, legendgroup:a});
+      }
+      if (olsB.length) {
+        traces.push({x:olsB.map(r=>r.Year), y:olsB.map(r=>r.Actual), name:b + ' actual', mode:'lines+markers', line:{color:'#C0392B',width:2.2}, marker:{size:4}, legendgroup:b});
+        traces.push({x:olsB.map(r=>r.Year), y:olsB.map(r=>r.Shadow_OLS), name:b + ' shadow OLS', mode:'lines', line:{color:'#C0392B',width:1.5,dash:'dash'}, legendgroup:b});
+      }
+      plotIt(divId, traces, Object.assign({}, baseLayout, {
+        title:{text:a+' vs '+b+': actual (solid) vs shadow OLS (dashed)',font:{size:12}},
+        xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
+        yaxis:{title:'Composite (0–60)',range:[0,65],gridcolor:'rgba(128,128,128,0.2)'}
+      }));
+    });
+  }
+}
+
+// Set up the live pair chart with a Relative/Shadow/Absolute switcher above it.
+function setupPairSwitcher() {
+  // Initial render then attach switcher; switcher's first click triggers re-render in default view.
+  renderPair();
+}
+
+function renderPair() {
+  const a = document.getElementById('paira').value;
+  const b = document.getElementById('pairb').value;
+  const years = Object.keys(EXTRAS.score_matrix).map(Number).sort((x,y)=>x-y);
+  const xs=[], spread=[];
+  years.forEach(y => {
+    const m = EXTRAS.score_matrix[y];
+    if (m[a]!=null && m[b]!=null) { xs.push(y); spread.push(m[a]-m[b]); }
+  });
+  // Switcher above pair-chart drives renderPairView for the perspective view
+  const wrap = document.getElementById('pair-chart').parentNode;
+  if (window.scrMakeViewSwitcher) {
+    window.scrMakeViewSwitcher(wrap, {
+      keys: ['relative','shadow','absolute'],
+      default: 'relative',
+      onChange: function(view) { renderPairView('pair-chart', a, b, view); }
+    });
+  } else {
+    renderPairView('pair-chart', a, b, 'relative');
+  }
+  // Spread chart (always shown — already a relative comparison; no switcher)
+  const cfg = window.scrChartConfig || {displayModeBar: true, responsive: true};
+  const baseLayout = {
+    plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
+    font:{family:'Helvetica Neue, Arial, sans-serif', size:11},
+    margin:{l:56,r:50,t:40,b:90},
+    legend:{orientation:'h', y:-0.32, x:0.5, xanchor:'center'}
+  };
   Plotly.newPlot('pair-spread', [
     {x:xs,y:spread,name:'Spread',type:'bar',marker:{color:spread.map(s=>s>=0?'#1a1a1a':'#888')}}
   ], Object.assign({}, baseLayout, {
@@ -241,14 +311,33 @@ function renderPair() {
     xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
     yaxis:{title:'Score difference',gridcolor:'rgba(128,128,128,0.2)',zerolinecolor:'#1a1a1a',zerolinewidth:1.5},
     showlegend:false
-  }), cfg);
-  const mean = spread.reduce((s,v)=>s+v,0)/spread.length;
-  document.getElementById('pair-stats').innerHTML = `
-    <div class="stat"><div class="lbl">Mean spread</div><div class="val">${mean.toFixed(2)}</div></div>
-    <div class="stat"><div class="lbl">Min</div><div class="val">${Math.min(...spread).toFixed(2)}</div></div>
-    <div class="stat"><div class="lbl">Max</div><div class="val">${Math.max(...spread).toFixed(2)}</div></div>
-    <div class="stat"><div class="lbl">First → last</div><div class="val">${(spread[spread.length-1]-spread[0]>=0?'+':'')+(spread[spread.length-1]-spread[0]).toFixed(2)}</div></div>
-  `;
+  }), cfg).then(() => {
+    const gd = document.getElementById('pair-spread');
+    if (window.scrWireChart) window.scrWireChart(gd);
+  });
+  if (spread.length) {
+    const mean = spread.reduce((s,v)=>s+v,0)/spread.length;
+    document.getElementById('pair-stats').innerHTML = `
+      <div class="stat"><div class="lbl">Mean spread</div><div class="val">${mean.toFixed(2)}</div></div>
+      <div class="stat"><div class="lbl">Min</div><div class="val">${Math.min(...spread).toFixed(2)}</div></div>
+      <div class="stat"><div class="lbl">Max</div><div class="val">${Math.max(...spread).toFixed(2)}</div></div>
+      <div class="stat"><div class="lbl">First → last</div><div class="val">${(spread[spread.length-1]-spread[0]>=0?'+':'')+(spread[spread.length-1]-spread[0]).toFixed(2)}</div></div>
+    `;
+  }
+}
+
+// Each historical case-study chart gets its own switcher above its chart-box.
+function setupCaseChart(divId, a, b) {
+  const wrap = document.getElementById(divId).parentNode;
+  if (window.scrMakeViewSwitcher) {
+    window.scrMakeViewSwitcher(wrap, {
+      keys: ['relative','shadow','absolute'],
+      default: 'relative',
+      onChange: function(view) { renderPairView(divId, a, b, view); }
+    });
+  } else {
+    renderPairView(divId, a, b, 'relative');
+  }
 }
 </script>
 </body>
