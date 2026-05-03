@@ -251,4 +251,98 @@ function renderPairView(divId, a, b, view) {
   } else { // shadow
     div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">Loading shadow predictions…</p>';
     (window.scrLoadShadow ? window.scrLoadShadow() : Promise.resolve(EXTRAS.shadow || null)).then(sh => {
-      if (!sh || !sh.ols) { div.innerHTML = '<p style="padd
+      if (!sh || !sh.ols) { div.innerHTML = '<p style="padding:20px;color:var(--muted)">Shadow data unavailable.</p>'; return; }
+      const olsA = sh.ols.filter(r => r.Country === a).sort((x,y) => x.Year - y.Year);
+      const olsB = sh.ols.filter(r => r.Country === b).sort((x,y) => x.Year - y.Year);
+      if (!olsA.length && !olsB.length) { div.innerHTML = '<p style="padding:20px;color:var(--muted)">No shadow predictions for ' + a + ' or ' + b + '.</p>'; return; }
+      div.innerHTML = '';
+      const traces = [];
+      if (olsA.length) {
+        traces.push({x:olsA.map(r=>r.Year), y:olsA.map(r=>r.Actual), name:a + ' actual', mode:'lines+markers', line:{color:colA,width:2.2}, marker:{color:colA,size:4}, legendgroup:a});
+        traces.push({x:olsA.map(r=>r.Year), y:olsA.map(r=>r.Shadow_OLS), name:a + ' shadow OLS', mode:'lines', line:{color:colA,width:1.5,dash:'dash'}, legendgroup:a});
+      }
+      if (olsB.length) {
+        traces.push({x:olsB.map(r=>r.Year), y:olsB.map(r=>r.Actual), name:b + ' actual', mode:'lines+markers', line:{color:colB,width:2.2}, marker:{color:colB,size:4}, legendgroup:b});
+        traces.push({x:olsB.map(r=>r.Year), y:olsB.map(r=>r.Shadow_OLS), name:b + ' shadow OLS', mode:'lines', line:{color:colB,width:1.5,dash:'dash'}, legendgroup:b});
+      }
+      plotIt(divId, traces, Object.assign({}, baseLayout, {
+        title:{text:a+' vs '+b+': actual (solid) vs shadow OLS (dashed)',font:{size:12}},
+        xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
+        yaxis:{title:'Composite (0–60)',range:[0,65],gridcolor:'rgba(128,128,128,0.2)'}
+      }));
+    });
+  }
+}
+
+// Set up the live pair chart with a Relative/Shadow/Absolute switcher above it.
+function setupPairSwitcher() {
+  // Initial render then attach switcher; switcher's first click triggers re-render in default view.
+  renderPair();
+}
+
+function renderPair() {
+  const a = document.getElementById('paira').value;
+  const b = document.getElementById('pairb').value;
+  const years = Object.keys(EXTRAS.score_matrix).map(Number).sort((x,y)=>x-y);
+  const xs=[], spread=[];
+  years.forEach(y => {
+    const m = EXTRAS.score_matrix[y];
+    if (m[a]!=null && m[b]!=null) { xs.push(y); spread.push(m[a]-m[b]); }
+  });
+  // Switcher above pair-chart drives renderPairView for the perspective view
+  const wrap = document.getElementById('pair-chart').parentNode;
+  if (window.scrMakeViewSwitcher) {
+    window.scrMakeViewSwitcher(wrap, {
+      keys: ['relative','shadow','absolute'],
+      default: 'relative',
+      onChange: function(view) { renderPairView('pair-chart', a, b, view); }
+    });
+  } else {
+    renderPairView('pair-chart', a, b, 'relative');
+  }
+  // Spread chart (always shown — already a relative comparison; no switcher)
+  const cfg = window.scrChartConfig || {displayModeBar: true, responsive: true};
+  const baseLayout = {
+    plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
+    font:{family:'Helvetica Neue, Arial, sans-serif', size:11},
+    margin:{l:56,r:50,t:40,b:90},
+    legend:{orientation:'h', y:-0.32, x:0.5, xanchor:'center'}
+  };
+  Plotly.newPlot('pair-spread', [
+    {x:xs,y:spread,name:'Spread',type:'bar',marker:{color:spread.map(s=>s>=0?'#1a1a1a':'#888')}}
+  ], Object.assign({}, baseLayout, {
+    title:{text:'Paired spread P('+a+' − '+b+')',font:{size:13}},
+    xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
+    yaxis:{title:'Score difference',gridcolor:'rgba(128,128,128,0.2)',zerolinecolor:'#1a1a1a',zerolinewidth:1.5},
+    showlegend:false
+  }), cfg).then(() => {
+    const gd = document.getElementById('pair-spread');
+    if (window.scrWireChart) window.scrWireChart(gd);
+  });
+  if (spread.length) {
+    const mean = spread.reduce((s,v)=>s+v,0)/spread.length;
+    document.getElementById('pair-stats').innerHTML = `
+      <div class="stat"><div class="lbl">Mean spread</div><div class="val">${mean.toFixed(2)}</div></div>
+      <div class="stat"><div class="lbl">Min</div><div class="val">${Math.min(...spread).toFixed(2)}</div></div>
+      <div class="stat"><div class="lbl">Max</div><div class="val">${Math.max(...spread).toFixed(2)}</div></div>
+      <div class="stat"><div class="lbl">First → last</div><div class="val">${(spread[spread.length-1]-spread[0]>=0?'+':'')+(spread[spread.length-1]-spread[0]).toFixed(2)}</div></div>
+    `;
+  }
+}
+
+// Each historical case-study chart gets its own switcher above its chart-box.
+function setupCaseChart(divId, a, b) {
+  const wrap = document.getElementById(divId).parentNode;
+  if (window.scrMakeViewSwitcher) {
+    window.scrMakeViewSwitcher(wrap, {
+      keys: ['relative','shadow','absolute'],
+      default: 'relative',
+      onChange: function(view) { renderPairView(divId, a, b, view); }
+    });
+  } else {
+    renderPairView(divId, a, b, 'relative');
+  }
+}
+</script>
+</body>
+</html>
