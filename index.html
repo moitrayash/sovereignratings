@@ -516,8 +516,9 @@ const BASE_LAYOUT = {
 const PLOT_CONFIG = {
   displayModeBar: true,
   displaylogo: false,
-  modeBarButtonsToRemove: ['select2d','lasso2d','autoScale2d'],
-  toImageButtonOptions: { format: 'png', scale: 2 },
+  // Default Plotly toImage button is replaced by shared.js's white-bg
+  // Download / Copy / Share / Fullscreen buttons (merged in initUI below).
+  modeBarButtonsToRemove: ['select2d','lasso2d','autoScale2d','toImage'],
 };
 
 function layout(overrides) {
@@ -552,6 +553,10 @@ function dottedTrace(x, y, name, color) {
 //  UI INIT
 // ═══════════════════════════════════════════════════════════════════════════
 function initUI() {
+  // Inherit white-bg Download / Copy / Share / Fullscreen modebar buttons from shared.js
+  if (window.scrChartConfig && window.scrChartConfig.modeBarButtonsToAdd) {
+    PLOT_CONFIG.modeBarButtonsToAdd = window.scrChartConfig.modeBarButtonsToAdd;
+  }
   // Mode A: country dropdown
   const selA = document.getElementById('sel-country-a');
   DB.countries.forEach(c => {

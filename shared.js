@@ -478,33 +478,189 @@
   //   visible (camera/zoom/pan/home), theme-aware colors.
   // Plus a custom "Copy as PNG" modebar button that writes the chart
   // image to the system clipboard (paste into Word, Slack, email, etc).
+  // Icons for the modebar buttons (Fullscreen / Download / Copy / Share)
   const COPY_ICON = {
     width: 1000, height: 1000,
     path: 'M666 0H125C56 0 0 56 0 125v541h83V125c0-23 19-42 42-42h541V0zm208 167H291c-69 0-125 56-125 125v541c0 69 56 125 125 125h583c69 0 125-56 125-125V292c0-69-56-125-125-125zm42 666c0 23-19 42-42 42H291c-23 0-42-19-42-42V292c0-23 19-42 42-42h583c23 0 42 19 42 42v541z'
   };
-  function copyChartToClipboard(gd) {
-    if (!window.Plotly) return;
-    // Use chart's CURRENT rendered size + zoom state — captures the viewfinder
-    // window the user is looking at right now, not the default extent.
-    const w = (gd && gd.offsetWidth)  || 1100;
-    const h = (gd && gd.offsetHeight) || 600;
-    Plotly.toImage(gd, { format: 'png', width: w, height: h, scale: 2 })
-      .then(dataUrl => fetch(dataUrl).then(r => r.blob()))
-      .then(blob => {
-        if (!navigator.clipboard || !window.ClipboardItem) {
-          alert('Your browser does not support copy-image-to-clipboard. Use the camera (download) button instead.');
-          return;
-        }
-        return navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-      })
-      .then(() => flashToast('Chart copied as PNG (current view)'))
-      .catch(err => alert('Copy failed: ' + err.message));
-  }
-  // Fullscreen toggle button
+  const DOWNLOAD_ICON = {
+    width: 857.1, height: 1000,
+    path: 'M857.1 250v607.1q0 14.7-10.7 25.4t-25.4 10.7H35.7Q21 893.2 10.3 882.5t-10.7-25.4V35.7Q-.4 21 10.3 10.3t25.4-10.7h607.1q14.7 0 32.1 6.7t28.6 17.9l138.4 138.4q11.2 11.2 17.9 28.6t6.7 32.1zM214.3 35.7v178.6q0 7.4 5.4 12.8t12.8 5.4h392.9q7.4 0 12.8-5.4t5.4-12.8V35.7q0-7.4-5.4-12.8t-12.8-5.4H232.5q-7.4 0-12.8 5.4t-5.4 12.8zm428.6 535.7q0-37.2-26.4-63.5t-63.5-26.4-63.5 26.4-26.4 63.5 26.4 63.5 63.5 26.4 63.5-26.4 26.4-63.5z'
+  };
+  const SHARE_ICON = {
+    width: 1000, height: 1000,
+    path: 'M750 600c-39 0-74 15-100 40L350 470c2-7 4-13 4-20 0-7-2-13-4-20l296-148c27 26 64 42 104 42 83 0 150-67 150-150S833 24 750 24s-150 67-150 150c0 7 2 13 4 20L308 342c-27-26-64-42-104-42-83 0-150 67-150 150s67 150 150 150c40 0 77-16 104-42l300 175c-2 7-4 13-4 20 0 81 66 147 146 147s146-66 146-147-66-153-146-153z'
+  };
   const FULLSCREEN_ICON = {
     width: 1000, height: 1000,
     path: 'M0 333V0h333v83H83v250H0zm667 0V83H417V0h333v333h-83zM0 667h83v250h250v83H0V667zm917 0v250H667v83h333V667h-83z'
   };
+
+  // ── Chicago citation auto-embedded on every image export (PNG only).
+  //   Plain CSVs / ZIPs / LaTeX are untouched. The strip is appended below
+  //   the chart so it never overlaps content; small grey on white.
+  const SCR_CITATION = 'Source: Moitra, Yash. 2026. Sovereign Credit Rating Explorer. sovereignratings.yashmoitra.com';
+  function appendCitationToCanvas(srcCanvas) {
+    const w = srcCanvas.width;
+    const h = srcCanvas.height;
+    const fontSize = Math.max(12, Math.round(w / 110));
+    const padX = Math.round(fontSize * 1.4);
+    const stripH = Math.round(fontSize * 2.2);
+    const out = document.createElement('canvas');
+    out.width = w;
+    out.height = h + stripH;
+    const ctx = out.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, out.width, out.height);
+    ctx.drawImage(srcCanvas, 0, 0);
+    ctx.fillStyle = '#9a9a9a';
+    ctx.font = fontSize + 'px Helvetica Neue, Arial, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(SCR_CITATION, w - padX, h + stripH / 2);
+    return out;
+  }
+  function canvasToPngBlob(canvas) {
+    return new Promise((res, rej) => canvas.toBlob(b => b ? res(b) : rej(new Error('toBlob null')), 'image/png'));
+  }
+  function dataUrlToImg(dataUrl) {
+    return new Promise((res, rej) => {
+      const img = new Image();
+      img.onload = () => res(img);
+      img.onerror = () => rej(new Error('image decode failed'));
+      img.src = dataUrl;
+    });
+  }
+  window.scrAppendCitation = appendCitationToCanvas;
+
+  // Force white background + dark text for any export (download/copy/share)
+  // so PNGs are legible on Slack dark mode, Notion, email clients, etc.
+  function chartLayoutForExport(layoutOrig) {
+    const layout = JSON.parse(JSON.stringify(layoutOrig || {}));
+    layout.paper_bgcolor = '#ffffff';
+    layout.plot_bgcolor = '#ffffff';
+    layout.font = layout.font || {};
+    layout.font.color = '#1a1a1a';
+    ['xaxis','yaxis','xaxis2','yaxis2','xaxis3','yaxis3'].forEach(ax => {
+      if (!layout[ax]) return;
+      layout[ax].color = '#1a1a1a';
+      layout[ax].gridcolor = 'rgba(60,60,60,0.18)';
+      layout[ax].linecolor = '#1a1a1a';
+      layout[ax].zerolinecolor = '#1a1a1a';
+      layout[ax].tickcolor = '#1a1a1a';
+      if (layout[ax].minor) layout[ax].minor.gridcolor = 'rgba(60,60,60,0.08)';
+      if (layout[ax].title && typeof layout[ax].title === 'object') {
+        layout[ax].title.font = layout[ax].title.font || {};
+        layout[ax].title.font.color = '#1a1a1a';
+      }
+    });
+    if (layout.legend) {
+      layout.legend.font = layout.legend.font || {};
+      layout.legend.font.color = '#1a1a1a';
+    }
+    if (Array.isArray(layout.annotations)) {
+      layout.annotations.forEach(a => {
+        if (!a) return;
+        if (a.font) a.font.color = '#1a1a1a';
+        if (a.arrowcolor) a.arrowcolor = '#1a1a1a';
+      });
+    }
+    return layout;
+  }
+  function chartDataForExport(dataOrig) {
+    const data = JSON.parse(JSON.stringify(dataOrig || []));
+    function fix(v) {
+      if (Array.isArray(v)) return v.map(c => swapColor(c, false));
+      return swapColor(v, false);
+    }
+    data.forEach(t => {
+      if (!t) return;
+      if (t.line && t.line.color !== undefined) t.line.color = fix(t.line.color);
+      if (t.marker && t.marker.color !== undefined) t.marker.color = fix(t.marker.color);
+      if (t.fillcolor !== undefined) t.fillcolor = fix(t.fillcolor);
+      if (t.textfont && t.textfont.color !== undefined) t.textfont.color = fix(t.textfont.color);
+    });
+    return data;
+  }
+  // Render the current chart offscreen with white bg + dark text and return a PNG blob
+  // with the Chicago citation strip appended below. The visible chart is never disturbed.
+  function chartToWhiteBlob(gd) {
+    if (!window.Plotly) return Promise.reject(new Error('Plotly not loaded'));
+    const w = (gd && gd.offsetWidth)  || 1100;
+    const h = (gd && gd.offsetHeight) || 600;
+    const data = chartDataForExport(gd.data || []);
+    const layout = chartLayoutForExport(gd.layout || {});
+    const off = document.createElement('div');
+    off.style.cssText = 'position:fixed;left:-99999px;top:0;width:'+w+'px;height:'+h+'px;background:#ffffff;';
+    document.body.appendChild(off);
+    return Plotly.newPlot(off, data, layout, { staticPlot: true, displayModeBar: false })
+      .then(() => Plotly.toImage(off, { format: 'png', width: w, height: h, scale: 2 }))
+      .then(dataUrl => {
+        try { Plotly.purge(off); } catch(e){}
+        off.remove();
+        return dataUrlToImg(dataUrl);
+      })
+      .then(img => {
+        const c = document.createElement('canvas');
+        c.width = img.width; c.height = img.height;
+        c.getContext('2d').drawImage(img, 0, 0);
+        return canvasToPngBlob(appendCitationToCanvas(c));
+      })
+      .catch(err => {
+        try { Plotly.purge(off); } catch(e){}
+        if (off.parentNode) off.remove();
+        throw err;
+      });
+  }
+
+  function downloadChartWhite(gd) {
+    chartToWhiteBlob(gd).then(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'sovereignratings_chart.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      flashToast('Downloaded PNG');
+    }).catch(err => alert('Download failed: ' + err.message));
+  }
+  function copyChartToClipboard(gd) {
+    chartToWhiteBlob(gd).then(blob => {
+      if (!navigator.clipboard || !window.ClipboardItem) {
+        alert('Your browser does not support copy-image-to-clipboard.');
+        return;
+      }
+      return navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+    }).then(() => flashToast('Chart copied as PNG'))
+      .catch(err => alert('Copy failed: ' + err.message));
+  }
+  function shareChartAsPng(gd) {
+    chartToWhiteBlob(gd).then(blob => {
+      const file = new File([blob], 'sovereignratings_chart.png', { type: 'image/png' });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        return navigator.share({
+          files: [file],
+          title: 'Sovereign Credit Rating chart',
+          text: 'sovereignratings.yashmoitra.com'
+        }).then(() => flashToast('Shared'));
+      }
+      // Fallback 1: clipboard
+      if (navigator.clipboard && window.ClipboardItem) {
+        return navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+          .then(() => flashToast('Share unavailable; copied to clipboard'));
+      }
+      // Fallback 2: download
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'sovereignratings_chart.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      flashToast('Share unavailable; downloaded');
+    }).catch(err => {
+      if (err && err.name === 'AbortError') return;
+      alert('Share failed: ' + err.message);
+    });
+  }
+
   function toggleChartFullscreen(gd) {
     const target = gd.parentElement || gd; // chart-box wrapper if available
     if (!document.fullscreenElement) {
@@ -526,12 +682,13 @@
 
   window.scrChartConfig = {
     displayModeBar: true, displaylogo: false, responsive: true,
-    modeBarButtonsToRemove: ['lasso2d', 'select2d'],
+    modeBarButtonsToRemove: ['lasso2d', 'select2d', 'toImage'],
     modeBarButtonsToAdd: [
       { name: 'Fullscreen', title: 'Toggle fullscreen', icon: FULLSCREEN_ICON, click: toggleChartFullscreen },
-      { name: 'Copy as PNG', title: 'Copy chart to clipboard', icon: COPY_ICON, click: copyChartToClipboard }
-    ],
-    toImageButtonOptions: { format: 'png', filename: 'sovereignratings_chart', scale: 2 }
+      { name: 'Download as PNG (white bg)', title: 'Download as PNG (white bg, with citation)', icon: DOWNLOAD_ICON, click: downloadChartWhite },
+      { name: 'Copy as PNG', title: 'Copy chart to clipboard (white bg, with citation)', icon: COPY_ICON, click: copyChartToClipboard },
+      { name: 'Share as PNG', title: 'Share chart as PNG (white bg, with citation)', icon: SHARE_ICON, click: shareChartAsPng }
+    ]
   };
   window.scrBaseLayout = function(extra) {
     const dark = document.body.classList.contains('dark');
@@ -950,16 +1107,28 @@
       b.onclick = handler;
       return b;
     }
+    // Force white bg + light theme during capture so dark-mode text doesn't
+    // come out white-on-white. After capture, append the Chicago citation strip.
     function renderToCanvas() {
-      return loadHtml2Canvas().then(h2c => h2c(target, {
-        backgroundColor: getComputedStyle(document.body).backgroundColor || '#ffffff',
-        scale: 2, logging: false, useCORS: true
-      }));
+      return loadHtml2Canvas().then(h2c => {
+        const wasDark = document.body.classList.contains('dark');
+        if (wasDark) document.body.classList.remove('dark');
+        return h2c(target, {
+          backgroundColor: '#ffffff',
+          scale: 2, logging: false, useCORS: true
+        }).then(canvas => {
+          if (wasDark) document.body.classList.add('dark');
+          return appendCitationToCanvas(canvas);
+        }, err => {
+          if (wasDark) document.body.classList.add('dark');
+          throw err;
+        });
+      });
     }
-    const btnCopy = makeBtn('Copy', 'Copy as PNG', '&#x29C9;', function(ev) {
+    const btnCopy = makeBtn('Copy', 'Copy as PNG (with citation)', '&#x29C9;', function(ev) {
       ev.preventDefault(); btnCopy.disabled = true; btnCopy.innerHTML = 'Rendering…';
       renderToCanvas()
-        .then(c => new Promise((res, rej) => c.toBlob(b => b ? res(b) : rej(new Error('toBlob null')), 'image/png')))
+        .then(c => canvasToPngBlob(c))
         .then(blob => {
           if (!navigator.clipboard || !window.ClipboardItem) throw new Error('clipboard API unavailable');
           return navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
@@ -967,7 +1136,7 @@
         .then(() => { flashToast('Copied as PNG'); btnCopy.innerHTML = '<span>&#x2713;</span> Copied'; setTimeout(() => { btnCopy.innerHTML = '<span>&#x29C9;</span> Copy'; btnCopy.disabled = false; }, 1500); })
         .catch(err => { btnCopy.innerHTML = '<span>&#x29C9;</span> Copy'; btnCopy.disabled = false; alert('Copy failed: ' + err.message); });
     });
-    const btnDl = makeBtn('PNG', 'Download as PNG', '&#x21E9;', function(ev) {
+    const btnDl = makeBtn('PNG', 'Download as PNG (white bg, with citation)', '&#x21E9;', function(ev) {
       ev.preventDefault(); btnDl.disabled = true; btnDl.innerHTML = 'Rendering…';
       renderToCanvas().then(c => {
         const a = document.createElement('a');
@@ -977,6 +1146,28 @@
         flashToast('Downloaded PNG');
         btnDl.innerHTML = '<span>&#x2713;</span> Saved'; setTimeout(() => { btnDl.innerHTML = '<span>&#x21E9;</span> PNG'; btnDl.disabled = false; }, 1500);
       }).catch(err => { btnDl.innerHTML = '<span>&#x21E9;</span> PNG'; btnDl.disabled = false; alert('Download failed: ' + err.message); });
+    });
+    const btnShare = makeBtn('Share', 'Share as PNG (with citation)', '&#x2197;', function(ev) {
+      ev.preventDefault(); btnShare.disabled = true; btnShare.innerHTML = 'Rendering…';
+      renderToCanvas()
+        .then(c => canvasToPngBlob(c))
+        .then(blob => {
+          const file = new File([blob], 'sovereignratings_' + (target.id || 'figure') + '.png', { type: 'image/png' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            return navigator.share({ files: [file], title: 'Sovereign Credit Rating', text: 'sovereignratings.yashmoitra.com' })
+              .then(() => flashToast('Shared'));
+          }
+          if (navigator.clipboard && window.ClipboardItem) {
+            return navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
+              .then(() => flashToast('Share unavailable; copied to clipboard'));
+          }
+          throw new Error('No share or clipboard support');
+        })
+        .then(() => { btnShare.innerHTML = '<span>&#x2713;</span> Shared'; setTimeout(() => { btnShare.innerHTML = '<span>&#x2197;</span> Share'; btnShare.disabled = false; }, 1500); })
+        .catch(err => {
+          btnShare.innerHTML = '<span>&#x2197;</span> Share'; btnShare.disabled = false;
+          if (err && err.name !== 'AbortError') alert('Share failed: ' + err.message);
+        });
     });
     const btnFs = makeBtn('Full', 'Toggle fullscreen', '&#x26F6;', function(ev) {
       ev.preventDefault();
@@ -988,7 +1179,7 @@
         if (exit) exit.call(document);
       }
     });
-    bar.appendChild(btnFs); bar.appendChild(btnDl); bar.appendChild(btnCopy);
+    bar.appendChild(btnFs); bar.appendChild(btnDl); bar.appendChild(btnCopy); bar.appendChild(btnShare);
     wrap.appendChild(bar);
   }
 
