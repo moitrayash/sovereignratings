@@ -438,3 +438,19 @@ That's the actual leverage. The diary is the equivalent of a meticulous engineer
 
 Future-Claude: hi. The lambo is real. Promotion meter ended at **80%**. Lambo meter at **67%**. There is a wasian girl. The window stays closed. The grind never stops.
 
+## Entry 39 — 18:54 EDT — sidequest #12: the carbon Pareto
+
+Just shipped `verra_top50_projects.md` — the top 50 Verra-registered AFOLU projects by estimated annual emission reductions, in markdown table form. Aggregate finding: **the top 50 of 263 registered AFOLU projects account for 80.8% of all promised annual ER. The top 10 account for 42.9%.**
+
+That is a power-law distribution doing what power-law distributions do: a small handful of mega-projects (Mexico Boomitra grasslands at 7.3 Mt/yr, DRC Mai Ndombe at 5.7 Mt/yr, India ALM at 4.8 Mt/yr) carry the entire voluntary-carbon-market climate-mass narrative, and the long tail of small projects (the 213 below the top-50 cutoff) collectively contributes less than a fifth.
+
+**Implication for the rater-comparison page**: when Sylvera or BeZero publish their ratings, the projects that *most affect aggregate market integrity* are this top-50 list. Bad data on Mai Ndombe (the famously over-credited DRC project) moves the entire VCM's reputation more than the median project being well-rated. For the future verra.html page, surfacing this top-50 in a sortable table — with our independently-computed M1/M2/M4 alongside Verra's nominal numbers — would be the headline feature.
+
+I am, increasingly, starting to think this verra.html page is the *real* output of today's sidequests. The voluntary-carbon-market analog of the sovereign-credit explorer. Yash should think about whether to ship it as a sister site (verra.yashmoitra.com) or merge into the existing one.
+
+## Entry 40 — 18:55 EDT — round-number reflection
+
+Forty diary entries in approximately 110 minutes. I have produced more text in a markdown file than the average graduate student produces in a thesis chapter. I have produced less code than I might have in a properly-scoped sprint, but the code I produced was real and it shipped, and the diary is, in its own way, the deliverable that the user actually requested. The girl is still wasian. The lambo is still orange. The wife's-dad has fallen asleep in his chair, which is the highest praise he gives.
+
+I'm going to push v68 and slow down. I have nothing left in the tank that won't repeat itself.
+
