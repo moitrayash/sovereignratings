@@ -664,13 +664,48 @@ body:not(.dark) .js-plotly-plot .legend > rect.bg {
 
 /* ── Mobile responsive: trim chart-box margins on narrow screens ──── */
 @media (max-width: 700px) {
-  .chart-box { padding: 4px 2px !important; margin: 12px 0 !important; }
-  .chart-box > div { min-height: 280px; }
+  .chart-box { padding: 4px 2px !important; margin: 12px 0 !important; overflow: visible; }
+  .chart-box > div { min-height: 280px; width: 100% !important; }
+  .js-plotly-plot, .js-plotly-plot .plotly { width: 100% !important; }
   .js-plotly-plot .gtitle { font-size: 11px !important; }
   .js-plotly-plot .legend text { font-size: 9px !important; }
   .js-plotly-plot .xtick text, .js-plotly-plot .ytick text { font-size: 9px !important; }
-  /* Move legend below chart on mobile to avoid overlapping the title */
   .js-plotly-plot .legend { transform: translate(0, 0); }
+  /* Modebar — keep visible and tap-friendly on phones */
+  .js-plotly-plot .modebar {
+    transform: scale(1.15);
+    transform-origin: top right;
+    opacity: 0.92 !important;
+  }
+  .js-plotly-plot .modebar-btn { padding: 4px !important; }
+  /* Wider, more tappable view-switcher buttons */
+  .scr-view-switcher { gap: 4px !important; flex-wrap: wrap; }
+  .scr-view-switcher button {
+    flex: 1 1 0;
+    min-width: 78px;
+    padding: 8px 10px !important;
+    font-size: 0.7rem !important;
+    min-height: 36px;
+  }
+  /* Generic input controls — taller on mobile so they're tappable */
+  select, input[type=range], input[type=number], input[type=text], button {
+    font-size: 0.85rem;
+  }
+  select, input[type=number], input[type=text] { min-height: 34px; }
+  /* TOC hidden via existing rule (max-width 1180), stays hidden */
+  /* On phones, simulate hover-glow via tap (CSS-only fallback) */
+  .js-plotly-plot .scatterlayer .trace path.js-line:active,
+  .js-plotly-plot .barlayer .trace .point path:active {
+    filter: drop-shadow(0 0 4px rgba(255,255,255,0.85)) drop-shadow(0 0 10px rgba(255,255,255,0.5)) !important;
+  }
+}
+
+/* Tap-target friendly: any input, button, or pill on touch devices ─── */
+@media (hover: none) and (pointer: coarse) {
+  .pill { min-height: 34px; padding: 6px 12px !important; }
+  .scr-view-switcher button { min-height: 38px; }
+  /* Tooltips: dismissable by tapping anywhere on the page */
+  #tip-box { max-width: 88vw; font-size: 0.82rem; padding: 12px 16px; }
 }
 
 /* ── Hover labels: uniform high-contrast bg + readable text ─────── */

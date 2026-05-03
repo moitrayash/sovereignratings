@@ -354,6 +354,19 @@
       if (el) showTip(el);
     });
     document.body.addEventListener('focusout', hideTip);
+    // Touch support: tap a term to toggle tooltip; tap elsewhere to dismiss
+    let _activeTip = null;
+    document.body.addEventListener('click', e => {
+      const el = e.target.closest('.term, [data-tip]');
+      if (el) {
+        if (_activeTip === el) { hideTip(); _activeTip = null; }
+        else { showTip(el); _activeTip = el; }
+        e.stopPropagation();
+      } else if (_activeTip) {
+        hideTip();
+        _activeTip = null;
+      }
+    });
   }
 
   // ── Tag every term-decorated element so it shows the dotted line ──
@@ -1224,6 +1237,33 @@
         const widths = gd.data.map(t => t._scrOrigWidth || 2);
         window.Plotly.restyle(gd, { 'line.width': widths });
       } catch(e) {}
+    });
+    // Touch / tap support: on mobile, plotly_hover doesn't fire reliably.
+    // plotly_click fires on tap and we use it to toggle the glow. Tapping
+    // the same trace twice (or empty space) clears the glow.
+    let _lastTapped = -1;
+    gd.on('plotly_click', function(ev) {
+      if (!ev || !ev.points || !ev.points.length) return;
+      const i = ev.points[0].curveNumber;
+      const traces = gd.querySelectorAll('.scatterlayer .trace, .barlayer .trace');
+      if (_lastTapped === i) {
+        traces.forEach(t => t.classList.remove('scr-trace-glow'));
+        try {
+          const widths = gd.data.map(t => t._scrOrigWidth || 2);
+          window.Plotly.restyle(gd, { 'line.width': widths });
+        } catch(e) {}
+        _lastTapped = -1;
+      } else {
+        traces.forEach((t, k) => t.classList.toggle('scr-trace-glow', k === i));
+        try {
+          const widths = gd.data.map((t, k) => {
+            if (!t._scrOrigWidth) t._scrOrigWidth = (t.line && t.line.width) || 2;
+            return k === i ? Math.max(3.5, t._scrOrigWidth + 1.5) : t._scrOrigWidth;
+          });
+          window.Plotly.restyle(gd, { 'line.width': widths });
+        } catch(e) {}
+        _lastTapped = i;
+      }
     });
     // Optional: zoom event — adjust glow scale via CSS variable
     gd.on('plotly_relayout', function(ev) {
