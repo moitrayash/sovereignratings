@@ -333,28 +333,40 @@ function renderMap(focal, weights, lam, exp) {
     }
     return {lat: lats, lon: lons};
   }
-  // Sepia ring traces — deep near-black umber, much darker for definition
+  // Theme-aware palette so the map doesn't look out of place in dark mode.
+  const dark = document.body.classList.contains('dark');
+  const ringColor   = dark ? '#f0d680' : '#1a1200';
+  const landColor   = dark ? '#1c2333' : '#e7d6ae';
+  const oceanColor  = dark ? '#0a121d' : '#d6c290';
+  const lakeColor   = dark ? '#0f1c2c' : '#cab078';
+  const countryLine = dark ? 'rgba(220,200,140,0.35)' : 'rgba(80,60,30,0.45)';
+  const coastColor  = dark ? '#a8916a' : '#5a3f1a';
+  const frameColor  = dark ? '#a8916a' : '#3d2c0e';
+  const titleColor  = dark ? '#e8e8e6' : '#3d2c0e';
+  const labelColor  = dark ? '#e8e8e6' : '#3d2c0e';
+  // Focal cross uses the focal country's flag-primary color when mapped.
+  const focalCrossColor = (window.scrCountryColor ? window.scrCountryColor(focal) : '#7a3a2e');
+
+  // Ring traces
   const ringTraces = ringDistances.map((km, i) => {
     const r = ringPoints(km);
     const opacity = [0.92, 0.78, 0.62, 0.45][i];
     return {
       type: 'scattergeo', mode: 'lines',
       lat: r.lat, lon: r.lon,
-      line: {color: '#1a1200', width: 1.6, dash: i ? 'dash' : 'solid'},
+      line: {color: ringColor, width: 1.6, dash: i ? 'dash' : 'solid'},
       opacity: opacity,
       name: `w = ${targetWeights[i].toFixed(2)} (d ≈ ${(km/1000).toFixed(2)}k km)`,
       hoverinfo: 'name'
     };
   });
-  // Peer dots: peaceful X-marks (cross-thin) sized by kernel weight, sepia palette
+  // Peer dots: peaceful X-marks (cross-thin) sized by kernel weight
   const peerPts = weights.filter(w => w.w > 0.005);
   peerPts.sort((a,b) => a.w - b.w);
-  const sepiaScale = [
-    [0.0, '#f3e7c9'], [0.2, '#e0c896'], [0.4, '#c2a266'],
-    [0.6, '#9d7a3a'], [0.8, '#6e521e'], [1.0, '#3d2c0e']
-  ];
-  // Peer markers: small precise x-thin marks, much smaller than before so the
-  // map reads as a quiet field rather than a cluttered cluster.
+  const peerScale = dark
+    ? [[0.0,'#fff4d8'],[0.2,'#f3d99c'],[0.4,'#dfb863'],[0.6,'#b88c3a'],[0.8,'#7e5d22'],[1.0,'#4d3613']]
+    : [[0.0,'#f3e7c9'],[0.2,'#e0c896'],[0.4,'#c2a266'],[0.6,'#9d7a3a'],[0.8,'#6e521e'],[1.0,'#3d2c0e']];
+  const peerEdge = dark ? '#f0d680' : '#3d2c0e';
   const peerTrace = {
     type: 'scattergeo', mode: 'markers',
     lat: peerPts.map(p => caps[p.country][0]),
@@ -364,60 +376,65 @@ function renderMap(focal, weights, lam, exp) {
       size: peerPts.map(p => 3 + 9 * Math.sqrt(p.w)),
       symbol: 'x-thin',
       color: peerPts.map(p => p.w),
-      colorscale: sepiaScale, cmin: 0, cmax: 1,
-      line: {color: '#3d2c0e', width: 1.1},
+      colorscale: peerScale, cmin: 0, cmax: 1,
+      line: {color: peerEdge, width: 1.1},
       opacity: 0.92,
-      colorbar: {title: 'Kernel weight', thickness: 12, len: 0.55, x: 1.02, tickfont: {size: 9, color: '#3d2c0e'}}
+      colorbar: {title: 'Kernel weight', thickness: 12, len: 0.55, x: 1.02, tickfont: {size: 9, color: labelColor}}
     },
     customdata: peerPts.map(p => [p.dist, p.w]),
     hovertemplate: '<b>%{text}</b><br>distance: %{customdata[0]:.0f} km<br>weight: %{customdata[1]:.4f}<extra></extra>',
     name: 'Peer countries'
   };
-  // Focal marker — dagger glyph (†), like author-attribution footnote, in burnt
-  // sienna. Rendered as text so it's a true Latin cross rather than Plotly's
-  // plus-sign 'cross' marker. Country name floats just below.
+  // Focal marker — dagger glyph (†), in the focal country's flag-primary color.
   const focalTrace = {
     type: 'scattergeo', mode: 'text',
     lat: [lat0], lon: [lon0],
     text: ['†'],
     textposition: 'middle center',
-    textfont: {size: 22, color: '#7a3a2e', family: 'Georgia, "Times New Roman", serif'},
+    textfont: {size: 22, color: focalCrossColor, family: 'Georgia, "Times New Roman", serif'},
     name: 'Focal country',
     hoverinfo: 'skip'
   };
-  // Country-name label as a separate small annotation just below the dagger
   const focalLabelTrace = {
     type: 'scattergeo', mode: 'text',
     lat: [lat0 - 1.5], lon: [lon0],
     text: [focal],
     textposition: 'bottom center',
-    textfont: {size: 10, color: '#3d2c0e', family: 'Helvetica Neue, Arial, sans-serif'},
+    textfont: {size: 10, color: labelColor, family: 'Helvetica Neue, Arial, sans-serif'},
     showlegend: false,
     hoverinfo: 'skip'
   };
   const layout = {
-    title: {text: focal + ': kernel influence map (λ='+lam.toFixed(2)+', p='+exp.toFixed(2)+')', font: {size: 13, color: '#3d2c0e'}},
+    title: {text: focal + ': kernel influence map (λ='+lam.toFixed(2)+', p='+exp.toFixed(2)+')', font: {size: 13, color: titleColor}},
     geo: {
-      // Equirectangular = rectangular edge-to-edge projection
       projection: {type: 'equirectangular'},
-      // Sepia palette: warm tan land, slightly darker ocean, deep umber outlines
-      showland: true,      landcolor: '#e7d6ae',
-      showocean: true,     oceancolor: '#d6c290',
-      showlakes: true,     lakecolor: '#cab078',
-      showcountries: true, countrycolor: 'rgba(80, 60, 30, 0.45)',
-      showcoastlines: true, coastlinecolor: '#5a3f1a',
-      framecolor: '#3d2c0e', framewidth: 1,
+      showland: true,      landcolor: landColor,
+      showocean: true,     oceancolor: oceanColor,
+      showlakes: true,     lakecolor: lakeColor,
+      showcountries: true, countrycolor: countryLine,
+      showcoastlines: true, coastlinecolor: coastColor,
+      framecolor: frameColor, framewidth: 1,
       bgcolor: 'rgba(0,0,0,0)',
       lonaxis: {range: [-180, 180]},
       lataxis: {range: [-60, 85]}
     },
     paper_bgcolor: 'rgba(0,0,0,0)',
     margin: {l: 0, r: 0, t: 40, b: 0},
-    legend: {orientation: 'h', y: -0.02, x: 0.5, xanchor: 'center', font: {size: 9}},
+    legend: {orientation: 'h', y: -0.02, x: 0.5, xanchor: 'center', font: {size: 9, color: labelColor}},
     showlegend: true
   };
-  Plotly.newPlot('dist-map', ringTraces.concat([peerTrace, focalLabelTrace, focalTrace]), layout, window.scrChartConfig || {displayModeBar: true, responsive: true});
+  Plotly.newPlot('dist-map', ringTraces.concat([peerTrace, focalLabelTrace, focalTrace]), layout, window.scrChartConfig || {displayModeBar: true, responsive: true}).then(() => {
+    const gd = document.getElementById('dist-map');
+    if (window.scrWireChart) window.scrWireChart(gd);
+  });
 }
+
+// When user toggles dark mode, redraw the map so its palette tracks the theme.
+document.addEventListener('scrThemeChanged', () => {
+  if (document.getElementById('dist-map') && _distState && _distState.c) {
+    try { renderDist(); } catch(e) { console.warn('map theme refresh failed:', e); }
+  }
+});
 </script>
 </body>
 </html>
