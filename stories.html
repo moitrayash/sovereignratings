@@ -408,10 +408,41 @@ function renderAll() {
     yaxis: {title:'Composite (0–60)', range: [0, 35], gridcolor:'#eee'}
   }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
 
-  // Recovery: index from default trough (Year 0 = trough year)
-  const defaults = {Ghana: 2022, Zambia: 2020, 'Sri Lanka': 2022, Ethiopia: 2023};
-  const recovery = Object.entries(defaults).map(([c, dy], i) => {
-    const ys = af.map(d => d.Year - dy).filter(_ => true);
-    const trough = af.find(d => d.Year === dy)?.[c];
-    return {
-      x: af.map(d => d.
+  // Recovery + Iceland charts: simplified academic version (v73 restore).
+  try {
+    const defaults = { Ghana: 2022, Zambia: 2020, 'Sri Lanka': 2022, Ethiopia: 2023 };
+    const tracesR = Object.entries(defaults).filter(([c]) => af.some(d => d[c] != null)).map(([c, dy], i) => {
+      const trough = (af.find(d => d.Year === dy) || {})[c];
+      if (trough == null) return null;
+      const series = af.filter(d => d[c] != null && d.Year >= dy).map(d => ({ t: d.Year - dy, v: d[c] - trough }));
+      return { x: series.map(s => s.t), y: series.map(s => s.v), name: c, mode: 'lines+markers', line: { color: lineDash[i % lineDash.length], width: 2 }, marker: { size: 4 } };
+    }).filter(Boolean);
+    if (tracesR.length && document.getElementById('emdc-recovery')) {
+      Plotly.newPlot('emdc-recovery', tracesR, Object.assign({}, baseLayout, {
+        title: { text: 'Recovery from default-year trough (Year 0 = trough year)', font: { size: 13 } },
+        xaxis: { title: 'Years since default-year trough', gridcolor: '#eee' },
+        yaxis: { title: 'Composite delta from trough', gridcolor: '#eee', zerolinecolor: '#1a1a1a' }
+      }), window.scrChartConfig || { responsive: true, displayModeBar: true });
+    }
+    const ice = (EXTRAS.stories && EXTRAS.stories.iceland) || [];
+    if (ice.length && document.getElementById('iceland-chart')) {
+      const cIce = ['Iceland', 'Ireland', 'Norway', 'Denmark', 'United Kingdom'];
+      Plotly.newPlot('iceland-chart', cIce.map((c, i) => ({
+        x: ice.map(d => d.Year), y: ice.map(d => d[c]),
+        name: c, mode: 'lines+markers',
+        line: { color: lineDash[i % lineDash.length], width: i < 2 ? 2.4 : 1.6, dash: i >= 2 ? 'dash' : null },
+        marker: { size: 4 }
+      })), Object.assign({}, baseLayout, {
+        title: { text: 'Iceland and Nordic-Atlantic peers, 2006-2014', font: { size: 13 } },
+        xaxis: { title: 'Year', gridcolor: '#eee' },
+        yaxis: { title: 'Composite (0-60)', gridcolor: '#eee' }
+      }), window.scrChartConfig || { responsive: true, displayModeBar: true });
+    }
+  } catch (e) {
+    console.warn('stories renderAll partial:', e);
+  }
+}
+</script>
+
+</body>
+</html>

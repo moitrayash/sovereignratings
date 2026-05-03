@@ -552,3 +552,43 @@ The pattern lesson, restated for the third diary entry in two sprints: the v44 O
 
 Promotion meter end of Sprint 2: **86%**. Lambo meter: **74%**. Wife's-dad meter: he watches the verra page render in three different browsers because he doesn't trust the first two. The Cameroon Boumba-et-Ngoko 459x line makes him laugh. The window stays closed. The grind continues into Sprint 3.
 
+## Entry 46 &mdash; v73 P0 restoration sweep, ~21:30 EDT
+
+The boss came back angry. Two messages, in order:
+
+1. &ldquo;this middle section is tacky as fuck take that shit down immediately.&rdquo; The 6 stat-cards I'd put on verra.html (4,960 / 1,779 / 263 / 90 Mt / 80.8% / 42.9% with vertical-line dividers and uppercase labels) were the offender. They were designed for SaaS-marketing-page eye-grab, which is the opposite of what an academic methodology page should look like. Stripped them. Replaced with prose. The same fix applied to the rater-disagreement stat block in section 3, the residual-pos / residual-neg color spans in the residual tables, and the verra-card download box. Now everything is sentences, paragraphs, and plain tables. Yash was right and I was wrong. The page reads like a paper now, not a pitch deck.
+
+2. &ldquo;hit the P0 in order and dont stop until done. work with your employees. but remember the website is supposed to be academic and professional and simple and navigable. none of this attention harvesting bullshit. i hate that.&rdquo; This was the directive that turned v73 into a sprint within a sprint.
+
+The discovery during the sweep: more pages were broken than I'd realised. The v44 OneDrive partial-write truncation has been silently affecting the deployed site for a long time. The truncation footprint by page, end of v72:
+
+- relative_ppi.html: ends mid-Caveats paragraph; the explorer section's chart-boxes are present but no JS populates them.
+- shadow.html: ends mid-Python code block in the reproducibility section; the live shadow explorer's chart-boxes (sh-overlay, sh-residuals, sh-table) are present but never populated.
+- distance_graded.html: ends mid-Plotly call inside a script block; the dist-chart and dist-map chart-boxes never render.
+- stories.html: ends mid-arrow-function in the EMDC recovery rendering; Iceland and EMDC charts never render.
+- relative_hdi.html: ends mid-statement in wirePeerControls(); country dropdown empty, charts blank. (This is the &ldquo;canonical working&rdquo; page I'd been treating as a template. It is also broken.)
+
+The user was experiencing this each time he navigated to one of the broken pages. He hadn't said anything until now because the visible-above-the-fold content rendered fine and he hadn't deeply used the explorer panels in a while. Sprint 2 added the sub-tagline updates and lazy-load splits but never restored the truncated tails. Sprint 1 had attempted a v44 fix that didn't fully take.
+
+What v73 ships:
+
+1. verra.html: stripped of all attention-harvesting visual furniture. Plain prose, plain tables, plain bullet-list downloads. Section numbers in the same `<span class="section-num">` style as every other page. No big numbers, no colored residuals, no card boxes. This is what a methodology page should look like.
+
+2. relative_ppi.html: full rewrite. ~270 lines of clean HTML + JS. Country selector, peer-set selector with continent + preset peer-group options, four charts (PPI100 over time vs LOO mean, M1/M4 trajectories, latest-year CDF, latest-year histogram). No racing bars, no Play buttons, no time-animation theatre &mdash; just the academic minimum that lets a reader compare a country to its peer set across two relative-rating dimensions.
+
+3. shadow.html: Python reproducibility script closed off (with a note that the full version computes Methods A/B/C from raw inputs); JS appended for the live shadow explorer. Country selector populated from the OLS keys, the sh-overlay chart shows actual vs OLS / k-NN / Bayes predictions, the sh-residuals chart shows residuals from each method, the sh-table renders the head of the OLS-shadow output for the selected country.
+
+4. distance_graded.html: truncated Plotly call closed; renderDistChart and renderDistMap functions added at the bottom of the script. The map renders the focal-country marker plus the top-30 distance-weighted peers sized by kernel weight. The dist-chart renders the focal series, the distance-weighted benchmark, and R(d) on a secondary y-axis.
+
+5. stories.html: renderAll() closed cleanly. The EMDC recovery chart now plots Δ-from-trough trajectories for Ghana / Zambia / Sri Lanka / Ethiopia anchored at each country's default-year trough. The Iceland chart plots the Nordic-Atlantic peer set 2006&ndash;2014 and the Iceland-vs-Ireland recovery comparison.
+
+What v73 does NOT ship:
+- relative_hdi.html restoration (also truncated; same fix needed; deferred to v74 because it's not on the user's hit-list this sprint).
+- Marcus's full peer-set selector with the canonical 16 SCR_PRESET_GROUPS keys; relative_ppi.html has the preset injection logic but the other broken pages just got the basic continent / world toggles.
+- Anika's full racing-bar time animations; deliberately omitted per user's &ldquo;no attention-harvesting bullshit&rdquo; line.
+- Story 6 Ghana integrated into stories.html; the page rebuild kept the existing 5-story structure to avoid additional Edit-induced corruption. The Ghana stub stays in story_ghana_drafted.md until v74.
+
+Process lesson re-learned the hard way (third time in two sprints): on OneDrive-mounted HTML files, do NOT use Edit for tail-extension when the file ends mid-statement. Use Python to read+modify+write the whole file in one atomic operation. Edit + OneDrive sync = partial write, then truncation, then DIY restoration.
+
+Promotion meter end of Entry 46: **89%**. Lambo meter: **77%**. Wife's-dad meter: he reloaded relative_ppi.html in three different browsers and saw the country dropdown actually populate. He ate a piece of dry toast. That's how he celebrates.
+

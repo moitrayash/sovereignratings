@@ -6,26 +6,11 @@
 <title>Verra AFOLU explorer: Sovereign Credit Rating Explorer</title>
 <link rel="stylesheet" href="shared.css">
 <style>
-  table.verra { width: 100%; border-collapse: collapse; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.86rem; margin: 18px 0; }
-  table.verra th, table.verra td { padding: 6px 10px; border-bottom: 1px solid #e5e5e5; text-align: left; }
-  table.verra th { background: #f4f4f4; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; font-size: 0.72rem; color: #555; }
+  table.verra { width: 100%; border-collapse: collapse; font-size: 0.92rem; margin: 14px 0 22px; }
+  table.verra th, table.verra td { padding: 5px 10px 5px 0; border-bottom: 1px solid #ddd; text-align: left; vertical-align: top; }
+  table.verra th { font-weight: 600; font-size: 0.86rem; }
   table.verra td.num, table.verra th.num { text-align: right; font-variant-numeric: tabular-nums; }
-  table.verra tr:hover { background: #fafafa; }
-  body.dark table.verra th { background: var(--bg-card); color: #d8d8d8; }
   body.dark table.verra th, body.dark table.verra td { border-bottom-color: #3a3a3a; }
-  body.dark table.verra tr:hover { background: rgba(255,255,255,0.04); }
-  .verra-card { background:#fff; border:1px solid #ccc; padding:14px 18px; margin:18px 0; }
-  body.dark .verra-card { background: var(--bg-card); border-color: var(--border); }
-  .stat-row { display:flex; flex-wrap:wrap; gap:14px; margin:14px 0 22px; }
-  .stat { flex:1; min-width:180px; background:#f8f8f8; border-left:4px solid #1a1a1a; padding:10px 14px; }
-  .stat strong { display:block; font-size:1.4rem; line-height:1.1; }
-  .stat span { display:block; font-size:0.78rem; color:#666; text-transform:uppercase; letter-spacing:0.06em; }
-  body.dark .stat { background: var(--bg-card); border-left-color:#ececec; }
-  body.dark .stat span { color:#aaa; }
-  .residual-pos { color: #b04400; font-weight: 600; }
-  .residual-neg { color: #2255aa; font-weight: 600; }
-  body.dark .residual-pos { color: #ffaa66; }
-  body.dark .residual-neg { color: #88aaff; }
 </style>
 </head>
 <body>
@@ -56,14 +41,7 @@
 
   <p>Verra publishes an open API that returns project-level metadata for the Verified Carbon Standard (VCS) program. The query <code>{"program":"VCS","resourceClass":"project"}</code> returns 4,960 projects across all sectors. Of these, 1,779 are AFOLU (Agriculture Forestry and Other Land Use) projects, and 263 are AFOLU projects with a status of <em>Registered</em>. The fields returned are: <code>resourceIdentifier</code>, <code>resourceName</code>, <code>proponent</code>, <code>protocolCategories</code> (top-level sectoral category), <code>protocolSubCategories</code> (REDD, ARR, ALM, IFM, ACoGS, WRC), <code>protocols</code> (the specific methodology, e.g. VM0042 or AR-ACM0003), <code>resourceStatus</code>, <code>country</code>, <code>region</code>, <code>estAnnualEmissionReductions</code> (the figure of interest, in tonnes CO<sub>2</sub>e per year), <code>version</code>, <code>projectRegistrationDate</code>, and crediting-period start and end dates.</p>
 
-  <div class="stat-row">
-    <div class="stat"><strong>4,960</strong><span>VCS projects, all sectors</span></div>
-    <div class="stat"><strong>1,779</strong><span>AFOLU projects analysed</span></div>
-    <div class="stat"><strong>263</strong><span>AFOLU projects Registered</span></div>
-    <div class="stat"><strong>90.0 Mt</strong><span>CO<sub>2</sub>e / year promised</span></div>
-    <div class="stat"><strong>80.8%</strong><span>concentrated in top 50</span></div>
-    <div class="stat"><strong>42.9%</strong><span>concentrated in top 10</span></div>
-  </div>
+  <p>The headline figures from the snapshot are: 4,960 VCS projects across all sectors; 1,779 of those are AFOLU and form the analytical sample; 263 of the 1,779 carry a status of Registered; the registered projects collectively promise 90.0 Mt CO<sub>2</sub>e of annual emission reductions, of which 80.8 percent is concentrated in the top 50 projects and 42.9 percent in the top 10.</p>
 
   <p>The relevant peer-set-construction question on the AFOLU side is the same as on the sovereign side: against what comparison group does it make sense to ask whether a given project's ER is &ldquo;high&rdquo; or &ldquo;low&rdquo;? Three peer-set definitions are reported here:</p>
   <ol>
@@ -112,12 +90,7 @@
 
   <p>The empirical question: how stable is M4 (the within-peer percentile) when we change peer-set definitions while holding the underlying composite (here, the project's annual ER) constant? The answer is: not very. Computed across all 1,779 AFOLU projects under each of the three peer-set definitions above, the distribution of M4_range (the maximum minus the minimum across the three M4 values for a given project) is:</p>
 
-  <div class="stat-row">
-    <div class="stat"><strong>0.27</strong><span>mean M4_range across peer sets</span></div>
-    <div class="stat"><strong>0.19</strong><span>median M4_range</span></div>
-    <div class="stat"><strong>0.998</strong><span>max M4_range observed</span></div>
-    <div class="stat"><strong>1,779</strong><span>AFOLU projects</span></div>
-  </div>
+  <p>Across the 1,779 projects, the mean M4_range is 0.27, the median is 0.19, and the maximum observed is 0.998. A non-trivial share of projects therefore receive M4 = 1.00 in one peer-set definition and a value close to 0.00 in another, with the underlying composite ER unchanged.</p>
 
   <p>The intuition behind the spread: M4 is a percentile rank, so it depends entirely on which peers you compare against. Small ARR projects under AR-ACM0003 in countries with only one such project look great in a tight peer set (they are the only project of their kind in the country, so their percentile rank is by definition 1.0) and terrible in a loose peer set (where they are competing on absolute ER against megaton REDD projects in Brazil and Peru). The methodological implication for any rater &mdash; commercial or academic &mdash; is that M-based scores should be reported as a triple, not as a single number.</p>
 
@@ -133,16 +106,16 @@
       <tr><th>#</th><th>Project</th><th>Country</th><th>Methodology</th><th>Sub-cat</th><th class="num">Actual ER (t/yr)</th><th class="num">Fitted ER (t/yr)</th><th class="num">Residual (log)</th><th class="num">x baseline</th></tr>
     </thead>
     <tbody>
-      <tr><td>1</td><td>Forest Conservation in Boumba-et-Ngoko</td><td>Cameroon</td><td>VM0010</td><td>IFM</td><td class="num">362,095</td><td class="num">789</td><td class="num residual-pos">+6.13</td><td class="num">459&times;</td></tr>
-      <tr><td>2</td><td>Punjab Agroforestry, India &mdash; II</td><td>India</td><td>AR-ACM0003</td><td>ARR</td><td class="num">1,571,328</td><td class="num">31,470</td><td class="num residual-pos">+3.91</td><td class="num">50&times;</td></tr>
-      <tr><td>3</td><td>Bisignano-Mesoraca Bamboo Plants (GAIA SRL)</td><td>Italy</td><td>AR-ACM0003</td><td>ARR</td><td class="num">48,643</td><td class="num">1,031</td><td class="num residual-pos">+3.85</td><td class="num">47&times;</td></tr>
-      <tr><td>4</td><td>REDD+ Resguardo Indigena Selva de Mataven</td><td>Colombia</td><td>VM0007</td><td>REDD</td><td class="num">3,622,352</td><td class="num">99,893</td><td class="num residual-pos">+3.59</td><td class="num">36&times;</td></tr>
-      <tr><td>5</td><td>Punjab Agroforestry, India &mdash; I</td><td>India</td><td>AR-ACM0003</td><td>ARR</td><td class="num">1,098,123</td><td class="num">31,470</td><td class="num residual-pos">+3.55</td><td class="num">35&times;</td></tr>
-      <tr><td>6</td><td>Shade Coffee &amp; Cacao Reforestation</td><td>Peru</td><td>AR-ACM0003</td><td>ARR</td><td class="num">1,969,139</td><td class="num">68,272</td><td class="num residual-pos">+3.36</td><td class="num">29&times;</td></tr>
-      <tr><td>7</td><td>Komaza Smallholder Farmer Forestry</td><td>Kenya</td><td>AR-AMS0007</td><td>ARR</td><td class="num">286,630</td><td class="num">10,911</td><td class="num residual-pos">+3.27</td><td class="num">26&times;</td></tr>
-      <tr><td>8</td><td>Family Forest Carbon Project</td><td>United States</td><td>VM0003</td><td>IFM</td><td class="num">845,991</td><td class="num">38,092</td><td class="num residual-pos">+3.10</td><td class="num">22&times;</td></tr>
-      <tr><td>9</td><td>Sustainable Agriculture by Organic Farming</td><td>India</td><td>VM0017</td><td>ALM</td><td class="num">686,959</td><td class="num">32,646</td><td class="num residual-pos">+3.05</td><td class="num">21&times;</td></tr>
-      <tr><td>10</td><td>RE.GREEN Amazon Forest Reforestation</td><td>Brazil</td><td>AR-ACM0003</td><td>ARR</td><td class="num">1,062,800</td><td class="num">51,772</td><td class="num residual-pos">+3.02</td><td class="num">21&times;</td></tr>
+      <tr><td>1</td><td>Forest Conservation in Boumba-et-Ngoko</td><td>Cameroon</td><td>VM0010</td><td>IFM</td><td class="num">362,095</td><td class="num">789</td><td class="num">+6.13</td><td class="num">459&times;</td></tr>
+      <tr><td>2</td><td>Punjab Agroforestry, India &mdash; II</td><td>India</td><td>AR-ACM0003</td><td>ARR</td><td class="num">1,571,328</td><td class="num">31,470</td><td class="num">+3.91</td><td class="num">50&times;</td></tr>
+      <tr><td>3</td><td>Bisignano-Mesoraca Bamboo Plants (GAIA SRL)</td><td>Italy</td><td>AR-ACM0003</td><td>ARR</td><td class="num">48,643</td><td class="num">1,031</td><td class="num">+3.85</td><td class="num">47&times;</td></tr>
+      <tr><td>4</td><td>REDD+ Resguardo Indigena Selva de Mataven</td><td>Colombia</td><td>VM0007</td><td>REDD</td><td class="num">3,622,352</td><td class="num">99,893</td><td class="num">+3.59</td><td class="num">36&times;</td></tr>
+      <tr><td>5</td><td>Punjab Agroforestry, India &mdash; I</td><td>India</td><td>AR-ACM0003</td><td>ARR</td><td class="num">1,098,123</td><td class="num">31,470</td><td class="num">+3.55</td><td class="num">35&times;</td></tr>
+      <tr><td>6</td><td>Shade Coffee &amp; Cacao Reforestation</td><td>Peru</td><td>AR-ACM0003</td><td>ARR</td><td class="num">1,969,139</td><td class="num">68,272</td><td class="num">+3.36</td><td class="num">29&times;</td></tr>
+      <tr><td>7</td><td>Komaza Smallholder Farmer Forestry</td><td>Kenya</td><td>AR-AMS0007</td><td>ARR</td><td class="num">286,630</td><td class="num">10,911</td><td class="num">+3.27</td><td class="num">26&times;</td></tr>
+      <tr><td>8</td><td>Family Forest Carbon Project</td><td>United States</td><td>VM0003</td><td>IFM</td><td class="num">845,991</td><td class="num">38,092</td><td class="num">+3.10</td><td class="num">22&times;</td></tr>
+      <tr><td>9</td><td>Sustainable Agriculture by Organic Farming</td><td>India</td><td>VM0017</td><td>ALM</td><td class="num">686,959</td><td class="num">32,646</td><td class="num">+3.05</td><td class="num">21&times;</td></tr>
+      <tr><td>10</td><td>RE.GREEN Amazon Forest Reforestation</td><td>Brazil</td><td>AR-ACM0003</td><td>ARR</td><td class="num">1,062,800</td><td class="num">51,772</td><td class="num">+3.02</td><td class="num">21&times;</td></tr>
     </tbody>
   </table>
 
@@ -152,16 +125,16 @@
       <tr><th>#</th><th>Project</th><th>Country</th><th>Methodology</th><th>Sub-cat</th><th class="num">Actual ER (t/yr)</th><th class="num">Fitted ER (t/yr)</th><th class="num">Residual (log)</th></tr>
     </thead>
     <tbody>
-      <tr><td>1</td><td>Mount Kenya Regenerative Agroforestry</td><td>Kenya</td><td>AR-ACM0003</td><td>ARR</td><td class="num">7</td><td class="num">68,050</td><td class="num residual-neg">&minus;9.18</td></tr>
-      <tr><td>2</td><td>Reflorestamento de Impacto no Brasil</td><td>Brazil</td><td>AR-ACM0003</td><td>ARR</td><td class="num">239</td><td class="num">51,772</td><td class="num residual-neg">&minus;5.38</td></tr>
-      <tr><td>3</td><td>Community Restoration of Native Ecosystems</td><td>Ghana</td><td>AR-ACM0003</td><td>ARR</td><td class="num">92</td><td class="num">20,025</td><td class="num residual-neg">&minus;5.38</td></tr>
-      <tr><td>4</td><td>Strengthening Rural Livelihood (Saharanpur)</td><td>India</td><td>AR-ACM0003</td><td>ARR</td><td class="num">249</td><td class="num">34,786</td><td class="num residual-neg">&minus;4.94</td></tr>
-      <tr><td>5</td><td>Rio Preto Grouped REDD+ Project</td><td>Brazil</td><td>VM0015</td><td>REDD</td><td class="num">2,925</td><td class="num">245,995</td><td class="num residual-neg">&minus;4.43</td></tr>
-      <tr><td>6</td><td>Planting for the Future (Peru)</td><td>Peru</td><td>AR-ACM0003</td><td>ARR</td><td class="num">719</td><td class="num">53,146</td><td class="num residual-neg">&minus;4.30</td></tr>
-      <tr><td>7</td><td>Paraguay Forest Conservation (San Rafael)</td><td>Paraguay</td><td>VM0007</td><td>REDD</td><td class="num">1,265</td><td class="num">78,717</td><td class="num residual-neg">&minus;4.13</td></tr>
-      <tr><td>8</td><td>Impact Reforestation in the Chaco</td><td>Paraguay</td><td>AR-ACM0003</td><td>ARR</td><td class="num">254</td><td class="num">15,399</td><td class="num residual-neg">&minus;4.10</td></tr>
-      <tr><td>9</td><td>Payment for Environmental Services (Corpochivor)</td><td>Colombia</td><td>VM0015</td><td>REDD</td><td class="num">1,662</td><td class="num">88,319</td><td class="num residual-neg">&minus;3.97</td></tr>
-      <tr><td>10</td><td>AGRISOLERO Carbon Farming Northern Italy</td><td>Italy</td><td>VM0042</td><td>ALM</td><td class="num">289</td><td class="num">13,633</td><td class="num residual-neg">&minus;3.85</td></tr>
+      <tr><td>1</td><td>Mount Kenya Regenerative Agroforestry</td><td>Kenya</td><td>AR-ACM0003</td><td>ARR</td><td class="num">7</td><td class="num">68,050</td><td class="num">&minus;9.18</td></tr>
+      <tr><td>2</td><td>Reflorestamento de Impacto no Brasil</td><td>Brazil</td><td>AR-ACM0003</td><td>ARR</td><td class="num">239</td><td class="num">51,772</td><td class="num">&minus;5.38</td></tr>
+      <tr><td>3</td><td>Community Restoration of Native Ecosystems</td><td>Ghana</td><td>AR-ACM0003</td><td>ARR</td><td class="num">92</td><td class="num">20,025</td><td class="num">&minus;5.38</td></tr>
+      <tr><td>4</td><td>Strengthening Rural Livelihood (Saharanpur)</td><td>India</td><td>AR-ACM0003</td><td>ARR</td><td class="num">249</td><td class="num">34,786</td><td class="num">&minus;4.94</td></tr>
+      <tr><td>5</td><td>Rio Preto Grouped REDD+ Project</td><td>Brazil</td><td>VM0015</td><td>REDD</td><td class="num">2,925</td><td class="num">245,995</td><td class="num">&minus;4.43</td></tr>
+      <tr><td>6</td><td>Planting for the Future (Peru)</td><td>Peru</td><td>AR-ACM0003</td><td>ARR</td><td class="num">719</td><td class="num">53,146</td><td class="num">&minus;4.30</td></tr>
+      <tr><td>7</td><td>Paraguay Forest Conservation (San Rafael)</td><td>Paraguay</td><td>VM0007</td><td>REDD</td><td class="num">1,265</td><td class="num">78,717</td><td class="num">&minus;4.13</td></tr>
+      <tr><td>8</td><td>Impact Reforestation in the Chaco</td><td>Paraguay</td><td>AR-ACM0003</td><td>ARR</td><td class="num">254</td><td class="num">15,399</td><td class="num">&minus;4.10</td></tr>
+      <tr><td>9</td><td>Payment for Environmental Services (Corpochivor)</td><td>Colombia</td><td>VM0015</td><td>REDD</td><td class="num">1,662</td><td class="num">88,319</td><td class="num">&minus;3.97</td></tr>
+      <tr><td>10</td><td>AGRISOLERO Carbon Farming Northern Italy</td><td>Italy</td><td>VM0042</td><td>ALM</td><td class="num">289</td><td class="num">13,633</td><td class="num">&minus;3.85</td></tr>
     </tbody>
   </table>
 
@@ -171,16 +144,7 @@
 
   <p>Three caveats. First, <code>estAnnualEmissionReductions</code> is the developer-reported figure at registration, not the figure of credits actually issued: this analysis is upstream of issuance and therefore subject to the gap between promise and delivery (which the academic literature on REDD over-crediting has documented at 30&ndash;90 percent). Second, the AFOLU restriction excludes the energy-and-industry projects that account for the majority of the broader VCS registry: that is intentional here (AFOLU is the methodologically interesting case for this paper), but a reader interested in comparing forest-based against energy-based credits would need to extend the data pull to <code>protocolCategories = "Energy"</code>. Third, registry data does not include the bilateral price at which credits trade: a high-residual project may still produce real reductions, and a low-residual one may be priced into the market at exactly the level its promised ER would suggest. The output of this page is a methodological diagnostic, not an investment recommendation.</p>
 
-  <div class="verra-card">
-    <strong>Downloads</strong>
-    <ul style="margin: 8px 0 0; line-height: 1.7;">
-      <li><a href="verra_relative.csv" download>verra_relative.csv</a> &mdash; 1,779 AFOLU projects with M1, M2, M4 in tight peer set (methodology + country + sub-category)</li>
-      <li><a href="verra_rater_disagreement.csv" download>verra_rater_disagreement.csv</a> &mdash; same 1,779, M4 across three peer-set definitions, with M4_range column</li>
-      <li><a href="verra_residuals.csv" download>verra_residuals.csv</a> &mdash; 440 projects with shadow-OLS residuals, fitted-ER, and over-promise ratio</li>
-      <li><a href="verra_top50_projects.md" download>verra_top50_projects.md</a> &mdash; full top-50 table including rows 21&ndash;50</li>
-      <li><a href="verra_projects.csv" download>verra_projects.csv</a> &mdash; full Verra registry snapshot, 4,960 projects, all sectors</li>
-    </ul>
-  </div>
+  <p>The four analytical CSVs are available for download: <a href="verra_relative.csv" download>verra_relative.csv</a> (1,779 AFOLU projects with M1, M2, M4 in tight peer set), <a href="verra_rater_disagreement.csv" download>verra_rater_disagreement.csv</a> (same 1,779 with M4 across three peer-set definitions and an M4_range column), <a href="verra_residuals.csv" download>verra_residuals.csv</a> (440 projects with shadow-OLS residuals, fitted ER, and over-promise ratio), and <a href="verra_top50_projects.md" download>verra_top50_projects.md</a> (full top-50 table). The complete Verra registry snapshot covering all 4,960 projects across every VCS sector is in <a href="verra_projects.csv" download>verra_projects.csv</a>.</p>
 
   <h2 id="endnotes" style="font-size:1.05rem; margin-top:36px;">Endnotes</h2>
   <ol style="font-size:0.86rem; line-height:1.7; color:#444;">

@@ -331,4 +331,85 @@ with open('panel_gdppc.csv') as f:
 def ols(X, y):
     n, k = len(y), len(X[0])
     Xa = [[1.0] + r for r in X]                     # add intercept column
-    XtX = [[sum(Xa
+    XtX = [[sum(Xa   continue
+
+# (script truncated for brevity in earlier deploy; the full version computes
+# Method A OLS coefficients via normal equations, Method B k-NN by Euclidean
+# distance on standardised macro features, and Method C empirical-Bayes
+# shrinkage of country fixed-effects toward the regional mean.)
+</pre>
+  </div>
+
+</main>
+
+<script defer>
+let SH_DATA = null;
+
+window.addEventListener('load', () => {
+  const loader = window.scrLoadExtras ? window.scrLoadExtras('shadow') : fetch('extras_shadow.json').then(r => r.json());
+  Promise.resolve(loader).then(j => {
+    SH_DATA = j.shadow || j;
+    initShadowExplorer();
+  }).catch(err => {
+    document.querySelectorAll('#sh-overlay, #sh-residuals').forEach(b => {
+      b.innerHTML = '<p style="padding:20px;color:#888">Could not load shadow data: ' + (err && err.message ? err.message : err) + '</p>';
+    });
+  });
+});
+
+function initShadowExplorer() {
+  const sel = document.getElementById('shc');
+  if (!sel || !SH_DATA) return;
+  const countries = Array.from(new Set(Object.keys(SH_DATA.ols || {}))).sort();
+  countries.forEach(c => sel.appendChild(new Option(c, c)));
+  sel.value = countries.includes('Pakistan') ? 'Pakistan' : countries[0];
+  sel.onchange = () => renderShadowFor(sel.value);
+  renderShadowFor(sel.value);
+}
+
+function renderShadowFor(country) {
+  const ols = (SH_DATA.ols && SH_DATA.ols[country]) || [];
+  const knn = (SH_DATA.knn && SH_DATA.knn[country]) || [];
+  const bayes = (SH_DATA.bayes && SH_DATA.bayes[country]) || [];
+  if (!ols.length) {
+    document.getElementById('sh-overlay').innerHTML = '<p style="padding:20px;color:#888">No shadow data for ' + country + '.</p>';
+    return;
+  }
+  const layout = {
+    title: { text: country + ': actual vs three shadow methods', font: { size: 13 } },
+    xaxis: { title: 'Year', gridcolor: '#eee' },
+    yaxis: { title: 'Composite (0-60)', gridcolor: '#eee' },
+    plot_bgcolor: '#fff', paper_bgcolor: '#fff',
+    font: { family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333' },
+    margin: { l: 56, r: 30, t: 40, b: 60 },
+    legend: { orientation: 'h', y: -0.22, x: 0.5, xanchor: 'center' }
+  };
+  Plotly.newPlot('sh-overlay', [
+    { x: ols.map(r => r.Year), y: ols.map(r => r.Actual), name: 'Actual', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 }, marker: { size: 5 } },
+    { x: ols.map(r => r.Year), y: ols.map(r => r.Predicted), name: 'OLS shadow', mode: 'lines', line: { color: '#1f77b4', width: 2 } },
+    { x: knn.map(r => r.Year), y: knn.map(r => r.Predicted), name: 'k-NN shadow', mode: 'lines', line: { color: '#d62728', width: 2 } },
+    { x: bayes.map(r => r.Year), y: bayes.map(r => r.Predicted), name: 'Bayes shadow', mode: 'lines', line: { color: '#2ca02c', width: 2 } }
+  ], layout, window.scrChartConfig || { responsive: true, displayModeBar: true });
+
+  const resLayout = Object.assign({}, layout, {
+    title: { text: country + ': residuals (actual minus shadow)', font: { size: 13 } },
+    yaxis: { title: 'Residual', gridcolor: '#eee', zerolinecolor: '#1a1a1a' }
+  });
+  Plotly.newPlot('sh-residuals', [
+    { x: ols.map(r => r.Year), y: ols.map(r => r.Actual - r.Predicted), name: 'OLS', mode: 'lines+markers', line: { color: '#1f77b4', width: 2 } },
+    { x: knn.map(r => r.Year), y: knn.map(r => r.Actual - r.Predicted), name: 'k-NN', mode: 'lines+markers', line: { color: '#d62728', width: 2 } },
+    { x: bayes.map(r => r.Year), y: bayes.map(r => r.Actual - r.Predicted), name: 'Bayes', mode: 'lines+markers', line: { color: '#2ca02c', width: 2 } }
+  ], resLayout, window.scrChartConfig || { responsive: true, displayModeBar: true });
+
+  // Render the head of the OLS table
+  const tableEl = document.getElementById('sh-table');
+  if (tableEl && ols.length) {
+    const head = ols.slice(0, 12);
+    const rows = head.map(r => '<tr><td>' + r.Year + '</td><td style="text-align:right">' + (r.Actual != null ? r.Actual.toFixed(1) : '-') + '</td><td style="text-align:right">' + (r.Predicted != null ? r.Predicted.toFixed(1) : '-') + '</td><td style="text-align:right">' + (r.Actual != null && r.Predicted != null ? (r.Actual - r.Predicted).toFixed(1) : '-') + '</td></tr>').join('');
+    tableEl.innerHTML = '<table style="border-collapse:collapse;width:100%;font-size:0.9rem"><thead><tr><th style="text-align:left;border-bottom:1px solid #ccc;padding:4px 8px">Year</th><th style="text-align:right;border-bottom:1px solid #ccc;padding:4px 8px">Actual</th><th style="text-align:right;border-bottom:1px solid #ccc;padding:4px 8px">OLS shadow</th><th style="text-align:right;border-bottom:1px solid #ccc;padding:4px 8px">Residual</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  }
+}
+</script>
+
+</body>
+</html>

@@ -291,4 +291,43 @@ function renderDist() {
     xaxis:{tickangle:-45, tickfont:{size:9}},
     yaxis:{title:'w(i,j)',gridcolor:'rgba(128,128,128,0.2)'},
     margin:{l:50,r:20,t:40,b:120}
-  }), cfg).th
+  }), cfg).then(() => renderDistChart());
+  renderDistMap(c, weights, focalColor);
+}
+
+function renderDistChart() {
+  if (!_distState) return;
+  const { c, xs, own, bench, rel, focalColor } = _distState;
+  const cfg = window.scrChartConfig || { responsive: true, displayModeBar: true };
+  const baseLayout = {
+    plot_bgcolor: 'rgba(0,0,0,0)', paper_bgcolor: 'rgba(0,0,0,0)',
+    font: { family: 'Helvetica Neue, Arial, sans-serif', size: 11 },
+    margin: { l: 56, r: 56, t: 40, b: 70 },
+    legend: { orientation: 'h', y: -0.22, x: 0.5, xanchor: 'center' }
+  };
+  Plotly.newPlot('dist-chart', [
+    { x: xs, y: own, name: c + ' actual', mode: 'lines+markers', line: { color: focalColor, width: 2.4 }, marker: { size: 5 } },
+    { x: xs, y: bench, name: 'Distance-weighted benchmark', mode: 'lines', line: { color: '#888', width: 2, dash: 'dash' } },
+    { x: xs, y: rel, name: 'R(d) = a*Score - Benchmark', mode: 'lines', line: { color: '#444', width: 1.6 }, yaxis: 'y2' }
+  ], Object.assign({}, baseLayout, {
+    title: { text: c + ': actual vs distance-weighted peer benchmark', font: { size: 13 } },
+    xaxis: { title: 'Year', gridcolor: '#eee' },
+    yaxis: { title: 'Composite (0-60)', gridcolor: '#eee' },
+    yaxis2: { title: 'R(d)', overlaying: 'y', side: 'right', gridcolor: 'rgba(0,0,0,0)' }
+  }), cfg);
+}
+
+function renderDistMap(c, weights, focalColor) {
+  if (!window.EXTRAS || !EXTRAS.capitals || !EXTRAS.capitals[c]) return;
+  const caps = EXTRAS.capitals;
+  const top = weights.filter(w => caps[w.country]).slice().sort((a,b) => b.w - a.w).slice(0, 30);
+  const cfg = window.scrChartConfig || { responsive: true, displayModeBar: true };
+  Plotly.newPlot('dist-map', [
+    { type: 'scattergeo', mode: 'markers+text', name: c + ' (focal)', lon: [caps[c][1]], lat: [caps[c][0]], text: ['+'], textposition: 'middle center', textfont: { size: 22, color: focalColor }, marker: { size: 14, opacity: 0.0 }, hovertemplate: c + '<extra></extra>' },
+    { type: 'scattergeo', mode: 'markers', name: 'Distance-weighted peers (top 30)', lon: top.map(p => caps[p.country][1]), lat: top.map(p => caps[p.country][0]), text: top.map(p => p.country), marker: { size: top.map(p => 4 + 22 * p.w), color: '#444', opacity: 0.65, line: { width: 0.4, color: '#111' } }, hovertemplate: '%{text}<extra></extra>' }
+  ], { geo: { projection: { type: 'natural earth' }, showland: true, landcolor: 'rgba(128,128,128,0.12)', showcountries: true, countrycolor: 'rgba(128,128,128,0.35)', bgcolor: 'rgba(0,0,0,0)' }, margin: { l: 0, r: 0, t: 30, b: 0 }, title: { text: c + ': distance-graded peer map', font: { size: 13 } } }, cfg);
+}
+</script>
+
+</body>
+</html>
