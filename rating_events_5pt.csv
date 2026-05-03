@@ -1,0 +1,124 @@
+Country,ISO3,Year,prev_score,CompositeScore,delta
+Argentina,ARG,2001,22.5,1.5,-21.0
+Uruguay,URY,2004,33.0,15.0,-18.0
+Cyprus,CYP,2013,46.5,30.0,-16.5
+Spain,ESP,2013,54.0,38.0,-16.0
+Iceland,ISL,2009,48.0,33.0,-15.0
+Paraguay,PRY,2003,21.0,6.0,-15.0
+Barbados,BRB,2018,18.0,3.0,-15.0
+Argentina,ARG,2019,18.0,3.0,-15.0
+Portugal,PRT,2013,43.0,28.0,-15.0
+Ghana,GHA,2022,15.0,1.5,-13.5
+Greece,GRC,2012,36.0,22.5,-13.5
+Belize,BLZ,2012,15.0,1.5,-13.5
+Cyprus,CYP,2014,30.0,17.0,-13.0
+Greece,GRC,2013,22.5,10.5,-12.0
+Gabon,GAB,2018,24.0,12.0,-12.0
+Ecuador,ECU,2008,13.5,1.5,-12.0
+Bahrain,BHR,2018,31.5,19.5,-12.0
+Latvia,LVA,2010,43.5,31.5,-12.0
+Tunisia,TUN,2015,36.0,24.0,-12.0
+Slovenia,SVN,2014,48.0,36.0,-12.0
+Ethiopia,ETH,2023,15.0,3.0,-12.0
+Argentina,ARG,2014,16.0,4.0,-12.0
+Italy,ITA,2014,50.0,39.0,-11.0
+Zambia,ZMB,2020,12.0,1.5,-10.5
+Belize,BLZ,2006,13.5,3.0,-10.5
+Belize,BLZ,2005,24.0,13.5,-10.5
+El Salvador,SLV,2017,22.5,12.0,-10.5
+Barbados,BRB,2016,31.5,21.0,-10.5
+Venezuela,VEN,2017,13.5,3.0,-10.5
+Egypt,EGY,2014,22.5,13.5,-9.0
+Greece,GRC,2010,45.0,36.0,-9.0
+Andorra,AND,2014,48.0,39.0,-9.0
+Moldova,MDA,2002,12.0,3.0,-9.0
+Laos,LAO,2022,15.0,6.0,-9.0
+Oman,OMN,2020,33.0,24.0,-9.0
+Oman,OMN,2016,45.0,36.0,-9.0
+Sri Lanka,LKA,2022,10.5,1.5,-9.0
+Suriname,SUR,2020,18.0,9.0,-9.0
+Cameroon,CMR,2004,18.0,9.0,-9.0
+Belarus,BLR,2022,16.5,7.5,-9.0
+Ireland,IRL,2013,45.0,37.0,-8.0
+Egypt,EGY,2013,30.0,22.5,-7.5
+Hungary,HUN,2014,36.0,28.5,-7.5
+Lithuania,LTU,2010,45.0,37.5,-7.5
+Trinidad and Tobago,TTO,2017,42.0,34.5,-7.5
+Pakistan,PAK,2008,21.0,13.5,-7.5
+Mozambique,MOZ,2017,13.5,6.0,-7.5
+Ireland,IRL,2011,56.0,49.0,-7.0
+Belarus,BLR,2023,7.5,1.0,-6.5
+Costa Rica,CRI,2020,28.5,22.5,-6.0
+Greece,GRC,2015,16.0,10.0,-6.0
+Iceland,ISL,2008,54.0,48.0,-6.0
+Cuba,CUB,2021,9.0,3.0,-6.0
+Dominican Republic,DOM,2003,27.0,21.0,-6.0
+Bolivia,BOL,2003,21.0,15.0,-6.0
+Burkina Faso,BFA,2022,18.0,12.0,-6.0
+Belize,BLZ,2020,15.0,9.0,-6.0
+Bahamas,BHS,2022,27.0,21.0,-6.0
+Andorra,AND,2016,39.0,33.0,-6.0
+Armenia,ARM,2016,27.0,21.0,-6.0
+Dominican Republic,DOM,2005,21.0,15.0,-6.0
+Bahrain,BHR,2016,39.0,33.0,-6.0
+Angola,AGO,2017,22.5,16.5,-6.0
+Andorra,AND,2009,54.0,48.0,-6.0
+Ukraine,UKR,2024,7.5,1.5,-6.0
+Sri Lanka,LKA,2020,18.0,12.0,-6.0
+South Africa,ZAF,2014,40.5,34.5,-6.0
+Venezuela,VEN,2015,19.5,13.5,-6.0
+Tunisia,TUN,2022,18.0,12.0,-6.0
+Saudi Arabia,SAU,2016,51.0,45.0,-6.0
+Tunisia,TUN,2018,24.0,18.0,-6.0
+Philippines,PHL,2005,28.5,22.5,-6.0
+Niger,NER,2023,15.0,9.0,-6.0
+Mongolia,MNG,2016,19.5,13.5,-6.0
+Republic of the Congo,COG,2018,18.0,12.0,-6.0
+Nicaragua,NIC,2003,18.0,12.0,-6.0
+Mauritius,MUS,2022,39.0,33.0,-6.0
+Malta,MLT,2013,46.5,40.5,-6.0
+Maldives,MDV,2021,18.0,12.0,-6.0
+Jamaica,JAM,2013,15.0,9.0,-6.0
+Mozambique,MOZ,2016,19.5,13.5,-6.0
+Ukraine,UKR,2022,16.5,10.5,-6.0
+Brazil,BRA,2018,31.0,25.0,-6.0
+Portugal,PRT,2012,48.0,43.0,-5.0
+Turkey,TUR,2022,27.0,22.0,-5.0
+Peru,PER,2014,35.0,40.0,5.0
+Argentina,ARG,2020,3.0,8.0,5.0
+Cyprus,CYP,2017,20.0,25.0,5.0
+Turkey,TUR,2013,27.0,32.0,5.0
+Ireland,IRL,2014,37.0,42.0,5.0
+Slovenia,SVN,2017,39.0,44.0,5.0
+Greece,GRC,2014,10.5,16.0,5.5
+Cyprus,CYP,2018,25.0,31.0,6.0
+Croatia,HRV,2022,31.5,37.5,6.0
+Dominican Republic,DOM,2001,21.0,27.0,6.0
+Costa Rica,CRI,2025,21.0,27.0,6.0
+Russia,RUS,2001,16.5,22.5,6.0
+Uruguay,URY,2006,15.0,21.0,6.0
+Zambia,ZMB,2025,4.5,10.5,6.0
+Qatar,QAT,2003,39.0,45.0,6.0
+Sri Lanka,LKA,2025,6.0,12.0,6.0
+Lithuania,LTU,2002,31.5,37.5,6.0
+Kazakhstan,KAZ,2002,24.0,30.0,6.0
+Latvia,LVA,2002,36.0,42.0,6.0
+Latvia,LVA,2013,33.0,39.0,6.0
+Bulgaria,BGR,2004,25.5,31.5,6.0
+Cameroon,CMR,2006,9.0,15.0,6.0
+Ecuador,ECU,2009,1.5,9.0,7.5
+Bahrain,BHR,2002,30.0,37.5,7.5
+Saudi Arabia,SAU,2003,33.0,40.5,7.5
+Paraguay,PRY,2004,6.0,13.5,7.5
+Greece,GRC,2003,40.5,48.0,7.5
+Slovakia,SVK,2005,36.0,43.5,7.5
+Romania,ROU,2004,19.5,27.0,7.5
+Macau,MAC,2003,39.0,48.0,9.0
+Moldova,MDA,2003,3.0,12.0,9.0
+Argentina,ARG,2005,6.0,15.0,9.0
+Greece,GRC,2019,13.0,22.0,9.0
+Belize,BLZ,2013,1.5,12.0,10.5
+Barbados,BRB,2019,3.0,13.5,10.5
+Ghana,GHA,2025,1.5,13.5,12.0
+Belize,BLZ,2007,3.0,15.0,12.0
+Argentina,ARG,2016,4.0,16.0,12.0
