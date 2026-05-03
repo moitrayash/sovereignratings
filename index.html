@@ -378,31 +378,31 @@
 
     <div class="section-title" id="output-title">Charts</div>
 
-    <!-- Mode A layout: 1 full-width absolute + 2×2 relative grid + 1 full-width shadow -->
+    <!-- Mode A layout: combined 3-line headline + relative breakdown + shadow detail -->
     <div id="charts-a">
-      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Absolute composite score</div>
+      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Headline: absolute · relative · shadow on one plot</div>
       <div class="chart-wrap full" style="margin-bottom:20px"><div id="chart-a1"></div></div>
-      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Relative methods M1–M4</div>
+      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Relative — M1, M2, ΔM1, M4 detail</div>
       <div class="charts-grid-2">
         <div class="chart-wrap"><div id="chart-a2"></div></div>
         <div class="chart-wrap"><div id="chart-a3"></div></div>
         <div class="chart-wrap"><div id="chart-a4"></div></div>
         <div class="chart-wrap"><div id="chart-a5"></div></div>
       </div>
-      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:18px 2px 4px;">Shadow ratings (OLS / k-NN / Bayes)</div>
+      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:18px 2px 4px;">Shadow — three model variants (OLS · k-NN · Bayes)</div>
       <div class="chart-wrap full" style="margin-bottom:20px"><div id="chart-a6"></div></div>
     </div>
 
-    <!-- Mode B layout: 1 full-width absolute + 2-up relative + 1 full-width shadow -->
+    <!-- Mode B layout: combined 3-line per-country headline + relative breakdown + shadow detail -->
     <div id="charts-b" style="display:none">
-      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Absolute composite score</div>
+      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Headline: per-country absolute · relative · shadow on one plot</div>
       <div class="chart-wrap full" style="margin-bottom:20px"><div id="chart-b1"></div></div>
-      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Relative methods M1 + M4</div>
+      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Relative — M1 + M4 detail</div>
       <div class="charts-grid-2">
         <div class="chart-wrap"><div id="chart-b2"></div></div>
         <div class="chart-wrap"><div id="chart-b3"></div></div>
       </div>
-      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:18px 2px 4px;">Shadow ratings (multi-country, Method C — OLS)</div>
+      <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:18px 2px 4px;">Shadow — multi-country actual vs OLS prediction</div>
       <div class="chart-wrap full" style="margin-bottom:20px"><div id="chart-b4"></div></div>
     </div>
 
@@ -655,16 +655,51 @@ function renderModeA() {
   const colorM2  = PALETTE[2];
   const colorDm1 = PALETTE[3];
 
-  // ── Chart A1: Absolute score + LOO mean ────────────────────────────────
+  // ── Chart A1: All three perspectives in one — absolute · relative · shadow ─
+  //   Solid = absolute composite score (left axis, 0–60)
+  //   Dotted = M4 percentile within peer group (right axis, 0–1)
+  //   Dashed = shadow OLS prediction (left axis, 0–60) — added async
   Plotly.newPlot('chart-a1', [
-    dottedTrace(years, s.loo, `${group} LOO mean`, colorLoo),
-    lineTrace(years, s.score, `${country} composite score`, color),
+    {
+      x: years, y: s.score, name: country + ' — absolute score',
+      type: 'scatter', mode: 'lines+markers',
+      line: { color: color, width: 2.2 }, marker: { color: color, size: 4.5, symbol: 'circle' },
+      yaxis: 'y', connectgaps: false
+    },
+    {
+      x: years, y: s.m4, name: 'Relative — M4 percentile (right axis)',
+      type: 'scatter', mode: 'lines+markers',
+      line: { color: PALETTE[2], width: 1.6, dash: 'dot' }, marker: { color: PALETTE[2], size: 3.5, symbol: 'square' },
+      yaxis: 'y2', connectgaps: false
+    },
+    {
+      x: years, y: s.loo, name: group + ' LOO mean (peer benchmark)',
+      type: 'scatter', mode: 'lines',
+      line: { color: colorLoo, width: 1.2, dash: 'dot' },
+      yaxis: 'y', connectgaps: false
+    }
   ], layout({
-    title: { text: `Composite Credit Score vs Peer Group Mean`, font: { size: 13, family: FONT_SERIF } },
+    title: { text: 'Three perspectives in one chart: Absolute · Relative · Shadow', font: { size: 13, family: FONT_SERIF } },
     xaxis: { title: { text: 'Year' } },
-    yaxis: { title: { text: 'Composite Score (0–60)' }, range: [0, 65] },
-    height: 300,
+    yaxis: { title: { text: 'Composite Score (0–60) · Shadow' }, range: [0, 65] },
+    yaxis2: { title: { text: 'M4 percentile (0–1)' }, overlaying: 'y', side: 'right', range: [0, 1.05], showgrid: false },
+    height: 340
   }), PLOT_CONFIG);
+  // Shadow line added asynchronously once extras.json loads
+  loadShadowData().then(sh => {
+    if (!sh || !sh.ols) return;
+    const ols = sh.ols.filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
+    if (!ols.length) return;
+    try {
+      Plotly.addTraces('chart-a1', {
+        x: ols.map(r => r.Year), y: ols.map(r => r.Shadow_OLS),
+        name: 'Shadow — Method C (OLS)',
+        type: 'scatter', mode: 'lines',
+        line: { color: PALETTE[1], width: 1.7, dash: 'dash' },
+        yaxis: 'y'
+      });
+    } catch(e) { console.warn('add shadow trace to chart-a1 failed:', e); }
+  });
 
   // ── Chart A2: M1 over time ────────────────────────────────────────────
   Plotly.newPlot('chart-a2', [
@@ -860,24 +895,53 @@ function renderModeB() {
     s: DB.series[`${c}|${group}`]
   }));
 
-  // ── Chart B1: Absolute scores ─────────────────────────────────────────
-  const looTrace = (() => {
-    // use first country's loo as the group mean (same for all within group)
-    const s0 = series[0].s;
-    return dottedTrace(s0.years, s0.loo, `${group} LOO mean (avg)`, '#999');
-  })();
-
-  Plotly.newPlot('chart-b1', [
-    looTrace,
-    ...series.map(({ country, color, s }) =>
-      lineTrace(s.years, s.score, country, color)
-    ),
-  ], layout({
-    title: { text: `Composite Credit Score: ${group} group`, font: { size: 13, family: FONT_SERIF } },
+  // ── Chart B1: All three perspectives per country — absolute · relative · shadow ─
+  //   Per country, paired by color:
+  //     solid   = absolute score (left axis 0–60)
+  //     dotted  = M4 percentile (right axis 0–1)
+  //     dashed  = shadow OLS    (left axis 0–60) — added async
+  const traces = [];
+  series.forEach(({ country, color, s }) => {
+    traces.push({
+      x: s.years, y: s.score, name: country + ' — absolute',
+      type: 'scatter', mode: 'lines+markers',
+      line: { color: color, width: 2 }, marker: { color: color, size: 4 },
+      yaxis: 'y', connectgaps: false, legendgroup: country
+    });
+    traces.push({
+      x: s.years, y: s.m4, name: country + ' — M4 percentile (right)',
+      type: 'scatter', mode: 'lines',
+      line: { color: color, width: 1.4, dash: 'dot' },
+      yaxis: 'y2', connectgaps: false, legendgroup: country
+    });
+  });
+  Plotly.newPlot('chart-b1', traces, layout({
+    title: { text: 'Three perspectives per country: Absolute (solid) · Relative M4 (dotted, right axis) · Shadow (dashed, added when loaded)', font: { size: 12, family: FONT_SERIF } },
     xaxis: { title: { text: 'Year' } },
-    yaxis: { title: { text: 'Composite Score (0–60)' }, range: [0, 65] },
-    height: 320,
+    yaxis: { title: { text: 'Composite Score (0–60) · Shadow' }, range: [0, 65] },
+    yaxis2: { title: { text: 'M4 percentile (0–1)' }, overlaying: 'y', side: 'right', range: [0, 1.05], showgrid: false },
+    height: 380
   }), PLOT_CONFIG);
+  // Shadow lines per country added asynchronously
+  loadShadowData().then(sh => {
+    if (!sh || !sh.ols) return;
+    const newTraces = [];
+    series.forEach(({ country, color }) => {
+      const rows = sh.ols.filter(r => r.Country === country).sort((a,b) => a.Year - b.Year);
+      if (!rows.length) return;
+      newTraces.push({
+        x: rows.map(r => r.Year), y: rows.map(r => r.Shadow_OLS),
+        name: country + ' — shadow OLS',
+        type: 'scatter', mode: 'lines',
+        line: { color: color, width: 1.4, dash: 'dash' },
+        yaxis: 'y', legendgroup: country
+      });
+    });
+    if (newTraces.length) {
+      try { Plotly.addTraces('chart-b1', newTraces); }
+      catch(e) { console.warn('add shadow traces to chart-b1 failed:', e); }
+    }
+  });
 
   // ── Chart B2: M1 ─────────────────────────────────────────────────────
   Plotly.newPlot('chart-b2', [
