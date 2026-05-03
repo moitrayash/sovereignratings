@@ -2,7 +2,7 @@
 
 This file complements `HANDOFF.md` (which covers the broader Python pipeline and LaTeX paper goal). This one is **specifically about the static website** at https://sovereignratings.yashmoitra.com — what's there, how to push to it, what's pending.
 
-**Last updated:** 2026-05-02 18:20 (after v41 push, commit `de13cee`)
+**Last updated:** 2026-05-02 20:51 (after v46 push, commit `b4020e0`)
 **Working folder (Windows):** `C:\Users\yashm\OneDrive - Cornell University\Desktop\Research\credit rating\cr rating`
 **Working folder (Linux/sandbox):** `/sessions/.../mnt/cr rating/`
 **Live site:** https://sovereignratings.yashmoitra.com
@@ -34,16 +34,24 @@ Origin papers in the literature: Basu, De, Ratha & Timmer (2013) and De, Mohapat
 - `pairwise.html` — country-vs-country spread explorer (Method A)
 - `paired_grouped_regional.html` — pairwise + 6 pre-rendered case studies (Armenia/Azerbaijan, Czechia/Slovakia, Greece/Germany, Cyprus/Malta, Russia/Ukraine, Argentina/Chile)
 - `distance_graded.html` — Method B: rectangular sepia map, year sliders, focal-country selector, isodistance rings, `x-thin` peer markers, focal as Latin cross † in burnt sienna serif
-- `relative_hdi.html` — M1–M4 applied to HDI×100 with comparison-set selector (v40+)
+- `relative_hdi.html` — M1–M4 applied to HDI×100 with comparison-set selector (v40+); animated time-slider racing bar + scatter (v45)
 - `relative_gini.html` — same for inverted Gini
+- `relative_ppi.html` — Planetary Pressure Index, structurally identical to Relative HDI; PPI recovered from UNDP PHDI/HDI ratio; downloadable raw-data ZIP at bottom (v46)
 - `shadow.html` — Method C and D walkthroughs with Pakistan/Norway/Sri Lanka contrasts (v39)
 - `landack.html` — land acknowledgement
 
 ### Shared assets
 - `shared.css` — styling, dark mode pastel palette, Ben10-style green-on-black code blocks (`body.dark code { background: #000; color: #43ff7e; text-shadow: 0 0 6px rgba(67,255,126,0.45); }`), nav forced one-line, `.copy-png-bar` 3-button toolbar
 - `shared.js` — **central architecture** (see §3)
-- `nav.js`, `tips.js` — small helpers loaded by every page
-- `extras.json` — bundled data: `score_matrix`, `capitals`, `hdi`, `hdi_rel`, `gini`, `gini_rel`, `top_drops`, `top_ups`, `stories`, `stories_rel`, `stories_shadow`, `shadow`, `_meta`
+- `nav.js` — canonical nav order; edit when adding/removing pages
+- `tips.js` — hover-tooltip dictionary `window.TIPS` (~80 layman-friendly entries) + `window.TIPS_ALIASES` (~120 surface forms incl. plurals); v43+ rewritten for plain-English explanations
+- `extras.json` — bundled data: `score_matrix`, `capitals`, `hdi`, `hdi_rel`, `gini`, `gini_rel`, `ppi`, `ppi_rel` (v46+), `top_drops`, `top_ups`, `stories`, `stories_rel`, `stories_shadow`, `shadow`, `_meta`. Now ~2.5 MB.
+
+### PPI raw-data assets (v46+)
+- `ppi_panel.csv` — 2,738 country-year rows: ISO3, Country, Region, Year, HDI, PHDI, MF_pc, CO2_pc, PPI100
+- `ppi_relative.csv` — same panel + LOO mean and M1/M2/M4 against world peer set
+- `ppi_raw_data.zip` — user-downloadable bundle (UNDP source CSV + both derived CSVs + README.txt). Linked from a styled `.raw-download` block at the bottom of `relative_ppi.html`
+- `_undp_raw.csv` — verbatim UNDP HDR 2023/24 Composite Indices Time Series (truncated to first 1 MB by web_fetch; sufficient for 88 PHDI-complete countries)
 
 ### Build artifacts (don't edit)
 - `_push_v##.bat` — self-deleting push scripts (see §4)
@@ -65,6 +73,7 @@ Origin papers in the literature: Basu, De, Ratha & Timmer (2013) and De, Mohapat
 | `SCR_REGIONS`, `SCR_REGION_OF`, `SCR_COUNTRIES_IN(region)` | UN-style 6-continent partition over the 142 panel countries (v40) |
 | `SCR_PRESET_GROUPS`, `SCR_PRESET_ORDER` | 16 multilateral / political / economic preset peer groups: OECD, BRICS+, EU 27, Eurozone, G7, G20, ASEAN, GCC, NATO, Nordic, SIDS, LDCs, Visegrád Four, MERCOSUR, Pacific Alliance, CIS (v41) |
 | `scrRecomputeRelative(rows, peerSet)` | Recomputes LOO mean, M1, M2 (rank), M4 (percentile) client-side for an arbitrary subset (v40) |
+| `scrAutoDecorateTerms()` | Walks `main p/li/td/dd/summary/.callout/.ex-body/.step` text nodes and wraps the first occurrence per page of any alias in `window.TIPS_ALIASES` with `<span class="term" data-term="key">…</span>`. Skips inside `code/script/a/sup/headings/.term`. Wired into `init()` after `decorateTerms()`. (v43) |
 
 ### Re-entry guards (do not remove)
 The MutationObserver-driven re-styling will infinite-loop without these:
@@ -127,29 +136,37 @@ Semicolons are intentional — they keep everything on one git log line so `git 
 | v39 | `1d3d6d8` | 3-button toolbar (Fullscreen / Download PNG / Copy PNG) on tables and worked-example blocks; Method C beefed up to full step-by-step with Norway/Pakistan/Sri Lanka contrast; Method D added with worked end-to-end via 5-tree forest |
 | v40 | `4552b21` | Compare-against selector on Relative HDI/Gini — World, Same continent, Custom subset; new `SCR_REGION_OF` and `scrRecomputeRelative` in shared.js |
 | v41 | `de13cee` | 16 preset peer groups added to dropdown (OECD, BRICS+, EU 27, Eurozone, G7, G20, ASEAN, GCC, NATO, Nordic, SIDS, LDCs, Visegrád Four, MERCOSUR, Pacific Alliance, CIS); organised under optgroups |
+| v42 | `a721c78` | Handoff documentation: `WEBSITE_HANDOFF.md` and `HANDOFF_PROMPT.md` |
+| v43 | (rolled into v45) | Layman tooltip work — never pushed standalone; bundled into v45 |
+| v44 | `90fe382` | Fixed OneDrive truncation that left `renderStoryShad()` mid-statement and blanked every chart on Stories; rebuilt the missing tail; added "By the numbers" callouts to all 5 stories citing actual M1/M2/shadow-gap values; added Italy 2012-13 and India 2001/2008 as cleanest "shadow-caught-it-first" early-warning cases |
+| v45 | `803eb10` | tips.js rewritten with plain-English explanations + ~120 alias surface forms; `scrAutoDecorateTerms()` in shared.js auto-wraps first occurrence of each alias per page; HINTS pill still toggles globally; Section 4 added to Relative HDI: animated time-slider racing bar (top-25 by HDI×100) and HDI-vs-M4-percentile scatter, both with Plotly Play button and respecting active peer set |
+| v46 | `b4020e0` | New **Relative PPI** tab structurally identical to Relative HDI; PPI recovered from UNDP HDR 2023/24 PHDI/HDI ratio for 88 countries 1990-2022; same selectors/charts/distribution/time-animation; direction-of-interpretation warnings (high PPI = worse); raw-data ZIP download block at bottom of page (`.raw-download` class with dark-pill primary and outline secondary buttons + manifest table); added `ppi` and `ppi_rel` to extras.json |
 
 For everything before v37: `git log --oneline | head -50` from a Windows terminal in the working folder.
 
 ## 6 · Pending work (in approximate priority order)
 
 ### High priority (user has asked, not yet done)
-- **Glossary expansion** (task #42, in_progress) — institutions block: IMF, World Bank, ICRC, MSF, OECD, UN system (UNDP, UNCTAD, UNHCR, OHCHR), BIS, IBRD, IDA, IFC, MIGA, ICSID, Paris Club, London Club, debt-restructuring vocabulary (HIPC, MDRI, DSSI, Common Framework). Earlier Python escape script crashed; retry by editing glossary.html directly with multiple Edit calls
+- **Glossary expansion** (task #42, in_progress) — institutions block: IMF, World Bank, ICRC, MSF, OECD, UN system (UNDP, UNCTAD, UNHCR, OHCHR), BIS, IBRD, IDA, IFC, MIGA, ICSID, Paris Club, London Club, debt-restructuring vocabulary (HIPC, MDRI, DSSI, Common Framework). Note: many of these now have layman tooltips via tips.js (v45); the glossary entries should be richer than the tooltips
 - **Lorenz comparison plots on Gini page** with 45° line (partial — exists but needs a multi-country overlay variant)
 - **Hover text inversion in dark mode** — currently has weird white highlight; needs CSS override on `.hovertext`
-- **Update sub-tagline** for current relevance (currently: "151 countries · S&P, Moody's, DBRS Morningstar · 2000–2025 · Composite scores (0–60) · Relative methods M1–M4")
-- **Distance-map year animation** — Plotly play button cycling 2000→2025
+- **Update sub-tagline** for current relevance (currently: "151 countries · S&P, Moody's, DBRS Morningstar · 2000–2025 · Composite scores (0–60) · Relative methods M1–M4") — should now mention Relative HDI / Gini / PPI
+- **Distance-map year animation** — Plotly play button cycling 2000→2025 (the v45 Relative-HDI animation pattern is reusable)
 - **Online report links in story endnotes** — every story claim should have an academic / official source linked
 - **More historical stories** — user explicitly asked for "the whole set" (5 currently; he wants 10–15+)
 
 ### Medium priority (architecturally clean to add)
-- **Worked-end-to-end methods on every page** with expandable details (currently only on shadow.html — extend to pairwise, distance, HDI, Gini)
+- **Section 4 time animations on Relative Gini and Relative PPI** — copy the v45 racing-bar + scatter pattern from `relative_hdi.html` into the Gini page (PPI already has it via v46 mirror)
 - **Reuse the comparison-set selector on paired_grouped_regional and shadow** — both pages currently hardcode "all countries"; the selector pattern is generic enough to drop in
-- **Lazy-load extras.json sections** — currently every page fetches the whole 1 MB; could split
+- **Worked-end-to-end methods on every page** with expandable details (currently only on shadow.html — extend to pairwise, distance, HDI, Gini, PPI)
+- **Refresh PPI source** when UNDP releases a new HDR (the truncated `_undp_raw.csv` only covers the first 1 MB ≈ 108 countries of the official file; if the full file is needed re-fetch the full ~3 MB CSV)
+- **Lazy-load extras.json sections** — at 2.5 MB now, every page fetches the whole bundle; could split per-page
 
 ### Low priority (nice to have)
 - Population-weighted variant of the Gini LOO mean (mentioned in caveats but not implemented)
 - Wealth-Gini track in addition to income-Gini (data source: WID)
 - Mobile layout polish — works but cramped
+- Consumption-based CO₂ variant of PPI (UNDP publishes production-based; consumption-based shifts Switzerland/Norway/France down and China/India up)
 
 ## 7 · Communication style
 
@@ -183,8 +200,9 @@ If you're starting fresh:
 5. Wait for Yash's request — he'll tell you what's next
 
 If Yash asks "what's the state?" or "where did we leave off?":
-- Last push: v41 `de13cee` — preset peer groups (OECD, BRICS+, etc.) on Relative HDI / Gini
-- Next likely: glossary expansion (task #42), more stories, hover text inversion, or a fresh feature he hasn't named yet
+- Last push: v46 `b4020e0` — new Relative PPI tab with raw-data ZIP download
+- Recent run (v44–v46): stories chart-blank fix + by-the-numbers callouts; site-wide layman tooltips; Relative HDI time animation; Relative PPI tab end-to-end
+- Next likely: glossary expansion (task #42), more stories, hover text inversion in dark mode, time animation on Relative Gini, or a fresh feature he hasn't named yet
 
 ---
 
