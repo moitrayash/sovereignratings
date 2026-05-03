@@ -672,17 +672,31 @@ body:not(.dark) .js-plotly-plot .legend > rect.bg {
   .js-plotly-plot .xtick text, .js-plotly-plot .ytick text { font-size: 9px !important; }
   .js-plotly-plot .legend { transform: translate(0, 0); }
   /* Modebar — push below the chart so it can't overlap the legend or title.
-     Plotly defaults to top-right; we relocate it to bottom-right of the
-     chart-box (which has extra bottom padding for this purpose). */
-  .js-plotly-plot .modebar {
+     Plotly's default modebar uses inline-style position:absolute with top
+     and right set, plus a transform; we override all of them with !important
+     and a more specific selector to win. */
+  div.js-plotly-plot div.modebar-container,
+  .js-plotly-plot .modebar-container {
     top: auto !important;
-    bottom: -34px !important;
-    right: 4px !important;
-    transform: scale(1.0) !important;
-    background: transparent !important;
-    opacity: 0.85 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    text-align: right !important;
   }
-  .js-plotly-plot .modebar-btn { padding: 4px !important; }
+  div.js-plotly-plot div.modebar,
+  .js-plotly-plot .modebar {
+    position: absolute !important;
+    top: auto !important;
+    bottom: -38px !important;
+    right: 4px !important;
+    left: auto !important;
+    transform: none !important;
+    background: transparent !important;
+    opacity: 0.9 !important;
+    display: inline-flex !important;
+  }
+  .js-plotly-plot .modebar-btn { padding: 5px !important; }
+  .js-plotly-plot .modebar-group { background: transparent !important; }
   /* Wider, more tappable view-switcher buttons */
   .scr-view-switcher { gap: 4px !important; flex-wrap: wrap; }
   .scr-view-switcher button {
