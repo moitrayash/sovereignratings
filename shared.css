@@ -664,18 +664,23 @@ body:not(.dark) .js-plotly-plot .legend > rect.bg {
 
 /* ── Mobile responsive: trim chart-box margins on narrow screens ──── */
 @media (max-width: 700px) {
-  .chart-box { padding: 4px 2px !important; margin: 12px 0 !important; overflow: visible; }
-  .chart-box > div { min-height: 280px; width: 100% !important; }
+  .chart-box, .chart-wrap { padding: 4px 2px 36px 2px !important; margin: 12px 0 !important; overflow: visible; position: relative; }
+  .chart-box > div, .chart-wrap > div { min-height: 280px; width: 100% !important; }
   .js-plotly-plot, .js-plotly-plot .plotly { width: 100% !important; }
   .js-plotly-plot .gtitle { font-size: 11px !important; }
   .js-plotly-plot .legend text { font-size: 9px !important; }
   .js-plotly-plot .xtick text, .js-plotly-plot .ytick text { font-size: 9px !important; }
   .js-plotly-plot .legend { transform: translate(0, 0); }
-  /* Modebar — keep visible and tap-friendly on phones */
+  /* Modebar — push below the chart so it can't overlap the legend or title.
+     Plotly defaults to top-right; we relocate it to bottom-right of the
+     chart-box (which has extra bottom padding for this purpose). */
   .js-plotly-plot .modebar {
-    transform: scale(1.15);
-    transform-origin: top right;
-    opacity: 0.92 !important;
+    top: auto !important;
+    bottom: -34px !important;
+    right: 4px !important;
+    transform: scale(1.0) !important;
+    background: transparent !important;
+    opacity: 0.85 !important;
   }
   .js-plotly-plot .modebar-btn { padding: 4px !important; }
   /* Wider, more tappable view-switcher buttons */

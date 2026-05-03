@@ -886,7 +886,41 @@
     gd._scrArrowsApplied = false;
     try { wireChartHooks(gd); } catch(e) { console.warn('scrWireChart wire failed:', e); }
     try { applyAxisArrows(gd); } catch(e) {}
+    try { applyMobileMargins(gd); } catch(e) {}
   };
+
+  // ── Mobile-aware margin bump ──────────────────────────────────────
+  //   Plotly's default margins assume desktop room. On phones the chart
+  //   title gets clipped by the modebar and the legend slams into the
+  //   axis. Force generous margins on every chart whenever the viewport
+  //   is narrow. Re-applies on every wire.
+  function applyMobileMargins(gd) {
+    if (!gd || !window.Plotly) return;
+    const isMobile = window.innerWidth < 700;
+    if (!isMobile) return;
+    if (gd._scrMobileMarginsApplied && gd._scrMobileMarginsW === window.innerWidth) return;
+    gd._scrMobileMarginsApplied = true;
+    gd._scrMobileMarginsW = window.innerWidth;
+    try {
+      window.Plotly.relayout(gd, {
+        'margin.t': 64,       // room for title above the plot area
+        'margin.b': 110,      // room for legend + x-axis label
+        'margin.l': 60,       // room for y-axis title and tick labels
+        'margin.r': 40,       // small right cushion
+        'autosize': true,
+        'legend.font.size': 9,
+        'title.font.size': 12
+      });
+    } catch(e) {}
+  }
+  // Re-apply on viewport change (rotate, browser resize)
+  window.addEventListener('resize', () => {
+    document.querySelectorAll('.js-plotly-plot').forEach(gd => {
+      gd._scrMobileMarginsApplied = false;
+      try { applyMobileMargins(gd); } catch(e) {}
+      try { window.Plotly && window.Plotly.Plots.resize(gd); } catch(e) {}
+    });
+  });
 
   // ── Reusable view-switcher used on every "perspective" chart ──────────
   //  Inserts a small pill-button bar above the chart so the user can swap
