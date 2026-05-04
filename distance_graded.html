@@ -318,7 +318,7 @@ function renderDistChart() {
 }
 
 function renderDistMap(c, weights, focalColor) {
-  if (!window.EXTRAS || !EXTRAS.capitals || !EXTRAS.capitals[c]) return;
+  if (!EXTRAS || !EXTRAS.capitals || !EXTRAS.capitals[c]) return;
   const caps = EXTRAS.capitals;
   const top = weights.filter(w => caps[w.country]).slice().sort((a,b) => b.w - a.w).slice(0, 30);
   const cfg = window.scrChartConfig || { responsive: true, displayModeBar: true };

@@ -688,6 +688,124 @@ function renderAll() {
         ]
       });
     }
+
+  // ── Iceland subsection charts + Argentina relative/shadow simple renders (v77 patch)
+  try {
+    const ICE = [{"Year": 2000, "v": 49.5}, {"Year": 2001, "v": 49.5}, {"Year": 2002, "v": 54.0}, {"Year": 2003, "v": 54.0}, {"Year": 2004, "v": 54.0}, {"Year": 2005, "v": 55.5}, {"Year": 2006, "v": 54.0}, {"Year": 2007, "v": 54.0}, {"Year": 2008, "v": 48.0}, {"Year": 2009, "v": 33.0}, {"Year": 2010, "v": 33.0}, {"Year": 2011, "v": 33.0}, {"Year": 2012, "v": 33.0}, {"Year": 2013, "v": 33.0}, {"Year": 2014, "v": 33.0}, {"Year": 2015, "v": 36.0}, {"Year": 2016, "v": 40.5}, {"Year": 2017, "v": 43.5}, {"Year": 2018, "v": 43.5}, {"Year": 2019, "v": 45.0}, {"Year": 2020, "v": 45.0}, {"Year": 2021, "v": 45.0}, {"Year": 2022, "v": 45.0}, {"Year": 2023, "v": 46.5}, {"Year": 2024, "v": 48.0}, {"Year": 2025, "v": 48.0}];
+    const IRE = [{"Year": 2000, "v": 58.5}, {"Year": 2001, "v": 60.0}, {"Year": 2002, "v": 60.0}, {"Year": 2003, "v": 60.0}, {"Year": 2004, "v": 60.0}, {"Year": 2005, "v": 60.0}, {"Year": 2006, "v": 60.0}, {"Year": 2007, "v": 60.0}, {"Year": 2008, "v": 60.0}, {"Year": 2009, "v": 60.0}, {"Year": 2010, "v": 56.0}, {"Year": 2011, "v": 49.0}, {"Year": 2012, "v": 45.0}, {"Year": 2013, "v": 37.0}, {"Year": 2014, "v": 42.0}, {"Year": 2015, "v": 44.0}, {"Year": 2016, "v": 45.0}, {"Year": 2017, "v": 47.0}, {"Year": 2018, "v": 47.0}, {"Year": 2019, "v": 48.0}, {"Year": 2020, "v": 48.0}, {"Year": 2021, "v": 48.0}, {"Year": 2022, "v": 49.0}, {"Year": 2023, "v": 52.0}, {"Year": 2024, "v": 53.0}, {"Year": 2025, "v": 53.0}];
+    const NOR = [{"Year": 2000, "v": 60.0}, {"Year": 2001, "v": 60.0}, {"Year": 2002, "v": 60.0}, {"Year": 2003, "v": 60.0}, {"Year": 2004, "v": 60.0}, {"Year": 2005, "v": 60.0}, {"Year": 2006, "v": 60.0}, {"Year": 2007, "v": 60.0}, {"Year": 2008, "v": 60.0}, {"Year": 2009, "v": 60.0}, {"Year": 2010, "v": 60.0}, {"Year": 2011, "v": 60.0}, {"Year": 2012, "v": 60.0}, {"Year": 2013, "v": 60.0}, {"Year": 2014, "v": 60.0}, {"Year": 2015, "v": 60.0}, {"Year": 2016, "v": 60.0}, {"Year": 2017, "v": 60.0}, {"Year": 2018, "v": 60.0}, {"Year": 2019, "v": 60.0}, {"Year": 2020, "v": 60.0}, {"Year": 2021, "v": 60.0}, {"Year": 2022, "v": 60.0}, {"Year": 2023, "v": 60.0}, {"Year": 2024, "v": 60.0}, {"Year": 2025, "v": 60.0}];
+    const DEN = [{"Year": 2000, "v": 58.5}, {"Year": 2001, "v": 60.0}, {"Year": 2002, "v": 60.0}, {"Year": 2003, "v": 60.0}, {"Year": 2004, "v": 60.0}, {"Year": 2005, "v": 60.0}, {"Year": 2006, "v": 60.0}, {"Year": 2007, "v": 60.0}, {"Year": 2008, "v": 60.0}, {"Year": 2009, "v": 60.0}, {"Year": 2010, "v": 60.0}, {"Year": 2011, "v": 60.0}, {"Year": 2012, "v": 60.0}, {"Year": 2013, "v": 60.0}, {"Year": 2014, "v": 60.0}, {"Year": 2015, "v": 60.0}, {"Year": 2016, "v": 60.0}, {"Year": 2017, "v": 60.0}, {"Year": 2018, "v": 60.0}, {"Year": 2019, "v": 60.0}, {"Year": 2020, "v": 60.0}, {"Year": 2021, "v": 60.0}, {"Year": 2022, "v": 60.0}, {"Year": 2023, "v": 60.0}, {"Year": 2024, "v": 60.0}, {"Year": 2025, "v": 60.0}];
+    const UK_ = [{"Year": 2000, "v": 60.0}, {"Year": 2001, "v": 60.0}, {"Year": 2002, "v": 60.0}, {"Year": 2003, "v": 60.0}, {"Year": 2004, "v": 60.0}, {"Year": 2005, "v": 60.0}, {"Year": 2006, "v": 60.0}, {"Year": 2007, "v": 60.0}, {"Year": 2008, "v": 60.0}, {"Year": 2009, "v": 60.0}, {"Year": 2010, "v": 60.0}, {"Year": 2011, "v": 60.0}, {"Year": 2012, "v": 60.0}, {"Year": 2013, "v": 59.0}, {"Year": 2014, "v": 59.0}, {"Year": 2015, "v": 59.0}, {"Year": 2016, "v": 59.0}, {"Year": 2017, "v": 58.0}, {"Year": 2018, "v": 58.0}, {"Year": 2019, "v": 56.0}, {"Year": 2020, "v": 54.0}, {"Year": 2021, "v": 54.0}, {"Year": 2022, "v": 54.0}, {"Year": 2023, "v": 53.0}, {"Year": 2024, "v": 53.0}, {"Year": 2025, "v": 53.0}];
+    const ARG = [{"Year": 2000, "v": 22.5}, {"Year": 2001, "v": 1.5}, {"Year": 2002, "v": 1.5}, {"Year": 2003, "v": 6.0}, {"Year": 2004, "v": 6.0}, {"Year": 2005, "v": 15.0}, {"Year": 2006, "v": 18.0}, {"Year": 2007, "v": 17.0}, {"Year": 2008, "v": 15.0}, {"Year": 2009, "v": 15.0}, {"Year": 2010, "v": 16.0}, {"Year": 2011, "v": 17.0}, {"Year": 2012, "v": 17.0}, {"Year": 2013, "v": 16.0}, {"Year": 2014, "v": 4.0}, {"Year": 2015, "v": 4.0}, {"Year": 2016, "v": 16.0}, {"Year": 2017, "v": 19.0}, {"Year": 2018, "v": 18.0}, {"Year": 2019, "v": 3.0}, {"Year": 2020, "v": 8.0}, {"Year": 2021, "v": 8.0}, {"Year": 2022, "v": 8.0}, {"Year": 2023, "v": 8.0}, {"Year": 2024, "v": 9.0}, {"Year": 2025, "v": 13.0}];
+    const BRA = [{"Year": 2000, "v": 21.0}, {"Year": 2001, "v": 22.5}, {"Year": 2002, "v": 21.0}, {"Year": 2003, "v": 19.5}, {"Year": 2004, "v": 22.5}, {"Year": 2005, "v": 24.0}, {"Year": 2006, "v": 27.0}, {"Year": 2007, "v": 28.0}, {"Year": 2008, "v": 32.0}, {"Year": 2009, "v": 32.0}, {"Year": 2010, "v": 32.0}, {"Year": 2011, "v": 34.0}, {"Year": 2012, "v": 34.0}, {"Year": 2013, "v": 36.0}, {"Year": 2014, "v": 35.0}, {"Year": 2015, "v": 33.0}, {"Year": 2016, "v": 33.0}, {"Year": 2017, "v": 31.0}, {"Year": 2018, "v": 25.0}, {"Year": 2019, "v": 25.0}, {"Year": 2020, "v": 25.0}, {"Year": 2021, "v": 25.0}, {"Year": 2022, "v": 25.0}, {"Year": 2023, "v": 27.0}, {"Year": 2024, "v": 27.0}, {"Year": 2025, "v": 28.0}];
+    const CHL = [{"Year": 2000, "v": 40.5}, {"Year": 2001, "v": 40.5}, {"Year": 2002, "v": 40.5}, {"Year": 2003, "v": 40.5}, {"Year": 2004, "v": 42.0}, {"Year": 2005, "v": 42.0}, {"Year": 2006, "v": 46.0}, {"Year": 2007, "v": 47.0}, {"Year": 2008, "v": 47.0}, {"Year": 2009, "v": 48.0}, {"Year": 2010, "v": 49.0}, {"Year": 2011, "v": 49.0}, {"Year": 2012, "v": 50.0}, {"Year": 2013, "v": 51.0}, {"Year": 2014, "v": 51.0}, {"Year": 2015, "v": 51.0}, {"Year": 2016, "v": 51.0}, {"Year": 2017, "v": 49.5}, {"Year": 2018, "v": 48.0}, {"Year": 2019, "v": 48.0}, {"Year": 2020, "v": 48.0}, {"Year": 2021, "v": 46.5}, {"Year": 2022, "v": 45.0}, {"Year": 2023, "v": 45.0}, {"Year": 2024, "v": 45.0}, {"Year": 2025, "v": 45.0}];
+    const MEX = [{"Year": 2000, "v": 30.0}, {"Year": 2001, "v": 30.0}, {"Year": 2002, "v": 34.5}, {"Year": 2003, "v": 34.5}, {"Year": 2004, "v": 34.5}, {"Year": 2005, "v": 37.5}, {"Year": 2006, "v": 37.0}, {"Year": 2007, "v": 38.0}, {"Year": 2008, "v": 38.0}, {"Year": 2009, "v": 37.0}, {"Year": 2010, "v": 37.0}, {"Year": 2011, "v": 37.0}, {"Year": 2012, "v": 37.0}, {"Year": 2013, "v": 38.0}, {"Year": 2014, "v": 40.0}, {"Year": 2015, "v": 40.0}, {"Year": 2016, "v": 40.0}, {"Year": 2017, "v": 40.0}, {"Year": 2018, "v": 40.0}, {"Year": 2019, "v": 40.0}, {"Year": 2020, "v": 40.0}, {"Year": 2021, "v": 39.0}, {"Year": 2022, "v": 36.0}, {"Year": 2023, "v": 36.0}, {"Year": 2024, "v": 36.0}, {"Year": 2025, "v": 36.0}];
+    const COL = [{"Year": 2000, "v": 28.5}, {"Year": 2001, "v": 28.5}, {"Year": 2002, "v": 28.5}, {"Year": 2003, "v": 27.0}, {"Year": 2004, "v": 27.0}, {"Year": 2005, "v": 27.0}, {"Year": 2006, "v": 28.0}, {"Year": 2007, "v": 29.0}, {"Year": 2008, "v": 30.0}, {"Year": 2009, "v": 31.0}, {"Year": 2010, "v": 31.0}, {"Year": 2011, "v": 33.0}, {"Year": 2012, "v": 33.0}, {"Year": 2013, "v": 35.0}, {"Year": 2014, "v": 36.0}, {"Year": 2015, "v": 36.0}, {"Year": 2016, "v": 36.0}, {"Year": 2017, "v": 35.0}, {"Year": 2018, "v": 35.0}, {"Year": 2019, "v": 35.0}, {"Year": 2020, "v": 35.0}, {"Year": 2021, "v": 33.0}, {"Year": 2022, "v": 33.0}, {"Year": 2023, "v": 33.0}, {"Year": 2024, "v": 33.0}, {"Year": 2025, "v": 32.0}];
+
+    function plot(div, traces, layoutExtra) {
+      if (!document.getElementById(div) || !traces || !traces.length) return;
+      const layout = Object.assign({}, baseLayout, layoutExtra || {});
+      Plotly.newPlot(div, traces, layout, window.scrChartConfig || { responsive: true, displayModeBar: true });
+    }
+    function lineTrace(c, data, color, dash, width) {
+      return { x: data.map(d => d.Year), y: data.map(d => d.v), name: c, mode: 'lines+markers', line: { color: color, width: width || 1.8, dash: dash || null }, marker: { size: 4 } };
+    }
+
+    // Iceland subsection — five Nordic-Atlantic countries 2006-2014
+    if (ICE.length) {
+      const range6 = arr => arr.filter(d => d.Year >= 2006 && d.Year <= 2014);
+      plot('iceland-chart', [
+        lineTrace('Iceland', range6(ICE), '#1a1a1a', null, 2.4),
+        lineTrace('Ireland', range6(IRE), '#666', 'dash', 2),
+        lineTrace('Norway',  range6(NOR), '#888'),
+        lineTrace('Denmark', range6(DEN), '#999'),
+        lineTrace('United Kingdom', range6(UK_), '#aaa', 'dash')
+      ], {
+        title: { text: 'Iceland and Nordic-Atlantic peers, 2006-2014', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: 'Year', gridcolor: '#eee' },
+        yaxis: { title: 'Composite (0-60)', range: [0, 65], gridcolor: '#eee' }
+      });
+
+      // Iceland-recovery: deviation from 2007 baseline
+      const ice7 = (ICE.find(d => d.Year === 2007) || {}).v;
+      const ire7 = (IRE.find(d => d.Year === 2007) || {}).v;
+      if (ice7 != null && ire7 != null) {
+        plot('iceland-recovery', [
+          { x: ICE.map(d => d.Year), y: ICE.map(d => d.v - ice7), name: 'Iceland delta', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 }, marker: { size: 4 } },
+          { x: IRE.map(d => d.Year), y: IRE.map(d => d.v - ire7), name: 'Ireland delta', mode: 'lines+markers', line: { color: '#666', width: 2.4, dash: 'dash' }, marker: { size: 4 } }
+        ], {
+          title: { text: 'Recovery trajectory: deviation from 2007 baseline', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+          xaxis: { title: 'Year', gridcolor: '#eee' },
+          yaxis: { title: 'Delta from 2007 baseline', gridcolor: '#eee', zerolinecolor: '#1a1a1a' }
+        });
+      }
+
+      // Iceland-relative: rough M2 percentile for Iceland and Ireland within the Nordic-Atlantic 5-set per year
+      const peerSet = ['Iceland','Ireland','Norway','Denmark','United Kingdom'];
+      function pctRank(country, year) {
+        const vals = peerSet.map(c => (sm => sm.find(d => d.Year === year))( {Iceland: ICE, Ireland: IRE, Norway: NOR, Denmark: DEN, 'United Kingdom': UK_}[c] || []) || {}).map(d => d.v).filter(v => v != null);
+        if (!vals.length) return null;
+        const sorted = vals.slice().sort((a,b) => a - b);
+        const focal = (function(){ const lookup = {Iceland: ICE, Ireland: IRE}; const series = lookup[country] || []; const row = series.find(d => d.Year === year); return row ? row.v : null; })();
+        if (focal == null) return null;
+        return (sorted.indexOf(focal) + 1) / sorted.length;
+      }
+      const yrs = ICE.map(d => d.Year);
+      plot('iceland-relative', [
+        { x: yrs, y: yrs.map(y => pctRank('Iceland', y)), name: 'Iceland M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } },
+        { x: yrs, y: yrs.map(y => pctRank('Ireland', y)), name: 'Ireland M4 percentile', mode: 'lines+markers', line: { color: '#666', width: 2, dash: 'dash' }, marker: { size: 4 } }
+      ], {
+        title: { text: 'M4 percentile within the Nordic-Atlantic 5-country peer set', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: 'Year', gridcolor: '#eee' },
+        yaxis: { title: 'M4 percentile (0-1)', range: [0, 1], gridcolor: '#eee' }
+      });
+
+      // Iceland-shadow: a placeholder showing actual scores; real shadow data is on shadow.html
+      plot('iceland-shadow', [
+        { x: ICE.map(d => d.Year), y: ICE.map(d => d.v), name: 'Iceland actual', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } },
+        { x: IRE.map(d => d.Year), y: IRE.map(d => d.v), name: 'Ireland actual', mode: 'lines+markers', line: { color: '#666', width: 2, dash: 'dash' }, marker: { size: 4 } }
+      ], {
+        title: { text: 'Iceland and Ireland: actual composite (shadow chart available on shadow.html)', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: 'Year', gridcolor: '#eee' },
+        yaxis: { title: 'Composite (0-60)', range: [0, 65], gridcolor: '#eee' }
+      });
+    }
+
+    // Argentina relative + shadow placeholders
+    if (ARG.length) {
+      const peerSet = ['Argentina','Brazil','Chile','Mexico','Colombia'];
+      const lookup = {Argentina: ARG, Brazil: BRA, Chile: CHL, Mexico: MEX, Colombia: COL};
+      function pctArg(country, year) {
+        const vals = peerSet.map(c => (lookup[c] || []).find(d => d.Year === year)).map(r => r ? r.v : null).filter(v => v != null);
+        if (!vals.length) return null;
+        const sorted = vals.slice().sort((a,b)=>a-b);
+        const r = (lookup[country] || []).find(d => d.Year === year);
+        if (!r) return null;
+        return (sorted.indexOf(r.v) + 1) / sorted.length;
+      }
+      const yrsA = ARG.map(d => d.Year);
+      plot('arg-relative', [
+        { x: yrsA, y: yrsA.map(y => pctArg('Argentina', y)), name: 'Argentina M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } },
+        { x: yrsA, y: yrsA.map(y => pctArg('Brazil', y)), name: 'Brazil M4 percentile', mode: 'lines', line: { color: '#666', width: 1.8, dash: 'dash' } },
+        { x: yrsA, y: yrsA.map(y => pctArg('Chile', y)), name: 'Chile M4 percentile', mode: 'lines', line: { color: '#888', width: 1.8 } }
+      ], {
+        title: { text: 'M4 percentile in the Latin America 5-country peer set', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: 'Year', gridcolor: '#eee' },
+        yaxis: { title: 'M4 percentile (0-1)', range: [0, 1], gridcolor: '#eee' }
+      });
+
+      plot('arg-shadow', [
+        { x: ARG.map(d => d.Year), y: ARG.map(d => d.v), name: 'Argentina actual', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 }, marker: { size: 4 } },
+        { x: BRA.map(d => d.Year), y: BRA.map(d => d.v), name: 'Brazil', mode: 'lines', line: { color: '#666', width: 1.8, dash: 'dash' } },
+        { x: CHL.map(d => d.Year), y: CHL.map(d => d.v), name: 'Chile', mode: 'lines', line: { color: '#888', width: 1.8 } }
+      ], {
+        title: { text: 'Argentina and Latin America peers (shadow chart on shadow.html)', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: 'Year', gridcolor: '#eee' },
+        yaxis: { title: 'Composite (0-60)', range: [0, 65], gridcolor: '#eee' }
+      });
+    }
+  } catch (e) { console.warn('iceland/arg patch:', e); }
+
   } catch (e) { console.warn('new stories rendering partial:', e); }
 
   } catch (e) {
