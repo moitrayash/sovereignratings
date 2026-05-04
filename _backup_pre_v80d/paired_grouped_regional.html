@@ -15,7 +15,6 @@
   .stat-strip .stat .lbl { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 700; }
   .stat-strip .stat .val { font-size: 1.1rem; color: var(--ink); margin-top: 4px; }
 </style>
-<script defer src="pct_change.js"></script>
 </head>
 <body>
 <header class="site">
@@ -226,11 +225,11 @@ function renderPairView(divId, a, b, view) {
     if (!xs.length) { div.innerHTML = '<p style="padding:20px;color:var(--muted)">' + a + ' or ' + b + ' missing.</p>'; return; }
     plotIt(divId, [
       {x:xs,y:ya,name:a,mode:'lines+markers',line:{color:colA,width:2.2},marker:{color:colA,size:4}},
-      {x:xs,y:yb,name:b,mode:'lines+markers',line:{color:colB,width:2.2},marker:{color:colB,size:4}}
+      {x:xs,y:yb,name:b,mode:'lines+markers',line:{color:colB,width:2.2,dash:'dash'},marker:{color:colB,size:4}}
     ], Object.assign({}, baseLayout, {
       title:{text:a+' vs '+b+': absolute composite score',font:{size:13}},
-      xaxis:{title:'',gridcolor:'rgba(128,128,128,0.2)'},
-      yaxis:{title:'',range:[0,60],gridcolor:'rgba(128,128,128,0.2)'}
+      xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
+      yaxis:{title:'Composite (0–60)',range:[0,60],gridcolor:'rgba(128,128,128,0.2)'}
     }));
   } else if (view === 'relative') {
     const m4 = (window.scrComputeCreditM4 ? window.scrComputeCreditM4(EXTRAS.score_matrix) : {});
@@ -242,11 +241,11 @@ function renderPairView(divId, a, b, view) {
     if (!xs.length) { div.innerHTML = '<p style="padding:20px;color:var(--muted)">' + a + ' or ' + b + ' missing from relative panel.</p>'; return; }
     plotIt(divId, [
       {x:xs,y:ya,name:a + ' (M4 percentile)',mode:'lines+markers',line:{color:colA,width:2.2},marker:{color:colA,size:4}},
-      {x:xs,y:yb,name:b + ' (M4 percentile)',mode:'lines+markers',line:{color:colB,width:2.2},marker:{color:colB,size:4}}
+      {x:xs,y:yb,name:b + ' (M4 percentile)',mode:'lines+markers',line:{color:colB,width:2.2,dash:'dash'},marker:{color:colB,size:4}}
     ], Object.assign({}, baseLayout, {
       title:{text:a+' vs '+b+': relative — M4 within-year percentile vs all rated sovereigns',font:{size:12}},
-      xaxis:{title:'',gridcolor:'rgba(128,128,128,0.2)'},
-      yaxis:{title:'',range:[0,1.05],gridcolor:'rgba(128,128,128,0.2)'},
+      xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
+      yaxis:{title:'M4 percentile (0–1)',range:[0,1.05],gridcolor:'rgba(128,128,128,0.2)'},
       shapes:[{type:'line',x0:xs[0],x1:xs[xs.length-1],y0:0.5,y1:0.5,line:{color:'#aaa',dash:'dot',width:1}}]
     }));
   } else { // shadow
@@ -264,11 +263,11 @@ function renderPairView(divId, a, b, view) {
       }
       if (olsB.length) {
         traces.push({x:olsB.map(r=>r.Year), y:olsB.map(r=>r.Actual), name:b + ' actual', mode:'lines+markers', line:{color:colB,width:2.2}, marker:{color:colB,size:4}, legendgroup:b});
-        traces.push({x:olsB.map(r=>r.Year), y:olsB.map(r=>r.Shadow_OLS), name:b + ' shadow OLS', mode:'lines', line:{color:colB,width:1.5}, legendgroup:b});
+        traces.push({x:olsB.map(r=>r.Year), y:olsB.map(r=>r.Shadow_OLS), name:b + ' shadow OLS', mode:'lines', line:{color:colB,width:1.5,dash:'dash'}, legendgroup:b});
       }
       plotIt(divId, traces, Object.assign({}, baseLayout, {
         title:{text:a+' vs '+b+': actual (solid) vs shadow OLS (dashed)',font:{size:12}},
-        xaxis:{title:'',gridcolor:'rgba(128,128,128,0.2)'},
+        xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
         yaxis:{title:'Composite (0–60)',range:[0,65],gridcolor:'rgba(128,128,128,0.2)'}
       }));
     });
@@ -313,7 +312,7 @@ function renderPair() {
     {x:xs,y:spread,name:'Spread',type:'bar',marker:{color:spread.map(s=>s>=0?'#1a1a1a':'#888')}}
   ], Object.assign({}, baseLayout, {
     title:{text:'Paired spread P('+a+' − '+b+')',font:{size:13}},
-    xaxis:{title:'',gridcolor:'rgba(128,128,128,0.2)'},
+    xaxis:{title:'Year',gridcolor:'rgba(128,128,128,0.2)'},
     yaxis:{title:'Score difference',gridcolor:'rgba(128,128,128,0.2)',zerolinecolor:'#1a1a1a',zerolinewidth:1.5},
     showlegend:false
   }), cfg).then(() => {

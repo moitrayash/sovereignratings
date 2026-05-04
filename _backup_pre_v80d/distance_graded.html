@@ -19,7 +19,6 @@
   .stat-strip .stat .lbl { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 700; }
   .stat-strip .stat .val { font-size: 1.1rem; color: var(--ink); margin-top: 4px; }
 </style>
-<script defer src="pct_change.js"></script>
 </head>
 <body>
 <header class="site">
@@ -81,9 +80,7 @@
     <span style="font-size: 0.75rem; color: var(--muted); margin-left: 12px;">&larr; selects which country sits at the centre of the influence map.</span>
   </div>
 
-  <div id="dist-map-title" class="dist-map-title" style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:0.85rem;font-weight:700;padding:8px 0;color:var(--ink)"></div>
   <div class="chart-box"><div id="dist-map" style="height:520px"></div></div>
-  <div id="dist-map-legend" class="dist-map-legend" style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:0.78rem;padding:8px 0;color:var(--ink-soft);line-height:1.5"></div>
   <div class="chart-caption">Figure 1: Kernel-weight visualisation. Concentric blue rings = isodistance contours at weight 0.75, 0.50, 0.25, 0.10. Dot size = w<sub>ij</sub> at the current (λ, p) setting. Hover any dot for the country, distance, and exact weight.</div>
 
   <p>The kernel is a continuous spatial filter: there is no hard cutoff. India's distance-graded benchmark always includes Iceland with some non-zero weight; that weight is just <em>very</em> small: at λ=0.6, p=1, Iceland's weight is roughly e<sup>−0.6 × 6.4</sup> ≈ 0.022, compared to Pakistan's ≈ 0.69 and Bangladesh's ≈ 0.78. The benchmark is a continuous gradient from neighbours to far-flung peers, not a binary in/out decision.</p>

@@ -82,7 +82,6 @@
   body.dark .story-toc h3 { color: #aaa; }
   body.dark .story-toc a { color: #ececec; }
 </style>
-<script defer src="pct_change.js"></script>
 </head>
 <body>
 
@@ -515,20 +514,20 @@ function renderAll() {
   const ip = EXTRAS.stories.india_pakistan;
   Plotly.newPlot('ip-chart', [
     {x: ip.map(d=>d.Year), y: ip.map(d=>d.India), name: 'India', mode: 'lines+markers', line:{color: (window.scrCountryColor && window.scrCountryColor('India')) || '#1a1a1a',width:2.4}, marker:{size:5}},
-    {x: ip.map(d=>d.Year), y: ip.map(d=>d.Pakistan), name: 'Pakistan', mode: 'lines+markers', line:{color: (window.scrCountryColor && window.scrCountryColor('Pakistan')) || '#888',width:2.4}, marker:{size:5}},
-    {x: ip.map(d=>d.Year), y: ip.map(d=>d.Spread), name: 'Spread P(India−Pakistan)', mode: 'lines', line:{color:'#444',width:2,dash:'dash'}, yaxis: 'y2'}
+    {x: ip.map(d=>d.Year), y: ip.map(d=>d.Pakistan), name: 'Pakistan', mode: 'lines+markers', line:{color: (window.scrCountryColor && window.scrCountryColor('Pakistan')) || '#888',width:2.4,dash:'dash'}, marker:{size:5}},
+    {x: ip.map(d=>d.Year), y: ip.map(d=>d.Spread), name: 'Spread P(India−Pakistan)', mode: 'lines', line:{color:'#444',width:2}, yaxis: 'y2'}
   ], Object.assign({}, baseLayout, {
     title: { text: 'India and Pakistan composite scores, with pairwise spread', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
     xaxis: { title: '', gridcolor: '#eee' },
-    yaxis: {title: '', range: [0, 50], gridcolor:'#eee'},
-    yaxis2: {title: '', overlaying: 'y', side: 'right', range: [0, 30]}
+    yaxis: {title:'Composite (0–60)', range: [0, 50], gridcolor:'#eee'},
+    yaxis2: {title:'Spread', overlaying: 'y', side: 'right', range: [0, 30]}
   }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
 
   // Cumulative change from 2000
   const baseI = ip[0].India, baseP = ip[0].Pakistan;
   Plotly.newPlot('ip-rel', [
     {x: ip.map(d=>d.Year), y: ip.map(d => d.India - baseI), name: 'India Δ', mode:'lines+markers', line:{color: (window.scrCountryColor && window.scrCountryColor('India')) || '#1a1a1a',width:2.4}, marker:{size:5}},
-    {x: ip.map(d=>d.Year), y: ip.map(d => d.Pakistan - baseP), name: 'Pakistan Δ', mode:'lines+markers', line:{color:'#888',width:2.4}, marker:{size:5}}
+    {x: ip.map(d=>d.Year), y: ip.map(d => d.Pakistan - baseP), name: 'Pakistan Δ', mode:'lines+markers', line:{color:'#888',width:2.4,dash:'dash'}, marker:{size:5}}
   ], Object.assign({}, baseLayout, {
     title: { text: 'Cumulative change from 2000 baseline', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
     xaxis: { title: '', gridcolor: '#eee' },
@@ -761,7 +760,7 @@ function renderAll() {
       if (ice7 != null && ire7 != null) {
         plot('iceland-recovery', [
           { x: ICE.map(d => d.Year), y: ICE.map(d => d.v - ice7), name: 'Iceland delta', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 }, marker: { size: 4 } },
-          { x: IRE.map(d => d.Year), y: IRE.map(d => d.v - ire7), name: 'Ireland delta', mode: 'lines+markers', line: { color: '#666', width: 2.4 }, marker: { size: 4 } }
+          { x: IRE.map(d => d.Year), y: IRE.map(d => d.v - ire7), name: 'Ireland delta', mode: 'lines+markers', line: { color: '#666', width: 2.4, dash: 'dash' }, marker: { size: 4 } }
         ], {
           title: { text: 'Recovery trajectory: deviation from 2007 baseline', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
           xaxis: { title: '', gridcolor: '#eee' },
@@ -782,7 +781,7 @@ function renderAll() {
       const yrs = ICE.map(d => d.Year);
       plot('iceland-relative', [
         { x: yrs, y: yrs.map(y => pctRank('Iceland', y)), name: 'Iceland M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } },
-        { x: yrs, y: yrs.map(y => pctRank('Ireland', y)), name: 'Ireland M4 percentile', mode: 'lines+markers', line: { color: '#666', width: 2 }, marker: { size: 4 } }
+        { x: yrs, y: yrs.map(y => pctRank('Ireland', y)), name: 'Ireland M4 percentile', mode: 'lines+markers', line: { color: '#666', width: 2, dash: 'dash' }, marker: { size: 4 } }
       ], {
         title: { text: 'M4 percentile within the Nordic-Atlantic 5-country peer set', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: '', gridcolor: '#eee' },
@@ -792,7 +791,7 @@ function renderAll() {
       // Iceland-shadow: a placeholder showing actual scores; real shadow data is on shadow.html
       plot('iceland-shadow', [
         { x: ICE.map(d => d.Year), y: ICE.map(d => d.v), name: 'Iceland actual', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } },
-        { x: IRE.map(d => d.Year), y: IRE.map(d => d.v), name: 'Ireland actual', mode: 'lines+markers', line: { color: '#666', width: 2 }, marker: { size: 4 } }
+        { x: IRE.map(d => d.Year), y: IRE.map(d => d.v), name: 'Ireland actual', mode: 'lines+markers', line: { color: '#666', width: 2, dash: 'dash' }, marker: { size: 4 } }
       ], {
         title: { text: 'Iceland and Ireland: actual composite (shadow chart available on shadow.html)', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: '', gridcolor: '#eee' },
@@ -815,7 +814,7 @@ function renderAll() {
       const yrsA = ARG.map(d => d.Year);
       plot('arg-relative', [
         { x: yrsA, y: yrsA.map(y => pctArg('Argentina', y)), name: 'Argentina M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } },
-        { x: yrsA, y: yrsA.map(y => pctArg('Brazil', y)), name: 'Brazil M4 percentile', mode: 'lines', line: { color: '#666', width: 1.8 } },
+        { x: yrsA, y: yrsA.map(y => pctArg('Brazil', y)), name: 'Brazil M4 percentile', mode: 'lines', line: { color: '#666', width: 1.8, dash: 'dash' } },
         { x: yrsA, y: yrsA.map(y => pctArg('Chile', y)), name: 'Chile M4 percentile', mode: 'lines', line: { color: '#888', width: 1.8 } }
       ], {
         title: { text: 'M4 percentile in the Latin America 5-country peer set', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
@@ -825,7 +824,7 @@ function renderAll() {
 
       plot('arg-shadow', [
         { x: ARG.map(d => d.Year), y: ARG.map(d => d.v), name: 'Argentina actual', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 }, marker: { size: 4 } },
-        { x: BRA.map(d => d.Year), y: BRA.map(d => d.v), name: 'Brazil', mode: 'lines', line: { color: '#666', width: 1.8 } },
+        { x: BRA.map(d => d.Year), y: BRA.map(d => d.v), name: 'Brazil', mode: 'lines', line: { color: '#666', width: 1.8, dash: 'dash' } },
         { x: CHL.map(d => d.Year), y: CHL.map(d => d.v), name: 'Chile', mode: 'lines', line: { color: '#888', width: 1.8 } }
       ], {
         title: { text: 'Argentina and Latin America peers (shadow chart on shadow.html)', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },

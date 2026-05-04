@@ -1,0 +1,75 @@
+
+/* ── v80d nav dropdown (Macro Relatives) ──────────────────────────────── */
+.nav-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+.nav-dropdown-label {
+  display: inline-block;
+  padding: 9px 9px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #bbbbbb;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 3px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.nav-dropdown-label:hover { color: #ffffff; }
+.nav-dropdown-label.active { color: #ffffff; border-bottom-color: #ffffff; }
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--bg-card, #ffffff);
+  border: 1px solid var(--border, #cccccc);
+  min-width: 170px;
+  z-index: 200;
+  display: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+.nav-dropdown.open .nav-dropdown-menu { display: block; }
+
+.nav-dropdown-menu a {
+  display: block;
+  padding: 8px 14px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--ink, #1a1a1a);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-soft, #e0e0de);
+  white-space: nowrap;
+}
+.nav-dropdown-menu a:last-child { border-bottom: none; }
+.nav-dropdown-menu a:hover {
+  background: var(--accent, #1a1a1a);
+  color: var(--bg-card, #ffffff);
+}
+.nav-dropdown-menu a.active {
+  background: var(--bg-soft, #ececea);
+  color: var(--ink, #1a1a1a);
+  font-weight: 700;
+}
+
+body.dark .nav-dropdown-menu {
+  background: var(--bg-card);
+  border-color: var(--border);
+}
+body.dark .nav-dropdown-menu a { color: var(--ink); }
+body.dark .nav-dropdown-menu a:hover { background: var(--accent); color: var(--bg-card); }
+
+/* ── v80d kill drag-to-zoom default cursor (modebar zoom button still works) ── */
+.js-plotly-plot .draglayer .nsewdrag,
+.js-plotly-plot .draglayer .ewdrag,
+.js-plotly-plot .draglayer .nsdrag {
+  cursor: crosshair;
+}

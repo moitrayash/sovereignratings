@@ -9,11 +9,6 @@
      7. Footer + control rail injection (so each page only writes nav)
    ───────────────────────────────────────────────────────────────────── */
 
-/* GRAPH LINE-STYLE HIERARCHY (project rule, v80d):
-     Tier 1: country absolute rating               -> SOLID (color-distinguished)
-     Tier 2: response variable / spread / benchmark -> DASHED ('dash')
-     Tier 3: relative / percentile / pairwise-rel  -> DOTTED ('dot')                  */
-
 (function(){
   'use strict';
 
