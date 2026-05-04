@@ -457,7 +457,7 @@ function renderAll() {
     line: {color: (window.scrCountryColor && window.scrCountryColor('Argentina')) || '#1a1a1a', width: 2.4}, marker: {size: 6}
   }], Object.assign({}, baseLayout, {
     title: { text: 'Argentina composite score, 2000–2025', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-    xaxis: {title: 'Year', gridcolor: '#eee'},
+    xaxis: { title: '', gridcolor: '#eee' },
     yaxis: {title: 'Composite (0–60)', range: [0, 60], gridcolor: '#eee'},
     shapes: [
       {type:'line', x0:2001, x1:2001, y0:0, y1:60, line:{color:'#888',dash:'dot',width:1}},
@@ -481,7 +481,7 @@ function renderAll() {
     {x: years, y: spreadClAr, name: 'Chile − Argentina', mode: 'lines+markers', line:{color:'#888',width:2,dash:'dash'}, marker:{size:5}}
   ], Object.assign({}, baseLayout, {
     title: { text: 'Pairwise spreads vs Argentina', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-    xaxis: {title:'Year', gridcolor:'#eee'},
+    xaxis: { title: '', gridcolor: '#eee' },
     yaxis: {title:'Score difference', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
   }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
 
@@ -491,7 +491,7 @@ function renderAll() {
   Plotly.newPlot('euro-chart', ezCountries.map((c,i) => ({
     x: ez.map(d => d.Year), y: ez.map(d => d[c]),
     name: c, mode: 'lines+markers',
-    line: {color: lineDash[i], width: i<5 ? 2.4 : 1.8, dash: i>=6 ? 'dash' : null},
+    line: {color: lineDash[i], width: i<5 ? 2.4 : 1.8, dash: null},
     marker: {size: 4}
   })), Object.assign({}, baseLayout, {
     title: { text: 'Eurozone composite scores, 2007–2018', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
@@ -518,7 +518,7 @@ function renderAll() {
     {x: ip.map(d=>d.Year), y: ip.map(d=>d.Spread), name: 'Spread P(India−Pakistan)', mode: 'lines', line:{color:'#444',width:2}, yaxis: 'y2'}
   ], Object.assign({}, baseLayout, {
     title: { text: 'India and Pakistan composite scores, with pairwise spread', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-    xaxis: {title:'Year', gridcolor:'#eee'},
+    xaxis: { title: '', gridcolor: '#eee' },
     yaxis: {title:'Composite (0–60)', range: [0, 50], gridcolor:'#eee'},
     yaxis2: {title:'Spread', overlaying: 'y', side: 'right', range: [0, 30]}
   }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
@@ -530,8 +530,8 @@ function renderAll() {
     {x: ip.map(d=>d.Year), y: ip.map(d => d.Pakistan - baseP), name: 'Pakistan Δ', mode:'lines+markers', line:{color:'#888',width:2.4,dash:'dash'}, marker:{size:5}}
   ], Object.assign({}, baseLayout, {
     title: { text: 'Cumulative change from 2000 baseline', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-    xaxis: {title:'Year', gridcolor:'#eee'},
-    yaxis: {title:'Δ from 2000', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
+    xaxis: { title: '', gridcolor: '#eee' },
+    yaxis: { title: '', gridcolor: '#eee', zerolinecolor: '#1a1a1a' }
   }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
 
   // ── EMDC cluster
@@ -540,10 +540,10 @@ function renderAll() {
   Plotly.newPlot('emdc-chart', afCountries.map((c,i) => ({
     x: af.map(d=>d.Year), y: af.map(d=>d[c]),
     name: c, mode: 'lines+markers',
-    line: {color: lineDash[i], width: i<4 ? 2.4 : 1.8, dash: i>=5 ? 'dash' : null}, marker: {size: 4}
+    line: {color: lineDash[i], width: i<4 ? 2.4 : 1.8, dash: null}, marker: {size: 4}
   })), Object.assign({}, baseLayout, {
     title: { text: 'Six emerging-market sovereigns, 2018–2025', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-    xaxis: {title:'Year', gridcolor:'#eee'},
+    xaxis: { title: '', gridcolor: '#eee' },
     yaxis: {title:'Composite (0–60)', range: [0, 35], gridcolor:'#eee'}
   }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
 
@@ -560,7 +560,7 @@ function renderAll() {
       Plotly.newPlot('emdc-recovery', tracesR, Object.assign({}, baseLayout, {
         title: { text: 'Recovery from default-year trough (Year 0 = trough year)', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: 'Years since default-year trough', gridcolor: '#eee' },
-        yaxis: { title: 'Composite delta from trough', gridcolor: '#eee', zerolinecolor: '#1a1a1a' }
+        yaxis: { title: '', gridcolor: '#eee', zerolinecolor: '#1a1a1a' }
       }), window.scrChartConfig || { responsive: true, displayModeBar: true });
     }
     const ice = (EXTRAS.stories && EXTRAS.stories.iceland) || [];
@@ -569,12 +569,12 @@ function renderAll() {
       Plotly.newPlot('iceland-chart', cIce.map((c, i) => ({
         x: ice.map(d => d.Year), y: ice.map(d => d[c]),
         name: c, mode: 'lines+markers',
-        line: { color: lineDash[i % lineDash.length], width: i < 2 ? 2.4 : 1.6, dash: i >= 2 ? 'dash' : null },
+        line: { color: lineDash[i % lineDash.length], width: i < 2 ? 2.4 : 1.6, dash: null },
         marker: { size: 4 }
       })), Object.assign({}, baseLayout, {
         title: { text: 'Iceland and Nordic-Atlantic peers, 2006-2014', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'Composite (0-60)', gridcolor: '#eee' }
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', gridcolor: '#eee' }
       }), window.scrChartConfig || { responsive: true, displayModeBar: true });
     }
 
@@ -600,8 +600,8 @@ function renderAll() {
         line: { color: (window.scrCountryColor && window.scrCountryColor('Ghana')) || '#1a1a1a', width: 2.4 }, marker: { size: 6 }
       }], {
         title: { text: 'Ghana composite score, 2010-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'Composite (0-60)', range: [0, 30], gridcolor: '#eee' },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 30], gridcolor: '#eee' },
         shapes: [
           { type:'line', x0:2022, x1:2022, y0:0, y1:30, line:{color:'#888',dash:'dot',width:1} },
           { type:'line', x0:2024, x1:2024, y0:0, y1:30, line:{color:'#888',dash:'dot',width:1} }
@@ -624,12 +624,12 @@ function renderAll() {
       }].concat(peerKeys.map((k, i) => ({
         x: G_PEERS[k].map(d => d.Year), y: G_PEERS[k].map(d => d.v),
         name: k, mode: 'lines',
-        line: { color: lineDash[(i+1) % lineDash.length], width: 1.6, dash: i >= 3 ? 'dash' : null }
+        line: { color: lineDash[(i+1) % lineDash.length], width: 1.6, dash: null }
       })));
       plotSimple('ghana-peers', traces, {
         title: { text: 'Ghana vs Sub-Saharan Africa peers, 2010-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'Composite (0-60)', range: [0, 35], gridcolor: '#eee' }
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 35], gridcolor: '#eee' }
       });
     }
 
@@ -642,8 +642,8 @@ function renderAll() {
         marker: { size: 5 }
       }], {
         title: { text: 'Belize composite score, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'Composite (0-60)', range: [0, 35], gridcolor: '#eee' },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 35], gridcolor: '#eee' },
         shapes: [
           { type:'line', x0:2007, x1:2007, y0:0, y1:35, line:{color:'#888',dash:'dot',width:1} },
           { type:'line', x0:2013, x1:2013, y0:0, y1:35, line:{color:'#888',dash:'dot',width:1} }
@@ -661,12 +661,12 @@ function renderAll() {
       plotSimple('caribbean-cluster', carKeys.map((k, i) => ({
         x: CAR[k].map(d => d.Year), y: CAR[k].map(d => d.v),
         name: k, mode: 'lines+markers',
-        line: { color: (window.scrCountryColor && window.scrCountryColor(k)) || lineDash[i % lineDash.length], width: k === 'Belize' ? 2.4 : 1.6, dash: k === 'Trinidad and Tobago' ? 'dash' : null },
+        line: { color: (window.scrCountryColor && window.scrCountryColor(k)) || lineDash[i % lineDash.length], width: k === 'Belize' ? 2.4 : 1.6, dash: null },
         marker: { size: 4 }
       })), {
         title: { text: 'Caribbean cluster, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'Composite (0-60)', range: [0, 50], gridcolor: '#eee' }
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 50], gridcolor: '#eee' }
       });
     }
 
@@ -680,8 +680,8 @@ function renderAll() {
         marker: { size: 6 }
       }], {
         title: { text: 'Belize composite score 2005-2025 (zoomed on the two Superbond cycles)', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'Composite (0-60)', range: [0, 25], gridcolor: '#eee' },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 25], gridcolor: '#eee' },
         shapes: [
           { type:'line', x0:2007, x1:2007, y0:0, y1:25, line:{color:'#888',dash:'dot',width:1} },
           { type:'line', x0:2013, x1:2013, y0:0, y1:25, line:{color:'#888',dash:'dot',width:1} },
@@ -704,8 +704,8 @@ function renderAll() {
         marker: { size: 5 }
       }], {
         title: { text: 'Barbados composite score, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'Composite (0-60)', range: [0, 50], gridcolor: '#eee' },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 50], gridcolor: '#eee' },
         shapes: [
           { type:'line', x0:2018, x1:2018, y0:0, y1:50, line:{color:'#888',dash:'dot',width:1} },
           { type:'line', x0:2019, x1:2019, y0:0, y1:50, line:{color:'#888',dash:'dot',width:1} }
@@ -750,8 +750,8 @@ function renderAll() {
         lineTrace('United Kingdom', range6(UK_), '#aaa', 'dash')
       ], {
         title: { text: 'Iceland and Nordic-Atlantic peers, 2006-2014', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'Composite (0-60)', range: [0, 65], gridcolor: '#eee' }
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 65], gridcolor: '#eee' }
       });
 
       // Iceland-recovery: deviation from 2007 baseline
@@ -763,7 +763,7 @@ function renderAll() {
           { x: IRE.map(d => d.Year), y: IRE.map(d => d.v - ire7), name: 'Ireland delta', mode: 'lines+markers', line: { color: '#666', width: 2.4, dash: 'dash' }, marker: { size: 4 } }
         ], {
           title: { text: 'Recovery trajectory: deviation from 2007 baseline', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-          xaxis: { title: 'Year', gridcolor: '#eee' },
+          xaxis: { title: '', gridcolor: '#eee' },
           yaxis: { title: 'Delta from 2007 baseline', gridcolor: '#eee', zerolinecolor: '#1a1a1a' }
         });
       }
@@ -784,8 +784,8 @@ function renderAll() {
         { x: yrs, y: yrs.map(y => pctRank('Ireland', y)), name: 'Ireland M4 percentile', mode: 'lines+markers', line: { color: '#666', width: 2, dash: 'dash' }, marker: { size: 4 } }
       ], {
         title: { text: 'M4 percentile within the Nordic-Atlantic 5-country peer set', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'M4 percentile (0-1)', range: [0, 1], gridcolor: '#eee' }
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 1], gridcolor: '#eee' }
       });
 
       // Iceland-shadow: a placeholder showing actual scores; real shadow data is on shadow.html
@@ -794,8 +794,8 @@ function renderAll() {
         { x: IRE.map(d => d.Year), y: IRE.map(d => d.v), name: 'Ireland actual', mode: 'lines+markers', line: { color: '#666', width: 2, dash: 'dash' }, marker: { size: 4 } }
       ], {
         title: { text: 'Iceland and Ireland: actual composite (shadow chart available on shadow.html)', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'Composite (0-60)', range: [0, 65], gridcolor: '#eee' }
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 65], gridcolor: '#eee' }
       });
     }
 
@@ -818,8 +818,8 @@ function renderAll() {
         { x: yrsA, y: yrsA.map(y => pctArg('Chile', y)), name: 'Chile M4 percentile', mode: 'lines', line: { color: '#888', width: 1.8 } }
       ], {
         title: { text: 'M4 percentile in the Latin America 5-country peer set', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'M4 percentile (0-1)', range: [0, 1], gridcolor: '#eee' }
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 1], gridcolor: '#eee' }
       });
 
       plot('arg-shadow', [
@@ -828,8 +828,8 @@ function renderAll() {
         { x: CHL.map(d => d.Year), y: CHL.map(d => d.v), name: 'Chile', mode: 'lines', line: { color: '#888', width: 1.8 } }
       ], {
         title: { text: 'Argentina and Latin America peers (shadow chart on shadow.html)', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'Composite (0-60)', range: [0, 65], gridcolor: '#eee' }
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 65], gridcolor: '#eee' }
       });
     }
 
@@ -878,13 +878,13 @@ function renderAll() {
         { x: yrs, y: yrs.map(y => pctRankInPeers('Ghana', y, SSA)), name: 'Ghana M4 percentile (SSA peers)', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } }
       ], {
         title: { text: 'Ghana M4 percentile within Sub-Saharan Africa peer set', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'M4 percentile (0-1)', range: [0, 1], gridcolor: '#eee' }
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 1], gridcolor: '#eee' }
       });
       plot('ghana-shadow', shadowTraces(G, GHANA_SH), {
         title: { text: 'Ghana actual vs three shadow predictions', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'Composite (0-60)', range: [0, 30], gridcolor: '#eee' }
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 30], gridcolor: '#eee' }
       });
     }
 
@@ -895,13 +895,13 @@ function renderAll() {
         { x: yrs, y: yrs.map(y => pctRankInPeers('Belize', y, CARIB)), name: 'Belize M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } }
       ], {
         title: { text: 'Belize M4 percentile within Caribbean peer set, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'M4 percentile (0-1)', range: [0, 1], gridcolor: '#eee' }
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 1], gridcolor: '#eee' }
       });
       plot('belize2007-shadow', shadowTraces(BLZ, BELIZE_SH), {
         title: { text: 'Belize actual vs three shadow predictions, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'Composite (0-60)', range: [0, 35], gridcolor: '#eee' }
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 35], gridcolor: '#eee' }
       });
     }
 
@@ -913,13 +913,13 @@ function renderAll() {
         { x: yrs, y: yrs.map(y => pctRankInPeers('Belize', y, CARIB)), name: 'Belize M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } }
       ], {
         title: { text: 'Belize M4 percentile within Caribbean peer set, 2005-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'M4 percentile (0-1)', range: [0, 1], gridcolor: '#eee' }
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 1], gridcolor: '#eee' }
       });
       plot('belize2013-shadow', shadowTraces(sub, BELIZE_SH, [2005, 2025]), {
         title: { text: 'Belize actual vs three shadow predictions, 2005-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'Composite (0-60)', range: [0, 25], gridcolor: '#eee' }
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 25], gridcolor: '#eee' }
       });
     }
 
@@ -930,13 +930,13 @@ function renderAll() {
         { x: yrs, y: yrs.map(y => pctRankInPeers('Barbados', y, CARIB)), name: 'Barbados M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } }
       ], {
         title: { text: 'Barbados M4 percentile within Caribbean peer set, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'M4 percentile (0-1)', range: [0, 1], gridcolor: '#eee' }
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 1], gridcolor: '#eee' }
       });
       plot('barbados-shadow', shadowTraces(BAR, BARBADOS_SH), {
         title: { text: 'Barbados actual vs three shadow predictions, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: 'Year', gridcolor: '#eee' },
-        yaxis: { title: 'Composite (0-60)', range: [0, 50], gridcolor: '#eee' }
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 50], gridcolor: '#eee' }
       });
     }
   } catch (e) { console.warn('story rel/shadow:', e); }
@@ -948,6 +948,56 @@ function renderAll() {
   } catch (e) {
     console.warn('stories renderAll partial:', e);
   }
+
+  // ── v79 final-pass: argentina relative + shadow + clean axis (idempotent over reload)
+  try {
+    const ARG_DATA = [{"Year": 2000, "v": 22.5}, {"Year": 2001, "v": 1.5}, {"Year": 2002, "v": 1.5}, {"Year": 2003, "v": 6.0}, {"Year": 2004, "v": 6.0}, {"Year": 2005, "v": 15.0}, {"Year": 2006, "v": 18.0}, {"Year": 2007, "v": 17.0}, {"Year": 2008, "v": 15.0}, {"Year": 2009, "v": 15.0}, {"Year": 2010, "v": 16.0}, {"Year": 2011, "v": 17.0}, {"Year": 2012, "v": 17.0}, {"Year": 2013, "v": 16.0}, {"Year": 2014, "v": 4.0}, {"Year": 2015, "v": 4.0}, {"Year": 2016, "v": 16.0}, {"Year": 2017, "v": 19.0}, {"Year": 2018, "v": 18.0}, {"Year": 2019, "v": 3.0}, {"Year": 2020, "v": 8.0}, {"Year": 2021, "v": 8.0}, {"Year": 2022, "v": 8.0}, {"Year": 2023, "v": 8.0}, {"Year": 2024, "v": 9.0}, {"Year": 2025, "v": 13.0}];
+    const LATAM = {"Argentina": [{"Year": 2000, "v": 22.5}, {"Year": 2001, "v": 1.5}, {"Year": 2002, "v": 1.5}, {"Year": 2003, "v": 6.0}, {"Year": 2004, "v": 6.0}, {"Year": 2005, "v": 15.0}, {"Year": 2006, "v": 18.0}, {"Year": 2007, "v": 17.0}, {"Year": 2008, "v": 15.0}, {"Year": 2009, "v": 15.0}, {"Year": 2010, "v": 16.0}, {"Year": 2011, "v": 17.0}, {"Year": 2012, "v": 17.0}, {"Year": 2013, "v": 16.0}, {"Year": 2014, "v": 4.0}, {"Year": 2015, "v": 4.0}, {"Year": 2016, "v": 16.0}, {"Year": 2017, "v": 19.0}, {"Year": 2018, "v": 18.0}, {"Year": 2019, "v": 3.0}, {"Year": 2020, "v": 8.0}, {"Year": 2021, "v": 8.0}, {"Year": 2022, "v": 8.0}, {"Year": 2023, "v": 8.0}, {"Year": 2024, "v": 9.0}, {"Year": 2025, "v": 13.0}], "Brazil": [{"Year": 2000, "v": 21.0}, {"Year": 2001, "v": 22.5}, {"Year": 2002, "v": 21.0}, {"Year": 2003, "v": 19.5}, {"Year": 2004, "v": 22.5}, {"Year": 2005, "v": 24.0}, {"Year": 2006, "v": 27.0}, {"Year": 2007, "v": 28.0}, {"Year": 2008, "v": 32.0}, {"Year": 2009, "v": 32.0}, {"Year": 2010, "v": 32.0}, {"Year": 2011, "v": 34.0}, {"Year": 2012, "v": 34.0}, {"Year": 2013, "v": 36.0}, {"Year": 2014, "v": 35.0}, {"Year": 2015, "v": 33.0}, {"Year": 2016, "v": 33.0}, {"Year": 2017, "v": 31.0}, {"Year": 2018, "v": 25.0}, {"Year": 2019, "v": 25.0}, {"Year": 2020, "v": 25.0}, {"Year": 2021, "v": 25.0}, {"Year": 2022, "v": 25.0}, {"Year": 2023, "v": 27.0}, {"Year": 2024, "v": 27.0}, {"Year": 2025, "v": 28.0}], "Chile": [{"Year": 2000, "v": 40.5}, {"Year": 2001, "v": 40.5}, {"Year": 2002, "v": 40.5}, {"Year": 2003, "v": 40.5}, {"Year": 2004, "v": 42.0}, {"Year": 2005, "v": 42.0}, {"Year": 2006, "v": 46.0}, {"Year": 2007, "v": 47.0}, {"Year": 2008, "v": 47.0}, {"Year": 2009, "v": 48.0}, {"Year": 2010, "v": 49.0}, {"Year": 2011, "v": 49.0}, {"Year": 2012, "v": 50.0}, {"Year": 2013, "v": 51.0}, {"Year": 2014, "v": 51.0}, {"Year": 2015, "v": 51.0}, {"Year": 2016, "v": 51.0}, {"Year": 2017, "v": 49.5}, {"Year": 2018, "v": 48.0}, {"Year": 2019, "v": 48.0}, {"Year": 2020, "v": 48.0}, {"Year": 2021, "v": 46.5}, {"Year": 2022, "v": 45.0}, {"Year": 2023, "v": 45.0}, {"Year": 2024, "v": 45.0}, {"Year": 2025, "v": 45.0}], "Mexico": [{"Year": 2000, "v": 30.0}, {"Year": 2001, "v": 30.0}, {"Year": 2002, "v": 34.5}, {"Year": 2003, "v": 34.5}, {"Year": 2004, "v": 34.5}, {"Year": 2005, "v": 37.5}, {"Year": 2006, "v": 37.0}, {"Year": 2007, "v": 38.0}, {"Year": 2008, "v": 38.0}, {"Year": 2009, "v": 37.0}, {"Year": 2010, "v": 37.0}, {"Year": 2011, "v": 37.0}, {"Year": 2012, "v": 37.0}, {"Year": 2013, "v": 38.0}, {"Year": 2014, "v": 40.0}, {"Year": 2015, "v": 40.0}, {"Year": 2016, "v": 40.0}, {"Year": 2017, "v": 40.0}, {"Year": 2018, "v": 40.0}, {"Year": 2019, "v": 40.0}, {"Year": 2020, "v": 40.0}, {"Year": 2021, "v": 39.0}, {"Year": 2022, "v": 36.0}, {"Year": 2023, "v": 36.0}, {"Year": 2024, "v": 36.0}, {"Year": 2025, "v": 36.0}], "Colombia": [{"Year": 2000, "v": 28.5}, {"Year": 2001, "v": 28.5}, {"Year": 2002, "v": 28.5}, {"Year": 2003, "v": 27.0}, {"Year": 2004, "v": 27.0}, {"Year": 2005, "v": 27.0}, {"Year": 2006, "v": 28.0}, {"Year": 2007, "v": 29.0}, {"Year": 2008, "v": 30.0}, {"Year": 2009, "v": 31.0}, {"Year": 2010, "v": 31.0}, {"Year": 2011, "v": 33.0}, {"Year": 2012, "v": 33.0}, {"Year": 2013, "v": 35.0}, {"Year": 2014, "v": 36.0}, {"Year": 2015, "v": 36.0}, {"Year": 2016, "v": 36.0}, {"Year": 2017, "v": 35.0}, {"Year": 2018, "v": 35.0}, {"Year": 2019, "v": 35.0}, {"Year": 2020, "v": 35.0}, {"Year": 2021, "v": 33.0}, {"Year": 2022, "v": 33.0}, {"Year": 2023, "v": 33.0}, {"Year": 2024, "v": 33.0}, {"Year": 2025, "v": 32.0}], "Peru": [{"Year": 2000, "v": 24.0}, {"Year": 2001, "v": 24.0}, {"Year": 2002, "v": 24.0}, {"Year": 2003, "v": 24.0}, {"Year": 2004, "v": 25.5}, {"Year": 2005, "v": 25.5}, {"Year": 2006, "v": 27.0}, {"Year": 2007, "v": 30.0}, {"Year": 2008, "v": 32.0}, {"Year": 2009, "v": 33.0}, {"Year": 2010, "v": 33.0}, {"Year": 2011, "v": 34.0}, {"Year": 2012, "v": 34.0}, {"Year": 2013, "v": 35.0}, {"Year": 2014, "v": 40.0}, {"Year": 2015, "v": 40.0}, {"Year": 2016, "v": 40.0}, {"Year": 2017, "v": 40.5}, {"Year": 2018, "v": 40.5}, {"Year": 2019, "v": 40.5}, {"Year": 2020, "v": 40.5}, {"Year": 2021, "v": 39.0}, {"Year": 2022, "v": 37.5}, {"Year": 2023, "v": 37.5}, {"Year": 2024, "v": 36.0}, {"Year": 2025, "v": 36.0}], "Uruguay": [{"Year": 2000, "v": 33.0}, {"Year": 2001, "v": 33.0}, {"Year": 2002, "v": 33.0}, {"Year": 2003, "v": 33.0}, {"Year": 2004, "v": 15.0}, {"Year": 2005, "v": 15.0}, {"Year": 2006, "v": 21.0}, {"Year": 2007, "v": 21.0}, {"Year": 2008, "v": 22.5}, {"Year": 2009, "v": 24.0}, {"Year": 2010, "v": 28.5}, {"Year": 2011, "v": 29.0}, {"Year": 2012, "v": 30.0}, {"Year": 2013, "v": 32.0}, {"Year": 2014, "v": 34.0}, {"Year": 2015, "v": 35.0}, {"Year": 2016, "v": 35.0}, {"Year": 2017, "v": 35.0}, {"Year": 2018, "v": 35.0}, {"Year": 2019, "v": 35.0}, {"Year": 2020, "v": 35.0}, {"Year": 2021, "v": 35.0}, {"Year": 2022, "v": 36.0}, {"Year": 2023, "v": 37.0}, {"Year": 2024, "v": 38.0}, {"Year": 2025, "v": 38.0}]};
+    const ARG_SH = {"ols": [{"Country": "Argentina", "Year": 2000, "Actual": 22.5, "Shadow_OLS": 32.99, "Residual": -10.49}, {"Country": "Argentina", "Year": 2001, "Actual": 1.5, "Shadow_OLS": 32.19, "Residual": -30.69}, {"Country": "Argentina", "Year": 2002, "Actual": 1.5, "Shadow_OLS": 20.7, "Residual": -19.2}, {"Country": "Argentina", "Year": 2003, "Actual": 6.0, "Shadow_OLS": 25.81, "Residual": -19.81}, {"Country": "Argentina", "Year": 2004, "Actual": 6.0, "Shadow_OLS": 28.13, "Residual": -22.13}, {"Country": "Argentina", "Year": 2005, "Actual": 15.0, "Shadow_OLS": 29.61, "Residual": -14.61}, {"Country": "Argentina", "Year": 2006, "Actual": 18.0, "Shadow_OLS": 30.93, "Residual": -12.93}, {"Country": "Argentina", "Year": 2007, "Actual": 17.0, "Shadow_OLS": 33.06, "Residual": -16.06}, {"Country": "Argentina", "Year": 2008, "Actual": 15.0, "Shadow_OLS": 35.23, "Residual": -20.23}, {"Country": "Argentina", "Year": 2009, "Actual": 15.0, "Shadow_OLS": 33.4, "Residual": -18.4}, {"Country": "Argentina", "Year": 2010, "Actual": 16.0, "Shadow_OLS": 36.6, "Residual": -20.6}, {"Country": "Argentina", "Year": 2011, "Actual": 17.0, "Shadow_OLS": 38.61, "Residual": -21.61}, {"Country": "Argentina", "Year": 2012, "Actual": 17.0, "Shadow_OLS": 38.17, "Residual": -21.17}, {"Country": "Argentina", "Year": 2013, "Actual": 16.0, "Shadow_OLS": 38.13, "Residual": -22.13}, {"Country": "Argentina", "Year": 2014, "Actual": 4.0, "Shadow_OLS": 37.41, "Residual": -33.41}, {"Country": "Argentina", "Year": 2015, "Actual": 4.0, "Shadow_OLS": 38.98, "Residual": -34.98}, {"Country": "Argentina", "Year": 2016, "Actual": 16.0, "Shadow_OLS": 37.73, "Residual": -21.73}, {"Country": "Argentina", "Year": 2017, "Actual": 19.0, "Shadow_OLS": 39.63, "Residual": -20.63}, {"Country": "Argentina", "Year": 2018, "Actual": 18.0, "Shadow_OLS": 36.64, "Residual": -18.64}, {"Country": "Argentina", "Year": 2019, "Actual": 3.0, "Shadow_OLS": 35.14, "Residual": -32.14}, {"Country": "Argentina", "Year": 2020, "Actual": 8.0, "Shadow_OLS": 33.68, "Residual": -25.68}, {"Country": "Argentina", "Year": 2021, "Actual": 8.0, "Shadow_OLS": 37.01, "Residual": -29.01}, {"Country": "Argentina", "Year": 2022, "Actual": 8.0, "Shadow_OLS": 39.66, "Residual": -31.66}, {"Country": "Argentina", "Year": 2023, "Actual": 8.0, "Shadow_OLS": 39.08, "Residual": -31.08}, {"Country": "Argentina", "Year": 2024, "Actual": 9.0, "Shadow_OLS": 38.77, "Residual": -29.77}], "knn": [{"Country": "Argentina", "Year": 2000, "Actual": 22.5, "Shadow_kNN": 39.19, "Residual": -16.69}, {"Country": "Argentina", "Year": 2001, "Actual": 1.5, "Shadow_kNN": 36.72, "Residual": -35.22}, {"Country": "Argentina", "Year": 2002, "Actual": 1.5, "Shadow_kNN": 27.72, "Residual": -26.22}, {"Country": "Argentina", "Year": 2003, "Actual": 6.0, "Shadow_kNN": 29.68, "Residual": -23.68}, {"Country": "Argentina", "Year": 2004, "Actual": 6.0, "Shadow_kNN": 29.76, "Residual": -23.76}, {"Country": "Argentina", "Year": 2005, "Actual": 15.0, "Shadow_kNN": 32.78, "Residual": -17.78}, {"Country": "Argentina", "Year": 2006, "Actual": 18.0, "Shadow_kNN": 32.54, "Residual": -14.54}, {"Country": "Argentina", "Year": 2007, "Actual": 17.0, "Shadow_kNN": 27.33, "Residual": -10.33}, {"Country": "Argentina", "Year": 2008, "Actual": 15.0, "Shadow_kNN": 33.73, "Residual": -18.73}, {"Country": "Argentina", "Year": 2009, "Actual": 15.0, "Shadow_kNN": 35.52, "Residual": -20.52}, {"Country": "Argentina", "Year": 2010, "Actual": 16.0, "Shadow_kNN": 37.97, "Residual": -21.97}, {"Country": "Argentina", "Year": 2011, "Actual": 17.0, "Shadow_kNN": 37.9, "Residual": -20.9}, {"Country": "Argentina", "Year": 2012, "Actual": 17.0, "Shadow_kNN": 36.51, "Residual": -19.51}, {"Country": "Argentina", "Year": 2013, "Actual": 16.0, "Shadow_kNN": 36.98, "Residual": -20.98}, {"Country": "Argentina", "Year": 2014, "Actual": 4.0, "Shadow_kNN": 35.97, "Residual": -31.97}, {"Country": "Argentina", "Year": 2015, "Actual": 4.0, "Shadow_kNN": 31.04, "Residual": -27.04}, {"Country": "Argentina", "Year": 2016, "Actual": 16.0, "Shadow_kNN": 35.18, "Residual": -19.18}, {"Country": "Argentina", "Year": 2017, "Actual": 19.0, "Shadow_kNN": 38.33, "Residual": -19.33}, {"Country": "Argentina", "Year": 2018, "Actual": 18.0, "Shadow_kNN": 20.58, "Residual": -2.58}, {"Country": "Argentina", "Year": 2019, "Actual": 3.0, "Shadow_kNN": 28.32, "Residual": -25.32}, {"Country": "Argentina", "Year": 2020, "Actual": 8.0, "Shadow_kNN": 32.68, "Residual": -24.68}, {"Country": "Argentina", "Year": 2021, "Actual": 8.0, "Shadow_kNN": 29.64, "Residual": -21.64}, {"Country": "Argentina", "Year": 2022, "Actual": 8.0, "Shadow_kNN": 25.87, "Residual": -17.87}, {"Country": "Argentina", "Year": 2023, "Actual": 8.0, "Shadow_kNN": 27.55, "Residual": -19.55}, {"Country": "Argentina", "Year": 2024, "Actual": 9.0, "Shadow_kNN": 40.3, "Residual": -31.3}], "bayes": [{"Country": "Argentina", "Year": 2000, "Actual": 22.5, "Shadow_Bayes": 29.71, "Residual": -7.21}, {"Country": "Argentina", "Year": 2001, "Actual": 1.5, "Shadow_Bayes": 19.38, "Residual": -17.88}, {"Country": "Argentina", "Year": 2002, "Actual": 1.5, "Shadow_Bayes": 19.89, "Residual": -18.39}, {"Country": "Argentina", "Year": 2003, "Actual": 6.0, "Shadow_Bayes": 22.23, "Residual": -16.23}, {"Country": "Argentina", "Year": 2004, "Actual": 6.0, "Shadow_Bayes": 22.09, "Residual": -16.09}, {"Country": "Argentina", "Year": 2005, "Actual": 15.0, "Shadow_Bayes": 26.61, "Residual": -11.61}, {"Country": "Argentina", "Year": 2006, "Actual": 18.0, "Shadow_Bayes": 28.06, "Residual": -10.06}, {"Country": "Argentina", "Year": 2007, "Actual": 17.0, "Shadow_Bayes": 27.5, "Residual": -10.5}, {"Country": "Argentina", "Year": 2008, "Actual": 15.0, "Shadow_Bayes": 26.32, "Residual": -11.32}, {"Country": "Argentina", "Year": 2009, "Actual": 15.0, "Shadow_Bayes": 26.31, "Residual": -11.31}, {"Country": "Argentina", "Year": 2010, "Actual": 16.0, "Shadow_Bayes": 26.52, "Residual": -10.52}, {"Country": "Argentina", "Year": 2011, "Actual": 17.0, "Shadow_Bayes": 27.01, "Residual": -10.01}, {"Country": "Argentina", "Year": 2012, "Actual": 17.0, "Shadow_Bayes": 26.67, "Residual": -9.67}, {"Country": "Argentina", "Year": 2013, "Actual": 16.0, "Shadow_Bayes": 25.76, "Residual": -9.76}, {"Country": "Argentina", "Year": 2014, "Actual": 4.0, "Shadow_Bayes": 19.49, "Residual": -15.49}, {"Country": "Argentina", "Year": 2015, "Actual": 4.0, "Shadow_Bayes": 19.21, "Residual": -15.21}, {"Country": "Argentina", "Year": 2016, "Actual": 16.0, "Shadow_Bayes": 24.88, "Residual": -8.88}, {"Country": "Argentina", "Year": 2017, "Actual": 19.0, "Shadow_Bayes": 26.13, "Residual": -7.13}, {"Country": "Argentina", "Year": 2018, "Actual": 18.0, "Shadow_Bayes": 25.38, "Residual": -7.38}, {"Country": "Argentina", "Year": 2019, "Actual": 3.0, "Shadow_Bayes": 17.78, "Residual": -14.78}, {"Country": "Argentina", "Year": 2020, "Actual": 8.0, "Shadow_Bayes": 19.86, "Residual": -11.86}, {"Country": "Argentina", "Year": 2021, "Actual": 8.0, "Shadow_Bayes": 19.74, "Residual": -11.74}, {"Country": "Argentina", "Year": 2022, "Actual": 8.0, "Shadow_Bayes": 19.43, "Residual": -11.43}, {"Country": "Argentina", "Year": 2023, "Actual": 8.0, "Shadow_Bayes": 19.35, "Residual": -11.35}, {"Country": "Argentina", "Year": 2024, "Actual": 9.0, "Shadow_Bayes": 19.83, "Residual": -10.83}]};
+
+    function v79pctRank(country, year, peers) {
+      const vals = Object.keys(peers).map(c => (peers[c].find(d => d.Year === year) || {}).v).filter(v => v != null);
+      if (!vals.length) return null;
+      const sorted = vals.slice().sort((a,b) => a - b);
+      const r = (peers[country] || []).find(d => d.Year === year);
+      if (!r) return null;
+      return (sorted.indexOf(r.v) + 1) / sorted.length;
+    }
+    function v79plot(div, traces, layoutExtra) {
+      if (!document.getElementById(div) || !traces || !traces.length) return;
+      const layout = Object.assign({}, baseLayout, layoutExtra || {});
+      Plotly.newPlot(div, traces, layout, window.scrChartConfig || { responsive: true, displayModeBar: true });
+    }
+    function v79pred(r) { return r.Predicted != null ? r.Predicted : (r.Shadow_OLS != null ? r.Shadow_OLS : (r.Shadow_KNN != null ? r.Shadow_KNN : (r.Shadow_Bayes != null ? r.Shadow_Bayes : (r.Shadow != null ? r.Shadow : null)))); }
+
+    // Argentina relative
+    if (ARG_DATA.length && document.getElementById('arg-relative')) {
+      const yrs = ARG_DATA.map(d => d.Year);
+      v79plot('arg-relative', [
+        { x: yrs, y: yrs.map(y => v79pctRank('Argentina', y, LATAM)), name: 'Argentina M4 percentile (Latin America peer set)', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 }, marker: { size: 4 } }
+      ], {
+        title: { text: 'Argentina M4 percentile within the Latin America peer set, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 1], gridcolor: '#eee' }
+      });
+    }
+
+    // Argentina shadow
+    if (ARG_DATA.length && document.getElementById('arg-shadow')) {
+      const ols = ARG_SH.ols || [], knn = ARG_SH.knn || [], bayes = ARG_SH.bayes || [];
+      v79plot('arg-shadow', [
+        { x: ARG_DATA.map(d => d.Year), y: ARG_DATA.map(d => d.v), name: 'Actual', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 }, marker: { size: 5 } },
+        { x: ols.map(r => r.Year), y: ols.map(r => v79pred(r)), name: 'OLS shadow', mode: 'lines', line: { color: '#5b9bd5', width: 2 } },
+        { x: knn.map(r => r.Year), y: knn.map(r => v79pred(r)), name: 'k-NN shadow', mode: 'lines', line: { color: '#e15759', width: 2 } },
+        { x: bayes.map(r => r.Year), y: bayes.map(r => v79pred(r)), name: 'Bayes shadow', mode: 'lines', line: { color: '#76b56a', width: 2 } }
+      ], {
+        title: { text: 'Argentina actual vs three shadow predictions, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 60], gridcolor: '#eee' }
+      });
+    }
+  } catch (e) { console.warn('v79 arg patch:', e); }
+
 }
 </script>
 
