@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Glossary: Sovereign Credit Rating Explorer</title>
+<title>Glossary: Sovereign Ratings &amp; Scores</title>
 <link rel="stylesheet" href="shared.css">
 <style>
   /* Page-specific overrides for glossary entries */
@@ -67,7 +67,7 @@
 <header class="site">
   <div class="head-row">
     <div class="head-text">
-      <h1>Sovereign Credit Rating Explorer</h1>
+      <h1>Sovereign Ratings &amp; Scores</h1>
       <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4 &middot; Relative HDI / Gini / PPI &middot; Shadow ratings (OLS, k-NN, Bayes)</p>
     </div>
   </div>
@@ -122,7 +122,7 @@
       <div class="entry" data-terms="basu rr relative risk rating basu de ratha timmer">
         <dt>Basu et al. method <span class="abbr">Relative Risk Rating</span></dt>
         <dd>
-          <p>Introduced by Kaushik Basu, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a>, and <a href="https://www.worldbank.org/en/about/people/h/hans-timmer" target="_blank" rel="noopener">Hans Timmer</a> in <a href="https://documents.worldbank.org/en/publication/documents-reports/documentdetail/441621468331879217" target="_blank" rel="noopener">World Bank Policy Research Working Paper 6641</a> (2013). Defined as a country's score minus a GDP-weighted world benchmark, isolating each country's standing relative to the global cycle:</p>
+          <p>Introduced by <a href="https://en.wikipedia.org/wiki/Kaushik_Basu" target="_blank" rel="noopener">Kaushik Basu</a>, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a>, and <a href="https://www.worldbank.org/en/about/people/h/hans-timmer" target="_blank" rel="noopener">Hans Timmer</a> in <a href="https://documents.worldbank.org/en/publication/documents-reports/documentdetail/441621468331879217" target="_blank" rel="noopener">World Bank Policy Research Working Paper 6641</a> (2013). Defined as a country's score minus a GDP-weighted world benchmark, isolating each country's standing relative to the global cycle:</p>
           <span class="formula">RR<sub>it</sub> = r<sub>it</sub> &minus; &Sigma;<sub>j</sub> w<sub>jt</sub> &middot; r<sub>jt</sub></span>
           <p>Four versions are computed: GDP-weighted with time-varying weights, GDP-weighted with weights fixed at 2008 (Basu et al.'s preferred convention), and the same two on the directional <code>score_60</code> scale. Saved in <code>basu_cris_panel.csv</code>. Correlates at r &ge; 0.93 with this project's M1&ndash;M4. See <a href="methodology.html#sec10">Methodology &sect;10</a> and the full citation on the <a href="citations.html">Citations</a> page.</p>
         </dd>

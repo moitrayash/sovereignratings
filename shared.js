@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────────────────────────
-   Sovereign Credit Rating Explorer — shared client-side helpers
+   Sovereign Ratings &amp; Scores — shared client-side helpers
      1. Floating ToC builder (Google-Docs style; fades on scroll)
      2. Endnote ↔ in-text bidirectional links
      3. Dark-mode toggle (persisted)
@@ -61,7 +61,7 @@
 
   // ── Language picker ────────────────────────────────────────────────
   const I18N = {
-    'en': {label:'EN', nav:{}, h1:'Sovereign Credit Rating Explorer', tagline:null},
+    'en': {label:'EN', nav:{}, h1:'Sovereign Ratings &amp; Scores', tagline:null},
     'ar': {label:'AR', nav:{
       'Citations':'المراجع','Glossary':'مسرد المصطلحات','Methodology':'المنهجية',
       'Relative Ratings':'التصنيفات النسبية','Paired, Grouped & Regional Ratings':'تصنيفات مزدوجة ومجموعة وإقليمية',
@@ -183,7 +183,7 @@
     f.innerHTML = `
       <div class="row">
         <div>
-          <strong>Sovereign Credit Rating Explorer</strong> &middot; Yash Moitra,
+          <strong>Sovereign Ratings &amp; Scores</strong> &middot; Yash Moitra,
           Department of Applied Economics and Management, Cornell University.
           <div class="copyright">&copy; 2026 Yash Moitra. All rights reserved. Site, methodology, and code released under MIT; data subject to source-provider terms.</div>
         </div>
@@ -492,7 +492,7 @@
   // ── Chicago citation auto-embedded on every image export (PNG only).
   //   Plain CSVs / ZIPs / LaTeX are untouched. The strip is appended below
   //   the chart so it never overlaps content; small grey on white.
-  const SCR_CITATION = 'Source: Moitra, Yash. 2026. Sovereign Credit Rating Explorer. sovereignratings.yashmoitra.com';
+  const SCR_CITATION = 'Source: Moitra, Yash. 2026. Sovereign Ratings &amp; Scores. sovereignratings.yashmoitra.com';
   function appendCitationToCanvas(srcCanvas) {
     const w = srcCanvas.width;
     const h = srcCanvas.height;
