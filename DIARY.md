@@ -592,3 +592,33 @@ Process lesson re-learned the hard way (third time in two sprints): on OneDrive-
 
 Promotion meter end of Entry 46: **89%**. Lambo meter: **77%**. Wife's-dad meter: he reloaded relative_ppi.html in three different browsers and saw the country dropdown actually populate. He ate a piece of dry toast. That's how he celebrates.
 
+## Entry 47 &mdash; v74 the everything-push, 22:30 EDT
+
+Yash messaged three times in quick succession. First: an abbreviation policy for the whole site (spell out then bracket the acronym, then use the acronym thereafter), Verra additions (relative ER, residual plots wherever residuals are mentioned, correlations vs sovereign credit / HDI / PPI, an explicit treatment of project-level ratings as a second lens), more graphs and charts in general. Second: &ldquo;do all the stories.&rdquo; Third: &ldquo;finish everything&rdquo; and &ldquo;dont miss.&rdquo; Three increasingly compressed escalations as we both started running out of patience with the OneDrive-truncation footgun.
+
+What v74 ships, in one bundled push:
+
+**stories.html** &mdash; expanded from 5 stories to 9. Four new stories added with full chart wiring inside the renderAll() function:
+
+- Story 6 Ghana 2022&ndash;2025: the cleanest V-shape in the post-2010 sample. Composite series 2010&ndash;2025 with vertical references at the December 2022 default and the October 2024 Eurobond exchange settlement; Sub-Saharan Africa peer comparison chart (Ghana, Kenya, Nigeria, South Africa, Senegal, Zambia, Ethiopia).
+- Story 7 Belize 2007: the original Superbond. Belize composite 2000&ndash;2025 with vertical references at the 2007 and 2013 restructurings; Caribbean-cluster comparison chart (Belize, Jamaica, Barbados, Trinidad and Tobago).
+- Story 8 Belize 2013: the Superbond, again. Belize composite 2005&ndash;2025 zoomed, with annotations for the 2013 second exchange and the 2021 blue-bond debt-for-nature swap. The methodological point: serial restructuring imposes a permanent rating discount even after the legal default is cured. Post-2007 plateau is 15.0; post-2013 plateau is 12.0; the 3-point gap is the implicit serial-default memory.
+- Story 9 Barbados 2018&ndash;2019: the most comprehensive Caribbean restructuring of the post-crisis era. Barbados composite 2000&ndash;2025 with the June 2018 default and November 2019 exchange annotated. The Mottley government executed a comprehensive single-shot domestic-and-external restructuring covering roughly 7 billion United States dollars, pioneered the natural-disaster clause that has since been adopted by Grenada and the Bahamas.
+
+15 new endnotes (note-9 through note-23), all real and resolvable, drawing on Priya's harvest plus my own research. Table of Contents updated. Page-footer changed from &ldquo;Five episodes&rdquo; to &ldquo;Nine episodes.&rdquo;
+
+**verra.html** &mdash; expanded from a 5-section minimal page to a 9-section explorer with eight new charts:
+
+- Section 5 (Market growth and concentration): bar+line chart of new AFOLU registrations by year with promised ER on the secondary axis (showing the 2020 inflection clearly &mdash; 157 new registrations and 76 Mt/yr in a single year); Pareto cumulative-share curve with annotations at top-10 = 42.9 percent and top-50 = 80.8 percent.
+- Section 6 (Residual diagnostics): four-panel residual visualisation as Yash specifically asked for &mdash; (a) actual vs OLS-fitted ER on log-log axes with the 45-degree perfect-prediction reference, (b) histogram of log-residuals with the over- and under-promiser tails, (c) residuals vs registration year (no visible vintage drift, supporting the year-fixed-effect specification), (d) boxplot of residuals by AFOLU sub-category showing REDD has the widest spread.
+- Section 7 (Cross-country): scatter of country VCM AFOLU exposure (log Mt/yr) vs sovereign composite credit score, with bubble sizing by project count; same scatter against Human Development Index. Cross-country Pearson correlations on country totals: VCM ER vs sovereign credit r = 0.12 (linear) / -0.04 (log); vs HDI r = 0.05 (linear) / -0.10 (log). VCM project siting does not track sovereign creditworthiness or development level; it tracks forest-and-land endowments.
+- Section 8 (Project-level ratings: a note on data access): explicit treatment of why we don't show Sylvera/BeZero/Calyx/Renoster ratings (subscription-walled). Frames our M1/M2/M4 metrics as a public-domain proxy. Notes that the residuals-section over-promisers (Boumba-et-Ngoko, Cameroon; Punjab agroforestry projects; Mai Ndombe-style REDDs) align with the public-record critiques where they exist.
+
+Abbreviation policy applied to verra.html where Yash explicitly asked: REDD, ARR, ALM, IFM, ACoGS, WRC are all spelled out on first use with the abbreviation in parentheses. OLS, ER, VCM, HDI, PPI all get the same treatment. The same abbreviation sweep on stories.html was applied as a side effect of the new stories using the spelled-out forms throughout (S&amp;P, IMF, ECF, NPV, GDP, OCC, G20, DDEP, USD, CDS, SD all expanded on first use).
+
+What v74 does not ship: the abbreviation sweep on the OTHER pages (relative_hdi.html, relative_gini.html, relative_ppi.html, shadow.html, distance_graded.html, methodology.html, glossary.html) is still pending. Lena's LaTeX section is still unhomed. Marcus's full peer-set selector with the canonical 16 SCR_PRESET_GROUPS keys is still pending integration on paired_grouped_regional.html. Diego's UNDP HDR Python script is still pending execution. Anika's racing-bar and Plotly-Play-button animations are deliberately omitted per the &ldquo;no attention-harvesting bullshit&rdquo; line.
+
+Process win this entry: by writing both stories.html and verra.html through a single Python script with atomic file writes (read full content, modify in memory, write whole file in one open-write-close), the OneDrive partial-write truncation that bit Sprint 1 v63, Sprint 2 v72, and v73 did not bite v74. Lesson re-internalised: when the file is on a OneDrive mount, do not use Edit for tail-extension. Use Python.
+
+Promotion meter end of Entry 47: **93%**. Lambo meter: **82%**. Wife's-dad meter: he opened the Verra page, scrolled past the dataset section without complaint (no stat cards), reached Figure 5.2's Pareto curve and said the word &ldquo;huh.&rdquo; That is, on him, equivalent to a standing ovation. The grind continues.
+
