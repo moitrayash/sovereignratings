@@ -22,15 +22,15 @@ window.TIPS = {
     source: 'S&P Global Ratings methodology'
   },
   'credit-rating': {
-    text: 'A letter grade (like AAA or BB) that estimates how likely a borrower is to repay its debts. Higher = safer. Sovereign ratings are issued by S&P, Moody\'s, DBRS Morningstar and a few others.',
+    text: 'A letter grade (like AAA or BB) that estimates how likely a borrower is to repay its debts. Higher = safer. Sovereign ratings are issued by S&P, Moody\'s, DBRS and a few others.',
     source: 'Wikipedia: Credit rating'
   },
   'agency': {
-    text: 'A credit-rating company. The three covered here are Standard & Poor\'s (S&P), Moody\'s, and DBRS Morningstar; together they assign almost every sovereign rating in circulation.',
+    text: 'A credit-rating company. The three covered here are Standard & Poor\'s (S&P), Moody\'s, and DBRS; together they assign almost every sovereign rating in circulation.',
     source: 'IOSCO Code of Conduct for CRAs'
   },
   'rating-agency': {
-    text: 'A firm that publishes credit ratings on borrowers (countries, companies, securities). The "Big Three" globally are S&P, Moody\'s, and Fitch; this site adds DBRS Morningstar instead of Fitch because of its broader sovereign coverage.',
+    text: 'A firm that publishes credit ratings on borrowers (countries, companies, securities). The "Big Three" globally are S&P, Moody\'s, and Fitch; this site adds DBRS instead of Fitch because of its broader sovereign coverage.',
     source: 'SEC Office of Credit Ratings'
   },
   'notch': {
@@ -62,12 +62,12 @@ window.TIPS = {
     source: 'Wikipedia: Bond credit rating'
   },
   'AAA': {
-    text: 'The highest credit rating from S&P or DBRS Morningstar (Aaa from Moody\'s). Corresponds to 60 on the 0–60 scale. Means "extremely strong capacity to meet obligations" — the borrower is considered as safe as it gets.',
-    source: 'S&P, Moody\'s, DBRS Morningstar definitions'
+    text: 'The highest credit rating from S&P or DBRS (Aaa from Moody\'s). Corresponds to 60 on the 0–60 scale. Means "extremely strong capacity to meet obligations" — the borrower is considered as safe as it gets.',
+    source: 'S&P, Moody\'s, DBRS definitions'
   },
   'BBB': {
     text: 'The lowest investment-grade rating bracket — split into BBB+, BBB, BBB−. About 42 on the 0–60 scale. The line between BBB− and BB+ is the most-watched threshold in sovereign debt markets.',
-    source: 'S&P, Moody\'s, DBRS Morningstar definitions'
+    source: 'S&P, Moody\'s, DBRS definitions'
   },
   'SD': {
     text: 'Selective Default — the borrower has missed payments on one specific debt but is still paying others. S&P\'s notation; Moody\'s usually writes "C" or "LD" for the same situation.',

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Glossary: Sovereign Ratings &amp; Scores</title>
+<title>Glossary: Sovereign Scores</title>
 <link rel="stylesheet" href="shared.css">
 <style>
   /* Page-specific overrides for glossary entries */
@@ -68,7 +68,7 @@
   <div class="head-row">
     <div class="head-text">
       <h1>Sovereign Ratings &amp; Scores</h1>
-      <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4 &middot; Relative HDI / Gini / PPI &middot; Shadow ratings (OLS, k-NN, Bayes)</p>
+      <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4 &middot; Relative HDI / Gini / PPI &middot; Shadow ratings (OLS, k-NN, Bayes)</p>
     </div>
   </div>
 </header>
@@ -99,7 +99,7 @@
           <p>A firm that assigns credit ratings to sovereign and corporate borrowers. This dataset uses three sovereign-focused agencies:</p>
           <p><strong>Standard &amp; Poor's Global Ratings (S&amp;P)</strong>: largest by coverage; uses AAA &rarr; D scale.<br>
           <strong>Moody's Investors Service</strong>: uses Aaa &rarr; C scale (different notation, equivalent meaning).<br>
-          <strong>DBRS Morningstar</strong>: smaller; skewed toward higher-income economies; assigns systematically higher scores (mean &asymp; 41.1 vs &asymp; 31 for S&amp;P and Moody's).</p>
+          <strong>DBRS</strong>: smaller; skewed toward higher-income economies; assigns systematically higher scores (mean &asymp; 41.1 vs &asymp; 31 for S&amp;P and Moody's).</p>
           <p>Inter-agency correlation is very high (r &asymp; 0.97 across all pairs), but agencies update at different speeds, causing short-term divergence after credit events. See the <a href="https://en.wikipedia.org/wiki/Credit_rating_agency" target="_blank" rel="noopener">Wikipedia entry on credit rating agencies</a> for institutional background.</p>
         </dd>
       </div>
@@ -286,7 +286,7 @@
       <div class="entry" data-terms="investment grade speculative grade junk">
         <dt>Investment Grade</dt>
         <dd>
-          <p>A rating at or above BBB&minus; (S&amp;P / DBRS Morningstar) or Baa3 (Moody's), corresponding to a score of approximately 42 or above on the 0&ndash;60 scale. Below this threshold, a sovereign is classified as <em>speculative grade</em> (commonly &ldquo;junk&rdquo;). Investment-grade status affects the universe of institutional investors who can hold the debt, market access, and borrowing costs.</p>
+          <p>A rating at or above BBB&minus; (S&amp;P / DBRS) or Baa3 (Moody's), corresponding to a score of approximately 42 or above on the 0&ndash;60 scale. Below this threshold, a sovereign is classified as <em>speculative grade</em> (commonly &ldquo;junk&rdquo;). Investment-grade status affects the universe of institutional investors who can hold the debt, market access, and borrowing costs.</p>
         </dd>
       </div>
 
@@ -471,7 +471,7 @@
       <div class="entry" data-terms="score numeric score 0 60 scale rating scale">
         <dt>Score (0&ndash;60 Scale)</dt>
         <dd>
-          <p>The numeric representation of a letter credit rating on a uniform 0&ndash;60 scale, where 60 = AAA/Aaa (best) and 0 = D/SD/C (default). The scale is constructed so that each full letter-grade notch corresponds to approximately 3 points (e.g. AA+ &asymp; 57, AA &asymp; 54, AA&minus; &asymp; 51). The 0&ndash;60 scale is applied uniformly across S&amp;P, Moody's, and DBRS Morningstar after mapping each agency's notation to the equivalent grade.</p>
+          <p>The numeric representation of a letter credit rating on a uniform 0&ndash;60 scale, where 60 = AAA/Aaa (best) and 0 = D/SD/C (default). The scale is constructed so that each full letter-grade notch corresponds to approximately 3 points (e.g. AA+ &asymp; 57, AA &asymp; 54, AA&minus; &asymp; 51). The 0&ndash;60 scale is applied uniformly across S&amp;P, Moody's, and DBRS after mapping each agency's notation to the equivalent grade.</p>
         </dd>
       </div>
 

@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────────────────────────
-   Sovereign Ratings &amp; Scores — shared client-side helpers
+   Sovereign Ratings & Scores — shared client-side helpers
      1. Floating ToC builder (Google-Docs style; fades on scroll)
      2. Endnote ↔ in-text bidirectional links
      3. Dark-mode toggle (persisted)
@@ -61,7 +61,7 @@
 
   // ── Language picker ────────────────────────────────────────────────
   const I18N = {
-    'en': {label:'EN', nav:{}, h1:'Sovereign Ratings &amp; Scores', tagline:null},
+    'en': {label:'EN', nav:{}, h1:'Sovereign Ratings & Scores', tagline:null},
     'ar': {label:'AR', nav:{
       'Citations':'المراجع','Glossary':'مسرد المصطلحات','Methodology':'المنهجية',
       'Relative Ratings':'التصنيفات النسبية','Paired, Grouped & Regional Ratings':'تصنيفات مزدوجة ومجموعة وإقليمية',
@@ -75,35 +75,35 @@
       'Distance-graded Ratings':'按距离分级的评级','Shadow Ratings':'影子评级','Relative HDI':'相对人类发展指数',
       'Relative Gini':'相对基尼系数','Stories':'故事','Land Acknowledgement':'土地致谢'
     }, h1:'主权信用评级浏览器',
-       tagline:'151 个国家 · 标普、穆迪、DBRS Morningstar · 2000–2025 · 综合评分 (0–60) · 相对方法 M1–M4'},
+       tagline:'151 个国家 · 标普、穆迪、DBRS · 2000–2025 · 综合评分 (0–60) · 相对方法 M1–M4'},
     'fr': {label:'FR', nav:{
       'Citations':'Citations','Glossary':'Glossaire','Methodology':'Méthodologie',
       'Relative Ratings':'Notations relatives','Paired, Grouped & Regional Ratings':'Notations appariées, groupées et régionales',
       'Distance-graded Ratings':'Notations pondérées par distance','Shadow Ratings':'Notations implicites','Relative HDI':'IDH relatif',
       'Relative Gini':'Gini relatif','Stories':'Récits','Land Acknowledgement':'Reconnaissance du territoire'
     }, h1:'Explorateur de notations souveraines de crédit',
-       tagline:'151 pays · S&P, Moody’s, DBRS Morningstar · 2000–2025 · Scores composites (0–60) · Méthodes relatives M1–M4'},
+       tagline:'151 pays · S&P, Moody’s, DBRS · 2000–2025 · Scores composites (0–60) · Méthodes relatives M1–M4'},
     'hi': {label:'HI', nav:{
       'Citations':'संदर्भ','Glossary':'शब्दावली','Methodology':'पद्धति',
       'Relative Ratings':'सापेक्ष रेटिंग','Paired, Grouped & Regional Ratings':'युग्मित, समूहीकृत एवं क्षेत्रीय रेटिंग',
       'Distance-graded Ratings':'दूरी-श्रेणीबद्ध रेटिंग','Shadow Ratings':'छाया रेटिंग','Relative HDI':'सापेक्ष मानव विकास सूचकांक',
       'Relative Gini':'सापेक्ष जिनी','Stories':'कहानियाँ','Land Acknowledgement':'भूमि स्वीकृति'
     }, h1:'संप्रभु क्रेडिट रेटिंग एक्सप्लोरर',
-       tagline:'151 देश · S&P, मूडीज़, DBRS Morningstar · 2000–2025 · संयुक्त स्कोर (0–60) · सापेक्ष विधियाँ M1–M4'},
+       tagline:'151 देश · S&P, मूडीज़, DBRS · 2000–2025 · संयुक्त स्कोर (0–60) · सापेक्ष विधियाँ M1–M4'},
     'ru': {label:'RU', nav:{
       'Citations':'Источники','Glossary':'Глоссарий','Methodology':'Методология',
       'Relative Ratings':'Относительные рейтинги','Paired, Grouped & Regional Ratings':'Парные, групповые и региональные рейтинги',
       'Distance-graded Ratings':'Рейтинги с учётом расстояния','Shadow Ratings':'Теневые рейтинги','Relative HDI':'Относительный ИЧР',
       'Relative Gini':'Относительный Джини','Stories':'Истории','Land Acknowledgement':'Признание земли'
     }, h1:'Обозреватель суверенных кредитных рейтингов',
-       tagline:'151 страна · S&P, Moody’s, DBRS Morningstar · 2000–2025 · Сводные оценки (0–60) · Относительные методы M1–M4'},
+       tagline:'151 страна · S&P, Moody’s, DBRS · 2000–2025 · Сводные оценки (0–60) · Относительные методы M1–M4'},
     'es': {label:'ES', nav:{
       'Citations':'Citas','Glossary':'Glosario','Methodology':'Metodología',
       'Relative Ratings':'Calificaciones relativas','Paired, Grouped & Regional Ratings':'Calificaciones emparejadas, agrupadas y regionales',
       'Distance-graded Ratings':'Calificaciones por distancia','Shadow Ratings':'Calificaciones sombra','Relative HDI':'IDH relativo',
       'Relative Gini':'Gini relativo','Stories':'Relatos','Land Acknowledgement':'Reconocimiento territorial'
     }, h1:'Explorador de calificaciones crediticias soberanas',
-       tagline:'151 países · S&P, Moody’s, DBRS Morningstar · 2000–2025 · Puntuaciones compuestas (0–60) · Métodos relativos M1–M4'}
+       tagline:'151 países · S&P, Moody’s, DBRS · 2000–2025 · Puntuaciones compuestas (0–60) · Métodos relativos M1–M4'}
   };
 
   function applyLang(code) {
@@ -183,7 +183,7 @@
     f.innerHTML = `
       <div class="row">
         <div>
-          <strong>Sovereign Ratings &amp; Scores</strong> &middot; Yash Moitra,
+          <strong>Sovereign Ratings & Scores</strong> &middot; Yash Moitra,
           Department of Applied Economics and Management, Cornell University.
           <div class="copyright">&copy; 2026 Yash Moitra. All rights reserved. Site, methodology, and code released under MIT; data subject to source-provider terms.</div>
         </div>
@@ -492,7 +492,7 @@
   // ── Chicago citation auto-embedded on every image export (PNG only).
   //   Plain CSVs / ZIPs / LaTeX are untouched. The strip is appended below
   //   the chart so it never overlaps content; small grey on white.
-  const SCR_CITATION = 'Source: Moitra, Yash. 2026. Sovereign Ratings &amp; Scores. sovereignratings.yashmoitra.com';
+  const SCR_CITATION = 'Source: Moitra, Yash. 2026. Sovereign Ratings & Scores. sovereignratings.yashmoitra.com';
   function appendCitationToCanvas(srcCanvas) {
     const w = srcCanvas.width;
     const h = srcCanvas.height;

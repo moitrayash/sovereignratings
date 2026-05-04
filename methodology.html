@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Methodology: Sovereign Ratings &amp; Scores</title>
+<title>Methodology: Sovereign Scores</title>
 <link rel="stylesheet" href="shared.css">
 </head>
 <body>
@@ -12,7 +12,7 @@
   <div class="head-row">
     <div class="head-text">
       <h1>Sovereign Ratings &amp; Scores</h1>
-      <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS Morningstar &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4 &middot; Relative HDI / Gini / PPI &middot; Shadow ratings (OLS, k-NN, Bayes)</p>
+      <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4 &middot; Relative HDI / Gini / PPI &middot; Shadow ratings (OLS, k-NN, Bayes)</p>
     </div>
   </div>
 </header>
@@ -27,7 +27,7 @@
   <h2 id="sec1"><span class="section-num">1</span> Raw Rating Data</h2>
 
   <h3 id="sources">Sources and Coverage</h3>
-  <p>Credit ratings are collected from three agencies: <a href="https://disclosure.spglobal.com/sri/" target="_blank" rel="noopener">Standard &amp; Poor's Global Ratings (S&amp;P)</a>, <a href="https://www.moodys.com" target="_blank" rel="noopener">Moody's Investors Service</a>, and <a href="https://dbrs.morningstar.com/about/sovereigns" target="_blank" rel="noopener">DBRS Morningstar</a>. The dataset covers 151 sovereign entities from 1949 to 2026, with 2,178 rating events in total. Coverage is uneven across agencies: S&amp;P and Moody's rate the broadest set of countries; DBRS Morningstar focuses on a smaller subset, skewed toward higher-income economies.</p>
+  <p>Credit ratings are collected from three agencies: <a href="https://disclosure.spglobal.com/sri/" target="_blank" rel="noopener">Standard &amp; Poor's Global Ratings (S&amp;P)</a>, <a href="https://www.moodys.com" target="_blank" rel="noopener">Moody's Investors Service</a>, and <a href="https://dbrs.morningstar.com/about/sovereigns" target="_blank" rel="noopener">DBRS</a>. The dataset covers 151 sovereign entities from 1949 to 2026, with 2,178 rating events in total. Coverage is uneven across agencies: S&amp;P and Moody's rate the broadest set of countries; DBRS focuses on a smaller subset, skewed toward higher-income economies.</p>
 
   <h3 id="numeric">Numeric Scoring (0&ndash;60 Scale)</h3>
   <p>Each agency uses a letter-grade scale (e.g. <span class="term" data-term="AAA">AAA</span>, AA+, AA, &hellip;, D). These are converted to a uniform numeric scale from 0 (worst) to 60 (best) for comparability across agencies. The conversion is the &ldquo;refined Basu mapping&rdquo;: each major letter grade is associated with a 6-point band, each notch within the grade is 3 points, and outlooks (positive, stable, negative) shift the within-notch score by ±1 point.<sup class="note-ref"><a href="#note-1">1</a></sup></p>
@@ -74,7 +74,7 @@
   </details>
 
   <div class="callout">
-    <strong>Agency-level bias.</strong> DBRS Morningstar assigns systematically higher scores (mean &asymp; 41.1) than Standard &amp; Poor's (mean &asymp; 31.2) or Moody's (mean &asymp; 30.7), likely reflecting DBRS's narrower, higher-income coverage universe. Agency <span class="term" data-term="fixed-effects">fixed effects</span> or agency-specific normalisation should be used when pooling ratings across agencies in regressions.
+    <strong>Agency-level bias.</strong> DBRS assigns systematically higher scores (mean &asymp; 41.1) than Standard &amp; Poor's (mean &asymp; 31.2) or Moody's (mean &asymp; 30.7), likely reflecting DBRS's narrower, higher-income coverage universe. Agency <span class="term" data-term="fixed-effects">fixed effects</span> or agency-specific normalisation should be used when pooling ratings across agencies in regressions.
   </div>
 
   <h3 id="why-60">Why a 0&ndash;60 scale rather than 0&ndash;20 or 1&ndash;21?</h3>
@@ -138,7 +138,7 @@
   <details class="example">
     <summary>Worked example 2.1: Computing the composite for a fully-rated country</summary>
     <div class="ex-body">
-      <p>Brazil in 2020 was rated by all three agencies: S&amp;P at BB&minus; (score 33), Moody's at Ba2 (score 36), DBRS Morningstar at BB (high) (score 38).</p>
+      <p>Brazil in 2020 was rated by all three agencies: S&amp;P at BB&minus; (score 33), Moody's at Ba2 (score 36), DBRS at BB (high) (score 38).</p>
       <span class="step">Composite = (33 + 36 + 38) / 3 = <strong>35.67</strong></span>
       <p>This sits one and a half notches below the lowest investment-grade boundary (42) and reflects the typical &ldquo;DBRS rates high&rdquo; bias visible across the panel.</p>
     </div>
@@ -405,7 +405,7 @@
     </ol>
   </div>
 
-  <p class="page-footer">Last updated May 2026. Data: S&amp;P, Moody's, DBRS Morningstar; <span class="term" data-term="WDI">WDI</span>; <span class="term" data-term="WGI">WGI</span> (data360); <span class="term" data-term="HDR">UNDP HDR</span>. Analysis: Python (pandas, linearmodels, statsmodels) and R (fixest, MASS).</p>
+  <p class="page-footer">Last updated May 2026. Data: S&amp;P, Moody's, DBRS; <span class="term" data-term="WDI">WDI</span>; <span class="term" data-term="WGI">WGI</span> (data360); <span class="term" data-term="HDR">UNDP HDR</span>. Analysis: Python (pandas, linearmodels, statsmodels) and R (fixest, MASS).</p>
 
 </main>
 
