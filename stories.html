@@ -413,9 +413,9 @@ fetch('extras.json').then(r => r.json()).then(j => { EXTRAS = j; renderAll(); })
 });
 
 const baseLayout = {
-  plot_bgcolor: '#fff', paper_bgcolor: '#fff',
+  plot_bgcolor: 'rgba(0,0,0,0)', paper_bgcolor: 'rgba(0,0,0,0)',
   font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
-  margin: {l: 56, r: 50, t: 40, b: 90},
+  margin: {l: 64, r: 56, t: 84, b: 92, pad: 6},
   legend: {orientation: 'h', y: -0.32, x: 0.5, xanchor: 'center'}
 };
 const lineDash = ['#1a1a1a','#666','#999','#bbb','#444','#888','#000','#777'];
@@ -428,7 +428,7 @@ function renderAll() {
     name: 'Argentina', mode: 'lines+markers',
     line: {color: (window.scrCountryColor && window.scrCountryColor('Argentina')) || '#1a1a1a', width: 2.4}, marker: {size: 6}
   }], Object.assign({}, baseLayout, {
-    title: {text: 'Argentina composite score, 2000–2025', font: {size: 13}},
+    title: { text: 'Argentina composite score, 2000–2025', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
     xaxis: {title: 'Year', gridcolor: '#eee'},
     yaxis: {title: 'Composite (0–60)', range: [0, 60], gridcolor: '#eee'},
     shapes: [
@@ -452,7 +452,7 @@ function renderAll() {
     {x: years, y: spreadBrAr, name: 'Brazil − Argentina', mode: 'lines+markers', line:{color:'#1a1a1a',width:2}, marker:{size:5}},
     {x: years, y: spreadClAr, name: 'Chile − Argentina', mode: 'lines+markers', line:{color:'#888',width:2,dash:'dash'}, marker:{size:5}}
   ], Object.assign({}, baseLayout, {
-    title: {text: 'Pairwise spreads vs Argentina', font: {size: 13}},
+    title: { text: 'Pairwise spreads vs Argentina', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
     xaxis: {title:'Year', gridcolor:'#eee'},
     yaxis: {title:'Score difference', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
   }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
@@ -466,7 +466,7 @@ function renderAll() {
     line: {color: lineDash[i], width: i<5 ? 2.4 : 1.8, dash: i>=6 ? 'dash' : null},
     marker: {size: 4}
   })), Object.assign({}, baseLayout, {
-    title: {text: 'Eurozone composite scores, 2007–2018', font: {size: 13}},
+    title: { text: 'Eurozone composite scores, 2007–2018', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
     xaxis: {title:'Year', gridcolor:'#eee', range:[2007,2018]},
     yaxis: {title:'Composite (0–60)', range: [0, 62], gridcolor:'#eee'}
   }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
@@ -477,7 +477,7 @@ function renderAll() {
     name: c, mode: 'lines+markers',
     line: {color: lineDash[i], width: 1.8}, marker: {size: 3}
   })), Object.assign({}, baseLayout, {
-    title: {text: 'Pairwise spreads: Germany minus periphery', font: {size: 13}},
+    title: { text: 'Pairwise spreads: Germany minus periphery', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
     xaxis: {title:'Year', gridcolor:'#eee', range:[2007,2018]},
     yaxis: {title:'Germany − country', gridcolor:'#eee'}
   }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
@@ -489,7 +489,7 @@ function renderAll() {
     {x: ip.map(d=>d.Year), y: ip.map(d=>d.Pakistan), name: 'Pakistan', mode: 'lines+markers', line:{color: (window.scrCountryColor && window.scrCountryColor('Pakistan')) || '#888',width:2.4,dash:'dash'}, marker:{size:5}},
     {x: ip.map(d=>d.Year), y: ip.map(d=>d.Spread), name: 'Spread P(India−Pakistan)', mode: 'lines', line:{color:'#444',width:2}, yaxis: 'y2'}
   ], Object.assign({}, baseLayout, {
-    title: {text: 'India and Pakistan composite scores, with pairwise spread', font: {size: 13}},
+    title: { text: 'India and Pakistan composite scores, with pairwise spread', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
     xaxis: {title:'Year', gridcolor:'#eee'},
     yaxis: {title:'Composite (0–60)', range: [0, 50], gridcolor:'#eee'},
     yaxis2: {title:'Spread', overlaying: 'y', side: 'right', range: [0, 30]}
@@ -501,7 +501,7 @@ function renderAll() {
     {x: ip.map(d=>d.Year), y: ip.map(d => d.India - baseI), name: 'India Δ', mode:'lines+markers', line:{color: (window.scrCountryColor && window.scrCountryColor('India')) || '#1a1a1a',width:2.4}, marker:{size:5}},
     {x: ip.map(d=>d.Year), y: ip.map(d => d.Pakistan - baseP), name: 'Pakistan Δ', mode:'lines+markers', line:{color:'#888',width:2.4,dash:'dash'}, marker:{size:5}}
   ], Object.assign({}, baseLayout, {
-    title: {text: 'Cumulative change from 2000 baseline', font: {size: 13}},
+    title: { text: 'Cumulative change from 2000 baseline', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
     xaxis: {title:'Year', gridcolor:'#eee'},
     yaxis: {title:'Δ from 2000', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
   }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
@@ -514,7 +514,7 @@ function renderAll() {
     name: c, mode: 'lines+markers',
     line: {color: lineDash[i], width: i<4 ? 2.4 : 1.8, dash: i>=5 ? 'dash' : null}, marker: {size: 4}
   })), Object.assign({}, baseLayout, {
-    title: {text: 'Six emerging-market sovereigns, 2018–2025', font: {size: 13}},
+    title: { text: 'Six emerging-market sovereigns, 2018–2025', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
     xaxis: {title:'Year', gridcolor:'#eee'},
     yaxis: {title:'Composite (0–60)', range: [0, 35], gridcolor:'#eee'}
   }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
@@ -530,7 +530,7 @@ function renderAll() {
     }).filter(Boolean);
     if (tracesR.length && document.getElementById('emdc-recovery')) {
       Plotly.newPlot('emdc-recovery', tracesR, Object.assign({}, baseLayout, {
-        title: { text: 'Recovery from default-year trough (Year 0 = trough year)', font: { size: 13 } },
+        title: { text: 'Recovery from default-year trough (Year 0 = trough year)', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: 'Years since default-year trough', gridcolor: '#eee' },
         yaxis: { title: 'Composite delta from trough', gridcolor: '#eee', zerolinecolor: '#1a1a1a' }
       }), window.scrChartConfig || { responsive: true, displayModeBar: true });
@@ -544,7 +544,7 @@ function renderAll() {
         line: { color: lineDash[i % lineDash.length], width: i < 2 ? 2.4 : 1.6, dash: i >= 2 ? 'dash' : null },
         marker: { size: 4 }
       })), Object.assign({}, baseLayout, {
-        title: { text: 'Iceland and Nordic-Atlantic peers, 2006-2014', font: { size: 13 } },
+        title: { text: 'Iceland and Nordic-Atlantic peers, 2006-2014', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: 'Year', gridcolor: '#eee' },
         yaxis: { title: 'Composite (0-60)', gridcolor: '#eee' }
       }), window.scrChartConfig || { responsive: true, displayModeBar: true });
@@ -571,7 +571,7 @@ function renderAll() {
         name: 'Ghana', mode: 'lines+markers',
         line: { color: (window.scrCountryColor && window.scrCountryColor('Ghana')) || '#1a1a1a', width: 2.4 }, marker: { size: 6 }
       }], {
-        title: { text: 'Ghana composite score, 2010-2025', font: { size: 13 } },
+        title: { text: 'Ghana composite score, 2010-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: 'Year', gridcolor: '#eee' },
         yaxis: { title: 'Composite (0-60)', range: [0, 30], gridcolor: '#eee' },
         shapes: [
@@ -599,7 +599,7 @@ function renderAll() {
         line: { color: lineDash[(i+1) % lineDash.length], width: 1.6, dash: i >= 3 ? 'dash' : null }
       })));
       plotSimple('ghana-peers', traces, {
-        title: { text: 'Ghana vs Sub-Saharan Africa peers, 2010-2025', font: { size: 13 } },
+        title: { text: 'Ghana vs Sub-Saharan Africa peers, 2010-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: 'Year', gridcolor: '#eee' },
         yaxis: { title: 'Composite (0-60)', range: [0, 35], gridcolor: '#eee' }
       });
@@ -613,7 +613,7 @@ function renderAll() {
         line: { color: (window.scrCountryColor && window.scrCountryColor('Belize')) || '#1a1a1a', width: 2.4 },
         marker: { size: 5 }
       }], {
-        title: { text: 'Belize composite score, 2000-2025', font: { size: 13 } },
+        title: { text: 'Belize composite score, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: 'Year', gridcolor: '#eee' },
         yaxis: { title: 'Composite (0-60)', range: [0, 35], gridcolor: '#eee' },
         shapes: [
@@ -636,7 +636,7 @@ function renderAll() {
         line: { color: (window.scrCountryColor && window.scrCountryColor(k)) || lineDash[i % lineDash.length], width: k === 'Belize' ? 2.4 : 1.6, dash: k === 'Trinidad and Tobago' ? 'dash' : null },
         marker: { size: 4 }
       })), {
-        title: { text: 'Caribbean cluster, 2000-2025', font: { size: 13 } },
+        title: { text: 'Caribbean cluster, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: 'Year', gridcolor: '#eee' },
         yaxis: { title: 'Composite (0-60)', range: [0, 50], gridcolor: '#eee' }
       });
@@ -651,7 +651,7 @@ function renderAll() {
         line: { color: (window.scrCountryColor && window.scrCountryColor('Belize')) || '#1a1a1a', width: 2.4 },
         marker: { size: 6 }
       }], {
-        title: { text: 'Belize composite score 2005-2025 (zoomed on the two Superbond cycles)', font: { size: 13 } },
+        title: { text: 'Belize composite score 2005-2025 (zoomed on the two Superbond cycles)', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: 'Year', gridcolor: '#eee' },
         yaxis: { title: 'Composite (0-60)', range: [0, 25], gridcolor: '#eee' },
         shapes: [
@@ -675,7 +675,7 @@ function renderAll() {
         line: { color: (window.scrCountryColor && window.scrCountryColor('Barbados')) || '#1a1a1a', width: 2.4 },
         marker: { size: 5 }
       }], {
-        title: { text: 'Barbados composite score, 2000-2025', font: { size: 13 } },
+        title: { text: 'Barbados composite score, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: 'Year', gridcolor: '#eee' },
         yaxis: { title: 'Composite (0-60)', range: [0, 50], gridcolor: '#eee' },
         shapes: [
@@ -694,6 +694,44 @@ function renderAll() {
     console.warn('stories renderAll partial:', e);
   }
 }
+</script>
+
+
+<script defer>
+(function() {
+  function applyChartTheme() {
+    const dark = document.body.classList.contains('dark');
+    const txt = dark ? '#ececec' : '#333';
+    const grid = dark ? 'rgba(255,255,255,0.10)' : '#eee';
+    const zero = dark ? '#aaa' : '#1a1a1a';
+    const charts = document.querySelectorAll('.chart-box > div');
+    charts.forEach(div => {
+      if (!div._fullLayout) return;
+      try {
+        Plotly.relayout(div, {
+          'paper_bgcolor': 'rgba(0,0,0,0)',
+          'plot_bgcolor': 'rgba(0,0,0,0)',
+          'font.color': txt,
+          'xaxis.gridcolor': grid,
+          'xaxis.tickfont.color': txt,
+          'xaxis.title.font.color': txt,
+          'yaxis.gridcolor': grid,
+          'yaxis.tickfont.color': txt,
+          'yaxis.title.font.color': txt,
+          'legend.font.color': txt,
+          'title.font.color': txt
+        });
+      } catch (e) { /* swallow */ }
+    });
+  }
+  // Apply after DOMContentLoaded + after Plotly first plots (delayed) + on body.class change
+  window.addEventListener('load', () => setTimeout(applyChartTheme, 600));
+  setTimeout(applyChartTheme, 1500);
+  setTimeout(applyChartTheme, 3000);
+  const obs = new MutationObserver(applyChartTheme);
+  obs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  window.scrTheChartTheme = applyChartTheme;
+})();
 </script>
 
 </body>
