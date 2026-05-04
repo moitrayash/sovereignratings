@@ -217,18 +217,92 @@ function rowsLOO(peerCountries) {
   }));
 }
 
+function ppiTheme() {
+  const dark = document.body.classList.contains('dark');
+  const txt = dark ? '#ececec' : '#333';
+  const grid = dark ? 'rgba(255,255,255,0.10)' : '#eee';
+  return {
+    plot_bgcolor: 'rgba(0,0,0,0)',
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    font: { family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: txt },
+    grid: grid, txt: txt
+  };
+}
+
 function renderAbsolute(country, peerCountries) {
+  if (!document.getElementById('ppi-abs')) return;
   const focal = rowsFor(country, peerCountries);
   const peerMean = rowsLOO(peerCountries);
-  const layout = {
-    title: { text: country + ': PPI100 vs peer-set leave-one-out mean', font: { size: 13 } },
-    xaxis: { title: 'Year', gridcolor: '#eee' },
-    yaxis: { title: 'PPI100', gridcolor: '#eee' },
-   gridcolor: '#eee' },
-    plot_bgcolor: '#fff', paper_bgcolor: '#fff',
-    font: { family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333' },
-    margin: { l: 56, r: 30, t: 40, b: 60 }
+  const t = ppiTheme();
+  Plotly.newPlot('ppi-abs', [
+    { x: focal.map(r => r.Year), y: focal.map(r => r.Value), name: country + ' PPI100', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor(country)) || '#1a1a1a', width: 2.4 }, marker: { size: 5 } },
+    { x: peerMean.map(r => r.Year), y: peerMean.map(r => r.mean), name: 'Peer-set LOO mean', mode: 'lines', line: { color: '#888', width: 2, dash: 'dash' } }
+  ], {
+    title: { text: country + ': PPI100 vs peer-set leave-one-out mean', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+    xaxis: { title: { text: 'Year', font: { color: t.txt } }, gridcolor: t.grid, tickfont: { color: t.txt } },
+    yaxis: { title: { text: 'PPI100', font: { color: t.txt } }, gridcolor: t.grid, tickfont: { color: t.txt } },
+    plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor,
+    font: t.font,
+    margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 },
+    legend: { orientation: 'h', y: -0.28, x: 0.5, xanchor: 'center', font: { color: t.txt } }
   }, window.scrChartConfig || { responsive: true, displayModeBar: true });
+}
+
+function renderRelative(country, peerCountries) {
+  if (!document.getElementById('ppi-rel')) return;
+  const focal = rowsFor(country, peerCountries);
+  const t = ppiTheme();
+  Plotly.newPlot('ppi-rel', [
+    { x: focal.map(r => r.Year), y: focal.map(r => r.M1), name: 'M1 (squared / LOO)', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor(country)) || '#1a1a1a', width: 2 }, marker: { size: 4 } },
+    { x: focal.map(r => r.Year), y: focal.map(r => r.M4), name: 'M4 percentile (0-1)', mode: 'lines+markers', line: { color: '#888', width: 2 }, marker: { size: 4 }, yaxis: 'y2' }
+  ], {
+    title: { text: country + ': M1 and M4 percentile', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+    xaxis: { title: { text: 'Year', font: { color: t.txt } }, gridcolor: t.grid, tickfont: { color: t.txt } },
+    yaxis: { title: { text: 'Metric value (M1)', font: { color: t.txt } }, gridcolor: t.grid, tickfont: { color: t.txt } },
+    yaxis2: { title: { text: 'M4 percentile', font: { color: t.txt } }, overlaying: 'y', side: 'right', range: [0, 1], gridcolor: 'rgba(0,0,0,0)', tickfont: { color: t.txt } },
+    plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor,
+    font: t.font,
+    margin: { l: 64, r: 64, t: 84, b: 72, pad: 6 },
+    legend: { orientation: 'h', y: -0.28, x: 0.5, xanchor: 'center', font: { color: t.txt } }
+  }, window.scrChartConfig || { responsive: true, displayModeBar: true });
+}
+
+function renderDistribution(allCountries) {
+  const years = uniqueSorted(PPI_DATA.map(r => +r.Year));
+  const latest = years[years.length - 1];
+  const points = PPI_DATA.filter(r => +r.Year === latest && allCountries.includes(r.Country) && isFinite(r.Value)).map(r => ({ Country: r.Country, Value: r.Value })).sort((a, b) => a.Value - b.Value);
+  const cumShare = points.map((p, i) => (i + 1) / points.length);
+  const t = ppiTheme();
+
+  if (document.getElementById('ppi-cdf')) {
+    Plotly.newPlot('ppi-cdf', [{
+      x: points.map(p => p.Value), y: cumShare, mode: 'lines', name: 'CDF',
+      line: { color: t.txt, width: 2 },
+      hovertemplate: '%{customdata}<br>PPI100: %{x:.2f}<br>Cumulative share: %{y:.2f}<extra></extra>',
+      customdata: points.map(p => p.Country)
+    }], {
+      title: { text: 'Empirical CDF of PPI100, ' + latest, font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+      xaxis: { title: { text: 'PPI100', font: { color: t.txt } }, gridcolor: t.grid, tickfont: { color: t.txt } },
+      yaxis: { title: { text: 'Cumulative share', font: { color: t.txt } }, range: [0, 1], gridcolor: t.grid, tickfont: { color: t.txt } },
+      plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor,
+      font: t.font,
+      margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 }
+    }, window.scrChartConfig || { responsive: true, displayModeBar: true });
+  }
+
+  if (document.getElementById('ppi-hist')) {
+    Plotly.newPlot('ppi-hist', [{
+      x: points.map(p => p.Value), type: 'histogram', nbinsx: 24, marker: { color: '#888' },
+      hovertemplate: 'PPI100 bin: %{x}<br>Countries: %{y}<extra></extra>'
+    }], {
+      title: { text: 'Histogram of PPI100, ' + latest, font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+      xaxis: { title: { text: 'PPI100', font: { color: t.txt } }, gridcolor: t.grid, tickfont: { color: t.txt } },
+      yaxis: { title: { text: 'Country count', font: { color: t.txt } }, gridcolor: t.grid, tickfont: { color: t.txt } },
+      plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor,
+      font: t.font,
+      margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 }
+    }, window.scrChartConfig || { responsive: true, displayModeBar: true });
+  }
 }
 </script>
 
