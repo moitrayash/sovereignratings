@@ -569,12 +569,9 @@ function initUI() {
     selA.appendChild(o);
   });
   // Default to United States if present
-  const defCountry = DB.countries.includes('Vietnam') ? 'Vietnam' : (DB.countries.includes('United States') ? 'United States' : DB.countries[0]);
+  const defCountry = DB.countries.includes('United States') ? 'United States' : DB.countries[0];
   selA.value = defCountry;
   onCountryChange();
-  // v80i: Mode A peer group defaults to Southeast_Asia if available
-  const _selGA = document.getElementById('sel-group-a');
-  if (_selGA && Array.from(_selGA.options).some(o => o.value === 'Southeast_Asia')) _selGA.value = 'Southeast_Asia';
 
   // Mode B: country multi-select
   const selBc = document.getElementById('sel-countries-b');
@@ -583,7 +580,7 @@ function initUI() {
     selBc.appendChild(o);
   });
   // Default selection
-  ['India','China','United States'].forEach(c => {
+  ['United States','China','India','Germany'].forEach(c => {
     if (DB.countries.includes(c)) {
       Array.from(selBc.options).find(o => o.value === c).selected = true;
     }
@@ -596,8 +593,6 @@ function initUI() {
     selBg.appendChild(o);
   });
   selBg.value = 'World';
-  // v80i: auto-render Mode A so the page is not blank on load
-  try { setTimeout(function(){ if (typeof renderModeA === 'function') renderModeA(); }, 200); } catch(e){}
 }
 
 function onCountryChange() {
