@@ -202,8 +202,6 @@
     <div class="chart-caption">Figure 3.3: South-Asia M2 percentile (within-region rank). India climbs from the 60th to the 80th percentile of South Asia; Pakistan slides from the 35th to the 12th. The same series visualised in absolute composite (Fig 3.1) reads as &ldquo;both stable&rdquo;; in M2 it reads as a structural rotation within a small peer group.</div>
 
     <div class="chart-box"><div id="ip-shadow" style="height:300px"></div></div>
-    <div class="chart-box"><div id="ip-pairwise-rel" style="height:320px"></div></div>
-    <div class="chart-caption">Figure 3.5: Asymmetric pairwise M1 relatives. M1(India — vs Pakistan-only peer set) = India² / Pakistan; M1(Pakistan — vs India-only peer set) = Pakistan² / India. With India 35 and Pakistan 14, India's pairwise M1 is 87.5 (well above 35) while Pakistan's is 5.6 (well below 14) — the relative-rating arithmetic flips shape when the peer set shrinks to one country.</div>
     <div class="chart-caption">Figure 3.4: Actual vs South-Asia-shadow rating. India runs slightly above shadow throughout (the agencies' India view is more generous than the regional benchmark would predict). Pakistan's gap turns sharply negative after 2008, settling at roughly −10 from 2014 onward: a persistent under-rating relative to peers.</div>
 
     <p>There is a related point about distance-graded benchmarking. South Asia as a peer group is dominated by India in mass terms; an unweighted regional average treats Bangladesh, Bhutan, Maldives, Nepal, Pakistan, and Sri Lanka equally, which inflates Pakistan's apparent peer mean (because India's high score lifts the average). A GDP-weighted regional average pulls the South Asia mean upward by another two points. Pakistan's relative-to-region rating depends sensitively on the weighting choice; the pairwise India comparison eliminates this ambiguity by collapsing the benchmark to a single, well-identified counterfactual.</p>
@@ -536,69 +534,6 @@ function renderAll() {
     xaxis: { title: '', gridcolor: '#eee' },
     yaxis: { title: '', gridcolor: '#eee', zerolinecolor: '#1a1a1a' }
   }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
-
-  // ip-relative: India and Pakistan M4 percentile within South Asia peer set
-  try {
-    if (document.getElementById('ip-relative') && window.EXTRAS && EXTRAS.score_matrix) {
-      const sm = EXTRAS.score_matrix;
-      const yrs = Object.keys(sm).map(Number).sort((a,b)=>a-b);
-      const SA = ['India','Pakistan','Bangladesh','Sri Lanka','Nepal','Bhutan','Maldives','Afghanistan'];
-      function pctSA(country, year){
-        const row = sm[year]; if (!row) return null;
-        const pool = SA.filter(c => row[c] != null);
-        if (pool.length < 2 || row[country] == null) return null;
-        const sorted = pool.map(c => row[c]).sort((a,b)=>a-b);
-        const rank = sorted.indexOf(row[country]) + 1;
-        return rank / pool.length;
-      }
-      const ipx = yrs.filter(y => pctSA('India', y) != null && pctSA('Pakistan', y) != null);
-      Plotly.newPlot('ip-relative', [
-        { x: ipx, y: ipx.map(y => pctSA('India', y)), name: 'India M4 within South Asia', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor('India')) || '#FF9933', width: 2.2, dash: 'dot' }, marker: { size: 4 } },
-        { x: ipx, y: ipx.map(y => pctSA('Pakistan', y)), name: 'Pakistan M4 within South Asia', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor('Pakistan')) || '#01411C', width: 2.2, dash: 'dot' }, marker: { size: 4 } }
-      ], Object.assign({}, baseLayout, {
-        title: { text: 'India and Pakistan: M4 percentile within South Asia (within-region rank)', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: '', gridcolor: '#eee' },
-        yaxis: { title: '', range: [0, 1], gridcolor: '#eee' }
-      }), window.scrChartConfig || { responsive: true, displayModeBar: true });
-    }
-  } catch(e){ console.warn('ip-relative render failed:', e); }
-
-  // ip-shadow: India and Pakistan actual vs OLS shadow
-  try {
-    if (document.getElementById('ip-shadow') && EXTRAS.shadow && EXTRAS.shadow.ols) {
-      const sh = EXTRAS.shadow.ols;
-      const ind = sh.filter(r => r.Country === 'India').sort((a,b) => a.Year - b.Year);
-      const pak = sh.filter(r => r.Country === 'Pakistan').sort((a,b) => a.Year - b.Year);
-      Plotly.newPlot('ip-shadow', [
-        { x: ind.map(r => r.Year), y: ind.map(r => r.Actual), name: 'India actual', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor('India')) || '#FF9933', width: 2.4 }, marker: { size: 5 } },
-        { x: ind.map(r => r.Year), y: ind.map(r => r.Shadow_OLS), name: 'India shadow OLS', mode: 'lines', line: { color: (window.scrCountryColor && window.scrCountryColor('India')) || '#FF9933', width: 1.7, dash: 'dash' } },
-        { x: pak.map(r => r.Year), y: pak.map(r => r.Actual), name: 'Pakistan actual', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor('Pakistan')) || '#01411C', width: 2.4 }, marker: { size: 5 } },
-        { x: pak.map(r => r.Year), y: pak.map(r => r.Shadow_OLS), name: 'Pakistan shadow OLS', mode: 'lines', line: { color: (window.scrCountryColor && window.scrCountryColor('Pakistan')) || '#01411C', width: 1.7, dash: 'dash' } }
-      ], Object.assign({}, baseLayout, {
-        title: { text: 'India and Pakistan: actual vs OLS shadow (Method C)', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: '', gridcolor: '#eee' },
-        yaxis: { title: '', range: [0, 60], gridcolor: '#eee' }
-      }), window.scrChartConfig || { responsive: true, displayModeBar: true });
-    }
-  } catch(e){ console.warn('ip-shadow render failed:', e); }
-
-  // ip-pairwise-rel: India relative to Pakistan and Pakistan relative to India (M1 pair-style)
-  try {
-    if (document.getElementById('ip-pairwise-rel') && window.EXTRAS && EXTRAS.score_matrix) {
-      const sm = EXTRAS.score_matrix;
-      const yrs = Object.keys(sm).map(Number).sort((a,b)=>a-b).filter(y => sm[y] && sm[y]['India'] != null && sm[y]['Pakistan'] != null && sm[y]['Pakistan'] !== 0 && sm[y]['India'] !== 0);
-      const indVsPak = yrs.map(y => (sm[y]['India'] * sm[y]['India']) / sm[y]['Pakistan']);
-      const pakVsInd = yrs.map(y => (sm[y]['Pakistan'] * sm[y]['Pakistan']) / sm[y]['India']);
-      Plotly.newPlot('ip-pairwise-rel', [
-        { x: yrs, y: indVsPak, name: 'M1(India vs Pakistan-only)', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor('India')) || '#FF9933', width: 2.4 }, marker: { size: 5 } },
-        { x: yrs, y: pakVsInd, name: 'M1(Pakistan vs India-only)', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor('Pakistan')) || '#01411C', width: 2.4 }, marker: { size: 5 } }
-      ], Object.assign({}, baseLayout, {
-        title: { text: 'Pairwise M1 relatives: each country with the other as sole peer', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-        xaxis: { title: '', gridcolor: '#eee' },
-        yaxis: { title: '', gridcolor: '#eee' }
-      }), window.scrChartConfig || { responsive: true, displayModeBar: true });
-    }
-  } catch(e){ console.warn('ip-pairwise-rel render failed:', e); }
 
   // ── EMDC cluster
   const af = EXTRAS.stories.african_distress;

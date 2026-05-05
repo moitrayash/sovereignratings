@@ -173,13 +173,15 @@ function wirePeerControls() {
   const all = Array.from(new Set(EXTRAS.gini_rel.map(r => r.Country))).sort();
   customSel.innerHTML = '';
   all.forEach(c => customSel.appendChild(new Option(c, c)));
+  // Inject preset peer-group options (OECD, BRICS+, EU, etc.)
   const presetOg = document.getElementById('peerset-presets');
   if (presetOg && window.SCR_PRESET_ORDER) {
     presetOg.innerHTML = '';
     window.SCR_PRESET_ORDER.forEach(name => {
       const members = (window.SCR_PRESET_GROUPS[name] || []).filter(c => all.includes(c));
       if (!members.length) return;
-      presetOg.appendChild(new Option(name + ' (' + members.length + ')', 'preset:' + name));
+      const opt = new Option(name + ' (' + members.length + ')', 'preset:' + name);
+      presetOg.appendChild(opt);
     });
   }
   peerSel.onchange = () => {
@@ -190,141 +192,49 @@ function wirePeerControls() {
     }
   };
   document.getElementById('custom-apply').onclick = () => {
-    const sel = Array.from(customSel.selectedOptions).map(o => o.value);
-    if (sel.length < 2) { alert('Choose at least 2 countries'); return; }
-    CUSTOM_PEERS = sel;
-    peerSel.value = 'custom';
-    renderExplorer(document.getElementById('country').value);
+    CUSTOM_PEERS = Array.from(customSel.selectedOptions).map(o => o.value);
+    if (CUSTOM_PEERS.length < 2) { alert('Pick at least 2 countries.'); return; }
+    const focal = document.getElementById('country').value;
+    if (!CUSTOM_PEERS.includes(focal)) CUSTOM_PEERS.push(focal);
+    renderExplorer(focal);
     renderDistributions();
   };
   document.getElementById('custom-clear').onclick = () => {
     Array.from(customSel.options).forEach(o => o.selected = false);
-    CUSTOM_PEERS = [];
   };
 }
 
 function currentPeerSet(focal) {
   const mode = document.getElementById('peerset').value;
-  const all = Array.from(new Set(EXTRAS.gini_rel.map(r => r.Country))).sort();
-  if (mode === 'world') return all;
-  if (mode === 'region' && window.SCR_REGION_OF && window.SCR_COUNTRIES_IN) {
-    const region = window.SCR_REGION_OF[focal];
-    if (region) return window.SCR_COUNTRIES_IN(region).filter(c => all.includes(c));
+  const all = new Set(EXTRAS.gini_rel.map(r => r.Country));
+  if (mode === 'world') return {set: all, label: 'World'};
+  if (mode === 'region') {
+    const reg = window.SCR_REGION_OF[focal];
+    if (!reg) return {set: all, label: 'World (focal has no region mapping)'};
+    const peers = new Set(window.SCR_COUNTRIES_IN(reg).filter(c => all.has(c)));
+    peers.add(focal);
+    return {set: peers, label: reg + ' (' + peers.size + ' countries)'};
   }
-  if (mode.startsWith('preset:') && window.SCR_PRESET_GROUPS) {
-    return (window.SCR_PRESET_GROUPS[mode.slice(7)] || []).filter(c => all.includes(c));
+  if (mode.startsWith('preset:')) {
+    const name = mode.slice(7);
+    const members = (window.SCR_PRESET_GROUPS[name] || []).filter(c => all.has(c));
+    const peers = new Set(members);
+    peers.add(focal);
+    return {set: peers, label: name + ' (' + peers.size + ' countries)'};
   }
-  if (mode === 'custom') return CUSTOM_PEERS.length ? CUSTOM_PEERS : all;
-  return all;
+  const peers = new Set(CUSTOM_PEERS.length ? CUSTOM_PEERS : [focal]);
+  peers.add(focal);
+  return {set: peers, label: 'Custom (' + peers.size + ' countries)'};
 }
 
-function peerRowsFor(country, peerCountries) {
-  const peerSet = new Set(peerCountries);
-  return EXTRAS.gini.filter(r => peerSet.has(r.Country) && r.Country === country).sort((a, b) => a.Year - b.Year);
-}
-
-function peerLOOFor(peerCountries) {
-  const peerSet = new Set(peerCountries);
-  const byYear = {};
-  EXTRAS.gini.filter(r => peerSet.has(r.Country)).forEach(r => {
-    (byYear[r.Year] = byYear[r.Year] || []).push(r.Value);
-  });
-  return Object.keys(byYear).sort((a, b) => +a - +b).map(y => ({
-    Year: +y,
-    mean: byYear[y].reduce((a, b) => a + b, 0) / byYear[y].length
-  }));
-}
-
-function giniTheme() {
-  const dark = document.body.classList.contains('dark');
-  const txt = dark ? '#ececec' : '#333';
-  const grid = dark ? 'rgba(255,255,255,0.10)' : '#eee';
-  return {
-    plot_bgcolor: 'rgba(0,0,0,0)', paper_bgcolor: 'rgba(0,0,0,0)',
-    font: { family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: txt },
-    grid: grid, txt: txt
-  };
-}
-
-function renderExplorer(country) {
-  const peerSet = currentPeerSet(country);
-  renderAbsolute(country, peerSet);
-  renderRelative(country, peerSet);
-}
-
-function renderAbsolute(country, peerCountries) {
-  if (!document.getElementById('gini-abs')) return;
-  const focal = peerRowsFor(country, peerCountries);
-  const peerMean = peerLOOFor(peerCountries);
-  const t = giniTheme();
-  Plotly.newPlot('gini-abs', [
-    { x: focal.map(r => r.Year), y: focal.map(r => r.Value), name: country, mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor(country)) || '#1a1a1a', width: 2.4 }, marker: { size: 5 } },
-    { x: peerMean.map(r => r.Year), y: peerMean.map(r => r.mean), name: 'Peer-set LOO mean', mode: 'lines', line: { color: '#888', width: 2, dash: 'dash' } }
-  ], {
-    title: { text: country + ': GiniInv vs peer-set leave-one-out mean', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-    xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-    yaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-    plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
-    margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 },
-    legend: { orientation: 'h', y: -0.28, x: 0.5, xanchor: 'center', font: { color: t.txt } }
-  }, window.scrChartConfig || { responsive: true, displayModeBar: true });
-}
-
-function renderRelative(country, peerCountries) {
-  if (!document.getElementById('gini-rel')) return;
-  const peerSet = new Set(peerCountries);
-  const rel = EXTRAS.gini_rel.filter(r => r.Country === country && peerSet.has(r.Country)).sort((a, b) => a.Year - b.Year);
-  const t = giniTheme();
-  Plotly.newPlot('gini-rel', [
-    { x: rel.map(r => r.Year), y: rel.map(r => r.M1), name: 'M1 (squared / LOO)', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor(country)) || '#1a1a1a', width: 2 }, marker: { size: 4 } },
-    { x: rel.map(r => r.Year), y: rel.map(r => r.M4), name: 'M4 percentile (0-1)', mode: 'lines+markers', line: { color: '#888', width: 2, dash: 'dot' }, marker: { size: 4 }, yaxis: 'y2' }
-  ], {
-    title: { text: country + ': M1 and M4 percentile', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-    xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-    yaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-    yaxis2: { title: '', overlaying: 'y', side: 'right', range: [0, 1], gridcolor: 'rgba(0,0,0,0)', tickfont: { color: t.txt } },
-    plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
-    margin: { l: 64, r: 64, t: 84, b: 72, pad: 6 },
-    legend: { orientation: 'h', y: -0.28, x: 0.5, xanchor: 'center', font: { color: t.txt } }
-  }, window.scrChartConfig || { responsive: true, displayModeBar: true });
-}
-
-function renderDistributions() {
-  const years = Array.from(new Set(EXTRAS.gini.map(r => +r.Year))).sort();
-  const latest = years[years.length - 1];
-  const allCountries = Array.from(new Set(EXTRAS.gini_rel.map(r => r.Country))).sort();
-  const points = EXTRAS.gini.filter(r => +r.Year === latest && allCountries.includes(r.Country) && isFinite(r.Value)).map(r => ({ Country: r.Country, Value: r.Value })).sort((a, b) => a.Value - b.Value);
-  const cumShare = points.map((p, i) => (i + 1) / points.length);
-  const t = giniTheme();
-
-  if (document.getElementById('gini-cdf')) {
-    Plotly.newPlot('gini-cdf', [{
-      x: points.map(p => p.Value), y: cumShare, mode: 'lines', name: 'CDF',
-      line: { color: t.txt, width: 2 },
-      hovertemplate: '%{customdata}<br>GiniInv: %{x:.2f}<br>Cumulative: %{y:.2f}<extra></extra>',
-      customdata: points.map(p => p.Country)
-    }], {
-      title: { text: 'Empirical CDF of GiniInv, ' + latest, font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-      xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-      yaxis: { title: '', range: [0, 1], gridcolor: t.grid, tickfont: { color: t.txt } },
-      plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
-      margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 }
-    }, window.scrChartConfig || { responsive: true, displayModeBar: true });
-  }
-  if (document.getElementById('gini-hist')) {
-    Plotly.newPlot('gini-hist', [{
-      x: points.map(p => p.Value), type: 'histogram', nbinsx: 24, marker: { color: '#888' },
-      hovertemplate: 'GiniInv bin: %{x}<br>Countries: %{y}<extra></extra>'
-    }], {
-      title: { text: 'Histogram of GiniInv, ' + latest, font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-      xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-      yaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-      plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
-      margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 }
-    }, window.scrChartConfig || { responsive: true, displayModeBar: true });
-  }
-}
-</script>
-
-</body>
-</html>
+// Gini panel uses field name "Gini" (not "Value"). Adapt for the recompute.
+function peerRowsFor(focal) {
+  const {set, label} = currentPeerSet(focal);
+  const allWorld = new Set(EXTRAS.gini_rel.map(r => r.Country));
+  let rows;
+  if (set.size === allWorld.size) {
+    rows = EXTRAS.gini_rel.filter(r => r.Country === focal).sort((a,b) => a.Year - b.Year);
+  } else {
+    // Build {Country, Year, Value} from EXTRAS.gini for the subset, then recompute
+    const giniRows = EXTRAS.gini.filter(r => set.has(r.Country)).map(r => ({Country: r.Country, Year: r.Year, Value: r.Gini}));
+    const recomputed = window.scrRecomputeRelative(giniRows, set);

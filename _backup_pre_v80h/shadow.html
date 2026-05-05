@@ -431,8 +431,8 @@ function renderShadowFor(country) {
     { x: bayes.map(r => r.Year), y: bayes.map(r => predFromRow(r)), name: 'Bayes shadow', mode: 'lines', line: { color: '#76b56a', width: 2 } }
   ], Object.assign({}, baseLayout, {
     title: { text: country + ': actual vs three shadow methods', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-    xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-    yaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } }
+    xaxis: { title: { text: 'Year', font: { color: t.txt } }, gridcolor: t.grid, tickfont: { color: t.txt } },
+    yaxis: { title: { text: 'Composite (0-60)', font: { color: t.txt } }, gridcolor: t.grid, tickfont: { color: t.txt } }
   }), window.scrChartConfig || { responsive: true, displayModeBar: true });
 
   Plotly.newPlot('sh-residuals', [
@@ -441,8 +441,8 @@ function renderShadowFor(country) {
     { x: bayes.map(r => r.Year), y: bayes.map(r => r.Residual != null ? r.Residual : (r.Actual - predFromRow(r))), name: 'Bayes', mode: 'lines+markers', line: { color: '#76b56a', width: 2 }, marker: { size: 4 } }
   ], Object.assign({}, baseLayout, {
     title: { text: country + ': residuals (actual minus shadow)', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-    xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-    yaxis: { title: '', gridcolor: t.grid, zerolinecolor: t.txt, tickfont: { color: t.txt } }
+    xaxis: { title: { text: 'Year', font: { color: t.txt } }, gridcolor: t.grid, tickfont: { color: t.txt } },
+    yaxis: { title: { text: 'Residual', font: { color: t.txt } }, gridcolor: t.grid, zerolinecolor: t.txt, tickfont: { color: t.txt } }
   }), window.scrChartConfig || { responsive: true, displayModeBar: true });
 
   const tableEl = document.getElementById('sh-table');
@@ -487,15 +487,15 @@ function renderShadowFor(country) {
         div.innerHTML = '<p style="padding:20px;color:#888">No country-years matched.</p>';
         return;
       }
-      const NX = 60, NY = 100;
+      const NX = 12, NY = 10;
       const counts = Array.from({length: NY}, () => Array(NX).fill(0));
       pairs.forEach(([c, h]) => {
-        const xi = Math.min(NX - 1, Math.max(0, Math.floor(c)));
-        const yi = Math.min(NY - 1, Math.max(0, Math.floor(h)));
+        const xi = Math.min(NX - 1, Math.max(0, Math.floor(c / 5)));
+        const yi = Math.min(NY - 1, Math.max(0, Math.floor(h / 10)));
         counts[yi][xi]++;
       });
-      const xs = Array.from({length: NX}, (_, i) => i + 0.5);
-      const ys = Array.from({length: NY}, (_, i) => i + 0.5);
+      const xs = Array.from({length: NX}, (_, i) => i * 5 + 2.5);
+      const ys = Array.from({length: NY}, (_, i) => i * 10 + 5);
       const dark = document.body.classList.contains('dark');
       const txt  = dark ? '#ececec' : '#333';
       const grid = dark ? 'rgba(255,255,255,0.10)' : '#eee';
@@ -532,7 +532,7 @@ function renderShadowFor(country) {
     const div = document.getElementById('residuals-ranking');
     if (!div || typeof Plotly === 'undefined') { setTimeout(renderResidualsRanking, 200); return; }
     fetch('extras_shadow.json').then(r => r.json()).then(sh => {
-      const ols = (sh && sh.shadow && sh.shadow.ols) || (sh && sh.ols) || [];
+      const ols = (sh && sh.ols) || [];
       if (!ols.length) { div.innerHTML = '<p style="padding:20px;color:#888">No shadow OLS data.</p>'; return; }
       // Latest year per country
       const latest = {};

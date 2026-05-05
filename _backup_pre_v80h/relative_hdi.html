@@ -171,7 +171,7 @@
 <script defer src="shared.js"></script>
 <script defer>
 let EXTRAS = null;
-let CUSTOM_PEERS = [];
+let CUSTOM_PEERS = [];   // user-chosen subset for "custom" mode
 window.addEventListener('load', () => {
   if (!window.scrLoadExtras) {
     document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">shared.js failed to load.</p>');
@@ -203,16 +203,21 @@ function wirePeerControls() {
   const peerSel = document.getElementById('peerset');
   const customBox = document.getElementById('custom-picker');
   const customSel = document.getElementById('custom-countries');
+  // Populate custom multi-select with all reporting countries
   const all = Array.from(new Set(EXTRAS.hdi_rel.map(r => r.Country))).sort();
   customSel.innerHTML = '';
   all.forEach(c => customSel.appendChild(new Option(c, c)));
+  // Inject preset peer-group options (OECD, BRICS+, EU, etc.) into the dropdown
   const presetOg = document.getElementById('peerset-presets');
   if (presetOg && window.SCR_PRESET_ORDER) {
     presetOg.innerHTML = '';
     window.SCR_PRESET_ORDER.forEach(name => {
+      // Pre-compute size of the intersection with the panel so the user can see
+      // how many countries are actually in the comparison
       const members = (window.SCR_PRESET_GROUPS[name] || []).filter(c => all.includes(c));
       if (!members.length) return;
-      presetOg.appendChild(new Option(name + ' (' + members.length + ')', 'preset:' + name));
+      const opt = new Option(name + ' (' + members.length + ')', 'preset:' + name);
+      presetOg.appendChild(opt);
     });
   }
   peerSel.onchange = () => {
@@ -222,142 +227,4 @@ function wirePeerControls() {
       renderDistributions();
     }
   };
-  document.getElementById('custom-apply').onclick = () => {
-    const sel = Array.from(customSel.selectedOptions).map(o => o.value);
-    if (sel.length < 2) { alert('Choose at least 2 countries'); return; }
-    CUSTOM_PEERS = sel;
-    peerSel.value = 'custom';
-    renderExplorer(document.getElementById('country').value);
-    renderDistributions();
-  };
-  document.getElementById('custom-clear').onclick = () => {
-    Array.from(customSel.options).forEach(o => o.selected = false);
-    CUSTOM_PEERS = [];
-  };
-}
-
-function currentPeerSet(focal) {
-  const mode = document.getElementById('peerset').value;
-  const all = Array.from(new Set(EXTRAS.hdi_rel.map(r => r.Country))).sort();
-  if (mode === 'world') return all;
-  if (mode === 'region' && window.SCR_REGION_OF && window.SCR_COUNTRIES_IN) {
-    const region = window.SCR_REGION_OF[focal];
-    if (region) return window.SCR_COUNTRIES_IN(region).filter(c => all.includes(c));
-  }
-  if (mode.startsWith('preset:') && window.SCR_PRESET_GROUPS) {
-    return (window.SCR_PRESET_GROUPS[mode.slice(7)] || []).filter(c => all.includes(c));
-  }
-  if (mode === 'custom') return CUSTOM_PEERS.length ? CUSTOM_PEERS : all;
-  return all;
-}
-
-function peerRowsFor(country, peerCountries) {
-  const peerSet = new Set(peerCountries);
-  return EXTRAS.hdi.filter(r => peerSet.has(r.Country) && r.Country === country).sort((a, b) => a.Year - b.Year);
-}
-
-function peerLOOFor(peerCountries) {
-  const peerSet = new Set(peerCountries);
-  const byYear = {};
-  EXTRAS.hdi.filter(r => peerSet.has(r.Country)).forEach(r => {
-    (byYear[r.Year] = byYear[r.Year] || []).push(r.Value);
-  });
-  return Object.keys(byYear).sort((a, b) => +a - +b).map(y => ({
-    Year: +y,
-    mean: byYear[y].reduce((a, b) => a + b, 0) / byYear[y].length
-  }));
-}
-
-function hdiTheme() {
-  const dark = document.body.classList.contains('dark');
-  const txt = dark ? '#ececec' : '#333';
-  const grid = dark ? 'rgba(255,255,255,0.10)' : '#eee';
-  return {
-    plot_bgcolor: 'rgba(0,0,0,0)', paper_bgcolor: 'rgba(0,0,0,0)',
-    font: { family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: txt },
-    grid: grid, txt: txt
-  };
-}
-
-function renderExplorer(country) {
-  const peerSet = currentPeerSet(country);
-  renderAbsolute(country, peerSet);
-  renderRelative(country, peerSet);
-}
-
-function renderAbsolute(country, peerCountries) {
-  if (!document.getElementById('hdi-abs')) return;
-  const focal = peerRowsFor(country, peerCountries);
-  const peerMean = peerLOOFor(peerCountries);
-  const t = hdiTheme();
-  Plotly.newPlot('hdi-abs', [
-    { x: focal.map(r => r.Year), y: focal.map(r => r.Value), name: country, mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor(country)) || '#1a1a1a', width: 2.4 }, marker: { size: 5 } },
-    { x: peerMean.map(r => r.Year), y: peerMean.map(r => r.mean), name: 'Peer-set LOO mean', mode: 'lines', line: { color: '#888', width: 2, dash: 'dash' } }
-  ], {
-    title: { text: country + ': HDI\u00d7100 vs peer-set leave-one-out mean', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-    xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-    yaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-    plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
-    margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 },
-    legend: { orientation: 'h', y: -0.28, x: 0.5, xanchor: 'center', font: { color: t.txt } }
-  }, window.scrChartConfig || { responsive: true, displayModeBar: true });
-}
-
-function renderRelative(country, peerCountries) {
-  if (!document.getElementById('hdi-rel')) return;
-  const peerSet = new Set(peerCountries);
-  const rel = EXTRAS.hdi_rel.filter(r => r.Country === country && peerSet.has(r.Country)).sort((a, b) => a.Year - b.Year);
-  const t = hdiTheme();
-  Plotly.newPlot('hdi-rel', [
-    { x: rel.map(r => r.Year), y: rel.map(r => r.M1), name: 'M1 (squared / LOO)', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor(country)) || '#1a1a1a', width: 2 }, marker: { size: 4 } },
-    { x: rel.map(r => r.Year), y: rel.map(r => r.M4), name: 'M4 percentile (0-1)', mode: 'lines+markers', line: { color: '#888', width: 2, dash: 'dot' }, marker: { size: 4 }, yaxis: 'y2' }
-  ], {
-    title: { text: country + ': M1 and M4 percentile', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-    xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-    yaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-    yaxis2: { title: '', overlaying: 'y', side: 'right', range: [0, 1], gridcolor: 'rgba(0,0,0,0)', tickfont: { color: t.txt } },
-    plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
-    margin: { l: 64, r: 64, t: 84, b: 72, pad: 6 },
-    legend: { orientation: 'h', y: -0.28, x: 0.5, xanchor: 'center', font: { color: t.txt } }
-  }, window.scrChartConfig || { responsive: true, displayModeBar: true });
-}
-
-function renderDistributions() {
-  const years = Array.from(new Set(EXTRAS.hdi.map(r => +r.Year))).sort();
-  const latest = years[years.length - 1];
-  const allCountries = Array.from(new Set(EXTRAS.hdi_rel.map(r => r.Country))).sort();
-  const points = EXTRAS.hdi.filter(r => +r.Year === latest && allCountries.includes(r.Country) && isFinite(r.Value)).map(r => ({ Country: r.Country, Value: r.Value })).sort((a, b) => a.Value - b.Value);
-  const cumShare = points.map((p, i) => (i + 1) / points.length);
-  const t = hdiTheme();
-
-  if (document.getElementById('hdi-cdf')) {
-    Plotly.newPlot('hdi-cdf', [{
-      x: points.map(p => p.Value), y: cumShare, mode: 'lines', name: 'CDF',
-      line: { color: t.txt, width: 2 },
-      hovertemplate: '%{customdata}<br>HDI\u00d7100: %{x:.2f}<br>Cumulative: %{y:.2f}<extra></extra>',
-      customdata: points.map(p => p.Country)
-    }], {
-      title: { text: 'Empirical CDF of HDI\u00d7100, ' + latest, font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-      xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-      yaxis: { title: '', range: [0, 1], gridcolor: t.grid, tickfont: { color: t.txt } },
-      plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
-      margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 }
-    }, window.scrChartConfig || { responsive: true, displayModeBar: true });
-  }
-  if (document.getElementById('hdi-hist')) {
-    Plotly.newPlot('hdi-hist', [{
-      x: points.map(p => p.Value), type: 'histogram', nbinsx: 24, marker: { color: '#888' },
-      hovertemplate: 'HDI\u00d7100 bin: %{x}<br>Countries: %{y}<extra></extra>'
-    }], {
-      title: { text: 'Histogram of HDI\u00d7100, ' + latest, font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-      xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-      yaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-      plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
-      margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 }
-    }, window.scrChartConfig || { responsive: true, displayModeBar: true });
-  }
-}
-</script>
-
-</body>
-</html>
+  document.getElementById('c
