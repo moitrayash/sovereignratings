@@ -496,14 +496,11 @@ function renderShadowFor(country) {
       });
       const xs = Array.from({length: NX}, (_, i) => i + 0.5);
       const ys = Array.from({length: NY}, (_, i) => i + 0.5);
-      const flat = counts.flat().filter(v => v > 0);
-      const zmin = flat.length ? Math.min.apply(null, flat) : 0;
-      const zmax = flat.length ? Math.max.apply(null, flat) : 1;
       const dark = document.body.classList.contains('dark');
       const txt  = dark ? '#ececec' : '#333';
       const grid = dark ? 'rgba(255,255,255,0.10)' : '#eee';
       Plotly.newPlot(div, [{
-        type: 'heatmap', z: counts, x: xs, y: ys, zmin: zmin, zmax: zmax,
+        type: 'heatmap', z: counts, x: xs, y: ys,
         colorscale: 'YlOrRd',
         hovertemplate: 'Composite ~%{x:.0f}<br>HDI\u00d7100 ~%{y:.0f}<br>Count: %{z}<extra></extra>',
         colorbar: { title: { text: 'Country-years', side: 'right' } }
