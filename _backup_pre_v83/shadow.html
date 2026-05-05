@@ -293,6 +293,25 @@
     <div id="sh-table" style="overflow-x:auto"></div>
   </div>
 
+  <h2 id="heatmap"><span class="section-num">5</span> Composite × HDI heatmap</h2>
+
+  <p>One reading of the shadow-rating residuals is that they correlate with development-and-governance indicators not directly in the OLS regression. Here is the joint distribution of composite credit score and the UN Human Development Index across all country-years (2010&ndash;2022, n ≈ 1,800). Cell colour = count of country-years falling in that bin. The diagonal-ish concentration confirms the strong positive correlation between rating and HDI (Spearman ρ ≈ 0.81); off-diagonal cells are countries the agencies treat very differently from what their HDI level would predict: candidate cases for further shadow-rating diagnostic.</p>
+
+  <div class="chart-box"><div id="heatmap-chart" style="height:520px"></div></div>
+  <div class="chart-caption">Figure 5.1: Joint frequency heatmap of composite credit score (x-axis, 0–60) and HDI×100 (y-axis). Hot cells = many country-years cluster there; cool cells = unusual combinations of rating and human-development outcomes.</div>
+
+  <h2 id="ranking"><span class="section-num">5</span> Country residual ranking (latest year)</h2>
+
+  <p>Each country's residual is <em>Expected Shadow rating &minus; Actual rating</em>, computed under benchmark spec S2 (OLS shadow model). A <strong>positive</strong> residual means the country looks better on fundamentals than the agencies have certified — a candidate for being structurally <em>under-rated</em>. A <strong>negative</strong> residual means agencies have certified the country higher than fundamentals predict — a candidate for being structurally <em>over-rated</em>. Magnitude is in composite-score points (0–60 scale). Below: every country with both Actual and OLS Shadow data in the latest year, sorted by residual ascending. Negative bars (red) on the left = over-rated by agencies vs fundamentals; positive bars (green) on the right = under-rated.</p>
+
+  <div class="chart-box"><div id="residuals-ranking" style="height:560px"></div></div>
+  <div class="chart-caption">Figure 6.1: Latest-year residuals (Shadow OLS &minus; Actual) for the 25 most-positive and 25 most-negative residuals. Green = under-rated (agencies harsher than the OLS shadow predicts); red = over-rated (agencies friendlier than fundamentals predict). Bar length = magnitude of mis-pricing in composite-score points.</div>
+
+  <div id="residuals-map-title" style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:0.85rem;font-weight:700;padding:8px 0;color:var(--ink);margin-top:24px"></div>
+  <div class="chart-box"><div id="residuals-map" style="height:520px"></div></div>
+  <div id="residuals-map-legend" style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:0.78rem;padding:8px 0;color:var(--ink-soft);line-height:1.5"></div>
+  <div class="chart-caption">Figure 6.2: Same residuals as Figure 6.1, plotted as colored markers at each country's capital. Sepia base palette consistent with the distance-graded map. Green = under-rated (positive residual: agencies harsher than fundamentals predict); red = over-rated (negative residual: agencies friendlier than fundamentals predict). Marker size scaled by magnitude of mis-pricing.</div>
+
   <h2 id="reproducibility"><span class="section-num">6</span> Reproducibility: the raw computation</h2>
 
   <p>Below is the exact Python script used to compute Methods A, B, and C from the project's panel. It depends on nothing but the standard library and the <code>panel_gdppc.csv</code> bundled in the data ZIP. Click <strong>Copy PNG</strong> in the upper right of the code block to grab a screenshot, or use your browser's text-select to copy the source. The script is plain-old vanilla Python: no NumPy, no pandas, no scikit-learn. <em>If you can run Python 3.8+ on your laptop, this entire section can be reproduced from raw inputs in under 30 seconds.</em></p>
