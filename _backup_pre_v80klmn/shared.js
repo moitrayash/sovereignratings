@@ -843,13 +843,23 @@
         ax: 0.995, ay: 0, axref: 'paper', ayref: 'paper',
         x: 1.04, y: 0,
         showarrow: true, arrowhead: 3, arrowsize: 1.2, arrowwidth: 1.4, arrowcolor: fg,
-        text: '', standoff: 0, startstandoff: 0 }, opacity: 0.95 },
+        text: '', standoff: 0, startstandoff: 0 },
+      // X-axis unit label
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 1.045, y: 0,
+        xanchor: 'left', yanchor: 'middle', xshift: 4, yshift: 0,
+        showarrow: false, text: titleX || '',
+        font: { size: 10, color: fg, family: 'Helvetica Neue, Arial, sans-serif' }, opacity: 0.95 },
       // Y-axis line extension — runs along x=0 from inside the chart up past y=1
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper',
         ax: 0, ay: 0.995, axref: 'paper', ayref: 'paper',
         x: 0, y: 1.05,
         showarrow: true, arrowhead: 3, arrowsize: 1.2, arrowwidth: 1.4, arrowcolor: fg,
-        text: '', standoff: 0, startstandoff: 0 }, opacity: 0.95 },
+        text: '', standoff: 0, startstandoff: 0 },
+      // Y-axis unit label
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 1.055,
+        xanchor: 'left', yanchor: 'bottom', xshift: 8, yshift: 4,
+        showarrow: false, text: titleY || '',
+        font: { size: 10, color: fg, family: 'Helvetica Neue, Arial, sans-serif' }, opacity: 0.95 },
       // 0,0 union marker at the chart origin
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 0,
         xanchor: 'right', yanchor: 'top', xshift: -4, yshift: -4,

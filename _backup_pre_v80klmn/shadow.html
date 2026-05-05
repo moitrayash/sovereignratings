@@ -302,9 +302,9 @@
 
   <h2 id="ranking"><span class="section-num">6</span> Country residual ranking (latest year)</h2>
 
-  <p>Each country's residual is <em>Expected Shadow rating &minus; Actual rating</em>, computed under benchmark spec S2 (OLS shadow model). A <strong>positive</strong> residual means the country looks better on fundamentals than the agencies have certified — a candidate for being structurally <em>under-rated</em>. A <strong>negative</strong> residual means agencies have certified the country higher than fundamentals predict — a candidate for being structurally <em>over-rated</em>. Magnitude is in composite-score points (0–60 scale). Below: every country with both Actual and OLS Shadow data in the latest year, sorted by residual ascending. Negative bars (red) on the left = over-rated by agencies vs fundamentals; positive bars (green) on the right = under-rated.</p>
+  <p>Each country's residual is <em>Expected Shadow rating &minus; Actual rating</em>, computed under benchmark spec S2 (OLS shadow model). A <strong>positive</strong> residual means the country looks better on fundamentals than the agencies have certified — a candidate for being structurally <em>under-rated</em>. A <strong>negative</strong> residual means agencies have certified the country higher than fundamentals predict — a candidate for being structurally <em>over-rated</em>. Magnitude is in composite-score points (0–60 scale). Below: the 25 most under-rated and 25 most over-rated countries, sorted from largest under-rating at the top.</p>
 
-  <div class="chart-box"><div id="residuals-ranking" style="height:560px"></div></div>
+  <div class="chart-box"><div id="residuals-ranking" style="height:780px"></div></div>
   <div class="chart-caption">Figure 6.1: Latest-year residuals (Shadow OLS &minus; Actual) for the 25 most-positive and 25 most-negative residuals. Green = under-rated (agencies harsher than the OLS shadow predicts); red = over-rated (agencies friendlier than fundamentals predict). Bar length = magnitude of mis-pricing in composite-score points.</div>
 
   <h2 id="reproducibility"><span class="section-num">6</span> Reproducibility: the raw computation</h2>
@@ -536,11 +536,12 @@ function renderShadowFor(country) {
     if (!div || typeof Plotly === 'undefined') { setTimeout(renderResidualsRanking, 200); return; }
     fetch('extras_shadow.json').then(r => r.json()).then(sh => {
       const ols = (sh && sh.shadow && sh.shadow.ols) || (sh && sh.ols) || [];
-      if (!ols.length) { div.innerHTML = '<p style=\"padding:20px;color:#888\">No shadow OLS data.</p>'; return; }
-      // Latest year per country with both Actual and Shadow_OLS available
+      if (!ols.length) { div.innerHTML = '<p style="padding:20px;color:#888">No shadow OLS data.</p>'; return; }
+      // Latest year per country
       const latest = {};
       ols.forEach(r => {
-        if (!r.Country || r.Year == null || r.Actual == null) return;
+        if (!r.Country || r.Year == null) return;
+        if (r.Actual == null) return;
         const pred = (r.Shadow_OLS != null ? r.Shadow_OLS : (r.Predicted != null ? r.Predicted : null));
         if (pred == null) return;
         const cur = latest[r.Country];
@@ -550,33 +551,36 @@ function renderShadowFor(country) {
         Country: r.Country, Year: r.Year, Actual: r.Actual, Pred: r.Pred,
         Resid: r.Pred - r.Actual
       }));
-      if (!rows.length) { div.innerHTML = '<p style=\"padding:20px;color:#888\">No country-years matched.</p>'; return; }
-      // Sort ascending by residual: most over-rated (negative) on the left, most under-rated (positive) on the right
-      rows.sort((a,b) => a.Resid - b.Resid);
-      const xLabels = rows.map(r => r.Country);
-      const yVals   = rows.map(r => r.Resid);
-      const colors  = rows.map(r => r.Resid >= 0 ? '#2E7D32' : '#C0392B');
+      if (!rows.length) { div.innerHTML = '<p style="padding:20px;color:#888">No country-years matched.</p>'; return; }
+      rows.sort((a,b) => b.Resid - a.Resid);
+      const N = 25;
+      const top    = rows.slice(0, N);                  // most under-rated (Pred > Actual)
+      const bottom = rows.slice(-N).reverse();          // most over-rated (Pred < Actual)
+      // Stack: top first (positive), then bottom (negative). Ordered for horizontal bar.
+      const order = top.concat(bottom);
+      const yLabels = order.map(r => r.Country + ' (' + r.Year + ')');
+      const xVals   = order.map(r => r.Resid);
+      const colors  = order.map(r => r.Resid >= 0 ? '#2E7D32' : '#C0392B');
       const dark = document.body.classList.contains('dark');
-      const txt  = dark ? '#ececec' : '#333';
+      const txt = dark ? '#ececec' : '#333';
       const grid = dark ? 'rgba(255,255,255,0.10)' : '#eee';
       Plotly.newPlot(div, [{
-        type: 'bar',
-        x: xLabels, y: yVals,
-        marker: { color: colors, line: { color: dark ? '#111' : '#fff', width: 0.3 } },
-        hovertemplate: '%{x}<br>Shadow \u2212 Actual: %{y:+.2f}<extra></extra>'
+        type: 'bar', orientation: 'h',
+        x: xVals, y: yLabels,
+        marker: { color: colors, line: { color: dark ? '#111' : '#fff', width: 0.4 } },
+        hovertemplate: '%{y}<br>Shadow \u2212 Actual: %{x:+.2f}<extra></extra>'
       }], {
         plot_bgcolor: 'rgba(0,0,0,0)',
         paper_bgcolor: 'rgba(0,0,0,0)',
-        font: { family: 'Helvetica Neue, Arial, sans-serif', size: 9, color: txt },
-        xaxis: { title: '', tickangle: -90, tickfont: { color: txt, size: 8 }, automargin: true, gridcolor: 'rgba(0,0,0,0)' },
-        yaxis: { title: '', gridcolor: grid, zerolinecolor: txt, zerolinewidth: 1, tickfont: { color: txt } },
-        margin: { l: 50, r: 24, t: 16, b: 130 },
-        shapes: [{ type: 'line', x0: -0.5, x1: rows.length - 0.5, y0: 0, y1: 0, line: { color: txt, width: 1 } }]
+        font: { family: 'Helvetica Neue, Arial, sans-serif', size: 10, color: txt },
+        xaxis: { title: '', gridcolor: grid, zerolinecolor: txt, zerolinewidth: 1, tickfont: { color: txt } },
+        yaxis: { automargin: true, autorange: 'reversed', tickfont: { color: txt, size: 10 } },
+        margin: { l: 4, r: 30, t: 16, b: 40 },
+        shapes: [{ type: 'line', x0: 0, x1: 0, y0: -0.5, y1: order.length - 0.5, line: { color: txt, width: 1 } }]
       }, window.scrChartConfig || { responsive: true, displayModeBar: true });
     }).catch(err => {
-      div.innerHTML = '<p style=\"padding:20px;color:#888\">Could not load extras_shadow.json: ' + (err.message || err) + '</p>';
+      div.innerHTML = '<p style="padding:20px;color:#888">Could not load extras_shadow.json: ' + (err.message || err) + '</p>';
     });
-  
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => setTimeout(renderResidualsRanking, 700));

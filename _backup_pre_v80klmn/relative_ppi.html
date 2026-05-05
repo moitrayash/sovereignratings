@@ -273,24 +273,20 @@ function renderDistribution(allCountries) {
   const latest = years[years.length - 1];
   const points = PPI_DATA.filter(r => +r.Year === latest && allCountries.includes(r.Country) && isFinite(r.Value)).map(r => ({ Country: r.Country, Value: r.Value })).sort((a, b) => a.Value - b.Value);
   const cumShare = points.map((p, i) => (i + 1) / points.length);
-  const cumPct = cumShare.map(s => s * 100);
-  const medianIdx = cumShare.findIndex(s => s >= 0.5);
-  const medianVal = (medianIdx >= 0 && points[medianIdx]) ? points[medianIdx].Value : null;
   const t = ppiTheme();
 
   if (document.getElementById('ppi-cdf')) {
     Plotly.newPlot('ppi-cdf', [{
-      x: points.map(p => p.Value), y: cumPct, mode: 'lines', name: 'CDF',
+      x: points.map(p => p.Value), y: cumShare, mode: 'lines', name: 'CDF',
       line: { color: t.txt, width: 2 },
-      hovertemplate: '%{customdata}<br>PPI100: %{x:.2f}<br>Cumulative: %{y:.1f}%<extra></extra>',
+      hovertemplate: '%{customdata}<br>PPI100: %{x:.2f}<br>Cumulative share: %{y:.2f}<extra></extra>',
       customdata: points.map(p => p.Country)
     }], {
       title: { text: 'Empirical CDF of PPI100, ' + latest, font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
       xaxis: { title: { text: 'PPI100', font: { color: t.txt } }, gridcolor: t.grid, tickfont: { color: t.txt } },
-      yaxis: { title: { text: 'Cumulative share (%)', font: { color: t.txt } }, range: [0, 100], gridcolor: t.grid, tickfont: { color: t.txt } },
-      shapes: medianVal != null ? [{ type: 'line', x0: medianVal, x1: medianVal, y0: 0, y1: 100, line: { color: '#C0392B', width: 1, dash: 'dash' } }] : [],
-      annotations: medianVal != null ? [{ x: medianVal, y: 50, text: 'median ' + medianVal.toFixed(1), showarrow: false, xanchor: 'left', xshift: 6, font: { size: 10, color: '#C0392B' } }] : [],
-      plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
+      yaxis: { title: { text: 'Cumulative share', font: { color: t.txt } }, range: [0, 1], gridcolor: t.grid, tickfont: { color: t.txt } },
+      plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor,
+      font: t.font,
       margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 }
     }, window.scrChartConfig || { responsive: true, displayModeBar: true });
   }

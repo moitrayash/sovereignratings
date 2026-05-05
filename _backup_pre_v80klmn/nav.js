@@ -66,22 +66,29 @@
         });
         wrap.appendChild(menu);
 
-        // Toggle on click; close on outside-click
-        lbl.addEventListener('click', function(e){
-          e.stopPropagation();
-          wrap.classList.toggle('open');
-        });
+        // Toggle on click; close on outside-click. Menu is appended to <body>
+        // and positioned with position:fixed so it escapes nav.site overflow-x clipping.
+        document.body.appendChild(menu);
+        menu.style.position = 'fixed';
+        menu.style.display = 'none';
+        function positionMenu(){
+          const r = lbl.getBoundingClientRect();
+          menu.style.top  = r.bottom + 'px';
+          menu.style.left = r.left + 'px';
+        }
+        function openMenu(){ wrap.classList.add('open'); positionMenu(); menu.style.display = 'block'; }
+        function closeMenu(){ wrap.classList.remove('open'); menu.style.display = 'none'; }
+        function toggleMenu(){ if (wrap.classList.contains('open')) closeMenu(); else openMenu(); }
+        lbl.addEventListener('click', function(e){ e.stopPropagation(); toggleMenu(); });
         lbl.addEventListener('keydown', function(e){
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            wrap.classList.toggle('open');
-          } else if (e.key === 'Escape') {
-            wrap.classList.remove('open');
-          }
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleMenu(); }
+          else if (e.key === 'Escape') { closeMenu(); }
         });
         document.addEventListener('click', function(e){
-          if (!wrap.contains(e.target)) wrap.classList.remove('open');
+          if (!menu.contains(e.target) && !lbl.contains(e.target)) closeMenu();
         });
+        window.addEventListener('scroll', function(){ if (wrap.classList.contains('open')) positionMenu(); }, { passive: true });
+        window.addEventListener('resize', function(){ if (wrap.classList.contains('open')) positionMenu(); });
         nav.appendChild(wrap);
         return;
       }

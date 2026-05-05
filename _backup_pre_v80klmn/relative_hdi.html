@@ -283,7 +283,6 @@ function renderExplorer(country) {
   const peerSet = currentPeerSet(country);
   renderAbsolute(country, peerSet);
   renderRelative(country, peerSet);
-  renderVsCredit(country);
 }
 
 function renderAbsolute(country, peerCountries) {
@@ -329,23 +328,18 @@ function renderDistributions() {
   const allCountries = Array.from(new Set(EXTRAS.hdi_rel.map(r => r.Country))).sort();
   const points = EXTRAS.hdi.filter(r => +r.Year === latest && allCountries.includes(r.Country) && isFinite(r.Value)).map(r => ({ Country: r.Country, Value: r.Value })).sort((a, b) => a.Value - b.Value);
   const cumShare = points.map((p, i) => (i + 1) / points.length);
-  const cumPct = cumShare.map(s => s * 100);
-  const medianIdx = cumShare.findIndex(s => s >= 0.5);
-  const medianVal = (medianIdx >= 0 && points[medianIdx]) ? points[medianIdx].Value : null;
   const t = hdiTheme();
 
   if (document.getElementById('hdi-cdf')) {
     Plotly.newPlot('hdi-cdf', [{
-      x: points.map(p => p.Value), y: cumPct, mode: 'lines', name: 'CDF',
+      x: points.map(p => p.Value), y: cumShare, mode: 'lines', name: 'CDF',
       line: { color: t.txt, width: 2 },
-      hovertemplate: '%{customdata}<br>HDI×100: %{x:.2f}<br>Cumulative: %{y:.1f}%<extra></extra>',
+      hovertemplate: '%{customdata}<br>HDI\u00d7100: %{x:.2f}<br>Cumulative: %{y:.2f}<extra></extra>',
       customdata: points.map(p => p.Country)
     }], {
-      title: { text: 'Empirical CDF of HDI×100, ' + latest, font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-      xaxis: { title: { text: 'HDI×100', font: { color: t.txt } }, gridcolor: t.grid, tickfont: { color: t.txt } },
-      yaxis: { title: { text: 'Cumulative share (%)', font: { color: t.txt } }, range: [0, 100], gridcolor: t.grid, tickfont: { color: t.txt } },
-      shapes: medianVal != null ? [{ type: 'line', x0: medianVal, x1: medianVal, y0: 0, y1: 100, line: { color: '#C0392B', width: 1, dash: 'dash' } }] : [],
-      annotations: medianVal != null ? [{ x: medianVal, y: 50, text: 'median ' + medianVal.toFixed(1), showarrow: false, xanchor: 'left', xshift: 6, font: { size: 10, color: '#C0392B' } }] : [],
+      title: { text: 'Empirical CDF of HDI\u00d7100, ' + latest, font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+      xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
+      yaxis: { title: '', range: [0, 1], gridcolor: t.grid, tickfont: { color: t.txt } },
       plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
       margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 }
     }, window.scrChartConfig || { responsive: true, displayModeBar: true });
@@ -362,54 +356,6 @@ function renderDistributions() {
       margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 }
     }, window.scrChartConfig || { responsive: true, displayModeBar: true });
   }
-}
-
-function renderVsCredit(country) {
-  if (!document.getElementById('hdi-vs-credit')) return;
-  const sm = EXTRAS.score_matrix || {};
-  const yrs = Object.keys(sm).map(Number).sort((a, b) => a - b);
-  const credit = [];
-  yrs.forEach(y => {
-    if (sm[y] && sm[y][country] != null) credit.push({ Year: y, Value: sm[y][country] });
-  });
-  const hdi = EXTRAS.hdi.filter(r => r.Country === country).sort((a, b) => a.Year - b.Year);
-  const t = hdiTheme();
-  Plotly.newPlot('hdi-vs-credit', [
-    { x: hdi.map(r => r.Year), y: hdi.map(r => r.Value), name: country + ' HDI\u00d7100', mode: 'lines+markers', line: { color: '#1B4F8A', width: 2 }, marker: { size: 4 } },
-    { x: credit.map(r => r.Year), y: credit.map(r => r.Value * 5 / 3), name: country + ' credit composite (\u00d75/3)', mode: 'lines+markers', line: { color: '#C0392B', width: 2, dash: 'dash' }, marker: { size: 4 } }
-  ], {
-    title: { text: country + ': HDI\u00d7100 vs credit composite (both on 0-100 scale)', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-    xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-    yaxis: { title: '', range: [0, 100], gridcolor: t.grid, tickfont: { color: t.txt } },
-    plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
-    margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 },
-    legend: { orientation: 'h', y: -0.28, x: 0.5, xanchor: 'center', font: { color: t.txt } }
-  }, window.scrChartConfig || { responsive: true, displayModeBar: true });
-}
-
-function renderLorenz() {
-  if (!document.getElementById('hdi-lorenz')) return;
-  const years = Array.from(new Set(EXTRAS.hdi.map(r => +r.Year))).sort();
-  const latest = years[years.length - 1];
-  const vals = EXTRAS.hdi.filter(r => +r.Year === latest && isFinite(r.Value)).map(r => r.Value).sort((a, b) => a - b);
-  if (!vals.length) return;
-  const total = vals.reduce((a, b) => a + b, 0);
-  const cumPop = vals.map((_, i) => (i + 1) / vals.length);
-  const cumVal = [];
-  let running = 0;
-  vals.forEach(v => { running += v; cumVal.push(running / total); });
-  const t = hdiTheme();
-  Plotly.newPlot('hdi-lorenz', [
-    { x: cumPop, y: cumVal, mode: 'lines', name: 'Lorenz of HDI\u00d7100', line: { color: t.txt, width: 2 } },
-    { x: [0, 1], y: [0, 1], mode: 'lines', name: 'Equality (45\u00b0)', line: { color: '#888', width: 1, dash: 'dash' } }
-  ], {
-    title: { text: 'Lorenz curve of HDI\u00d7100 across reporting countries, ' + latest, font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-    xaxis: { title: '', range: [0, 1], gridcolor: t.grid, tickfont: { color: t.txt } },
-    yaxis: { title: '', range: [0, 1], gridcolor: t.grid, tickfont: { color: t.txt } },
-    plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
-    margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 },
-    legend: { orientation: 'h', y: -0.22, x: 0.5, xanchor: 'center', font: { color: t.txt } }
-  }, window.scrChartConfig || { responsive: true, displayModeBar: true });
 }
 </script>
 
