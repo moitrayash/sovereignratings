@@ -814,8 +814,6 @@
     const lo = gd._fullLayout;
     if (!lo) return;
     if (gd._scrInjectingArrows) return;
-    // Skip non-cartesian charts (geo/mapbox/polar/3d) - axis arrows make no sense there
-    if (lo.geo || lo.mapbox || lo.polar || lo.scene) return;
     const hasOurs = (lo.annotations || []).some(a => a && a._scrAxisArrow);
     if (hasOurs) return; // arrows already present; no-op
     const fg = document.body.classList.contains('dark') ? '#ececec' : '#1a1a1a';

@@ -323,69 +323,12 @@ function renderDistChart() {
 function renderDistMap(c, weights, focalColor) {
   if (!EXTRAS || !EXTRAS.capitals || !EXTRAS.capitals[c]) return;
   const caps = EXTRAS.capitals;
-  const [lat0, lon0] = caps[c];
   const top = weights.filter(w => caps[w.country]).slice().sort((a,b) => b.w - a.w).slice(0, 30);
   const cfg = window.scrChartConfig || { responsive: true, displayModeBar: true };
-  const OCEAN = 'rgba(248,240,220,0.95)';
-  const LAND  = 'rgba(232,215,180,0.85)';
-  const BRDR  = 'rgba(140,100,60,0.45)';
-  const BURNT = '#8B4513';
-  const lam  = (typeof _distState !== 'undefined' && _distState && _distState.lam) || 0.6;
-  const exp_ = (typeof _distState !== 'undefined' && _distState && _distState.exp) || 1.0;
-  function ringDistKm(w){ return 1000 * Math.pow(-Math.log(w)/lam, 1/exp_); }
-  function destPoint(latD, lonD, distKm, bearing){
-    const R = 6371, dr = distKm / R, br = bearing * Math.PI/180;
-    const la1 = latD * Math.PI/180, lo1 = lonD * Math.PI/180;
-    const la2 = Math.asin(Math.sin(la1)*Math.cos(dr) + Math.cos(la1)*Math.sin(dr)*Math.cos(br));
-    const lo2 = lo1 + Math.atan2(Math.sin(br)*Math.sin(dr)*Math.cos(la1), Math.cos(dr)-Math.sin(la1)*Math.sin(la2));
-    return [la2*180/Math.PI, ((lo2*180/Math.PI + 540) % 360) - 180];
-  }
-  function ringTrace(w){
-    const d = ringDistKm(w);
-    if (!isFinite(d) || d <= 0) return null;
-    const lats=[], lons=[];
-    for (let b = 0; b <= 360; b += 6){
-      const [la, lo] = destPoint(lat0, lon0, d, b);
-      lats.push(la); lons.push(lo);
-    }
-    return { type:'scattergeo', mode:'lines', lat:lats, lon:lons,
-             line:{color:BRDR, width:1, dash:'dot'}, hoverinfo:'skip', showlegend:false };
-  }
-  const rings = [0.75, 0.50, 0.25, 0.10].map(w => ringTrace(w)).filter(t => t);
-  const peerSizes = top.map(p => 8 + 22 * p.w);
-  const traces = rings.concat([
-    { type:'scattergeo', mode:'markers+text',
-      lon: top.map(p => caps[p.country][1]),
-      lat: top.map(p => caps[p.country][0]),
-      text: top.map(() => '\u00d7'),
-      textposition:'middle center',
-      textfont:{ size: peerSizes, color: BURNT, family:'Times New Roman, serif' },
-      marker:{ size: 1, opacity: 0 },
-      hovertext: top.map(p => p.country + ' (w=' + p.w.toFixed(3) + ')'),
-      hoverinfo:'text', showlegend:false },
-    { type:'scattergeo', mode:'markers+text',
-      lon:[caps[c][1]], lat:[caps[c][0]],
-      text:['\u2020'], textposition:'middle center',
-      textfont:{ size: 32, color: BURNT, family:'Times New Roman, serif' },
-      marker:{ size: 1, opacity: 0 },
-      hovertext:[c + ' (focal)'], hoverinfo:'text', showlegend:false }
-  ]);
-  Plotly.newPlot('dist-map', traces, {
-    geo:{ projection:{ type:'equirectangular' },
-          showland:true,  landcolor: LAND,
-          showocean:true, oceancolor: OCEAN,
-          showcountries:true, countrycolor: BRDR,
-          showcoastlines:true, coastlinecolor: BRDR,
-          bgcolor:'rgba(0,0,0,0)' },
-    margin:{ l:0, r:0, t:4, b:4 },
-    paper_bgcolor:'rgba(0,0,0,0)'
-  }, cfg);
-  const titleEl = document.getElementById('dist-map-title');
-  if (titleEl) titleEl.textContent = c + ': distance-graded peer map';
-  const legEl = document.getElementById('dist-map-legend');
-  if (legEl) legEl.textContent =
-    'Sepia equirectangular projection. \u2020 = focal country. \u00d7 = top-30 peers, sized by kernel weight w. Dotted concentric rings = isodistance contours at w = 0.75, 0.50, 0.25, 0.10 (kernel: \u03bb=' +
-    lam.toFixed(2) + ', p=' + exp_.toFixed(2) + ').';
+  Plotly.newPlot('dist-map', [
+    { type: 'scattergeo', mode: 'markers+text', name: c + ' (focal)', lon: [caps[c][1]], lat: [caps[c][0]], text: ['+'], textposition: 'middle center', textfont: { size: 22, color: focalColor }, marker: { size: 14, opacity: 0.0 }, hovertemplate: c + '<extra></extra>' },
+    { type: 'scattergeo', mode: 'markers', name: 'Distance-weighted peers (top 30)', lon: top.map(p => caps[p.country][1]), lat: top.map(p => caps[p.country][0]), text: top.map(p => p.country), marker: { size: top.map(p => 4 + 22 * p.w), color: '#444', opacity: 0.65, line: { width: 0.4, color: '#111' } }, hovertemplate: '%{text}<extra></extra>' }
+  ], { geo: { projection: { type: 'natural earth' }, showland: true, landcolor: 'rgba(128,128,128,0.12)', showcountries: true, countrycolor: 'rgba(128,128,128,0.35)', bgcolor: 'rgba(0,0,0,0)' }, margin: { l: 0, r: 0, t: 30, b: 0 }, title: { text: c + ': distance-graded peer map', font: { size: 13 } } }, cfg);
 }
 </script>
 
