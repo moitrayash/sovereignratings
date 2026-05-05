@@ -699,98 +699,77 @@ function renderShadowFor(country) {
   function renderResidualsMap(){
     const div = document.getElementById('residuals-map');
     if (!div || typeof Plotly === 'undefined') { setTimeout(renderResidualsMap, 200); return; }
-    fetch('extras_shadow.json').then(r => r.json()).then(sh => {
+    Promise.all([
+      fetch('extras_shadow.json').then(r => r.json()),
+      fetch('extras.json').then(r => r.json())
+    ]).then(([sh, ex]) => {
       const ols = (sh && sh.shadow && sh.shadow.ols) || [];
-      if (!ols.length) {
+      const caps = (ex && ex.capitals) || {};
+      if (!ols.length || !Object.keys(caps).length) {
         div.innerHTML = '<p style="padding:20px;color:#888">Map data unavailable.</p>';
         return;
       }
-      const byYear = {};
+      // Latest year per country
+      const latest = {};
       ols.forEach(r => {
         if (!r.Country || r.Year == null || r.Actual == null) return;
         const pred = (r.Shadow_OLS != null ? r.Shadow_OLS : (r.Predicted != null ? r.Predicted : null));
         if (pred == null) return;
-        if (!byYear[r.Year]) byYear[r.Year] = {};
-        byYear[r.Year][r.Country] = pred - r.Actual;
+        const cur = latest[r.Country];
+        if (!cur || cur.Year < r.Year) latest[r.Country] = { Country: r.Country, Year: r.Year, Resid: pred - r.Actual };
       });
-      const years = Object.keys(byYear).map(Number).sort((a,b)=>a-b);
-      if (!years.length) return;
-      const latestYear = years[years.length - 1];
-      let globalMax = 0;
-      years.forEach(y => Object.values(byYear[y]).forEach(v => { if (Math.abs(v) > globalMax) globalMax = Math.abs(v); }));
-      const zlim = Math.max(5, Math.ceil(globalMax));
+      const rows = Object.values(latest).filter(r => caps[r.Country]);
+      if (!rows.length) return;
+      // Sepia palette (matches dist-map)
       const OCEAN = 'rgba(248,240,220,0.95)';
       const LAND  = 'rgba(232,215,180,0.85)';
       const BRDR  = 'rgba(140,100,60,0.45)';
-      // Sepia-anchored diverging palette: deep brick -> brick -> sepia parchment -> forest -> deep forest
-      const colorscale = [
-        [0.00, '#5A0F00'],
-        [0.18, '#8B1A0A'],
-        [0.36, '#C0392B'],
-        [0.50, 'rgba(232,215,180,1)'],
-        [0.64, '#5C8A2C'],
-        [0.82, '#3E7B2A'],
-        [1.00, '#1F4D0A']
-      ];
-      function trace(yr){
-        const cs = Object.keys(byYear[yr]);
+      const maxAbs = Math.max(...rows.map(r => Math.abs(r.Resid)));
+      // Two traces: one positive (green), one negative (red), so they share the sepia base.
+      const pos = rows.filter(r => r.Resid >= 0);
+      const neg = rows.filter(r => r.Resid <  0);
+      function trace(rs, color, name){
         return {
-          type: 'choropleth',
-          locationmode: 'country names',
-          locations: cs,
-          z: cs.map(c => byYear[yr][c]),
-          zmin: -zlim, zmax: zlim,
-          colorscale: colorscale,
-          marker: { line: { color: BRDR, width: 0.5 } },
-          colorbar: {
-            title: { text: 'Shadow − Actual', font: { size: 10, color: '#3a2a18' } },
-            tickfont: { size: 9, color: '#3a2a18' },
-            thickness: 12, len: 0.7,
-            outlinecolor: BRDR, outlinewidth: 0.5,
-            bgcolor: 'rgba(248,240,220,0.55)'
+          type: 'scattergeo',
+          lon: rs.map(r => caps[r.Country][1]),
+          lat: rs.map(r => caps[r.Country][0]),
+          mode: 'markers',
+          marker: {
+            size: rs.map(r => 6 + 22 * (Math.abs(r.Resid) / maxAbs)),
+            color: color,
+            opacity: 0.78,
+            line: { color: 'rgba(60,40,20,0.55)', width: 0.6 }
           },
-          hovertemplate: '%{location}<br>Shadow − Actual: %{z:+.2f}<extra></extra>'
+          hovertext: rs.map(r => r.Country + ' (' + r.Year + ')<br>Shadow \u2212 Actual: ' + (r.Resid >= 0 ? '+' : '') + r.Resid.toFixed(2)),
+          hoverinfo: 'text',
+          name: name,
+          showlegend: false
         };
       }
-      const frames = years.map(y => ({ name: String(y), data: [trace(y)] }));
-      const sliderSteps = years.map(y => ({
-        method: 'animate',
-        label: String(y),
-        args: [[String(y)], { mode: 'immediate', frame: { duration: 0, redraw: true }, transition: { duration: 0 } }]
-      }));
-      const dark = document.body.classList.contains('dark');
-      const sliderTxt = dark ? '#ececec' : '#3a2a18';
-      Plotly.newPlot(div, [trace(latestYear)], {
+      const traces = [
+        trace(pos, '#2E7D32', 'Under-rated (positive residual)'),
+        trace(neg, '#C0392B', 'Over-rated (negative residual)')
+      ];
+      Plotly.newPlot(div, traces, {
         geo: { projection: { type: 'equirectangular' },
                showland: true,  landcolor: LAND,
                showocean: true, oceancolor: OCEAN,
                showcountries: true, countrycolor: BRDR,
                showcoastlines: true, coastlinecolor: BRDR,
                bgcolor: 'rgba(0,0,0,0)' },
-        margin: { l: 0, r: 0, t: 4, b: 70 },
-        paper_bgcolor: 'rgba(0,0,0,0)',
-        sliders: [{
-          active: years.length - 1,
-          pad: { t: 10, b: 10 },
-          currentvalue: { prefix: 'Year: ', font: { size: 12, color: sliderTxt } },
-          steps: sliderSteps,
-          bgcolor: dark ? 'rgba(255,255,255,0.08)' : 'rgba(140,100,60,0.10)',
-          bordercolor: dark ? 'rgba(255,255,255,0.20)' : 'rgba(140,100,60,0.35)',
-          font: { color: sliderTxt }
-        }]
-      }, window.scrChartConfig || { responsive: true, displayModeBar: true })
-      .then(() => Plotly.addFrames(div, frames));
+        margin: { l: 0, r: 0, t: 4, b: 4 },
+        paper_bgcolor: 'rgba(0,0,0,0)'
+      }, window.scrChartConfig || { responsive: true, displayModeBar: true });
       const titleEl = document.getElementById('residuals-map-title');
-      if (titleEl) titleEl.textContent = 'Country-level residuals: scrub the slider to see year-by-year over- and under-rating';
+      if (titleEl) titleEl.textContent = 'Latest-year residuals: country-level over- and under-rating map';
       const legEl = document.getElementById('residuals-map-legend');
-      if (legEl) legEl.textContent = 'Sepia equirectangular projection (palette consistent with the distance-graded map). Deep greens fill under-rated countries (agencies harsher than the OLS shadow predicts); deep reds fill over-rated countries (agencies friendlier than fundamentals predict). Color intensity scales with the residual on a symmetric scale capped at ±' + zlim + ' composite-score points; countries without OLS-shadow data for the selected year retain the sepia parchment base.';
+      if (legEl) legEl.textContent = 'Sepia equirectangular projection (same palette as the distance-graded map). Green markers = under-rated countries (agencies harsher than the OLS shadow predicts). Red markers = over-rated countries (agencies friendlier than fundamentals predict). Marker size scaled by |residual| up to ' + maxAbs.toFixed(1) + ' composite-score points.';
     }).catch(err => {
       div.innerHTML = '<p style="padding:20px;color:#888">Map data load failed: ' + (err.message || err) + '</p>';
     });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(renderResidualsMap, 700));
   else setTimeout(renderResidualsMap, 700);
-  document.addEventListener('scrThemeChanged', () => setTimeout(renderResidualsMap, 100));
 })();
 </script>
 </body>
