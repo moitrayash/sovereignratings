@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paired, Grouped &amp; Regional Ratings: Sovereign Scores</title>
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<style>
+  .controls { background: var(--bg-card); border: 1px solid var(--border); padding: 16px 18px; margin: 18px 0; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.86rem; }
+  .controls label { display: inline-block; font-weight: 700; font-size: 0.74rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft); margin-right: 6px; margin-bottom: 4px; }
+  .controls select { font-family: inherit; font-size: 0.86rem; padding: 4px 8px; border: 1px solid var(--border); background: var(--bg-card); color: var(--ink); margin-right: 14px; }
+  .stat-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; margin: 14px 0; }
+  .stat-strip .stat { background: var(--bg-card); border: 1px solid var(--border); padding: 10px 14px; font-family: 'Helvetica Neue', Arial, sans-serif; }
+  .stat-strip .stat .lbl { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 700; }
+  .stat-strip .stat .val { font-size: 1.1rem; color: var(--ink); margin-top: 4px; }
+</style>
+<script defer src="pct_change.js"></script>
+</head>
+<body>
+<header class="site">
+  <div class="head-row"><div class="head-text">
+    <h1>Sovereign Ratings &amp; Scores</h1>
+          <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4 &middot; Relative HDI / Gini / PPI &middot; Shadow ratings (OLS, k-NN, Bayes)</p>
+  </div></div>
+</header>
+<nav class="site"></nav>
+
+<main>
+
+  <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Paired, Grouped &amp; Regional Ratings</h2>
+  <p>The relative-rating methods documented in <a href="methodology.html">&sect;4 of the Methodology</a> all use a peer-group benchmark&mdash;an unweighted average of N&minus;1 other countries. The <em>paired</em> measure on this page narrows the benchmark to a single counterfactual country; the <em>grouped</em> view points to the main <a href="index.html">Relative Ratings</a> explorer for the full M1&ndash;M4 family across 59 peer groups; the <em>regional</em> measure folds geographic neighbourhoods into a region-weighted benchmark.<sup class="note-ref"><a href="#note-1">1</a></sup></p>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2 id="math"><span class="section-num">1</span> The math, plainly</h2>
+
+  <p>For any two countries <em>A</em> and <em>B</em> in any year <em>t</em>, the paired relative score is simply the difference of their composite scores on the 0&ndash;60 scale:</p>
+
+  <div class="formula-block">
+    <span class="label">Paired relative score</span>
+    P<sub>ABt</sub> = Score<sub>At</sub> &minus; Score<sub>Bt</sub>
+  </div>
+
+  <p>This is the simplest relativization in the family surveyed by <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a> and <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a> (2020),<sup class="note-ref"><a href="#note-2">2</a></sup> equivalent to <span class="term" data-term="rel_eq">rel_eq</span> evaluated against a one-country &ldquo;peer group&rdquo;. Three properties make it analytically attractive:</p>
+
+  <ol>
+    <li><strong>Antisymmetric.</strong> P<sub>AB</sub> = &minus;P<sub>BA</sub>. The pair-score collapses to a single signed number with a clean economic reading: a value of +12 means <em>A</em>'s rating sits 12 points above <em>B</em>'s on the 0&ndash;60 scale, equivalent to about four letter-grade notches.</li>
+    <li><strong>Translation-invariant.</strong> Adding any constant <em>c</em> to both scores leaves P unchanged. So a uniform global re-rating (the agencies all collectively revising their conventions) does not move the pair.</li>
+    <li><strong>Variance-reducing.</strong> If Score<sub>A</sub> and Score<sub>B</sub> are positively correlated&mdash;which they almost always are when A and B share a region, currency union, or trading bloc&mdash;the variance of P<sub>AB</sub> is strictly less than the variance of either individual series. Reversals in the pair therefore carry more signal-per-noise than reversals in absolute scores.</li>
+  </ol>
+
+  <h3>Intuition</h3>
+
+  <p>Think of P<sub>AB</sub> as the answer to the question: &ldquo;If I were forced to invest in either A or B and could only see relative riskiness, by how many letter-grades would I prefer one over the other?&rdquo; A flat line means agencies are revising A and B in lockstep&mdash;a sign that whatever new information is arriving, it is being read as common to both. A widening line means the two trajectories are decoupling; a narrowing line means they are converging.</p>
+
+  <h3>The 2&times;2 payoff matrix</h3>
+
+  <p>Read the trajectory of P<sub>AB</sub> against the trajectory of (Score<sub>A</sub> + Score<sub>B</sub>)/2 (the pair midpoint) and you get four mutually exclusive regimes:</p>
+
+  <div class="copyable" style="margin: 18px 0;">
+    <table>
+      <thead><tr><th></th><th>Pair midpoint <em>rising</em></th><th>Pair midpoint <em>falling</em></th></tr></thead>
+      <tbody>
+        <tr><td><strong>P<sub>AB</sub> <em>widening</em></strong></td><td>Asymmetric improvement: A pulling B up; <em>e.g.</em> Czech vs Slovakia 1995&ndash;2008</td><td>Asymmetric deterioration: one side is dragging the pair down; <em>e.g.</em> Russia vs Ukraine 2014&ndash;2022</td></tr>
+        <tr><td><strong>P<sub>AB</sub> <em>narrowing</em></strong></td><td>Convergence on the upside: the laggard catches up; <em>e.g.</em> Cyprus vs Malta 2014&ndash;2022 or Egypt vs Israel post-1979</td><td>Co-collapse: common shock dragging both; <em>e.g.</em> Greece vs Germany 2010&ndash;2012 (briefly), or Ghana vs Nigeria 2022&ndash;2023</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>The matrix is useful when you want to characterise an episode in one sentence. &ldquo;Asymmetric deterioration&rdquo; is what most analysts mean when they say a pair has &ldquo;diverged&rdquo;; it is also the most common pre-default pattern in the data. &ldquo;Co-collapse&rdquo; episodes are rarer but carry policy implications about contagion. &ldquo;Convergence&rdquo; episodes typically follow integration into a treaty arrangement (EU accession, common currency) or a debt-restructuring deal.</p>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2 id="explore"><span class="section-num">2</span> Live pairwise explorer</h2>
+
+  <div class="controls">
+    <label for="paira">Country A</label>
+    <select id="paira"></select>
+    <label for="pairb">Country B</label>
+    <select id="pairb"></select>
+  </div>
+
+  <div class="stat-strip" id="pair-stats"></div>
+  <div class="chart-box"><div id="pair-chart" style="height:380px"></div></div>
+  <div class="chart-box"><div id="pair-spread" style="height:240px"></div></div>
+
+  <p>The two charts plot the absolute composite scores of the chosen pair (top) and the paired spread P<sub>ABt</sub> (bottom). The stat strip surfaces the mean spread, its bounds, and the first-to-last drift. The default selection is India vs Pakistan; pick any two countries from the dropdowns to redraw on the fly.</p>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2 id="historical"><span class="section-num">3</span> Historical case studies</h2>
+
+  <p>Six pairs that illustrate the four regimes. Each chart renders absolute composites of both countries (left axis) overlaid with their paired spread (right axis, dashed). The narrative below each panel states the political-economy reading; the chart is the falsification check.</p>
+
+  <h3 id="armenia-azerbaijan">3.1 &nbsp;Armenia &amp; Azerbaijan: the Caucasus rivalry, in credit space</h3>
+
+  <p>Armenia and Azerbaijan have been in cold or hot conflict over Nagorno-Karabakh almost continuously since their first war in 1988&ndash;1994.<sup class="note-ref"><a href="#note-3">3</a></sup> Both entered the rated universe around 2006&ndash;2007 with composites near 18 (high-yield speculative grade, equivalent to S&amp;P B / Moody's B2). Since then, hydrocarbon revenue&mdash;Azerbaijan has the SOCAR/BP gas-and-oil complex; Armenia has none&mdash;has driven a persistent gap of about 3&ndash;6 score-points in Azerbaijan's favour. The September 2020 Second Nagorno-Karabakh War, which Azerbaijan won militarily and through which it recovered substantial territory, did <em>not</em> move agency ratings on either side: the spread is essentially flat through Q4 2020. Either the agencies do not condition on territorial outcomes, or they had already priced in the post-2014 oil-revenue deterioration which made the war's resolution mechanically less surprising. The September 2023 Nagorno-Karabakh ethnic Armenian exodus prompted no rating action on either side.</p>
+
+  <div class="chart-box"><div id="case-armaze" style="height:340px"></div></div>
+  <div class="chart-caption">Figure 3.1.1: Armenia and Azerbaijan composite scores, 2006&ndash;2025, with paired spread. The territorial reversal of 2020&ndash;2023 is invisible in the agencies' rating space.</div>
+
+  <h3 id="czech-slovakia">3.2 &nbsp;Czech Republic &amp; Slovakia: the EU/euro divergence</h3>
+
+  <p>The Velvet Divorce of 1 January 1993 split Czechoslovakia into two sovereigns whose initial credit profiles were nearly identical. Through the 2000s, both joined the EU (2004) and saw their composites climb in lockstep. The pair diverges decisively after 2009&ndash;2010 for two reasons: (i) Slovakia adopted the euro on 1 January 2009 and was therefore exposed to the euro-area sovereign-debt crisis spillovers in 2011&ndash;2012; (ii) the Czech Republic kept the koruna and benefited from a competitive devaluation channel that protected its export sector. Since 2015 the gap has averaged about 8 points in the Czech Republic's favour, despite the two having similar GDP-per-capita and EU/NATO institutional anchors&mdash;the cleanest natural experiment in the dataset for the credit-rating cost of currency-union exposure.</p>
+
+  <div class="chart-box"><div id="case-czsk" style="height:340px"></div></div>
+  <div class="chart-caption">Figure 3.2.1: Czech Republic and Slovakia composite scores, 2000&ndash;2025. The post-2010 divergence has no fundamentals explanation outside the currency choice.</div>
+
+  <h3 id="greece-germany">3.3 &nbsp;Greece &amp; Germany: the Eurozone polar pair</h3>
+
+  <p>The reference pair for Eurozone stress. In 2007 Greece and Germany had composites of 45 and 60 respectively, a 15-point gap that priced no real default risk on either side. By mid-2012 the spread reached <strong>45 points</strong>&mdash;Greece at 10.5, Germany still at 60. This is the largest sustained P-spread in the dataset. The agency mechanic was not gradual: rating actions on Greek sovereign debt clustered in March 2010, June 2011, and June 2012, each downgrade three or four notches at once. Germany never moved. The post-2012 partial convergence reflects (i) Mario Draghi's July 2012 OMT speech and the implicit ECB backstop, (ii) two further Greek debt restructurings (PSI 2012, official-sector reprofiling 2018), and (iii) Greek emergence from EU/IMF programmes in 2018. As of 2025 the spread is still 24 points&mdash;Greece has not fully closed.</p>
+
+  <div class="chart-box"><div id="case-grde" style="height:340px"></div></div>
+  <div class="chart-caption">Figure 3.3.1: Greece and Germany composite scores, 2000&ndash;2025. The 45-point trough in 2012 is the largest paired spread in the rated universe.</div>
+
+  <h3 id="cyprus-malta">3.4 &nbsp;Cyprus &amp; Malta: small euro-island divergence</h3>
+
+  <p>Two small euro-area islands with comparable GDP-per-capita, similar British colonial legacies, and roughly equivalent institutional capacity. Both entered the panel near a composite of 45 in the early 2000s. Malta's score holds steady through the 2010s. Cyprus collapses from 45 to 30 in 2012&ndash;2013, then to 16 by 2014, on the back of the March 2013 Eurogroup-imposed bail-in of uninsured depositors at the two largest Cypriot banks (an event with no parallel in Malta's banking history).<sup class="note-ref"><a href="#note-4">4</a></sup> Cyprus has since recovered to about 49 (2025); Malta is at 51. The pair illustrates how an idiosyncratic banking-resolution event creates a persistent gap that closes only over a decade.</p>
+
+  <div class="chart-box"><div id="case-cymt" style="height:340px"></div></div>
+  <div class="chart-caption">Figure 3.4.1: Cyprus and Malta composite scores, 2000&ndash;2025. The 2013 Cypriot bail-in is visible as a step-function collapse in the spread.</div>
+
+  <h3 id="russia-ukraine">3.5 &nbsp;Russia &amp; Ukraine: sanctions and war</h3>
+
+  <p>For most of the 2000s Russia and Ukraine traded around composite 33 and 18 respectively, a 15-point gap reflecting Russia's commodity wealth and reserve buffers. The 2014 annexation of Crimea opened the spread modestly (Russia &minus;5 points; Ukraine &minus;9 points after default on Eurobonds in 2015&ndash;2016). The full-scale invasion of February 2022 collapses both: Russia falls from 30 to about 4 within months on Western sanctions and the implicit selective default on FX-denominated Eurobonds; Ukraine falls from 13 to 1.5 on the existential war shock. The 2022&ndash;2023 spread therefore narrows even though both ratings are at or near floor. This is the &ldquo;co-collapse&rdquo; quadrant of the payoff matrix: a common shock pulling both sides down such that the spread shrinks despite extreme deterioration in absolute terms.</p>
+
+  <div class="chart-box"><div id="case-ruua" style="height:340px"></div></div>
+  <div class="chart-caption">Figure 3.5.1: Russia and Ukraine composite scores, 2000&ndash;2025. The 2022 invasion shows up as a simultaneous collapse on both sides; the spread narrowing is a numerical artifact of two sides hitting the floor.</div>
+
+  <h3 id="argentina-chile">3.6 &nbsp;Argentina &amp; Chile: serial defaulter vs regional anchor</h3>
+
+  <p>Chile has been investment-grade for the entire panel (composite 50&ndash;60); Argentina has cycled between 5 and 22 with three sovereign defaults (2001, 2014, 2019). The Chile&ndash;Argentina spread therefore averages roughly +35 points and spikes above +50 in the depths of each Argentine default. The pair is illustrative of a structural problem with regional benchmarking: an analyst building a &ldquo;Latin America&rdquo; peer mean is mixing one of the world's best-governed sovereigns with one of its serial defaulters. The pairwise lens cuts through the noise by collapsing the benchmark to a single counterfactual; the divergence appears in raw form rather than averaged out across heterogeneous neighbours.</p>
+
+  <div class="chart-box"><div id="case-arcl" style="height:340px"></div></div>
+  <div class="chart-caption">Figure 3.6.1: Argentina and Chile composite scores, 2000&ndash;2025. The +50-point spread peaks coincide with each Argentine sovereign default; the structural gap absent defaults is roughly +35 points.</div>
+
+  <p><em>Pairs that would be informative but are not in the dataset:</em> North vs South Korea (DPRK is unrated by all three agencies and has no composite score); Sudan vs South Sudan (neither sovereign has a continuous rating series in the panel after the 2011 split); Iran vs Saudi Arabia (Iran unrated since the 1979 reimposition of US sanctions); Taiwan vs mainland China (Taiwan is rated; mainland China is not&mdash;DBRS and S&amp;P treat Beijing as separate from the data they release publicly). These omissions are themselves informative about which sovereigns the rating system chooses to assess.</p>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2 id="grouped"><span class="section-num">4</span> Grouped: M1&ndash;M4 across 59 peer groups</h2>
+  <p>The full grouped explorer&mdash;single country against any of the 59 peer groups, plus multi-country comparisons against a chosen reference group&mdash;lives on the main <a href="index.html">Relative Ratings</a> page. That page is the canonical interface for M1, M2, M3 and M4; the formulas are derived in <a href="methodology.html#sec4">Methodology &sect;4</a>. The paired view above and the distance-graded view on the next page are alternative ways to specify the benchmark when a single peer group does not capture the comparison set the analyst has in mind.</p>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <h2 id="regional"><span class="section-num">3</span> Regional: continent benchmark</h2>
+  <p>The regional benchmark is a special case of the grouped view, restricted to one of the six broad continents. Continent membership is the only geographic <span class="term" data-term="loo-mean">leave-one-out</span> partition in the data that is mutually exclusive and collectively exhaustive at the global level (every rated country lives in exactly one continent), so cross-continent comparisons are clean. To run a regional analysis, open the main <a href="index.html">Relative Ratings</a> explorer and choose the continent group from the peer-group dropdown. The fully spatially-weighted alternative&mdash;an inverse-distance kernel from each country's capital&mdash;is implemented on the <a href="distance_graded.html">Distance-graded Ratings</a> page.</p>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <div class="endnotes" id="endnotes">
+    <h3>Endnotes</h3>
+    <ol>
+      <li id="note-1">The paired measure is the simplest case of the relative-risk-rating family introduced by Dr.&nbsp;<a href="https://en.wikipedia.org/wiki/Kaushik_Basu" target="_blank" rel="noopener">Kaushik Basu</a>, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a> and <a href="https://www.worldbank.org/en/about/people/h/hans-timmer" target="_blank" rel="noopener">Hans Timmer</a> in &ldquo;Sovereign Ratings in the Post-Crisis World,&rdquo; <em>World Bank Policy Research Working Paper</em> 6641 (2013); the distance-graded measure on the next page generalises their GDP-weighted average to a spatial kernel.</li>
+      <li id="note-2"><a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a> and <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a>, &ldquo;Sovereign Credit Ratings, Relative Risk Ratings, and Private Capital Flows,&rdquo; <em>World Bank Policy Research Working Paper</em> 9401 (Washington, DC: World Bank, 2020).</li>
+      <li id="note-3">For the political-economy background of the Nagorno-Karabakh disputes see <a href="https://en.wikipedia.org/wiki/Thomas_de_Waal" target="_blank" rel="noopener">Thomas de Waal</a>, <em>Black Garden: Armenia and Azerbaijan Through Peace and War</em>, 10th anniv. ed. (New York: NYU Press, 2013), and the post-2020 update in International Crisis Group, <em>Improving Prospects for Peace after the Nagorno-Karabakh War</em>, Europe Briefing 91 (Brussels, 22 December 2020).</li>
+      <li id="note-4">For the Cypriot bail-in mechanics see <a href="https://www.imf.org/en/Publications/CR/Issues/2016/12/31/Cyprus-Request-for-Arrangement-Under-the-Extended-Fund-Facility-40624" target="_blank" rel="noopener">IMF Country Report 13/125</a> (May 2013), and the after-the-fact assessment in Athanasios Orphanides, &ldquo;What Happened in Cyprus? The Economic Consequences of the Last Communist Government in Europe,&rdquo; LSE Hellenic Observatory GreeSE Paper 79 (2014).</li>
+    </ol>
+  </div>
+
+  <p class="page-footer">Paired computations operate on the composite scores in <code>extras.json</code> (~1 MB). Charts are rendered client-side with Plotly.js; the toolbar in the upper-right of each chart lets you download as PNG/SVG.</p>
+
+  <h2 id="downloads"><span class="section-num">4</span> Downloads</h2>
+  <p>Pairwise and grouped relative-rating panels.</p>
+  <ul>
+    <li><a href="paper_rel_all.csv" download>paper_rel_all.csv</a> &mdash; relative ratings under all 59 peer groups.</li>
+    <li><a href="paper_panel.csv" download>paper_panel.csv</a> &mdash; master sovereign panel.</li>
+    <li><a href="extras.json" download>extras.json</a> &mdash; bundle used by this page.</li>
+  </ul>
+
+</main>
+
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("paired_grouped_regional.html"));</script>
+<script defer src="shared.js"></script>
+<script>
+let EXTRAS = null;
+fetch('extras.json').then(r => r.json()).then(j => { EXTRAS = j; initPair(); }).catch(err => {
+  document.querySelectorAll('.chart-box').forEach(b => {
+    b.innerHTML = '<p style="padding:20px;color:#888;font-family:sans-serif">Could not load extras.json. Serve from a web server (file:// blocks fetch).</p>';
+  });
+});
+
+function initPair() {
+  const years = Object.keys(EXTRAS.score_matrix).map(Number).sort((a,b)=>a-b);
+  const all = new Set();
+  years.forEach(y => Object.keys(EXTRAS.score_matrix[y]).forEach(c => all.add(c)));
+  const countries = [...all].sort();
+  const A = document.getElementById('paira'), B = document.getElementById('pairb');
+  countries.forEach(c => { A.add(new Option(c,c)); B.add(new Option(c,c)); });
+  A.value = 'India'; B.value = 'Pakistan';
+  A.onchange = renderPair; B.onchange = renderPair;
+  setupPairSwitcher();
+  // Render the six historical case studies once on load — each gets its own
+  // Relative · Shadow · Absolute switcher.
+  setupCaseChart('case-armaze', 'Armenia',        'Azerbaijan');
+  setupCaseChart('case-czsk',   'Czech Republic', 'Slovakia');
+  setupCaseChart('case-grde',   'Greece',         'Germany');
+  setupCaseChart('case-cymt',   'Cyprus',         'Malta');
+  setupCaseChart('case-ruua',   'Russia',         'Ukraine');
+  setupCaseChart('case-arcl',   'Argentina',      'Chile');
+}
+
+// Cached caches for relative + shadow lookups
+function _m4Of(country, year) {
+  // v80v: inline M4 lookup, no dependency on shared js
+  if (!window._scrM4Inline){
+    const sm = EXTRAS.score_matrix || {}; const out = {};
+    for (const y in sm){
+      const row = sm[y]; if (!row) continue;
+      const entries = [];
+      for (const c in row){ if (row[c] != null) entries.push([c, row[c]]); }
+      if (entries.length < 2){ out[y] = {}; continue; }
+      entries.sort((a,b)=>a[1]-b[1]);
+      const N = entries.length; const m4y = {};
+      entries.forEach(([c,v], i) => { m4y[c] = (i+1)/N; });
+      out[y] = m4y;
+    }
+    window._scrM4Inline = out;
+  }
+  const m = window._scrM4Inline;
+  return (m[year] && m[year][country] != null) ? m[year][country] : null;
+}
+
+// Render any country-pair chart in the chosen view (relative / shadow / absolute)
+function renderPairView(divId, a, b, view) {
+  const years = Object.keys(EXTRAS.score_matrix).map(Number).sort((x,y)=>x-y);
+  const div = document.getElementById(divId);
+  const cfg = window.scrChartConfig || {displayModeBar: true, responsive: true};
+  // Each country gets its primary flag color so the line carries a tiny
+  // visual cue about which country it represents.
+  const colA = (window.scrCountryColor ? window.scrCountryColor(a) : '#1B4F8A');
+  const colB = (window.scrCountryColor ? window.scrCountryColor(b) : '#C0392B');
+  const baseLayout = {
+    plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
+    font:{family:'Helvetica Neue, Arial, sans-serif', size:11},
+    margin:{l:56,r:50,t:40,b:90},
+    legend:{orientation:'h', y:-0.32, x:0.5, xanchor:'center'}
+  };
+  function plotIt(divId, traces, layoutObj) {
+    Plotly.newPlot(divId, traces, layoutObj, cfg).then(() => {
+      const gd = document.getElementById(divId);
+      if (window.scrWireChart) window.scrWireChart(gd);
+      if (window.scrApplyChartTheme) window.scrApplyChartTheme();
+    });
+  }
+  if (view === 'absolute') {
+    const xs=[], ya=[], yb=[];
+    years.forEach(y => {
+      const m = EXTRAS.score_matrix[y];
+      if (m[a]!=null && m[b]!=null) { xs.push(y); ya.push(m[a]); yb.push(m[b]); }
+    });
+    if (!xs.length) { div.innerHTML = '<p style="padding:20px;color:var(--muted)">' + a + ' or ' + b + ' missing.</p>'; return; }
+    plotIt(divId, [
+      {x:xs,y:ya,name:a,mode:'lines+markers',line:{color:colA,width:2.2},marker:{color:colA,size:4}},
+      {x:xs,y:yb,name:b,mode:'lines+markers',line:{color:colB,width:2.2},marker:{color:colB,size:4}}
+    ], Object.assign({}, baseLayout, {
+      title:{text:a+' vs '+b+': absolute composite score',font:{size:13}},
+      xaxis:{title:'',gridcolor:'rgba(128,128,128,0.2)'},
+      yaxis:{title:'',range:[0,60],gridcolor:'rgba(128,128,128,0.2)'}
+    }));
+  } else if (view === 'relative') {
+    const m4 = (function(){
+      // v80v: inline M4 percentile per year (year -> country -> rank/N).
+      const sm = EXTRAS.score_matrix || {}; const out = {};
+      for (const y in sm){
+        const row = sm[y]; if (!row) continue;
+        const entries = [];
+        for (const c in row){ if (row[c] != null) entries.push([c, row[c]]); }
+        if (entries.length < 2){ out[y] = {}; continue; }
+        entries.sort((a,b)=>a[1]-b[1]);
+        const N = entries.length; const m4y = {};
+        entries.forEach(([c,v], i) => { m4y[c] = (i+1)/N; });
+        out[y] = m4y;
+      }
+      return out;
+    })();
+    const xs=[], ya=[], yb=[];
+    years.forEach(y => {
+      const yr = m4[y];
+      if (yr && yr[a] != null && yr[b] != null) { xs.push(y); ya.push(yr[a]); yb.push(yr[b]); }
+    });
+    if (!xs.length) { div.innerHTML = '<p style="padding:20px;color:var(--muted)">' + a + ' or ' + b + ' missing from relative panel.</p>'; return; }
+    plotIt(divId, [
+      {x:xs,y:ya,name:a + ' (M4 percentile)',mode:'lines+markers',line:{color:colA,width:2.2},marker:{color:colA,size:4}},
+      {x:xs,y:yb,name:b + ' (M4 percentile)',mode:'lines+markers',line:{color:colB,width:2.2},marker:{color:colB,size:4}}
+    ], Object.assign({}, baseLayout, {
+      title:{text:a+' vs '+b+': relative — M4 within-year percentile vs all rated sovereigns',font:{size:12}},
+      xaxis:{title:'',gridcolor:'rgba(128,128,128,0.2)'},
+      yaxis:{title:'',range:[0,1.05],gridcolor:'rgba(128,128,128,0.2)'},
+      shapes:[{type:'line',x0:xs[0],x1:xs[xs.length-1],y0:0.5,y1:0.5,line:{color:'#aaa',dash:'dot',width:1}}]
+    }));
+  } else { // shadow
+    div.innerHTML = '<p style="padding:18px;color:var(--muted);font-size:0.85rem">Loading shadow predictions…</p>';
+    (window.scrLoadShadow ? window.scrLoadShadow() : Promise.resolve(EXTRAS.shadow || null)).then(sh => {
+      if (!sh || !sh.ols) { div.innerHTML = '<p style="padding:20px;color:var(--muted)">Shadow data unavailable.</p>'; return; }
+      const olsA = sh.ols.filter(r => r.Country === a).sort((x,y) => x.Year - y.Year);
+      const olsB = sh.ols.filter(r => r.Country === b).sort((x,y) => x.Year - y.Year);
+      if (!olsA.length && !olsB.length) { div.innerHTML = '<p style="padding:20px;color:var(--muted)">No shadow predictions for ' + a + ' or ' + b + '.</p>'; return; }
+      div.innerHTML = '';
+      const traces = [];
+      if (olsA.length) {
+        traces.push({x:olsA.map(r=>r.Year), y:olsA.map(r=>r.Actual), name:a + ' actual', mode:'lines+markers', line:{color:colA,width:2.2}, marker:{color:colA,size:4}, legendgroup:a});
+        traces.push({x:olsA.map(r=>r.Year), y:olsA.map(r=>r.Shadow_OLS), name:a + ' shadow OLS', mode:'lines', line:{color:colA,width:1.5,dash:'dash'}, legendgroup:a});
+      }
+      if (olsB.length) {
+        traces.push({x:olsB.map(r=>r.Year), y:olsB.map(r=>r.Actual), name:b + ' actual', mode:'lines+markers', line:{color:colB,width:2.2}, marker:{color:colB,size:4}, legendgroup:b});
+        traces.push({x:olsB.map(r=>r.Year), y:olsB.map(r=>r.Shadow_OLS), name:b + ' shadow OLS', mode:'lines', line:{color:colB,width:1.5,dash:'dash'}, legendgroup:b});
+      }
+      plotIt(divId, traces, Object.assign({}, baseLayout, {
+        title:{text:a+' vs '+b+': actual (solid) vs shadow OLS (dashed)',font:{size:12}},
+        xaxis:{title:'',gridcolor:'rgba(128,128,128,0.2)'},
+        yaxis:{title:'Composite (0–60)',range:[0,65],gridcolor:'rgba(128,128,128,0.2)'}
+      }));
+    });
+  }
+}
+
+// Set up the live pair chart with a Relative/Shadow/Absolute switcher above it.
+function setupPairSwitcher() {
+  // Initial render then attach switcher; switcher's first click triggers re-render in default view.
+  renderPair();
+}
+
+function renderPair() {
+  const a = document.getElementById('paira').value;
+  const b = document.getElementById('pairb').value;
+  const years = Object.keys(EXTRAS.score_matrix).map(Number).sort((x,y)=>x-y);
+  const xs=[], spread=[];
+  years.forEach(y => {
+    const m = EXTRAS.score_matrix[y];
+    if (m[a]!=null && m[b]!=null) { xs.push(y); spread.push(m[a]-m[b]); }
+  });
+  // Switcher above pair-chart drives renderPairView for the perspective view
+  const wrap = document.getElementById('pair-chart').parentNode;
+  if (window.scrMakeViewSwitcher) {
+    window.scrMakeViewSwitcher(wrap, {
+      keys: ['relative','shadow','absolute'],
+      default: 'relative',
+      onChange: function(view) { renderPairView('pair-chart', a, b, view); }
+    });
+  } else {
+    renderPairView('pair-chart', a, b, 'relative');
+  }
+  // Spread chart (always shown — already a relative comparison; no switcher)
+  const cfg = window.scrChartConfig || {displayModeBar: true, responsive: true};
+  const baseLayout = {
+    plot_bgcolor:'rgba(0,0,0,0)', paper_bgcolor:'rgba(0,0,0,0)',
+    font:{family:'Helvetica Neue, Arial, sans-serif', size:11},
+    margin:{l:56,r:50,t:40,b:90},
+    legend:{orientation:'h', y:-0.32, x:0.5, xanchor:'center'}
+  };
+  Plotly.newPlot('pair-spread', [
+    {x:xs,y:spread,name:'Spread',type:'bar',marker:{color:spread.map(s=>s>=0?'#1a1a1a':'#888')}}
+  ], Object.assign({}, baseLayout, {
+    title:{text:'Paired spread P('+a+' − '+b+')',font:{size:13}},
+    xaxis:{title:'',gridcolor:'rgba(128,128,128,0.2)'},
+    yaxis:{title:'Score difference',gridcolor:'rgba(128,128,128,0.2)',zerolinecolor:'#1a1a1a',zerolinewidth:1.5},
+    showlegend:false
+  }), cfg).then(() => {
+    const gd = document.getElementById('pair-spread');
+    if (window.scrWireChart) window.scrWireChart(gd);
+  });
+  if (spread.length) {
+    const mean = spread.reduce((s,v)=>s+v,0)/spread.length;
+    document.getElementById('pair-stats').innerHTML = `
+      <div class="stat"><div class="lbl">Mean spread</div><div class="val">${mean.toFixed(2)}</div></div>
+      <div class="stat"><div class="lbl">Min</div><div class="val">${Math.min(...spread).toFixed(2)}</div></div>
+      <div class="stat"><div class="lbl">Max</div><div class="val">${Math.max(...spread).toFixed(2)}</div></div>
+      <div class="stat"><div class="lbl">First → last</div><div class="val">${(spread[spread.length-1]-spread[0]>=0?'+':'')+(spread[spread.length-1]-spread[0]).toFixed(2)}</div></div>
+    `;
+  }
+}
+
+// Each historical case-study chart gets its own switcher above its chart-box.
+function setupCaseChart(divId, a, b) {
+  const wrap = document.getElementById(divId).parentNode;
+  if (window.scrMakeViewSwitcher) {
+    window.scrMakeViewSwitcher(wrap, {
+      keys: ['relative','shadow','absolute'],
+      default: 'relative',
+      onChange: function(view) { renderPairView(divId, a, b, view); }
+    });
+  } else {
+    renderPairView(divId, a, b, 'relative');
+  }
+}
+</script>
+</body>
+</html>

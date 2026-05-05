@@ -766,9 +766,7 @@ let _chartA1State = null;
 let _chartB1State = null;
 
 function ensureChartASwitcher() {
-  const a1 = document.getElementById('chart-a1');
-  if (!a1) return;  // v80w: chart-a1 removed in v80p, switcher is a no-op now
-  const wrap = a1.parentNode;
+  const wrap = document.getElementById('chart-a1').parentNode;
   if (window.scrMakeViewSwitcher) {
     window.scrMakeViewSwitcher(wrap, {
       keys: ['relative', 'shadow', 'absolute'],
@@ -778,9 +776,7 @@ function ensureChartASwitcher() {
   }
 }
 function ensureChartBSwitcher() {
-  const b1 = document.getElementById('chart-b1');
-  if (!b1) return;  // v80w: chart-b1 removed in v80p, switcher is a no-op now
-  const wrap = b1.parentNode;
+  const wrap = document.getElementById('chart-b1').parentNode;
   if (window.scrMakeViewSwitcher) {
     window.scrMakeViewSwitcher(wrap, {
       keys: ['relative', 'shadow', 'absolute'],
