@@ -139,18 +139,11 @@
   <p>The full grouped explorer&mdash;single country against any of the 59 peer groups, plus multi-country comparisons against a chosen reference group&mdash;lives on the main <a href="index.html">Relative Ratings</a> page. That page is the canonical interface for M1, M2, M3 and M4; the formulas are derived in <a href="methodology.html#sec4">Methodology &sect;4</a>. The paired view above and the distance-graded view on the next page are alternative ways to specify the benchmark when a single peer group does not capture the comparison set the analyst has in mind.</p>
 
   <!-- ═══════════════════════════════════════════════════════════════ -->
-  <h2 id="regional"><span class="section-num">5</span> Regional: continent benchmark</h2>
+  <h2 id="regional"><span class="section-num">3</span> Regional: continent benchmark</h2>
   <p>The regional benchmark is a special case of the grouped view, restricted to one of the six broad continents. Continent membership is the only geographic <span class="term" data-term="loo-mean">leave-one-out</span> partition in the data that is mutually exclusive and collectively exhaustive at the global level (every rated country lives in exactly one continent), so cross-continent comparisons are clean. To run a regional analysis, open the main <a href="index.html">Relative Ratings</a> explorer and choose the continent group from the peer-group dropdown. The fully spatially-weighted alternative&mdash;an inverse-distance kernel from each country's capital&mdash;is implemented on the <a href="distance_graded.html">Distance-graded Ratings</a> page.</p>
 
   <!-- ═══════════════════════════════════════════════════════════════ -->
-<h2 id="downloads"><span class="section-num">6</span> Downloads</h2>
-  <p>Pairwise and grouped relative-rating panels.</p>
-  <ul>
-    <li><a href="paper_rel_all.csv" download>paper_rel_all.csv</a> &mdash; relative ratings under all 59 peer groups.</li>
-    <li><a href="paper_panel.csv" download>paper_panel.csv</a> &mdash; master sovereign panel.</li>
-    <li><a href="extras.json" download>extras.json</a> &mdash; bundle used by this page.</li>
-  </ul>
-    <div class="endnotes" id="endnotes">
+  <div class="endnotes" id="endnotes">
     <h3>Endnotes</h3>
     <ol>
       <li id="note-1">The paired measure is the simplest case of the relative-risk-rating family introduced by Dr.&nbsp;<a href="https://en.wikipedia.org/wiki/Kaushik_Basu" target="_blank" rel="noopener">Kaushik Basu</a>, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a> and <a href="https://www.worldbank.org/en/about/people/h/hans-timmer" target="_blank" rel="noopener">Hans Timmer</a> in &ldquo;Sovereign Ratings in the Post-Crisis World,&rdquo; <em>World Bank Policy Research Working Paper</em> 6641 (2013); the distance-graded measure on the next page generalises their GDP-weighted average to a spatial kernel.</li>
@@ -162,7 +155,14 @@
 
   <p class="page-footer">Paired computations operate on the composite scores in <code>extras.json</code> (~1 MB). Charts are rendered client-side with Plotly.js; the toolbar in the upper-right of each chart lets you download as PNG/SVG.</p>
 
-  
+  <h2 id="downloads"><span class="section-num">4</span> Downloads</h2>
+  <p>Pairwise and grouped relative-rating panels.</p>
+  <ul>
+    <li><a href="paper_rel_all.csv" download>paper_rel_all.csv</a> &mdash; relative ratings under all 59 peer groups.</li>
+    <li><a href="paper_panel.csv" download>paper_panel.csv</a> &mdash; master sovereign panel.</li>
+    <li><a href="extras.json" download>extras.json</a> &mdash; bundle used by this page.</li>
+  </ul>
+
 </main>
 
 <script defer src="nav.js"></script>
