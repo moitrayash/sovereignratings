@@ -187,22 +187,13 @@ function initDist() {
 
 // State for the dist-chart switcher (Relative · Shadow · Absolute)
 let _distState = null;
-let _distCurrentView = 'relative';
-let _distSwitcherWired = false;
 function ensureDistSwitcher() {
   const wrap = document.getElementById('dist-chart').parentNode;
-  // v82: only wire the switcher once. Subsequent calls (e.g. from slider drags)
-  // just re-render the chart in the user-selected view.
-  if (_distSwitcherWired) {
-    renderDistView(_distCurrentView);
-    return;
-  }
-  _distSwitcherWired = true;
   if (window.scrMakeViewSwitcher) {
     window.scrMakeViewSwitcher(wrap, {
       keys: ['relative','shadow','absolute'],
       default: 'relative',
-      onChange: function(v){ _distCurrentView = v; renderDistView(v); }
+      onChange: renderDistView
     });
   } else {
     renderDistView('relative');

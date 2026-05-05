@@ -369,10 +369,6 @@ function renderDistributions() {
       margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 }
     }, window.scrChartConfig || { responsive: true, displayModeBar: true });
   }
-  // v82: also kick the Lorenz, time-bars, time-scatter renderers from here
-  try { renderLorenz(); } catch(e) { console.warn('renderLorenz failed:', e); }
-  try { renderTimeBars(); } catch(e) { console.warn('renderTimeBars failed:', e); }
-  try { renderTimeScatter(); } catch(e) { console.warn('renderTimeScatter failed:', e); }
 }
 
 function renderVsCredit(country) {
@@ -422,70 +418,6 @@ function renderLorenz() {
     legend: { orientation: 'h', y: -0.22, x: 0.5, xanchor: 'center', font: { color: t.txt } }
   }, window.scrChartConfig || { responsive: true, displayModeBar: true });
 }
-
-function renderTimeBars() {
-  if (!document.getElementById('hdi-time-bars')) return;
-  if (!EXTRAS || !EXTRAS.hdi) return;
-  const t = hdiTheme();
-  // Top-25 by latest-year HDI*100 in active peer set, with frames per year.
-  const peerSel = document.getElementById('peerset');
-  const sel = peerSel && peerSel.value && peerSel.value !== '' ? peerSel.value : 'global';
-  let peerList = null;
-  if (sel === 'custom' && Array.isArray(CUSTOM_PEERS) && CUSTOM_PEERS.length >= 2) peerList = CUSTOM_PEERS;
-  else if (sel.indexOf('preset:') === 0 && window.SCR_PRESET_GROUPS) peerList = window.SCR_PRESET_GROUPS[sel.slice(7)];
-  const allCountries = Array.from(new Set(EXTRAS.hdi_rel.map(r => r.Country))).sort();
-  const universe = peerList ? peerList.filter(c => allCountries.includes(c)) : allCountries;
-  const years = Array.from(new Set(EXTRAS.hdi.map(r => +r.Year))).sort();
-  if (!years.length) return;
-  const latest = years[years.length - 1];
-  const byYear = {};
-  EXTRAS.hdi.forEach(r => { if (universe.includes(r.Country) && isFinite(r.Value)) { (byYear[r.Year] = byYear[r.Year] || {})[r.Country] = r.Value; } });
-  const latestRow = byYear[latest] || {};
-  const top25 = Object.keys(latestRow).sort((a,b) => latestRow[b] - latestRow[a]).slice(0, 25);
-  function frameFor(y){
-    const row = byYear[y] || {};
-    return [{ type: 'bar', orientation: 'h', y: top25.slice().reverse(), x: top25.slice().reverse().map(c => row[c] != null ? row[c] : 0), marker: { color: '#1B4F8A' }, hovertemplate: '%{y}: %{x:.2f}<extra></extra>' }];
-  }
-  const frames = years.map(y => ({ name: String(y), data: frameFor(y) }));
-  const sliderSteps = years.map(y => ({ method: 'animate', label: String(y), args: [[String(y)], { mode: 'immediate', frame: { duration: 0, redraw: true }, transition: { duration: 0 } }] }));
-  Plotly.newPlot('hdi-time-bars', frameFor(latest), {
-    title: { text: 'Top-25 HDI×100 over time, current peer set', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-    xaxis: { title: { text: 'HDI×100', font: { color: t.txt } }, range: [0, 100], gridcolor: t.grid, tickfont: { color: t.txt } },
-    yaxis: { title: '', tickfont: { color: t.txt, size: 9 }, automargin: true },
-    plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
-    margin: { l: 140, r: 40, t: 84, b: 90, pad: 6 },
-    sliders: [{ active: years.length - 1, pad: { t: 40, b: 10 }, currentvalue: { prefix: 'Year: ', font: { size: 12, color: t.txt } }, steps: sliderSteps, font: { color: t.txt } }]
-  }, window.scrChartConfig || { responsive: true, displayModeBar: true })
-  .then(() => Plotly.addFrames('hdi-time-bars', frames));
-}
-
-function renderTimeScatter() {
-  if (!document.getElementById('hdi-time-scatter')) return;
-  if (!EXTRAS || !EXTRAS.hdi) return;
-  const t = hdiTheme();
-  const allCountries = Array.from(new Set(EXTRAS.hdi.map(r => r.Country))).sort();
-  // One trace per country, light gray; overlay focal country in accent.
-  const focal = (document.getElementById('country') || {}).value || allCountries[0];
-  const focalCol = '#C0392B';
-  const traces = [];
-  allCountries.forEach(c => {
-    if (c === focal) return;
-    const rows = EXTRAS.hdi.filter(r => r.Country === c && isFinite(r.Value)).sort((a,b) => a.Year - b.Year);
-    if (rows.length < 2) return;
-    traces.push({ x: rows.map(r => r.Year), y: rows.map(r => r.Value), mode: 'lines', line: { color: 'rgba(120,120,120,0.18)', width: 0.7 }, hoverinfo: 'skip', showlegend: false });
-  });
-  const fr = EXTRAS.hdi.filter(r => r.Country === focal && isFinite(r.Value)).sort((a,b) => a.Year - b.Year);
-  if (fr.length) traces.push({ x: fr.map(r => r.Year), y: fr.map(r => r.Value), name: focal, mode: 'lines+markers', line: { color: focalCol, width: 2.4 }, marker: { color: focalCol, size: 5 } });
-  Plotly.newPlot('hdi-time-scatter', traces, {
-    title: { text: focal + ' (red) vs every other country (gray) on HDI×100', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
-    xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
-    yaxis: { title: { text: 'HDI×100', font: { color: t.txt } }, range: [0, 100], gridcolor: t.grid, tickfont: { color: t.txt } },
-    plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
-    margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 },
-    legend: { orientation: 'h', y: -0.18, x: 0.5, xanchor: 'center', font: { color: t.txt } }
-  }, window.scrChartConfig || { responsive: true, displayModeBar: true });
-}
-
 </script>
 
 </body>

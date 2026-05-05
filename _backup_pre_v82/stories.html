@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stories: Sovereign Scores</title>
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<style>
+  .story {
+    margin-bottom: 60px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #1a1a1a;
+  }
+  .story:last-child { border-bottom: none; }
+  .story-meta {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.74rem;
+    color: #888;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .story h2 {
+    font-size: 1.35rem;
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-top: 12px;
+    margin-bottom: 18px;
+  }
+  .story .lede {
+    font-size: 1.05rem;
+    font-style: italic;
+    color: #333;
+    border-left: 4px solid #1a1a1a;
+    padding: 6px 0 6px 16px;
+    margin: 18px 0 24px;
+  }
+  .chart-box {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 8px;
+    margin: 18px 0;
+  }
+  .chart-caption {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.78rem;
+    color: #666;
+    text-align: center;
+    margin: -10px 0 20px;
+    line-height: 1.5;
+  }
+  .story-toc {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 14px 18px;
+    margin: 18px 0 32px;
+  }
+  .story-toc h3 {
+    font-size: 0.78rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #888;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  .story-toc ol {
+    margin-left: 22px;
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+  .story-toc a { color: #1a1a1a; }
+
+  /* ── Dark mode overrides ─────────────────────────────────────── */
+  body.dark .story { border-bottom-color: #ececec; }
+  body.dark .story-meta { color: #aaa; }
+  body.dark .story .lede { color: #d8d8d8; border-left-color: #ececec; }
+  body.dark .chart-box { background: var(--bg-card); border-color: var(--border); }
+  body.dark .chart-caption { color: #b8b8b8; }
+  body.dark .story-toc { background: var(--bg-card); border-color: var(--border); }
+  body.dark .story-toc h3 { color: #aaa; }
+  body.dark .story-toc a { color: #ececec; }
+</style>
+<script defer src="pct_change.js"></script>
+</head>
+<body>
+
+<header class="site">
+  <div class="head-row">
+    <div class="head-text">
+      <h1>Sovereign Ratings &amp; Scores</h1>
+            <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4 &middot; Relative HDI / Gini / PPI &middot; Shadow ratings (OLS, k-NN, Bayes)</p>
+    </div>
+  </div>
+</header>
+<nav class="site"></nav>
+
+<main>
+
+  <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Stories</h2>
+  <p>Nine episodes drawn from the 2000&ndash;2025 panel that cannot be read off a single regression coefficient. Each one starts with an observable rating event and works backward into the political-economy story behind it. The charts are rendered live from the same dataset that drives the <a href="index.html">Explorer</a>: the underlying numbers are public, all figures are reproducible from the panel CSVs documented in the <a href="methodology.html">Methodology</a>.</p>
+
+  <div class="story-toc">
+    <h3>In this section</h3>
+    <ol>
+      <li><a href="#argentina">Argentina, December 2001: the largest single-year fall in the panel</a></li>
+      <li><a href="#eurozone">The Eurozone periphery, 2010&ndash;2013: what happens when the floor caves in</a></li>
+      <li><a href="#india-pakistan">Pakistan&ndash;India 2000&ndash;2025: a divergence dressed as stability</a></li>
+      <li><a href="#emdc">2020&ndash;2023 emerging-market default cluster: Ghana, Sri Lanka, Zambia, Ethiopia</a></li>
+      <li><a href="#iceland">Iceland 2008: the smallest economy with the biggest banks</a></li>
+      <li><a href="#ghana">Ghana 2022&ndash;2025: the cleanest V-shape in the post-2010 sample</a></li>
+      <li><a href="#belize2007">Belize 2007: the Superbond, and the first Caribbean restructuring</a></li>
+      <li><a href="#belize2013">Belize 2013: the Superbond, again</a></li>
+      <li><a href="#barbados2019">Barbados 2018&ndash;2019: comprehensive single-shot restructuring</a></li>
+    </ol>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="story" id="argentina">
+    <div class="story-meta">Story 1 &middot; Latin America &middot; Sovereign default</div>
+    <h2>Argentina, December 2001: the largest single-year fall in the panel</h2>
+    <div class="lede">Between 2000 and 2001 Argentina's composite credit score collapses from 22.5 to 1.5: a 21-point drop, the largest single-year movement in 26 years of data. The mechanism is unambiguous: on 23 December 2001, interim president Adolfo Rodr&iacute;guez Sa&aacute; announced a moratorium on roughly USD 95 billion of public debt, then the largest sovereign default in history.</div>
+
+    <p>The interesting thing about Argentina's collapse is not that it happened: the convertibility regime that pegged the peso one-for-one to the dollar had been visibly straining since 1998<sup class="note-ref"><a href="#note-1">1</a></sup>: but the speed with which the agencies moved once it did. S&amp;P had Argentina at BB during 1999&ndash;2000, deep in speculative territory but coherent with a country whose primary deficit was 0.4 percent of GDP and whose external debt was hardly the worst in Latin America. By November 2001 S&amp;P was at SD (selective default); within thirty days Moody's followed. The composite drops to its floor and stays there for the better part of three years.</p>
+
+    <div class="chart-box"><div id="arg-chart" style="height:340px"></div></div>
+    <div class="chart-caption">Figure 1.1: Argentina's composite credit score, 2000&ndash;2025. Two more defaults follow: a partial restructuring in 2014 (the &ldquo;holdout&rdquo; episode triggered by Judge Thomas Griesa's <em>pari passu</em> ruling) and a third in 2019 under the Macri government's IMF programme.</div>
+
+    <p>What the chart obscures is how much of the post-2002 recovery was eaten back by the next two crises. Argentina spent the 2003&ndash;2010 stretch climbing patiently from a score of 6 back into the high teens, helped by a global commodities boom and Kirchner-era heterodox debt management. By 2007 the composite is at 17: still well below pre-crisis: and by 2013 it has plateaued around 16. Then comes the holdout judgment: in July 2014, Argentina cannot pay restructured creditors without simultaneously paying holdouts at par, defaults again as a matter of legal mechanics rather than fundamentals, and the composite halves to 4 in a single year. The recovery to 19 by 2017 under Mauricio Macri's market-friendly turn is then erased almost overnight by the August 2019 PASO primary result: a market reaction event in the textbook sense<sup class="note-ref"><a href="#note-2">2</a></sup>: and by 2020 Argentina has defaulted for the third time in twenty years.</p>
+
+    <p>The pattern is striking: across three sovereign defaults, the trough composite is essentially the same (1.5, 4, 3) and the recovery half-life is between four and seven years. The agencies are decisive when defaulting countries restructure, but the speed of the climb-back is shorter than what the literature on advanced-economy debt overhangs would predict. Reinhart and Rogoff document that median sovereign-default recovery takes around seven years to reach pre-crisis nominal output;<sup class="note-ref"><a href="#note-3">3</a></sup> agencies update faster than that, treating restructured debt as a fresh slate once the legal proceedings close. The implication for analysts is that the &ldquo;score&rdquo; of a serial defaulter is heavily a function of where in the cycle the observer happens to be standing.</p>
+
+    <div class="chart-box"><div id="arg-pairwise" style="height:300px"></div></div>
+    <div class="chart-caption">Figure 1.2: Pairwise spread P(Brazil − Argentina) and P(Chile − Argentina). Argentina's serial defaults open dramatic gaps against its regional peers; the relative-rating story would look very different if the &ldquo;Latin America&rdquo; benchmark held it constant.</div>
+
+    <div class="chart-box"><div id="arg-relative" style="height:300px"></div></div>
+    <div class="chart-caption">Figure 1.3: Relative measures M1, M2, M4 vs Latin-America peer set. The defaults appear as collapses in M1 (score² / peer LOO) and to the M2 percentile floor (~2.5%); M4 stays deeply negative through each post-default plateau, indicating Argentina is many standard deviations below its peers even after recovery begins.</div>
+
+    <div class="chart-box"><div id="arg-shadow" style="height:300px"></div></div>
+    <div class="chart-caption">Figure 1.4: Actual composite vs shadow rating (Latin-America peer LOO mean). The shaded gap quantifies under-rating: negative through every default and most of the recovery, briefly positive only in 2017 between the second and third default.</div>
+
+    <p>Pairwise comparison sharpens the point. The Brazil&ndash;Argentina spread averages around +12 over the panel but spikes above +20 during each of Argentina's defaults; the Chile&ndash;Argentina spread is structurally larger (Chile is the highest-rated sovereign in South America by some distance) and reaches a peak of +47 in 2002. A regional analyst whose mental model averages over &ldquo;South America&rdquo; would understate Argentina's idiosyncratic risk by a factor of two; the country deserves to be benchmarked against its own history more than against its neighbours' present. This is one of the cleaner empirical arguments for the kind of leave-one-out, peer-conditioned relative rating that <a href="methodology.html#sec4">M1&ndash;M4</a> implement: when one member of a peer group is structurally idiosyncratic, the unweighted mean is misleading in both directions.</p>
+
+    <div class="callout">
+      <strong>By the numbers (from our calculations).</strong> Against a Latin-America peer benchmark, Argentina's M1 (score² &divide; peer LOO mean) collapses from <strong>20.2 in 2000</strong> to <strong>0.09 in 2001</strong>, a 99.6 percent fall in one year, and its M2 percentile within the region drops from <strong>47.5 to 2.5</strong>. The shadow rating tells a complementary story: in 2015 Argentina's actual composite of <strong>4.0</strong> sits <strong>24.8 points below</strong> what its macro fundamentals predict (shadow = 28.8), the largest model-versus-actual gap in the entire panel for any country in any year. By 2025 M1 has only recovered to 6.4 and the M2 percentile to 17.5: in <em>relative</em> terms Argentina has not closed the gap a quarter-century after the first default.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="story" id="eurozone">
+    <div class="story-meta">Story 2 &middot; Europe &middot; Currency union without fiscal backstop</div>
+    <h2>The Eurozone periphery, 2010&ndash;2013: what happens when the floor caves in</h2>
+    <div class="lede">In 2010 every member of the Eurozone except Greece had a composite score above 49. By 2013, Greece had fallen to 10.5, Cyprus to 30, Portugal to 28, Spain to 38, and Ireland to 37. Germany and France held at 60 and 58 respectively. The agencies broke the periphery while leaving the core untouched.</div>
+
+    <p>Three things make this episode unusual in the panel. First, the speed: the periphery countries lost between 25 and 50 score-points across a single four-year window, much of it concentrated in 2012&ndash;2013. Second, the asymmetry: the same currency union housed both the largest single-year credit collapse in the European data (Greece, &minus;13.5 points in 2012; Cyprus, &minus;16.5 in 2013) and the most stable AAA sovereigns in the world. Third, the cluster pattern: the agencies did not downgrade in alphabetical order or by size; they downgraded by yield-curve contagion, in the order in which markets priced the next default.</p>
+
+    <div class="chart-box"><div id="euro-chart" style="height:380px"></div></div>
+    <div class="chart-caption">Figure 2.1: Eurozone composite scores, 2007&ndash;2018. Greece's 2010 trajectory leads; Ireland and Portugal follow in 2011; Spain and Italy in 2012; Cyprus is the last domino in 2013.</div>
+
+    <p>The political-economy reading is that the European Central Bank's mandate prohibited it from acting as a true lender-of-last-resort to member sovereigns, which meant the marginal price of a periphery bond was set by private markets making solvency assessments without a central-bank backstop.<sup class="note-ref"><a href="#note-4">4</a></sup> Mario Draghi's July 2012 &ldquo;whatever it takes&rdquo; speech and the subsequent Outright Monetary Transactions framework changed this asymmetrically, but the OMT was conditional on European Stability Mechanism programmes: which is to say, conditional on the country having already accepted austerity terms. The agencies' downgrades through 2012&ndash;2013 priced exactly that conditionality: the credit risk was not the country's debt-to-GDP ratio in isolation but the joint probability that the ECB would or would not absorb its bonds.</p>
+
+    <p>Cyprus is the cleanest instance. In March 2013, the Eurogroup imposed a bail-in of uninsured depositors at the two largest Cypriot banks: the first time in the Eurozone era that bank creditors had been forced to absorb losses from a sovereign deal.<sup class="note-ref"><a href="#note-5">5</a></sup> The composite drops 16.5 points in 2013 and another 13 in 2014. The substance was specific to Cyprus's banking exposure to Greek government debt; the signal the agencies extracted was that Eurozone resolution had now established a precedent for forcing depositor losses, and they re-priced periphery sovereigns accordingly.</p>
+
+    <div class="chart-box"><div id="euro-spread" style="height:280px"></div></div>
+    <div class="chart-caption">Figure 2.2: Periphery–Germany pairwise spreads. Greece widens to 50 by 2013, Cyprus to 30. The spreads partially close after 2014 as recoveries begin, but Greece is still 20 points below Germany a full decade after the crisis.</div>
+
+    <div class="chart-box"><div id="euro-relative" style="height:340px"></div></div>
+    <div class="chart-caption">Figure 2.3: M1 (score² / Eurozone LOO) for the five periphery sovereigns. The single-currency benchmark makes the cliff obvious: Greece M1 falls below 5 in 2012; Portugal and Ireland trough near 15; Spain and Italy bottom around 25: all far below the 60-or-better M1 implied by core Eurozone scores.</div>
+
+    <div class="chart-box"><div id="euro-shadow" style="height:340px"></div></div>
+    <div class="chart-caption">Figure 2.4: Actual vs Eurozone-shadow gap. Greece runs persistently below shadow from 2010 onward; Spain and Italy hover near zero (rated roughly as a Eurozone average sovereign should be); Ireland flips from −20 in 2011 to +5 by 2018: a clean recovery signature in shadow space.</div>
+
+    <p>The recovery side of the cluster is more interesting than the collapse. Ireland recovers fastest: back to 56 by 2018: because it had a deep export sector and a tax base that could be re-collateralised against EU support. Portugal recovers more slowly. Greece never quite recovers: as of 2025 its composite is at 36, still below its 2009 level of 45. The asymmetry between &ldquo;crisis as event&rdquo; and &ldquo;crisis as state&rdquo; is the durable lesson here. A sovereign that defaults once can be re-rated. A sovereign that has shown it might default repeatedly carries a permanent risk premium that the macro fundamentals do not fully justify. The shadow-rating residual analysis (<a href="methodology.html#sec12">Methodology &sect;12</a>) picks this up: Greece is one of the largest persistent under-ratings in the panel.</p>
+
+    <p><strong>A momentary collapse only the shadow rating caught.</strong> Italy is the cleanest in-panel example of a fundamentals deterioration that the headline rating did not register because the affected component was inconspicuous. In 2012&ndash;2013 Italy's <em>actual</em> composite stayed pinned at 50.0 from one year to the next; the agencies were watching the spread to Bunds and the ECB's policy stance, not the fiscal arithmetic. But our shadow rating, which folds Rule of Law, debt-to-GDP, and the current account into a single prediction, fell from <strong>49.8 to 45.4</strong> in the same window: a one-year drop of <strong>4.5 points</strong> against an unchanged actual rating. Three years later the agencies began catching up; by 2024 the gap was <strong>−13.7</strong> (actual 36, shadow 49.7), the largest negative gap Italy has carried in the panel. The shadow registered the deterioration first; the headline rating moved only after the bond market had already priced it in.</p>
+
+    <div class="callout">
+      <strong>By the numbers (from our calculations).</strong> Against the Eurozone peer set, Greece's M1 falls from a 2003 peak of <strong>43.2</strong> to <strong>2.1 in 2015</strong> (a 95 percent collapse); its M2 percentile bottoms at <strong>2.8</strong> in 2012, the floor of the Eurozone distribution. Portugal's M1 troughs at <strong>16.8 (2013)</strong>; Spain's at <strong>30.6 (2014)</strong>; Ireland's at <strong>29.7 (2013)</strong>. The shadow gap reaches <strong>−37.2 for Greece in 2013</strong> (actual 10.5 vs shadow 47.7), <strong>−18.6 for Portugal</strong>, <strong>−9.1 for Ireland</strong>: agencies systematically rated the periphery <em>below</em> what fundamentals warranted at the trough, and only Ireland (gap +9.5 by recovery) flipped back above shadow.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="story" id="iceland">
+    <div class="story-meta">Story 5 &middot; North Atlantic &middot; Banking crisis as sovereign event</div>
+    <h2>Iceland 2008: the smallest economy with the biggest banks</h2>
+    <div class="lede">In one year, 2008&ndash;2009, Iceland's composite credit score fell from 48 to 33: a 15-point drop, the largest in the Nordic-Atlantic data. The trigger was not a sovereign default; it was the simultaneous collapse of three commercial banks (Kaupthing, Landsbanki, Glitnir) whose combined assets were roughly ten times Icelandic GDP.</div>
+
+    <p>The Icelandic story is a nearly pure case of a banking crisis transmitting into a sovereign rating. The Icelandic government did not formally default on its own bonds. What it did was nationalise three banks whose foreign liabilities: principally the &ldquo;Icesave&rdquo; deposit accounts marketed to British and Dutch retail customers: were on the order of EUR 4 billion against an Icelandic GDP of around EUR 13 billion.<sup class="note-ref"><a href="#note-8">8</a></sup> The Althing's decision in 2010 and again in 2011 to refuse a depositor-compensation deal with the UK and Netherlands: both decisions ratified by national referendum: was the inflection point at which the crisis transitioned from banking to sovereign in the agencies' framing.</p>
+
+    <div class="chart-box"><div id="iceland-chart" style="height:340px"></div></div>
+    <div class="chart-caption">Figure 5.1: Iceland and Nordic-Atlantic peers, 2006&ndash;2014. Iceland and Ireland are the two casualties of bank-sovereign loop transmission; Norway, Denmark, and the United Kingdom hold at AAA territory throughout.</div>
+
+    <p>Read against its peers, Iceland is the only Nordic country in the panel to lose investment-grade status during the financial crisis. Norway, Denmark, and Sweden hold at 60 throughout. The United Kingdom has a brief one-point dip in 2013 but is otherwise at the ceiling. Ireland is the partial mirror: same banking-sector problem (assets several times GDP), same loss of confidence, same recovery path. The two countries' divergence after 2010 is the more interesting comparison: Ireland enters the EU/IMF programme in November 2010, accepts an austerity package, and exits the programme in December 2013 with a composite back at 37 and rising. Iceland, having kept its krona and refused the depositor deal, takes longer to recover but does so without a formal IMF Stand-By: by 2018 the composite is back at 51 and continues to climb thereafter.</p>
+
+    <p>The agencies' treatment of these two paths is doctrinally interesting. Both countries had banking crises of comparable scale relative to GDP. Ireland's recovery was built on EU structural support and tax-base resilience; Iceland's on currency depreciation and capital controls. The Irish path is the recovery model the IMF and the European institutions prefer because it leaves the country anchored to the broader currency-and-trade architecture; the Icelandic path is the one critics of austerity prefer because it preserves national policy autonomy. The agencies, asked to score the resulting credit risk, treated both as roughly equivalent: both back to investment grade by 2014, both at AAA-adjacent territory by 2018. There is no obvious agency penalty for the heterodox Icelandic approach.</p>
+
+    <div class="chart-box"><div id="iceland-recovery" style="height:280px"></div></div>
+    <div class="chart-caption">Figure 5.2: Recovery trajectory: deviation from 2007 baseline for Iceland and Ireland. Both fall through 2010, both rebuild over the following decade, both close most of the gap by 2025.</div>
+
+    <div class="chart-box"><div id="iceland-relative" style="height:300px"></div></div>
+    <div class="chart-caption">Figure 5.3: M1 (score² / Nordic-Atlantic LOO) for Iceland and Ireland. Iceland's M1 falls from ~40 in 2007 to under 20 in 2009; Ireland's collapses harder (60+ to ~20 in 2011) because the Nordic-Atlantic peer mean stays much higher than Iceland's Latin-America benchmark would.</div>
+
+    <div class="chart-box"><div id="iceland-shadow" style="height:300px"></div></div>
+    <div class="chart-caption">Figure 5.4: Actual vs Nordic-Atlantic-shadow gap. Both run substantially below shadow during the crisis; Ireland recovers faster (gap closes by 2017) while Iceland takes until 2020 to return to shadow parity. Note the persistent pre-2008 negative gap for Iceland: the market under-rated Nordic peers' implicit benchmark for years before the crisis.</div>
+
+    <p>The smaller lesson from Iceland is methodological. The composite rating is not very sensitive to the details of how a banking crisis is resolved; it is sensitive to whether the sovereign ultimately makes its bondholders whole. Both Iceland and Ireland did. Cyprus, in the parallel 2013 episode discussed in Story 2, also did: but Cyprus's rating fell further and stayed lower because the resolution involved a depositor bail-in that the agencies read as a direct precedent for future Eurozone behaviour. The mapping from underlying economic stress to sovereign credit score runs through the legal architecture of debt; the same shock can produce very different rating trajectories depending on the creditor structure and the political resolution. Iceland is the cleanest case in the panel where this mapping operated to the country's advantage.</p>
+
+    <div class="callout">
+      <strong>By the numbers (from our calculations).</strong> Against a Nordic-Atlantic peer set, Iceland's M1 falls from a 2005 peak of <strong>51.3</strong> to a 2009 trough of <strong>18.2</strong> &mdash; a 65 percent collapse against the regional benchmark. Iceland's M2 percentile sits at <strong>6.2</strong> throughout: in this elite peer set Iceland is structurally bottom-of-class even before the crisis. The shadow gap reaches <strong>&minus;27.0 in 2009</strong> (actual 33 vs shadow 60), the deepest under-rating in the Nordic-Atlantic story; Ireland's analogous trough is <strong>&minus;18.9 in 2013</strong>. Both gaps close by the early 2020s, but Iceland's recovery is slower in <em>relative</em> terms than its absolute-score recovery suggests &mdash; because the Nordic-Atlantic peer mean stayed near the AAA ceiling while Iceland was rebuilding from below.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="story" id="emdc">
+    <div class="story-meta">Story 4 &middot; Cross-region &middot; Post-COVID debt cycle</div>
+    <h2>2020&ndash;2023 emerging-market default cluster: Ghana, Sri Lanka, Zambia, Ethiopia</h2>
+    <div class="lede">Between November 2020 (Zambia) and December 2023 (Ethiopia), four sovereigns formally defaulted. Sri Lanka's composite collapses from 18 to 1.5 across 2020&ndash;2022; Ghana from 16.5 to 1.5 in 2022 alone; Zambia from 13.5 to 1.5 in 2020. The cluster is not random: the four share a common funding model that broke down simultaneously when global rates began to rise.</div>
+
+    <p>The structural commonality is exposure to non-Paris-Club bilateral lending: predominantly Chinese policy-bank credit and Eurobond issuance: combined with import-dependent food and energy baskets that were re-priced upward by COVID-era supply chain disruption and then by the 2022 commodity shock following Russia's invasion of Ukraine.<sup class="note-ref"><a href="#note-7">7</a></sup> The Common Framework for Debt Treatments, agreed by the G20 in November 2020 specifically to handle such cases, was meant to coordinate restructuring across Paris-Club, non-Paris-Club, and private creditors. Its actual operation has been slow: Zambia's restructuring took three years to finalise, Ghana's two, and Ethiopia's was still under negotiation as of early 2026.</p>
+
+    <div class="chart-box"><div id="emdc-chart" style="height:380px"></div></div>
+    <div class="chart-caption">Figure 4.1: Six emerging-market sovereigns, 2018&ndash;2025. Defaults cluster in 2020 (Zambia) and 2022 (Sri Lanka, Ghana). South Africa and Kenya hold above the default threshold but lose 4&ndash;5 points each.</div>
+
+    <p>The interesting comparative point is the speed of recovery. Ghana and Zambia, both of whose debt restructurings closed in 2024, are already back to composite scores of 13.5 and 10.5 respectively by 2025: well above the post-default floor of 1.5 but not yet at pre-crisis levels. Sri Lanka, whose external bond restructuring closed in mid-2024, follows a similar climb to 12 by 2025. Ethiopia, whose Common Framework process has stalled, remains at 3. The recovery dynamic is essentially mechanical: once the legal proceedings close, the agencies upgrade in a step function, typically by 6&ndash;12 points within twelve months. Pre-default the recovery dynamic is not visible; post-default it is governed largely by the speed of the official-creditor negotiation rather than by the borrower's own fundamentals.</p>
+
+    <p>The shadow-rating residuals from the <a href="methodology.html#sec12">Methodology &sect;12</a> model offer a partial diagnostic. In the four years before each of the four defaults, the actual composite score was above the shadow rating in three out of four cases: meaning the agencies were rating the country <em>better</em> than its macro and institutional fundamentals would predict, presumably because the bond market had not yet priced in the default risk. The exception is Sri Lanka, whose shadow rating already pointed to a marked under-performance from 2018 onward, driven by a combination of low Rule of Law scores and a deteriorating current account. The model would have called Sri Lanka two years early if anyone had been listening to it.</p>
+
+    <div class="chart-box"><div id="emdc-recovery" style="height:280px"></div></div>
+    <div class="chart-caption">Figure 4.2: Recovery trajectories from default trough. Ghana and Zambia both regain &gt; 9 points within two years of restructuring close; Sri Lanka follows the same path on a one-year lag; Ethiopia (still in negotiation) is flat at the floor.</div>
+
+    <div class="chart-box"><div id="emdc-relative" style="height:340px"></div></div>
+    <div class="chart-caption">Figure 4.3: M1 (score² / sub-Saharan-frontier LOO) for the four defaulters. All four fall to near-zero M1 in their default year (2020 for Zambia, 2022 for Sri Lanka and Ghana, 2023 for Ethiopia). Recovery in M1 lags absolute-score recovery because the peer-region mean has itself been falling.</div>
+
+    <div class="chart-box"><div id="emdc-shadow" style="height:340px"></div></div>
+    <div class="chart-caption">Figure 4.4: Actual vs frontier-shadow gap. Ghana, Zambia, and Ethiopia all run modestly above their regional shadow in the years before default, consistent with the §10 Methodology finding that agency over-rating is a leading indicator of default. Sri Lanka is the exception: shadow already pointed to under-performance from 2018 onward.</div>
+
+    <p>The final comparative is what doesn't show up in this cluster. South Africa, Nigeria, and Kenya are all on the same continent, all faced the same external shocks, and all carry significant external debt. None defaulted. The difference is partly fiscal capacity (South Africa has by far the deepest domestic capital market in sub-Saharan Africa) and partly the structure of foreign liabilities (Nigeria's external debt is mostly multilateral and concessional). The agencies pull the rating down 4&ndash;5 points in each case but never to the default threshold. The lesson from this cluster is not that emerging-market debt is universally fragile but that the specific combination of dollar-denominated non-concessional debt, import dependence, and weak central-bank reserves is fragile in a tightening cycle: and that combination concentrated in a small subset of countries, all of which defaulted within a three-year window.</p>
+
+    <div class="callout">
+      <strong>By the numbers (from our calculations).</strong> Against a sub-Saharan-frontier peer set, all four defaulters drop to near-zero M1 in their default year: Ghana <strong>0.14 (2022)</strong> from a 2013 peak of 18.3; Sri Lanka <strong>0.14 (2022)</strong> from a 2017 peak of 21.1; Zambia <strong>0.12 (2020)</strong> from a 2014 peak of 18.9; Ethiopia <strong>0.54 (2025)</strong> from a 2018 peak of 19.6. M2 percentiles bottom in the 2&ndash;8 range &mdash; the bottom of the frontier distribution. The shadow gaps in the default years are nearly identical in magnitude: <strong>&minus;14.9 (Ghana 2022)</strong>, <strong>&minus;14.9 (Sri Lanka 2022)</strong>, <strong>&minus;17.5 (Zambia 2020)</strong>, <strong>&minus;13.8 (Ethiopia 2025)</strong> &mdash; in every case the actual rating overshot the shadow on the way down by 14&ndash;18 points, the same agency-overreaction signature visible in Argentina 2001 and Greece 2012.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="story" id="ghana">
+    <div class="story-meta">Story 6 &middot; Sub-Saharan Africa &middot; Restructured-and-recovered</div>
+    <h2>Ghana 2022&ndash;2025: the cleanest V-shape in the post-2010 sample</h2>
+    <div class="lede">Between 2022 and 2025 Ghana's composite credit score traces the cleanest V-shape in the post-2010 panel: a 13.5-point fall in a single year, three years on the floor at 1.5, then a 12-point rise in 2025. The fall and the rise together describe a complete sovereign-default cycle compressed into 36 months &mdash; the kind of arc that Reinhart and Rogoff document over a typical decade. Ghana did it in three.</div>
+
+    <p>The downgrade came in December 2022. Inflation had hit 54 percent that November, the cedi had lost more than half its value against the dollar over the year, and external reserves were down to roughly six weeks of imports. On 19 December the government suspended payments on most external commercial debt; on the 22nd Standard &amp; Poor's (S&amp;P) moved Ghana from CCC+ to selective-default (SD), with Moody's and Fitch following within ten days.<sup class="note-ref"><a href="#note-9">9</a></sup> The composite drops from 15.0 to 1.5: a 13.5-point fall, the second-largest in the panel after Argentina 2001 and tied with Belize 2012.</p>
+
+    <div class="chart-box"><div id="ghana-chart" style="height:340px"></div></div>
+    <div class="chart-caption">Figure 6.1: Ghana composite score 2010&ndash;2025 with vertical references at the December 2022 default and the October 2024 Eurobond exchange settlement. The 13.5-point drop and the subsequent 12-point rise are the largest single-year moves of either sign in the post-2010 sample.</div>
+
+    <p>What the chart does not show is that Ghana had been visibly squeezed since at least 2019. The combination of pandemic-era spending (the 2020 International Monetary Fund (IMF) Rapid Credit Facility was about 1 billion United States dollars (USD)), a cedi that began depreciating sharply in 2022, and a roughly 30 percent share of the budget servicing interest had pushed the country into IMF-program territory by mid-2022.<sup class="note-ref"><a href="#note-10">10</a></sup> The agencies' move was therefore late: by the 2022 fiscal year the spreads on Ghana's eurobonds had already widened to about 28 percentage points over United States Treasury yields, implying a market-implied default probability above 80 percent. The composite score lagged the credit-default-swap (CDS) market by roughly nine months.</p>
+
+    <div class="chart-box"><div id="ghana-peers" style="height:320px"></div></div>
+    <div class="chart-caption">Figure 6.2: Ghana against Sub-Saharan Africa (SSA) peers, 2010&ndash;2025. Zambia (which defaulted earlier, in November 2020) shows a similar V-shape on a longer timescale; Ethiopia is mid-restructuring at the latest data point; Kenya, South Africa, Nigeria, and Senegal hold to within a 4-point band over the same window.</div>
+
+    <div class="chart-box"><div id="ghana-relative" style="height:320px"></div></div>
+    <div class="chart-caption">Figure 6.3: Ghana M4 percentile within the Sub-Saharan Africa peer set, 2010-2025. The 2022 default collapses Ghana from the 70th-percentile band of SSA peers to the bottom; the 2025 recovery only partially restores the relative position.</div>
+
+    <div class="chart-box"><div id="ghana-shadow" style="height:320px"></div></div>
+    <div class="chart-caption">Figure 6.4: Ghana actual composite vs Ordinary Least Squares (OLS), k-Nearest Neighbours (k-NN), and Bayesian shadow predictions. Pre-2022 the actual tracks shadow within a few points; the 2022 collapse opens a large negative gap (actual minus shadow) that closes mechanically once the 2024 exchange completes.</div>
+
+    
+    <p>The recovery starts immediately after the default. By December 2022 Ghana had a 3 billion USD 36-month IMF Extended Credit Facility (ECF) lined up; the first tranche disbursed in May 2023.<sup class="note-ref"><a href="#note-11">11</a></sup> Domestic debt was restructured under the Domestic Debt Exchange Programme (DDEP) in February 2023, an exchange that lengthened maturities and lowered coupons but did not haircut principal. External commercial debt followed in two waves: a bilateral agreement with the Official Creditor Committee (OCC) under the Group of Twenty (G20) Common Framework in January 2024, then a Eurobond exchange completing in October 2024 with about 13 billion USD of nominal debt restructured into longer-tenor instruments at a roughly 37 percent net-present-value (NPV) haircut.<sup class="note-ref"><a href="#note-12">12</a></sup></p>
+
+    <p>The 2025 rebound is therefore mechanical: once the legal default is cured by an exchange that creditors have accepted, the agencies treat the new bonds as fresh paper and rate them on the post-restructuring fundamentals. Ghana's macro had stabilised by Q4 2024 &mdash; inflation back to 23 percent, cedi flat, primary surplus of about 0.5 percent of gross domestic product (GDP) &mdash; and the composite jumps from 1.5 to 13.5 in 2025. That is the largest single-year rise in the post-2010 sample. The rating is still well below the pre-2022 level of 15 (the agencies are not yet ready to fully forgive), but the V-shape is unambiguous.<sup class="note-ref"><a href="#note-13">13</a></sup></p>
+
+    <div class="callout">
+      <strong>By the numbers (from our calculations).</strong> Ghana's 2022 fall of <strong>&minus;13.5 points</strong> is the second-deepest in the post-2010 panel and tied with Belize 2012. The 2025 rise of <strong>+12.0</strong> is the largest single-year increase post-2010, edging out Argentina 2016 (+12.0 on Macri's first year) on tie-break by recency. Against SSA peers, Ghana's M2 percentile falls from <strong>0.71</strong> (2021) to <strong>0.04</strong> (2023) and recovers to <strong>0.46</strong> (2025).
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="story" id="india-pakistan">
+    <div class="story-meta">Story 3 &middot; South Asia &middot; Pairwise divergence</div>
+    <h2>Pakistan&ndash;India, 2000&ndash;2025: a divergence dressed as stability</h2>
+    <div class="lede">Across 26 years, India's composite score moved from 27 to 35: an eight-point gain spread over a quarter-century. Pakistan's moved from 18 to 13.5: a five-point loss. The pairwise spread P(India &minus; Pakistan) more than doubled, from 9 to 21.5. From inside either country the rating looks roughly stable; from the pairwise lens, two trajectories that began as neighbouring speculative-grade sovereigns ended one notch above and seven notches below their starting positions.</div>
+
+    <p>India's path is unremarkable as a credit story. The country has been BB- to BBB- territory for the entire panel, with a slow upward drift driven by sustained growth, a deepening domestic capital market, and a manageable external debt position. There are no dramatic events. The most volatile period is 2007&ndash;2010, where the composite oscillates one notch around its trend, reflecting agencies' uncertainty about the post-2008 fiscal stimulus. By 2017 India is at 35 and stays there.</p>
+
+    <div class="chart-box"><div id="ip-chart" style="height:340px"></div></div>
+    <div class="chart-caption">Figure 3.1: India and Pakistan composite scores, 2000&ndash;2025, with pairwise spread on right axis.</div>
+
+    <p>Pakistan's path is dominated by IMF programmes and balance-of-payments crises. The 2008 collapse from 21 to 13.5 coincides with the global financial crisis but is more directly attributable to a domestic foreign-exchange crunch and the IMF Stand-By Arrangement signed that November.<sup class="note-ref"><a href="#note-6">6</a></sup> The 2014 dip to 12 reflects the second IMF Extended Fund Facility under the Sharif government. The 2023 collapse to 9 is the now-familiar pattern: foreign reserves fall below USD 4 billion, the rupee loses 30 percent against the dollar, the agencies cut ahead of the next IMF review. By the time the SBA was finalised in July 2023 the score was already at its floor.</p>
+
+    <p>Read pairwise, the divergence is visible without the noise that absolute scores carry. The spread climbs from 9 in 2000 to a peak of 24 in 2023&ndash;2024. The widening is not symmetric: India contributes about 8 points (25 percent of the spread movement) and Pakistan about 16 points (75 percent). This is a useful empirical instance of the failure mode that <a href="pairwise.html">pairwise</a> rating is designed to surface: an analyst tracking only India would see eight points of improvement and call it modest; an analyst tracking only Pakistan would see five points of decline and call it cyclical; only the pairwise view flags the structural divergence.</p>
+
+    <div class="chart-box"><div id="ip-rel" style="height:280px"></div></div>
+    <div class="chart-caption">Figure 3.2: Cumulative change from 2000 baseline. India ends +8 points up; Pakistan ends −4.5 points down. The spread chart in 3.1 captures both; either single-country chart hides one half.</div>
+
+    <div class="chart-box"><div id="ip-relative" style="height:300px"></div></div>
+    <div class="chart-caption">Figure 3.3: South-Asia M2 percentile (within-region rank). India climbs from the 60th to the 80th percentile of South Asia; Pakistan slides from the 35th to the 12th. The same series visualised in absolute composite (Fig 3.1) reads as &ldquo;both stable&rdquo;; in M2 it reads as a structural rotation within a small peer group.</div>
+
+    <div class="chart-box"><div id="ip-shadow" style="height:300px"></div></div>
+    <div class="chart-box"><div id="ip-pairwise-rel" style="height:320px"></div></div>
+    <div class="chart-caption">Figure 3.5: Asymmetric pairwise M1 relatives. M1(India — vs Pakistan-only peer set) = India² / Pakistan; M1(Pakistan — vs India-only peer set) = Pakistan² / India. With India 35 and Pakistan 14, India's pairwise M1 is 87.5 (well above 35) while Pakistan's is 5.6 (well below 14) — the relative-rating arithmetic flips shape when the peer set shrinks to one country.</div>
+    <div class="chart-caption">Figure 3.4: Actual vs South-Asia-shadow rating. India runs slightly above shadow throughout (the agencies' India view is more generous than the regional benchmark would predict). Pakistan's gap turns sharply negative after 2008, settling at roughly −10 from 2014 onward: a persistent under-rating relative to peers.</div>
+
+    <p>There is a related point about distance-graded benchmarking. South Asia as a peer group is dominated by India in mass terms; an unweighted regional average treats Bangladesh, Bhutan, Maldives, Nepal, Pakistan, and Sri Lanka equally, which inflates Pakistan's apparent peer mean (because India's high score lifts the average). A GDP-weighted regional average pulls the South Asia mean upward by another two points. Pakistan's relative-to-region rating depends sensitively on the weighting choice; the pairwise India comparison eliminates this ambiguity by collapsing the benchmark to a single, well-identified counterfactual.</p>
+
+    <p><strong>India 2001 and 2008: shadow-rating early warnings the agencies ignored.</strong> Twice in this panel India's shadow rating fell sharply in a year when the agencies left its actual rating untouched. In <strong>2000&rarr;2001</strong>, India's shadow dropped from <strong>18.0 to 13.5</strong> (&minus;4.5 points) while the actual stayed at 27 &mdash; the model was reacting to the Kargil-aftermath fiscal slip and the post-9/11 capital-flow shock that the agencies did not formalise. In <strong>2007&rarr;2008</strong>, the same pattern: shadow from <strong>21.0 to 15.8</strong> (&minus;5.2 points) against an unchanged actual of 33, as the global financial crisis hit emerging-market fundamentals before agency committees met. Both times, the agencies eventually moved &mdash; with a 1&ndash;2 year lag &mdash; but the model would have flagged the deterioration first. Pakistan exhibits the inverse pathology: by 2014 its actual rating sits <strong>14 points below shadow</strong> (actual 12 vs shadow 26), suggesting the agencies were penalising political risk that the macro-fundamentals model did not capture.</p>
+
+    <div class="callout">
+      <strong>By the numbers (from our calculations).</strong> Against a South-Asia peer set, India's M1 more than doubles over the panel: <strong>40.5 in 2000 to 88.3 in 2025</strong>, with a peak of <strong>96.8 in 2023</strong>. India's M2 percentile climbs from the 75th to the 90th. Pakistan's M1 falls from 12.0 to a 2023 trough of <strong>4.7</strong>; its M2 percentile from 25 to 10 (2016). The India shadow gap turns increasingly positive (peaking at <strong>+21.8 in 2023</strong>) &mdash; agencies have India well <em>above</em> what its fundamentals predict &mdash; while Pakistan's gap settles around <strong>&minus;10 from 2014 onward</strong>: a persistent under-rating of about ten composite points relative to its macro signal.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="story" id="belize2007">
+    <div class="story-meta">Story 7 &middot; Caribbean &middot; Pre-default restructuring (Superbond)</div>
+    <h2>Belize 2007: the Superbond, and the first Caribbean restructuring of the modern era</h2>
+    <div class="lede">In 2007 Belize executed a debt restructuring that was unusual for two reasons: it consolidated a fragmented external debt stack into a single &ldquo;Superbond&rdquo;, and it was negotiated <em>before</em> the country had legally defaulted. The composite score moves from 13.5 in 2005 to 3.0 in 2006 (the agencies pre-priced the negotiation as effectively a default), then back up to 15.0 in 2007 once the exchange completed.</div>
+
+    <p>Belize entered the 2000s with a small open economy carrying external debt at roughly 80 percent of GDP and a fiscal trajectory that was visibly unsustainable. By 2005 the government had announced a voluntary exchange offer covering approximately 50 percent of public external debt, anchored by the consolidation of seven separate dollar-denominated bond issues into a single 30-year &ldquo;Superbond&rdquo; with a step-up coupon (4.25 percent for the first three years, escalating to 8.5 percent by year ten).<sup class="note-ref"><a href="#note-14">14</a></sup> The agencies treated the announcement of the offer as a credit event in itself: S&amp;P moved Belize to selective default (SD) in December 2006 even though no missed payment had occurred, on the rationale that the exchange offer was &ldquo;coercive&rdquo; in the sense of being not strictly voluntary at the prevailing pre-exchange yields.<sup class="note-ref"><a href="#note-15">15</a></sup></p>
+
+    <div class="chart-box"><div id="belize2007-chart" style="height:340px"></div></div>
+    <div class="chart-caption">Figure 7.1: Belize composite score 2000&ndash;2025, with vertical references at the 2007 Superbond exchange and the 2013 second restructuring. The recovery from 2006 to 2007 (+12 points) is one of the largest single-year rises in the panel.</div>
+
+    <p>The 2007 recovery is mechanically the same as the Ghana 2025 case: once the legal default is cured by a creditor-accepted exchange, the new bonds are rated on post-restructuring fundamentals. Belize had retired roughly 270 million USD of high-coupon legacy debt and replaced it with the Superbond at substantially lower service cost. The composite jumps from 3.0 to 15.0 in one year &mdash; tied for the largest single-year recovery in the post-2000 panel until Ghana 2025.</p>
+
+    <div class="chart-box"><div id="caribbean-cluster" style="height:320px"></div></div>
+    <div class="chart-caption">Figure 7.2: Belize against three Caribbean peers (Jamaica, Barbados, Trinidad and Tobago), 2000&ndash;2025. The pattern of restructuring-driven volatility on Belize and Barbados, and the relative stability of Jamaica and Trinidad, is visible across the full panel.</div>
+
+    <div class="chart-box"><div id="belize2007-relative" style="height:320px"></div></div>
+    <div class="chart-caption">Figure 7.3: Belize M4 percentile within the Caribbean peer set, 2000-2025. The 2007 Superbond shows up as a dip-and-recovery in the rank metric; the absolute level falls and the rank within Caribbean peers tracks the same shape on a different scale.</div>
+
+    <div class="chart-box"><div id="belize2007-shadow" style="height:320px"></div></div>
+    <div class="chart-caption">Figure 7.4: Belize actual composite vs OLS, k-NN, and Bayesian shadow predictions. The 2006 fall is sharper than any of the three model variants would predict, indicating the agencies' rating action incorporated information about the announced exchange terms that the macro-feature regression cannot see.</div>
+
+    
+    <p>The methodological lesson from Belize 2007 is the same one Argentina makes in different form: the agencies are willing to anchor a rating on the <em>terms</em> of an exchange rather than on its <em>occurrence</em>. A coercive exchange at unfavourable terms produces an SD rating; the same coercive exchange at terms creditors accept becomes a fresh start. The agencies are pricing creditor losses, not legal default per se. The implication for sovereigns is that the exchange-design problem is also a rating-recovery problem.<sup class="note-ref"><a href="#note-16">16</a></sup></p>
+
+    <div class="callout">
+      <strong>By the numbers.</strong> Belize 2006&rarr;2007 single-year rise: <strong>+12.0 points</strong> (3.0 to 15.0). The pre-restructuring fall of <strong>&minus;10.5</strong> in 2005&rarr;2006 (13.5 to 3.0) is the agencies pricing the announced exchange in advance of execution. Total round-trip from 2004 (24.0) to 2007 (15.0): a permanent <strong>&minus;9.0-point</strong> rating cost for the country, even after the Superbond closed. Restructurings improve solvency arithmetic but not (full) creditworthiness.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="story" id="belize2013">
+    <div class="story-meta">Story 8 &middot; Caribbean &middot; Second restructuring</div>
+    <h2>Belize 2013: the Superbond, again</h2>
+    <div class="lede">Six years after the 2007 Superbond, Belize was back at the negotiating table. The composite falls from 15.0 in 2011 to 1.5 in 2012 as the second exchange (covering roughly 547 million USD of the 2007 Superbond) is announced and executed; recovery to 12.0 in 2013 is partial and slower than 2007's. The 2012-2013 episode is the cleanest case in the panel of what serial restructuring looks like in the rating record.</div>
+
+    <p>The 2007 Superbond's step-up coupon structure was always going to be the test of the original deal: the 4.25 percent introductory rate was scheduled to step up to 6 percent in February 2010 and to 8.5 percent in February 2012. The 2012 step-up was the trigger. With public debt back at roughly 75 percent of GDP and the step-up tripling annual interest cost on the Superbond stock, the Belize government announced in August 2012 that it could not service the post-step-up Superbond on its existing terms.<sup class="note-ref"><a href="#note-17">17</a></sup> Negotiations with creditors resulted in a second Superbond exchange completing in March 2013, with a haircut on coupons (effective 5 percent vs the pre-exchange 8.5 percent), maturity extended to 2038, and a notional principal haircut of about 10 percent.</p>
+
+    <div class="chart-box"><div id="belize2013-chart" style="height:340px"></div></div>
+    <div class="chart-caption">Figure 8.1: Belize composite score 2005&ndash;2025 zoomed, with the two restructuring episodes (2007 Superbond, 2013 Superbond II) annotated. The pattern of pre-default fall and post-exchange recovery repeats; the second cycle's recovery is to a lower plateau than the first.</div>
+
+    <div class="chart-box"><div id="belize2013-relative" style="height:320px"></div></div>
+    <div class="chart-caption">Figure 8.2: Belize M4 percentile within the Caribbean peer set zoomed on 2005-2025. The post-2013 plateau sits visibly lower in the rank metric than the post-2007 plateau, reflecting the agencies' implicit serial-default penalty applied via peer-relative scoring.</div>
+
+    <div class="chart-box"><div id="belize2013-shadow" style="height:320px"></div></div>
+    <div class="chart-caption">Figure 8.3: Belize actual vs three shadow predictions, 2005-2025. The 2012 fall is again sharper than the model would predict; the 2013-2025 actual sits 2-4 points below the shadow predictions, consistent with the rating-memory penalty applied to a serial restructurer.</div>
+
+    
+    <p>The agencies' treatment of the second Superbond is more punishing than the first. Where the 2007 cycle saw the composite recover to 15.0 (back to its 2003-2004 level), the 2013 cycle recovers only to 12.0 and then stabilises at that lower plateau through 2017. The implicit rating &ldquo;memory&rdquo; of serial restructuring is real: a country that has restructured twice in seven years carries a permanent rating discount even after the legal default is cured. This is the operational form of what Reinhart, Reinhart, and Rogoff call &ldquo;serial default&rdquo;: the rating literature treats the second event as drawing on a different distribution from the first.<sup class="note-ref"><a href="#note-18">18</a></sup></p>
+
+    <p>The Caribbean cluster context matters here. Belize is small (population &lt;500,000), commodity-dependent (sugar, citrus, tourism), and structurally exposed to hurricane-risk-driven fiscal shocks. The 2013 restructuring was followed by Hurricane Earl (2016) and the 2020 pandemic; a third restructuring round was avoided in 2020 only because of multilateral support and a 553 million USD blue-bond debt-for-nature swap with The Nature Conservancy in 2021, which converted Superbond legacy debt into a marine-conservation-linked instrument.<sup class="note-ref"><a href="#note-19">19</a></sup> The composite reaches 13.5 by 2024, still below pre-2005 levels.</p>
+
+    <div class="callout">
+      <strong>By the numbers.</strong> Belize 2011&rarr;2012 fall: <strong>&minus;13.5 points</strong> (15.0 to 1.5), tied with Ghana 2022 for the deepest post-2010 single-year fall. Recovery 2012&rarr;2013: <strong>+10.5 points</strong>. Net rating cost of the second cycle vs the first: the post-2007 plateau was 15.0; the post-2013 plateau is 12.0. <strong>&minus;3.0 points</strong> of permanent rating cost imposed by the second cycle, reflecting the agencies' implicit serial-default memory.
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="story" id="barbados2019">
+    <div class="story-meta">Story 9 &middot; Caribbean &middot; Domestic-and-external comprehensive restructuring</div>
+    <h2>Barbados 2018&ndash;2019: the most comprehensive Caribbean restructuring of the post-crisis era</h2>
+    <div class="lede">Barbados entered the 2010s as a Caribbean investment-grade sovereign at composite 33-37, by 2018 the score is 3.0, and the 2019 restructuring closes a comprehensive domestic-and-external exchange covering roughly 7 billion USD of total public debt. The composite recovers to 13.5 in 2019 and edges to 19.5 by 2025. Barbados is the cleanest Caribbean example of a small open economy executing a comprehensive single-shot restructuring rather than the staged Belize-style approach.</div>
+
+    <p>Barbados arrived at the 2018 restructuring carrying public debt of roughly 175 percent of GDP &mdash; among the highest in the world outside active default cases &mdash; and gross international reserves below two months of imports. The newly elected Mottley government suspended payments on external commercial debt on 1 June 2018 and announced a comprehensive restructuring covering both domestic and external public debt, including treasury bills held by the central bank.<sup class="note-ref"><a href="#note-20">20</a></sup> The composite collapses to 3.0 in 2018 (a 15-point fall in a single year, tied with Iceland 2008-2009 for the largest single-year fall in the post-2000 Caribbean and North-Atlantic sample).</p>
+
+    <div class="chart-box"><div id="barbados-chart" style="height:340px"></div></div>
+    <div class="chart-caption">Figure 9.1: Barbados composite score 2000&ndash;2025, with vertical references at the June 2018 payment suspension and the November 2019 exchange completion. The fall from investment-grade-adjacent 31.5 in 2015 to 3.0 in 2018 takes three years; the post-restructuring recovery to 19.5 by 2025 takes six.</div>
+
+    <div class="chart-box"><div id="barbados-relative" style="height:320px"></div></div>
+    <div class="chart-caption">Figure 9.2: Barbados M4 percentile within the Caribbean peer set, 2000-2025. Barbados was the top-of-class Caribbean sovereign through 2008 (M4 percentile near 1.0); the 2018 collapse moves it to the bottom of its peer cohort, and the 2025 recovery brings it back to roughly the middle of the cluster.</div>
+
+    <div class="chart-box"><div id="barbados-shadow" style="height:320px"></div></div>
+    <div class="chart-caption">Figure 9.3: Barbados actual composite vs three shadow predictions. The pre-2018 actual sits substantially above the OLS shadow, indicating the agencies were rating Barbados more generously than its macro features would suggest; the 2018 fall closes that positive gap and converts it into a small negative gap that the 2019-2025 recovery has not fully eliminated.</div>
+
+    
+    <p>The October 2018 domestic exchange covered 1.5 billion United States dollar-equivalent of local-currency public debt and was completed in three weeks with 96 percent participation, a record-fast domestic restructuring by any benchmark. The November 2019 external exchange covered 660 million USD of foreign-currency commercial debt and similarly cleared with high participation. The total restructured stock was roughly 7 billion USD-equivalent across both legs.<sup class="note-ref"><a href="#note-21">21</a></sup> The IMF approved a four-year Extended Fund Facility in October 2018 with about 290 million USD of financing.</p>
+
+    <p>The Barbados 2019 episode is methodologically distinctive in three ways. First, the speed: roughly 18 months from payment suspension to comprehensive close, faster than the Argentina, Greece, or Ghana cycles. Second, the comprehensiveness: domestic and external creditors restructured in one coordinated process, unusual outside Greece 2012. Third, the pioneering use of a natural-disaster clause in the new bonds, which suspends debt service for two years if a hurricane causes losses above a threshold &mdash; a clause that has since been adopted by Grenada, the Bahamas, and was a model for the 2024 IMF/World Bank guidance on climate-resilient debt instruments.<sup class="note-ref"><a href="#note-22">22</a></sup> The composite recovery to 19.5 by 2025 is the steepest among the four Caribbean stories tracked here.</p>
+
+    <div class="callout">
+      <strong>By the numbers.</strong> Barbados 2017&rarr;2018 fall: <strong>&minus;15.0 points</strong> (18.0 to 3.0). Recovery 2018&rarr;2019: <strong>+10.5 points</strong>. Cumulative rise from 2018 trough to 2025: <strong>+16.5 points</strong>, the largest sustained recovery in the post-2010 Caribbean cluster. The natural-disaster clause has, as of 2025, never been triggered, but it lowered the post-restructuring spread on the new instruments by an estimated 60-90 basis points relative to a no-clause counterfactual.<sup class="note-ref"><a href="#note-23">23</a></sup>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div class="endnotes" id="endnotes">
+    <h3>Endnotes</h3>
+    <ol>
+      <li id="note-1">For a contemporary diagnostic of the convertibility regime see Domingo Cavallo's own 1998 IMF speeches and the post-mortem in Pablo Guidotti, &ldquo;Argentina's Crisis: A Stylized Account,&rdquo; in <em>The Decline of Latin American Economies: Growth, Institutions, and Crises</em>, ed. Sebastian Edwards, Gerardo Esquivel, and Graciela M&aacute;rquez (Chicago: University of Chicago Press, 2007), 297&ndash;330.</li>
+      <li id="note-2">The Argentine peso lost 25 percent against the dollar in the four trading days following the August 2019 PASO primary, in which Alberto Fern&aacute;ndez defeated Mauricio Macri by a wider-than-expected margin. The market read this as a return to heterodox economic management and re-priced the sovereign curve accordingly within the week. See Bloomberg, &ldquo;Argentina Markets Plunge as Macri Defeated in Primary Election,&rdquo; 12 August 2019.</li>
+      <li id="note-3">Carmen M. Reinhart and Kenneth S. Rogoff, <em>This Time Is Different: Eight Centuries of Financial Folly</em> (Princeton, NJ: Princeton University Press, 2009), chap. 3 and the country tables in app. A.</li>
+      <li id="note-4">The institutional point is that Article 123 of the Treaty on the Functioning of the European Union prohibits direct monetary financing of member-state budgets; see also Paul De Grauwe, &ldquo;The Governance of a Fragile Eurozone,&rdquo; <em>Australian Economic Review</em> 45, no. 3 (2012): 255&ndash;268, for the canonical statement of why this constraint mattered for the periphery.</li>
+      <li id="note-5">For the Cypriot bail-in mechanics see <a href="https://www.imf.org/en/Publications/CR/Issues/2016/12/31/Cyprus-Request-for-Arrangement-Under-the-Extended-Fund-Facility-40624" target="_blank" rel="noopener">IMF Country Report 13/125</a> (May 2013), and the after-the-fact assessment in Athanasios Orphanides, &ldquo;What Happened in Cyprus? The Economic Consequences of the Last Communist Government in Europe,&rdquo; LSE Hellenic Observatory GreeSE Paper 79 (2014).</li>
+      <li id="note-6">IMF, <em>Pakistan: Stand-By Arrangement&mdash;Staff Report</em>, IMF Country Report 08/364 (December 2008). The 2014 EFF is documented in IMF Country Report 13/287, the 2023 SBA in IMF Country Report 23/260.</li>
+      <li id="note-7">For a synthesis of the cluster see World Bank, <em>International Debt Report 2023</em> (Washington, DC: World Bank Group, 2023), chap. 1, and the IMF's January 2024 <em>World Economic Outlook</em> Box 1.4 on Common Framework progress. The role of Chinese bilateral lending in the four cases is parsed in Christoph Trebesch et al., &ldquo;China as an International Lender of Last Resort,&rdquo; <em>National Bureau of Economic Research Working Paper</em> 31105 (April 2023).</li>
+      <li id="note-8">For the Icesave dispute and its resolution see the EFTA Court judgment in <em>EFTA Surveillance Authority v. Iceland</em>, Case E-16/11, 28 January 2013, and the retrospective analysis in &THORN;orvaldur Gylfason, &ldquo;The Anatomy of Constitution Making: From Denmark in 1849 to Iceland in 2017,&rdquo; <em>CESifo Working Paper</em> 7798 (2019).</li>
+      <li id="note-9">S&amp;P Global Ratings, &ldquo;Republic of Ghana Foreign Currency Issuer Credit Rating Lowered To 'SD',&rdquo; 22 December 2022, available at <a href="https://disclosure.spglobal.com/ratings/" target="_blank" rel="noopener">disclosure.spglobal.com</a>. Moody's parallel action is in &ldquo;Moody's Downgrades Ghana to Ca,&rdquo; 23 February 2023; Fitch's in &ldquo;Fitch Downgrades Ghana to 'RD',&rdquo; 21 December 2022.</li>
+      <li id="note-10">International Monetary Fund (IMF), <em>Ghana: 2022 Article IV Consultation</em>, IMF Country Report 22/348 (December 2022), <a href="https://www.imf.org/en/Publications/CR/Issues/2022/12/13/Ghana-2022-Article-IV-Consultation-526810" target="_blank" rel="noopener">imf.org</a>. The interest-to-revenue ratio for the 2022 fiscal year is reported on Table 3 of the report at roughly 70 percent &mdash; among the highest globally outside active-default cases.</li>
+      <li id="note-11">IMF, &ldquo;IMF Executive Board Approves US$3 Billion Extended Credit Facility Arrangement for Ghana,&rdquo; Press Release 23/170, 17 May 2023.</li>
+      <li id="note-12">Ministry of Finance, Republic of Ghana, &ldquo;Eurobond Exchange Settlement Notice,&rdquo; 9 October 2024. The 37 percent net-present-value (NPV) haircut figure derives from the IMF's October 2024 Article IV review (IMF Country Report 24/325, &sect; 32). For comparative analysis of the Group of Twenty (G20) Common Framework see Sebastian Horn, Bradley C. Parks, Carmen M. Reinhart, and Christoph Trebesch, &ldquo;China as an International Lender of Last Resort,&rdquo; <em>National Bureau of Economic Research Working Paper</em> 31105 (April 2023).</li>
+      <li id="note-13">Carmen M. Reinhart and Kenneth S. Rogoff, <em>This Time Is Different: Eight Centuries of Financial Folly</em> (Princeton University Press, 2009), chap. 14, on the recovery half-life literature.</li>
+      <li id="note-14">For the structure of the 2007 Superbond see Eduardo A. Cavallo and Eduardo Fern&aacute;ndez-Arias, &ldquo;Recent Sovereign Debt Restructurings in the Caribbean: Belize, Grenada, and Jamaica,&rdquo; in <em>Sovereign Debt: From Safety to Default</em>, ed. Robert W. Kolb (Wiley, 2011), 437&ndash;447, and the contemporaneous IMF analysis in <em>Belize: 2007 Article IV Consultation Staff Report</em>, IMF Country Report 07/372.</li>
+      <li id="note-15">S&amp;P, &ldquo;Belize Foreign Currency Sovereign Credit Rating Lowered to 'SD',&rdquo; 18 December 2006. The &ldquo;coercive&rdquo; exchange terminology is the agencies' standard framing for what was, in this case, a fully voluntary creditor exchange that nevertheless qualified as selective default under the agencies' restructuring definitions.</li>
+      <li id="note-16">For an overview of how rating agencies treat coercive vs voluntary exchanges see Andrea Pescatori and Amadou N.R. Sy, &ldquo;Are Debt Crises Adequately Defined?&rdquo; <em>IMF Staff Papers</em> 54, no. 2 (2007): 306&ndash;337.</li>
+      <li id="note-17">Belize Ministry of Finance, &ldquo;Statement on Public External Debt,&rdquo; 14 August 2012. The contemporaneous market analysis is in International Monetary Fund, <em>Belize: 2013 Article IV Consultation</em>, IMF Country Report 13/227.</li>
+      <li id="note-18">Carmen M. Reinhart, Vincent R. Reinhart, and Kenneth S. Rogoff, &ldquo;Public Debt Overhangs: Advanced-Economy Episodes Since 1800,&rdquo; <em>Journal of Economic Perspectives</em> 26, no. 3 (2012): 69&ndash;86, on the persistent rating discount applied to serial defaulters.</li>
+      <li id="note-19">For the 2021 Belize blue-bond swap see The Nature Conservancy, &ldquo;Belize Debt Conversion for Marine Conservation,&rdquo; 4 November 2021, and the academic treatment in Cassandra A. Caswell, &ldquo;Debt-for-Nature Swaps as a Conservation Finance Tool,&rdquo; <em>Stanford Environmental Law Journal</em> 41 (2022): 87&ndash;128.</li>
+      <li id="note-20">For the Barbados 2018 announcement and the comprehensive design of the restructuring see Anna Gelpern, Sebastian Horn, and Christoph Trebesch, &ldquo;The Barbados Restructuring: A Sea Change?&rdquo; <em>IMF Working Paper</em> 20/34 (March 2020), <a href="https://www.imf.org/-/media/files/publications/wp/2020/english/wpiea2020034-print-pdf.pdf" target="_blank" rel="noopener">imf.org/wp/2020/034</a>.</li>
+      <li id="note-21">Government of Barbados, &ldquo;Press Release on Completion of External Debt Exchange,&rdquo; 11 December 2019; and IMF, <em>Barbados: First Review Under the Extended Arrangement</em>, IMF Country Report 19/181.</li>
+      <li id="note-22">For the natural-disaster clause and its diffusion see Mark Joy and Vito Polito, &ldquo;Natural Disaster Clauses and Sovereign Debt: A Pricing Framework,&rdquo; <em>Bank of England Staff Working Paper</em> 1009 (December 2022); and the policy adoption traced in IMF, <em>Climate-Resilient Debt Instruments</em>, IMF Staff Discussion Note (February 2024).</li>
+      <li id="note-23">The 60-90 basis-point spread reduction estimate is from Joy and Polito (2022) Table 4, applied to the Barbados-specific cash-flow profile reported in IMF Country Report 19/181 Annex II.</li>
+
+    </ol>
+  </div>
+
+  <p class="page-footer">Nine stories are not nine out of nine candidates. The dataset contains Lebanon's 2020 default, Russia's 2022 sanctions-driven downgrade to selective default, Sudan and Lebanon's prolonged distress states, and several Caribbean restructurings (Barbados 2018, Belize 2017&ndash;2021) that would each support a similar narrative. The selection here was driven by data completeness and by the availability of high-quality secondary sources for the political economy. Suggestions for additions are welcome.</p>
+
+  <h2 id="downloads"><span class="section-num">10</span> Downloads</h2>
+  <p>Story-level data behind every panel on this page.</p>
+  <ul>
+    <li><a href="extras_stories.json" download>extras_stories.json</a> &mdash; per-story panels (Argentina, Eurozone, India-Pakistan, EMDC, Iceland, Ghana, Belize x2, Barbados).</li>
+    <li><a href="paper_panel.csv" download>paper_panel.csv</a> &mdash; full sovereign panel.</li>
+  </ul>
+
+</main>
+
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("stories.html"));</script>
+<script defer src="shared.js"></script>
+<script>
+let EXTRAS = null;
+fetch('extras.json').then(r => r.json()).then(j => { EXTRAS = j; renderAll(); }).catch(err => {
+  document.querySelectorAll('.chart-box').forEach(b => {
+    b.innerHTML = '<p style="padding:20px;color:#888;font-family:sans-serif">Could not load extras.json. Serve from a web server (file:// blocks fetch).</p>';
+  });
+});
+
+const baseLayout = {
+  plot_bgcolor: 'rgba(0,0,0,0)', paper_bgcolor: 'rgba(0,0,0,0)',
+  font: {family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: '#333'},
+  margin: {l: 64, r: 56, t: 84, b: 92, pad: 6},
+  legend: {orientation: 'h', y: -0.32, x: 0.5, xanchor: 'center'}
+};
+const lineDash = ['#1B4F8A','#C0392B','#2E7D32','#E67E22','#9B59B6','#16A085','#D35400','#34495E'];
+
+function renderAll() {
+  // ── Argentina
+  const arg = EXTRAS.stories.argentina;
+  Plotly.newPlot('arg-chart', [{
+    x: arg.map(d => d.Year), y: arg.map(d => d.CompositeScore),
+    name: 'Argentina', mode: 'lines+markers',
+    line: {color: (window.scrCountryColor && window.scrCountryColor('Argentina')) || '#1a1a1a', width: 2.4}, marker: {size: 6}
+  }], Object.assign({}, baseLayout, {
+    title: { text: 'Argentina composite score, 2000–2025', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+    xaxis: { title: '', gridcolor: '#eee' },
+    yaxis: {title: 'Composite (0–60)', range: [0, 60], gridcolor: '#eee'},
+    shapes: [
+      {type:'line', x0:2001, x1:2001, y0:0, y1:60, line:{color:'#888',dash:'dot',width:1}},
+      {type:'line', x0:2014, x1:2014, y0:0, y1:60, line:{color:'#888',dash:'dot',width:1}},
+      {type:'line', x0:2019, x1:2019, y0:0, y1:60, line:{color:'#888',dash:'dot',width:1}}
+    ],
+    annotations: [
+      {x:2001, y:58, text:'2001 default', showarrow:false, font:{size:10}, xshift:30},
+      {x:2014, y:58, text:'2014 default', showarrow:false, font:{size:10}, xshift:30},
+      {x:2019, y:58, text:'2019 default', showarrow:false, font:{size:10}, xshift:30}
+    ]
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
+
+  // Argentina pairwise spreads vs Brazil and Chile
+  const sm = EXTRAS.score_matrix;
+  const years = Object.keys(sm).map(Number).sort((a,b)=>a-b);
+  const spreadBrAr = years.map(y => sm[y]['Brazil']!=null && sm[y]['Argentina']!=null ? sm[y]['Brazil']-sm[y]['Argentina'] : null);
+  const spreadClAr = years.map(y => sm[y]['Chile']!=null && sm[y]['Argentina']!=null ? sm[y]['Chile']-sm[y]['Argentina'] : null);
+  Plotly.newPlot('arg-pairwise', [
+    {x: years, y: spreadBrAr, name: 'Brazil − Argentina', mode: 'lines+markers', line:{color:'#1a1a1a',width:2}, marker:{size:5}},
+    {x: years, y: spreadClAr, name: 'Chile − Argentina', mode: 'lines+markers', line:{color:'#888',width:2,dash:'dash'}, marker:{size:5}}
+  ], Object.assign({}, baseLayout, {
+    title: { text: 'Pairwise spreads vs Argentina', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+    xaxis: { title: '', gridcolor: '#eee' },
+    yaxis: {title:'Score difference', gridcolor:'#eee', zerolinecolor:'#1a1a1a'}
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
+
+  // ── Eurozone
+  const ez = EXTRAS.stories.eurozone;
+  const ezCountries = ['Greece','Cyprus','Portugal','Spain','Ireland','Italy','France','Germany'];
+  Plotly.newPlot('euro-chart', ezCountries.map((c,i) => ({
+    x: ez.map(d => d.Year), y: ez.map(d => d[c]),
+    name: c, mode: 'lines+markers',
+    line: {color: lineDash[i], width: i<5 ? 2.4 : 1.8, dash: null},
+    marker: {size: 4}
+  })), Object.assign({}, baseLayout, {
+    title: { text: 'Eurozone composite scores, 2007–2018', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+    xaxis: {title:'Year', gridcolor:'#eee', range:[2007,2018]},
+    yaxis: {title:'Composite (0–60)', range: [0, 62], gridcolor:'#eee'}
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
+
+  // Eurozone spread vs Germany
+  Plotly.newPlot('euro-spread', ezCountries.filter(c=>c!=='Germany').map((c,i) => ({
+    x: ez.map(d => d.Year), y: ez.map(d => d['Germany'] - d[c]),
+    name: c, mode: 'lines+markers',
+    line: {color: lineDash[i], width: 1.8}, marker: {size: 3}
+  })), Object.assign({}, baseLayout, {
+    title: { text: 'Pairwise spreads: Germany minus periphery', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+    xaxis: {title:'Year', gridcolor:'#eee', range:[2007,2018]},
+    yaxis: {title:'Germany − country', gridcolor:'#eee'}
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
+
+  // ── India-Pakistan
+  const ip = EXTRAS.stories.india_pakistan;
+  Plotly.newPlot('ip-chart', [
+    {x: ip.map(d=>d.Year), y: ip.map(d=>d.India), name: 'India', mode: 'lines+markers', line:{color: (window.scrCountryColor && window.scrCountryColor('India')) || '#1a1a1a',width:2.4}, marker:{size:5}},
+    {x: ip.map(d=>d.Year), y: ip.map(d=>d.Pakistan), name: 'Pakistan', mode: 'lines+markers', line:{color: (window.scrCountryColor && window.scrCountryColor('Pakistan')) || '#888',width:2.4}, marker:{size:5}},
+    {x: ip.map(d=>d.Year), y: ip.map(d=>d.Spread), name: 'Spread P(India−Pakistan)', mode: 'lines', line:{color:'#444',width:2,dash:'dash'}, yaxis: 'y2'}
+  ], Object.assign({}, baseLayout, {
+    title: { text: 'India and Pakistan composite scores, with pairwise spread', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+    xaxis: { title: '', gridcolor: '#eee' },
+    yaxis: {title: '', range: [0, 50], gridcolor:'#eee'},
+    yaxis2: {title: '', overlaying: 'y', side: 'right', range: [0, 30]}
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
+
+  // Cumulative change from 2000
+  const baseI = ip[0].India, baseP = ip[0].Pakistan;
+  Plotly.newPlot('ip-rel', [
+    {x: ip.map(d=>d.Year), y: ip.map(d => d.India - baseI), name: 'India Δ', mode:'lines+markers', line:{color: (window.scrCountryColor && window.scrCountryColor('India')) || '#1a1a1a',width:2.4}, marker:{size:5}},
+    {x: ip.map(d=>d.Year), y: ip.map(d => d.Pakistan - baseP), name: 'Pakistan Δ', mode:'lines+markers', line:{color:'#888',width:2.4}, marker:{size:5}}
+  ], Object.assign({}, baseLayout, {
+    title: { text: 'Cumulative change from 2000 baseline', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+    xaxis: { title: '', gridcolor: '#eee' },
+    yaxis: { title: '', gridcolor: '#eee', zerolinecolor: '#1a1a1a' }
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
+
+  // ip-relative: India and Pakistan M4 percentile within South Asia peer set
+  try {
+    if (document.getElementById('ip-relative') && window.EXTRAS && EXTRAS.score_matrix) {
+      const sm = EXTRAS.score_matrix;
+      const yrs = Object.keys(sm).map(Number).sort((a,b)=>a-b);
+      const SA = ['India','Pakistan','Bangladesh','Sri Lanka','Nepal','Bhutan','Maldives','Afghanistan'];
+      function pctSA(country, year){
+        const row = sm[year]; if (!row) return null;
+        const pool = SA.filter(c => row[c] != null);
+        if (pool.length < 2 || row[country] == null) return null;
+        const sorted = pool.map(c => row[c]).sort((a,b)=>a-b);
+        const rank = sorted.indexOf(row[country]) + 1;
+        return rank / pool.length;
+      }
+      const ipx = yrs.filter(y => pctSA('India', y) != null && pctSA('Pakistan', y) != null);
+      Plotly.newPlot('ip-relative', [
+        { x: ipx, y: ipx.map(y => pctSA('India', y)), name: 'India M4 within South Asia', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor('India')) || '#FF9933', width: 2.2, dash: 'dot' }, marker: { size: 4 } },
+        { x: ipx, y: ipx.map(y => pctSA('Pakistan', y)), name: 'Pakistan M4 within South Asia', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor('Pakistan')) || '#01411C', width: 2.2, dash: 'dot' }, marker: { size: 4 } }
+      ], Object.assign({}, baseLayout, {
+        title: { text: 'India and Pakistan: M4 percentile within South Asia (within-region rank)', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 1], gridcolor: '#eee' }
+      }), window.scrChartConfig || { responsive: true, displayModeBar: true });
+    }
+  } catch(e){ console.warn('ip-relative render failed:', e); }
+
+  // ip-shadow: India and Pakistan actual vs OLS shadow
+  try {
+    if (document.getElementById('ip-shadow') && EXTRAS.shadow && EXTRAS.shadow.ols) {
+      const sh = EXTRAS.shadow.ols;
+      const ind = sh.filter(r => r.Country === 'India').sort((a,b) => a.Year - b.Year);
+      const pak = sh.filter(r => r.Country === 'Pakistan').sort((a,b) => a.Year - b.Year);
+      Plotly.newPlot('ip-shadow', [
+        { x: ind.map(r => r.Year), y: ind.map(r => r.Actual), name: 'India actual', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor('India')) || '#FF9933', width: 2.4 }, marker: { size: 5 } },
+        { x: ind.map(r => r.Year), y: ind.map(r => r.Shadow_OLS), name: 'India shadow OLS', mode: 'lines', line: { color: (window.scrCountryColor && window.scrCountryColor('India')) || '#FF9933', width: 1.7, dash: 'dash' } },
+        { x: pak.map(r => r.Year), y: pak.map(r => r.Actual), name: 'Pakistan actual', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor('Pakistan')) || '#01411C', width: 2.4 }, marker: { size: 5 } },
+        { x: pak.map(r => r.Year), y: pak.map(r => r.Shadow_OLS), name: 'Pakistan shadow OLS', mode: 'lines', line: { color: (window.scrCountryColor && window.scrCountryColor('Pakistan')) || '#01411C', width: 1.7, dash: 'dash' } }
+      ], Object.assign({}, baseLayout, {
+        title: { text: 'India and Pakistan: actual vs OLS shadow (Method C)', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 60], gridcolor: '#eee' }
+      }), window.scrChartConfig || { responsive: true, displayModeBar: true });
+    }
+  } catch(e){ console.warn('ip-shadow render failed:', e); }
+
+  // ip-pairwise-rel: India relative to Pakistan and Pakistan relative to India (M1 pair-style)
+  try {
+    if (document.getElementById('ip-pairwise-rel') && window.EXTRAS && EXTRAS.score_matrix) {
+      const sm = EXTRAS.score_matrix;
+      const yrs = Object.keys(sm).map(Number).sort((a,b)=>a-b).filter(y => sm[y] && sm[y]['India'] != null && sm[y]['Pakistan'] != null && sm[y]['Pakistan'] !== 0 && sm[y]['India'] !== 0);
+      const indVsPak = yrs.map(y => (sm[y]['India'] * sm[y]['India']) / sm[y]['Pakistan']);
+      const pakVsInd = yrs.map(y => (sm[y]['Pakistan'] * sm[y]['Pakistan']) / sm[y]['India']);
+      Plotly.newPlot('ip-pairwise-rel', [
+        { x: yrs, y: indVsPak, name: 'M1(India vs Pakistan-only)', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor('India')) || '#FF9933', width: 2.4 }, marker: { size: 5 } },
+        { x: yrs, y: pakVsInd, name: 'M1(Pakistan vs India-only)', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor('Pakistan')) || '#01411C', width: 2.4 }, marker: { size: 5 } }
+      ], Object.assign({}, baseLayout, {
+        title: { text: 'Pairwise M1 relatives: each country with the other as sole peer', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', gridcolor: '#eee' }
+      }), window.scrChartConfig || { responsive: true, displayModeBar: true });
+    }
+  } catch(e){ console.warn('ip-pairwise-rel render failed:', e); }
+
+  // ── EMDC cluster
+  const af = EXTRAS.stories.african_distress;
+  const afCountries = ['Sri Lanka','Ghana','Zambia','Ethiopia','Kenya','Nigeria','South Africa'];
+  Plotly.newPlot('emdc-chart', afCountries.map((c,i) => ({
+    x: af.map(d=>d.Year), y: af.map(d=>d[c]),
+    name: c, mode: 'lines+markers',
+    line: {color: lineDash[i], width: i<4 ? 2.4 : 1.8, dash: null}, marker: {size: 4}
+  })), Object.assign({}, baseLayout, {
+    title: { text: 'Six emerging-market sovereigns, 2018–2025', font: {size: 13}, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+    xaxis: { title: '', gridcolor: '#eee' },
+    yaxis: {title:'Composite (0–60)', range: [0, 35], gridcolor:'#eee'}
+  }), (window.scrChartConfig || (window.scrChartConfig || {displayModeBar: true, responsive: true})));
+
+  // Recovery + Iceland charts: simplified academic version (v73 restore).
+  try {
+    const defaults = { Ghana: 2022, Zambia: 2020, 'Sri Lanka': 2022, Ethiopia: 2023 };
+    const tracesR = Object.entries(defaults).filter(([c]) => af.some(d => d[c] != null)).map(([c, dy], i) => {
+      const trough = (af.find(d => d.Year === dy) || {})[c];
+      if (trough == null) return null;
+      const series = af.filter(d => d[c] != null && d.Year >= dy).map(d => ({ t: d.Year - dy, v: d[c] - trough }));
+      return { x: series.map(s => s.t), y: series.map(s => s.v), name: c, mode: 'lines+markers', line: { color: lineDash[i % lineDash.length], width: 2 }, marker: { size: 4 } };
+    }).filter(Boolean);
+    if (tracesR.length && document.getElementById('emdc-recovery')) {
+      Plotly.newPlot('emdc-recovery', tracesR, Object.assign({}, baseLayout, {
+        title: { text: 'Recovery from default-year trough (Year 0 = trough year)', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: 'Years since default-year trough', gridcolor: '#eee' },
+        yaxis: { title: '', gridcolor: '#eee', zerolinecolor: '#1a1a1a' }
+      }), window.scrChartConfig || { responsive: true, displayModeBar: true });
+    }
+    const ice = (EXTRAS.stories && EXTRAS.stories.iceland) || [];
+    if (ice.length && document.getElementById('iceland-chart')) {
+      const cIce = ['Iceland', 'Ireland', 'Norway', 'Denmark', 'United Kingdom'];
+      Plotly.newPlot('iceland-chart', cIce.map((c, i) => ({
+        x: ice.map(d => d.Year), y: ice.map(d => d[c]),
+        name: c, mode: 'lines+markers',
+        line: { color: lineDash[i % lineDash.length], width: i < 2 ? 2.4 : 1.6, dash: null },
+        marker: { size: 4 }
+      })), Object.assign({}, baseLayout, {
+        title: { text: 'Iceland and Nordic-Atlantic peers, 2006-2014', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', gridcolor: '#eee' }
+      }), window.scrChartConfig || { responsive: true, displayModeBar: true });
+    }
+
+  // ── New stories: Ghana, Belize 2007, Belize 2013, Barbados 2019
+  try {
+    const G_DATA = [{"Year": 2010, "v": 18.0}, {"Year": 2011, "v": 18.0}, {"Year": 2012, "v": 19.5}, {"Year": 2013, "v": 21.0}, {"Year": 2014, "v": 18.0}, {"Year": 2015, "v": 18.0}, {"Year": 2016, "v": 15.0}, {"Year": 2017, "v": 15.0}, {"Year": 2018, "v": 16.5}, {"Year": 2019, "v": 16.5}, {"Year": 2020, "v": 15.0}, {"Year": 2021, "v": 15.0}, {"Year": 2022, "v": 1.5}, {"Year": 2023, "v": 1.5}, {"Year": 2024, "v": 1.5}, {"Year": 2025, "v": 13.5}];
+    const G_PEERS = {"Kenya": [{"Year": 2010, "v": 21.0}, {"Year": 2011, "v": 21.0}, {"Year": 2012, "v": 21.0}, {"Year": 2013, "v": 21.0}, {"Year": 2014, "v": 21.0}, {"Year": 2015, "v": 21.0}, {"Year": 2016, "v": 21.0}, {"Year": 2017, "v": 21.0}, {"Year": 2018, "v": 19.5}, {"Year": 2019, "v": 19.5}, {"Year": 2020, "v": 19.5}, {"Year": 2021, "v": 18.0}, {"Year": 2022, "v": 18.0}, {"Year": 2023, "v": 16.5}, {"Year": 2024, "v": 15.0}, {"Year": 2025, "v": 16.5}], "Nigeria": [{"Year": 2010, "v": 21.0}, {"Year": 2011, "v": 21.0}, {"Year": 2012, "v": 24.0}, {"Year": 2013, "v": 24.0}, {"Year": 2014, "v": 24.0}, {"Year": 2015, "v": 22.5}, {"Year": 2016, "v": 19.5}, {"Year": 2017, "v": 18.0}, {"Year": 2018, "v": 18.0}, {"Year": 2019, "v": 18.0}, {"Year": 2020, "v": 16.5}, {"Year": 2021, "v": 16.5}, {"Year": 2022, "v": 15.0}, {"Year": 2023, "v": 13.5}, {"Year": 2024, "v": 13.5}, {"Year": 2025, "v": 15.0}], "South Africa": [{"Year": 2010, "v": 40.5}, {"Year": 2011, "v": 40.5}, {"Year": 2012, "v": 40.5}, {"Year": 2013, "v": 40.5}, {"Year": 2014, "v": 34.5}, {"Year": 2015, "v": 34.5}, {"Year": 2016, "v": 34.5}, {"Year": 2017, "v": 30.0}, {"Year": 2018, "v": 30.0}, {"Year": 2019, "v": 30.0}, {"Year": 2020, "v": 28.5}, {"Year": 2021, "v": 28.5}, {"Year": 2022, "v": 25.5}, {"Year": 2023, "v": 25.5}, {"Year": 2024, "v": 25.5}, {"Year": 2025, "v": 25.5}], "Senegal": [{"Year": 2010, "v": 21.0}, {"Year": 2011, "v": 21.0}, {"Year": 2012, "v": 21.0}, {"Year": 2013, "v": 21.0}, {"Year": 2014, "v": 21.0}, {"Year": 2015, "v": 21.0}, {"Year": 2016, "v": 21.0}, {"Year": 2017, "v": 22.5}, {"Year": 2018, "v": 22.5}, {"Year": 2019, "v": 22.5}, {"Year": 2020, "v": 22.5}, {"Year": 2021, "v": 22.5}, {"Year": 2022, "v": 22.5}, {"Year": 2023, "v": 22.5}, {"Year": 2024, "v": 21.0}, {"Year": 2025, "v": 16.5}], "Zambia": [{"Year": 2011, "v": 21.0}, {"Year": 2012, "v": 21.0}, {"Year": 2013, "v": 21.0}, {"Year": 2014, "v": 21.0}, {"Year": 2015, "v": 18.0}, {"Year": 2016, "v": 18.0}, {"Year": 2017, "v": 18.0}, {"Year": 2018, "v": 13.5}, {"Year": 2019, "v": 12.0}, {"Year": 2020, "v": 1.5}, {"Year": 2021, "v": 1.5}, {"Year": 2022, "v": 1.5}, {"Year": 2023, "v": 1.5}, {"Year": 2024, "v": 4.5}, {"Year": 2025, "v": 10.5}], "Ethiopia": [{"Year": 2014, "v": 19.5}, {"Year": 2015, "v": 19.5}, {"Year": 2016, "v": 19.5}, {"Year": 2017, "v": 19.5}, {"Year": 2018, "v": 19.5}, {"Year": 2019, "v": 19.5}, {"Year": 2020, "v": 18.0}, {"Year": 2021, "v": 15.0}, {"Year": 2022, "v": 15.0}, {"Year": 2023, "v": 3.0}, {"Year": 2024, "v": 3.0}, {"Year": 2025, "v": 3.0}]};
+    const BLZ = [{"Year": 2000, "v": 27.0}, {"Year": 2001, "v": 25.5}, {"Year": 2002, "v": 24.0}, {"Year": 2003, "v": 24.0}, {"Year": 2004, "v": 24.0}, {"Year": 2005, "v": 13.5}, {"Year": 2006, "v": 3.0}, {"Year": 2007, "v": 15.0}, {"Year": 2008, "v": 15.0}, {"Year": 2009, "v": 16.5}, {"Year": 2010, "v": 16.5}, {"Year": 2011, "v": 15.0}, {"Year": 2012, "v": 1.5}, {"Year": 2013, "v": 12.0}, {"Year": 2014, "v": 12.0}, {"Year": 2015, "v": 12.0}, {"Year": 2016, "v": 12.0}, {"Year": 2017, "v": 15.0}, {"Year": 2018, "v": 15.0}, {"Year": 2019, "v": 15.0}, {"Year": 2020, "v": 9.0}, {"Year": 2021, "v": 10.5}, {"Year": 2022, "v": 12.0}, {"Year": 2023, "v": 12.0}, {"Year": 2024, "v": 13.5}, {"Year": 2025, "v": 13.5}];
+    const CAR = {"Belize": [{"Year": 2000, "v": 27.0}, {"Year": 2001, "v": 25.5}, {"Year": 2002, "v": 24.0}, {"Year": 2003, "v": 24.0}, {"Year": 2004, "v": 24.0}, {"Year": 2005, "v": 13.5}, {"Year": 2006, "v": 3.0}, {"Year": 2007, "v": 15.0}, {"Year": 2008, "v": 15.0}, {"Year": 2009, "v": 16.5}, {"Year": 2010, "v": 16.5}, {"Year": 2011, "v": 15.0}, {"Year": 2012, "v": 1.5}, {"Year": 2013, "v": 12.0}, {"Year": 2014, "v": 12.0}, {"Year": 2015, "v": 12.0}, {"Year": 2016, "v": 12.0}, {"Year": 2017, "v": 15.0}, {"Year": 2018, "v": 15.0}, {"Year": 2019, "v": 15.0}, {"Year": 2020, "v": 9.0}, {"Year": 2021, "v": 10.5}, {"Year": 2022, "v": 12.0}, {"Year": 2023, "v": 12.0}, {"Year": 2024, "v": 13.5}, {"Year": 2025, "v": 13.5}], "Jamaica": [{"Year": 2000, "v": 21.0}, {"Year": 2001, "v": 22.5}, {"Year": 2002, "v": 22.5}, {"Year": 2003, "v": 19.5}, {"Year": 2004, "v": 19.5}, {"Year": 2005, "v": 19.5}, {"Year": 2006, "v": 19.5}, {"Year": 2007, "v": 19.5}, {"Year": 2008, "v": 19.5}, {"Year": 2009, "v": 18.0}, {"Year": 2010, "v": 15.0}, {"Year": 2011, "v": 15.0}, {"Year": 2012, "v": 15.0}, {"Year": 2013, "v": 9.0}, {"Year": 2014, "v": 9.0}, {"Year": 2015, "v": 12.0}, {"Year": 2016, "v": 16.5}, {"Year": 2017, "v": 16.5}, {"Year": 2018, "v": 16.5}, {"Year": 2019, "v": 19.5}, {"Year": 2020, "v": 19.5}, {"Year": 2021, "v": 19.5}, {"Year": 2022, "v": 19.5}, {"Year": 2023, "v": 21.0}, {"Year": 2024, "v": 21.0}, {"Year": 2025, "v": 25.5}], "Barbados": [{"Year": 2000, "v": 39.0}, {"Year": 2001, "v": 39.0}, {"Year": 2002, "v": 39.0}, {"Year": 2003, "v": 39.0}, {"Year": 2004, "v": 37.5}, {"Year": 2005, "v": 37.5}, {"Year": 2006, "v": 37.5}, {"Year": 2007, "v": 37.5}, {"Year": 2008, "v": 37.5}, {"Year": 2009, "v": 34.5}, {"Year": 2010, "v": 33.0}, {"Year": 2011, "v": 33.0}, {"Year": 2012, "v": 31.5}, {"Year": 2013, "v": 31.5}, {"Year": 2014, "v": 31.5}, {"Year": 2015, "v": 31.5}, {"Year": 2016, "v": 21.0}, {"Year": 2017, "v": 18.0}, {"Year": 2018, "v": 3.0}, {"Year": 2019, "v": 13.5}, {"Year": 2020, "v": 13.5}, {"Year": 2021, "v": 13.5}, {"Year": 2022, "v": 13.5}, {"Year": 2023, "v": 15.0}, {"Year": 2024, "v": 15.0}, {"Year": 2025, "v": 19.5}], "Trinidad and Tobago": [{"Year": 2000, "v": 33.0}, {"Year": 2001, "v": 33.0}, {"Year": 2002, "v": 33.0}, {"Year": 2003, "v": 34.5}, {"Year": 2004, "v": 34.5}, {"Year": 2005, "v": 39.0}, {"Year": 2006, "v": 40.5}, {"Year": 2007, "v": 40.5}, {"Year": 2008, "v": 42.0}, {"Year": 2009, "v": 42.0}, {"Year": 2010, "v": 42.0}, {"Year": 2011, "v": 42.0}, {"Year": 2012, "v": 42.0}, {"Year": 2013, "v": 42.0}, {"Year": 2014, "v": 42.0}, {"Year": 2015, "v": 42.0}, {"Year": 2016, "v": 42.0}, {"Year": 2017, "v": 34.5}, {"Year": 2018, "v": 34.5}, {"Year": 2019, "v": 33.0}, {"Year": 2020, "v": 31.5}, {"Year": 2021, "v": 30.0}, {"Year": 2022, "v": 30.0}, {"Year": 2023, "v": 30.0}, {"Year": 2024, "v": 30.0}, {"Year": 2025, "v": 30.0}]};
+    const BAR = [{"Year": 2000, "v": 39.0}, {"Year": 2001, "v": 39.0}, {"Year": 2002, "v": 39.0}, {"Year": 2003, "v": 39.0}, {"Year": 2004, "v": 37.5}, {"Year": 2005, "v": 37.5}, {"Year": 2006, "v": 37.5}, {"Year": 2007, "v": 37.5}, {"Year": 2008, "v": 37.5}, {"Year": 2009, "v": 34.5}, {"Year": 2010, "v": 33.0}, {"Year": 2011, "v": 33.0}, {"Year": 2012, "v": 31.5}, {"Year": 2013, "v": 31.5}, {"Year": 2014, "v": 31.5}, {"Year": 2015, "v": 31.5}, {"Year": 2016, "v": 21.0}, {"Year": 2017, "v": 18.0}, {"Year": 2018, "v": 3.0}, {"Year": 2019, "v": 13.5}, {"Year": 2020, "v": 13.5}, {"Year": 2021, "v": 13.5}, {"Year": 2022, "v": 13.5}, {"Year": 2023, "v": 15.0}, {"Year": 2024, "v": 15.0}, {"Year": 2025, "v": 19.5}];
+
+    function plotSimple(div, traces, layoutExtra) {
+      if (!document.getElementById(div)) return;
+      const layout = Object.assign({}, baseLayout, layoutExtra || {});
+      Plotly.newPlot(div, traces, layout, window.scrChartConfig || { responsive: true, displayModeBar: true });
+    }
+
+    // Ghana focal series
+    if (G_DATA.length) {
+      plotSimple('ghana-chart', [{
+        x: G_DATA.map(d => d.Year), y: G_DATA.map(d => d.v),
+        name: 'Ghana', mode: 'lines+markers',
+        line: { color: (window.scrCountryColor && window.scrCountryColor('Ghana')) || '#1a1a1a', width: 2.4 }, marker: { size: 6 }
+      }], {
+        title: { text: 'Ghana composite score, 2010-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 30], gridcolor: '#eee' },
+        shapes: [
+          { type:'line', x0:2022, x1:2022, y0:0, y1:30, line:{color:'#888',dash:'dot',width:1} },
+          { type:'line', x0:2024, x1:2024, y0:0, y1:30, line:{color:'#888',dash:'dot',width:1} }
+        ],
+        annotations: [
+          { x:2022, y:28, text:'Dec 2022 default', showarrow:false, font:{size:10}, xshift:38 },
+          { x:2024, y:28, text:'Oct 2024 exchange', showarrow:false, font:{size:10}, xshift:42 }
+        ]
+      });
+    }
+
+    // Ghana peers
+    const peerKeys = Object.keys(G_PEERS).filter(k => G_PEERS[k].length);
+    if (peerKeys.length) {
+      const traces = [{
+        x: G_DATA.map(d => d.Year), y: G_DATA.map(d => d.v),
+        name: 'Ghana', mode: 'lines+markers',
+        line: { color: (window.scrCountryColor && window.scrCountryColor('Ghana')) || '#1a1a1a', width: 2.4 },
+        marker: { size: 5 }
+      }].concat(peerKeys.map((k, i) => ({
+        x: G_PEERS[k].map(d => d.Year), y: G_PEERS[k].map(d => d.v),
+        name: k, mode: 'lines',
+        line: { color: lineDash[(i+1) % lineDash.length], width: 1.6, dash: null }
+      })));
+      plotSimple('ghana-peers', traces, {
+        title: { text: 'Ghana vs Sub-Saharan Africa peers, 2010-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 35], gridcolor: '#eee' }
+      });
+    }
+
+    // Belize 2007 chart
+    if (BLZ.length) {
+      plotSimple('belize2007-chart', [{
+        x: BLZ.map(d => d.Year), y: BLZ.map(d => d.v),
+        name: 'Belize', mode: 'lines+markers',
+        line: { color: (window.scrCountryColor && window.scrCountryColor('Belize')) || '#1a1a1a', width: 2.4 },
+        marker: { size: 5 }
+      }], {
+        title: { text: 'Belize composite score, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 35], gridcolor: '#eee' },
+        shapes: [
+          { type:'line', x0:2007, x1:2007, y0:0, y1:35, line:{color:'#888',dash:'dot',width:1} },
+          { type:'line', x0:2013, x1:2013, y0:0, y1:35, line:{color:'#888',dash:'dot',width:1} }
+        ],
+        annotations: [
+          { x:2007, y:33, text:'2007 Superbond', showarrow:false, font:{size:10}, xshift:34 },
+          { x:2013, y:33, text:'2013 Superbond II', showarrow:false, font:{size:10}, xshift:42 }
+        ]
+      });
+    }
+
+    // Caribbean cluster chart (used in Belize 2007 story)
+    const carKeys = Object.keys(CAR).filter(k => CAR[k].length);
+    if (carKeys.length) {
+      plotSimple('caribbean-cluster', carKeys.map((k, i) => ({
+        x: CAR[k].map(d => d.Year), y: CAR[k].map(d => d.v),
+        name: k, mode: 'lines+markers',
+        line: { color: (window.scrCountryColor && window.scrCountryColor(k)) || lineDash[i % lineDash.length], width: k === 'Belize' ? 2.4 : 1.6, dash: null },
+        marker: { size: 4 }
+      })), {
+        title: { text: 'Caribbean cluster, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 50], gridcolor: '#eee' }
+      });
+    }
+
+    // Belize 2013 zoomed chart (same data, different range)
+    if (BLZ.length) {
+      const sub = BLZ.filter(d => d.Year >= 2005);
+      plotSimple('belize2013-chart', [{
+        x: sub.map(d => d.Year), y: sub.map(d => d.v),
+        name: 'Belize', mode: 'lines+markers',
+        line: { color: (window.scrCountryColor && window.scrCountryColor('Belize')) || '#1a1a1a', width: 2.4 },
+        marker: { size: 6 }
+      }], {
+        title: { text: 'Belize composite score 2005-2025 (zoomed on the two Superbond cycles)', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 25], gridcolor: '#eee' },
+        shapes: [
+          { type:'line', x0:2007, x1:2007, y0:0, y1:25, line:{color:'#888',dash:'dot',width:1} },
+          { type:'line', x0:2013, x1:2013, y0:0, y1:25, line:{color:'#888',dash:'dot',width:1} },
+          { type:'line', x0:2021, x1:2021, y0:0, y1:25, line:{color:'#bbb',dash:'dot',width:1} }
+        ],
+        annotations: [
+          { x:2007, y:23, text:'Superbond I', showarrow:false, font:{size:10}, xshift:30 },
+          { x:2013, y:23, text:'Superbond II', showarrow:false, font:{size:10}, xshift:32 },
+          { x:2021, y:23, text:'Blue-bond swap', showarrow:false, font:{size:10}, xshift:38 }
+        ]
+      });
+    }
+
+    // Barbados chart
+    if (BAR.length) {
+      plotSimple('barbados-chart', [{
+        x: BAR.map(d => d.Year), y: BAR.map(d => d.v),
+        name: 'Barbados', mode: 'lines+markers',
+        line: { color: (window.scrCountryColor && window.scrCountryColor('Barbados')) || '#1a1a1a', width: 2.4 },
+        marker: { size: 5 }
+      }], {
+        title: { text: 'Barbados composite score, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 50], gridcolor: '#eee' },
+        shapes: [
+          { type:'line', x0:2018, x1:2018, y0:0, y1:50, line:{color:'#888',dash:'dot',width:1} },
+          { type:'line', x0:2019, x1:2019, y0:0, y1:50, line:{color:'#888',dash:'dot',width:1} }
+        ],
+        annotations: [
+          { x:2018, y:46, text:'Jun 2018 default', showarrow:false, font:{size:10}, xshift:34 },
+          { x:2019, y:42, text:'Nov 2019 exchange', showarrow:false, font:{size:10}, xshift:42 }
+        ]
+      });
+    }
+
+  // ── Iceland subsection charts + Argentina relative/shadow simple renders (v77 patch)
+  try {
+    const ICE = [{"Year": 2000, "v": 49.5}, {"Year": 2001, "v": 49.5}, {"Year": 2002, "v": 54.0}, {"Year": 2003, "v": 54.0}, {"Year": 2004, "v": 54.0}, {"Year": 2005, "v": 55.5}, {"Year": 2006, "v": 54.0}, {"Year": 2007, "v": 54.0}, {"Year": 2008, "v": 48.0}, {"Year": 2009, "v": 33.0}, {"Year": 2010, "v": 33.0}, {"Year": 2011, "v": 33.0}, {"Year": 2012, "v": 33.0}, {"Year": 2013, "v": 33.0}, {"Year": 2014, "v": 33.0}, {"Year": 2015, "v": 36.0}, {"Year": 2016, "v": 40.5}, {"Year": 2017, "v": 43.5}, {"Year": 2018, "v": 43.5}, {"Year": 2019, "v": 45.0}, {"Year": 2020, "v": 45.0}, {"Year": 2021, "v": 45.0}, {"Year": 2022, "v": 45.0}, {"Year": 2023, "v": 46.5}, {"Year": 2024, "v": 48.0}, {"Year": 2025, "v": 48.0}];
+    const IRE = [{"Year": 2000, "v": 58.5}, {"Year": 2001, "v": 60.0}, {"Year": 2002, "v": 60.0}, {"Year": 2003, "v": 60.0}, {"Year": 2004, "v": 60.0}, {"Year": 2005, "v": 60.0}, {"Year": 2006, "v": 60.0}, {"Year": 2007, "v": 60.0}, {"Year": 2008, "v": 60.0}, {"Year": 2009, "v": 60.0}, {"Year": 2010, "v": 56.0}, {"Year": 2011, "v": 49.0}, {"Year": 2012, "v": 45.0}, {"Year": 2013, "v": 37.0}, {"Year": 2014, "v": 42.0}, {"Year": 2015, "v": 44.0}, {"Year": 2016, "v": 45.0}, {"Year": 2017, "v": 47.0}, {"Year": 2018, "v": 47.0}, {"Year": 2019, "v": 48.0}, {"Year": 2020, "v": 48.0}, {"Year": 2021, "v": 48.0}, {"Year": 2022, "v": 49.0}, {"Year": 2023, "v": 52.0}, {"Year": 2024, "v": 53.0}, {"Year": 2025, "v": 53.0}];
+    const NOR = [{"Year": 2000, "v": 60.0}, {"Year": 2001, "v": 60.0}, {"Year": 2002, "v": 60.0}, {"Year": 2003, "v": 60.0}, {"Year": 2004, "v": 60.0}, {"Year": 2005, "v": 60.0}, {"Year": 2006, "v": 60.0}, {"Year": 2007, "v": 60.0}, {"Year": 2008, "v": 60.0}, {"Year": 2009, "v": 60.0}, {"Year": 2010, "v": 60.0}, {"Year": 2011, "v": 60.0}, {"Year": 2012, "v": 60.0}, {"Year": 2013, "v": 60.0}, {"Year": 2014, "v": 60.0}, {"Year": 2015, "v": 60.0}, {"Year": 2016, "v": 60.0}, {"Year": 2017, "v": 60.0}, {"Year": 2018, "v": 60.0}, {"Year": 2019, "v": 60.0}, {"Year": 2020, "v": 60.0}, {"Year": 2021, "v": 60.0}, {"Year": 2022, "v": 60.0}, {"Year": 2023, "v": 60.0}, {"Year": 2024, "v": 60.0}, {"Year": 2025, "v": 60.0}];
+    const DEN = [{"Year": 2000, "v": 58.5}, {"Year": 2001, "v": 60.0}, {"Year": 2002, "v": 60.0}, {"Year": 2003, "v": 60.0}, {"Year": 2004, "v": 60.0}, {"Year": 2005, "v": 60.0}, {"Year": 2006, "v": 60.0}, {"Year": 2007, "v": 60.0}, {"Year": 2008, "v": 60.0}, {"Year": 2009, "v": 60.0}, {"Year": 2010, "v": 60.0}, {"Year": 2011, "v": 60.0}, {"Year": 2012, "v": 60.0}, {"Year": 2013, "v": 60.0}, {"Year": 2014, "v": 60.0}, {"Year": 2015, "v": 60.0}, {"Year": 2016, "v": 60.0}, {"Year": 2017, "v": 60.0}, {"Year": 2018, "v": 60.0}, {"Year": 2019, "v": 60.0}, {"Year": 2020, "v": 60.0}, {"Year": 2021, "v": 60.0}, {"Year": 2022, "v": 60.0}, {"Year": 2023, "v": 60.0}, {"Year": 2024, "v": 60.0}, {"Year": 2025, "v": 60.0}];
+    const UK_ = [{"Year": 2000, "v": 60.0}, {"Year": 2001, "v": 60.0}, {"Year": 2002, "v": 60.0}, {"Year": 2003, "v": 60.0}, {"Year": 2004, "v": 60.0}, {"Year": 2005, "v": 60.0}, {"Year": 2006, "v": 60.0}, {"Year": 2007, "v": 60.0}, {"Year": 2008, "v": 60.0}, {"Year": 2009, "v": 60.0}, {"Year": 2010, "v": 60.0}, {"Year": 2011, "v": 60.0}, {"Year": 2012, "v": 60.0}, {"Year": 2013, "v": 59.0}, {"Year": 2014, "v": 59.0}, {"Year": 2015, "v": 59.0}, {"Year": 2016, "v": 59.0}, {"Year": 2017, "v": 58.0}, {"Year": 2018, "v": 58.0}, {"Year": 2019, "v": 56.0}, {"Year": 2020, "v": 54.0}, {"Year": 2021, "v": 54.0}, {"Year": 2022, "v": 54.0}, {"Year": 2023, "v": 53.0}, {"Year": 2024, "v": 53.0}, {"Year": 2025, "v": 53.0}];
+    const ARG = [{"Year": 2000, "v": 22.5}, {"Year": 2001, "v": 1.5}, {"Year": 2002, "v": 1.5}, {"Year": 2003, "v": 6.0}, {"Year": 2004, "v": 6.0}, {"Year": 2005, "v": 15.0}, {"Year": 2006, "v": 18.0}, {"Year": 2007, "v": 17.0}, {"Year": 2008, "v": 15.0}, {"Year": 2009, "v": 15.0}, {"Year": 2010, "v": 16.0}, {"Year": 2011, "v": 17.0}, {"Year": 2012, "v": 17.0}, {"Year": 2013, "v": 16.0}, {"Year": 2014, "v": 4.0}, {"Year": 2015, "v": 4.0}, {"Year": 2016, "v": 16.0}, {"Year": 2017, "v": 19.0}, {"Year": 2018, "v": 18.0}, {"Year": 2019, "v": 3.0}, {"Year": 2020, "v": 8.0}, {"Year": 2021, "v": 8.0}, {"Year": 2022, "v": 8.0}, {"Year": 2023, "v": 8.0}, {"Year": 2024, "v": 9.0}, {"Year": 2025, "v": 13.0}];
+    const BRA = [{"Year": 2000, "v": 21.0}, {"Year": 2001, "v": 22.5}, {"Year": 2002, "v": 21.0}, {"Year": 2003, "v": 19.5}, {"Year": 2004, "v": 22.5}, {"Year": 2005, "v": 24.0}, {"Year": 2006, "v": 27.0}, {"Year": 2007, "v": 28.0}, {"Year": 2008, "v": 32.0}, {"Year": 2009, "v": 32.0}, {"Year": 2010, "v": 32.0}, {"Year": 2011, "v": 34.0}, {"Year": 2012, "v": 34.0}, {"Year": 2013, "v": 36.0}, {"Year": 2014, "v": 35.0}, {"Year": 2015, "v": 33.0}, {"Year": 2016, "v": 33.0}, {"Year": 2017, "v": 31.0}, {"Year": 2018, "v": 25.0}, {"Year": 2019, "v": 25.0}, {"Year": 2020, "v": 25.0}, {"Year": 2021, "v": 25.0}, {"Year": 2022, "v": 25.0}, {"Year": 2023, "v": 27.0}, {"Year": 2024, "v": 27.0}, {"Year": 2025, "v": 28.0}];
+    const CHL = [{"Year": 2000, "v": 40.5}, {"Year": 2001, "v": 40.5}, {"Year": 2002, "v": 40.5}, {"Year": 2003, "v": 40.5}, {"Year": 2004, "v": 42.0}, {"Year": 2005, "v": 42.0}, {"Year": 2006, "v": 46.0}, {"Year": 2007, "v": 47.0}, {"Year": 2008, "v": 47.0}, {"Year": 2009, "v": 48.0}, {"Year": 2010, "v": 49.0}, {"Year": 2011, "v": 49.0}, {"Year": 2012, "v": 50.0}, {"Year": 2013, "v": 51.0}, {"Year": 2014, "v": 51.0}, {"Year": 2015, "v": 51.0}, {"Year": 2016, "v": 51.0}, {"Year": 2017, "v": 49.5}, {"Year": 2018, "v": 48.0}, {"Year": 2019, "v": 48.0}, {"Year": 2020, "v": 48.0}, {"Year": 2021, "v": 46.5}, {"Year": 2022, "v": 45.0}, {"Year": 2023, "v": 45.0}, {"Year": 2024, "v": 45.0}, {"Year": 2025, "v": 45.0}];
+    const MEX = [{"Year": 2000, "v": 30.0}, {"Year": 2001, "v": 30.0}, {"Year": 2002, "v": 34.5}, {"Year": 2003, "v": 34.5}, {"Year": 2004, "v": 34.5}, {"Year": 2005, "v": 37.5}, {"Year": 2006, "v": 37.0}, {"Year": 2007, "v": 38.0}, {"Year": 2008, "v": 38.0}, {"Year": 2009, "v": 37.0}, {"Year": 2010, "v": 37.0}, {"Year": 2011, "v": 37.0}, {"Year": 2012, "v": 37.0}, {"Year": 2013, "v": 38.0}, {"Year": 2014, "v": 40.0}, {"Year": 2015, "v": 40.0}, {"Year": 2016, "v": 40.0}, {"Year": 2017, "v": 40.0}, {"Year": 2018, "v": 40.0}, {"Year": 2019, "v": 40.0}, {"Year": 2020, "v": 40.0}, {"Year": 2021, "v": 39.0}, {"Year": 2022, "v": 36.0}, {"Year": 2023, "v": 36.0}, {"Year": 2024, "v": 36.0}, {"Year": 2025, "v": 36.0}];
+    const COL = [{"Year": 2000, "v": 28.5}, {"Year": 2001, "v": 28.5}, {"Year": 2002, "v": 28.5}, {"Year": 2003, "v": 27.0}, {"Year": 2004, "v": 27.0}, {"Year": 2005, "v": 27.0}, {"Year": 2006, "v": 28.0}, {"Year": 2007, "v": 29.0}, {"Year": 2008, "v": 30.0}, {"Year": 2009, "v": 31.0}, {"Year": 2010, "v": 31.0}, {"Year": 2011, "v": 33.0}, {"Year": 2012, "v": 33.0}, {"Year": 2013, "v": 35.0}, {"Year": 2014, "v": 36.0}, {"Year": 2015, "v": 36.0}, {"Year": 2016, "v": 36.0}, {"Year": 2017, "v": 35.0}, {"Year": 2018, "v": 35.0}, {"Year": 2019, "v": 35.0}, {"Year": 2020, "v": 35.0}, {"Year": 2021, "v": 33.0}, {"Year": 2022, "v": 33.0}, {"Year": 2023, "v": 33.0}, {"Year": 2024, "v": 33.0}, {"Year": 2025, "v": 32.0}];
+
+    function plot(div, traces, layoutExtra) {
+      if (!document.getElementById(div) || !traces || !traces.length) return;
+      const layout = Object.assign({}, baseLayout, layoutExtra || {});
+      Plotly.newPlot(div, traces, layout, window.scrChartConfig || { responsive: true, displayModeBar: true });
+    }
+    function lineTrace(c, data, color, dash, width) {
+      return { x: data.map(d => d.Year), y: data.map(d => d.v), name: c, mode: 'lines+markers', line: { color: color, width: width || 1.8, dash: dash || null }, marker: { size: 4 } };
+    }
+
+    // Iceland subsection — five Nordic-Atlantic countries 2006-2014
+    if (ICE.length) {
+      const range6 = arr => arr.filter(d => d.Year >= 2006 && d.Year <= 2014);
+      plot('iceland-chart', [
+        lineTrace('Iceland', range6(ICE), '#1a1a1a', null, 2.4),
+        lineTrace('Ireland', range6(IRE), '#666', 'dash', 2),
+        lineTrace('Norway',  range6(NOR), '#888'),
+        lineTrace('Denmark', range6(DEN), '#999'),
+        lineTrace('United Kingdom', range6(UK_), '#aaa', 'dash')
+      ], {
+        title: { text: 'Iceland and Nordic-Atlantic peers, 2006-2014', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 65], gridcolor: '#eee' }
+      });
+
+      // Iceland-recovery: deviation from 2007 baseline
+      const ice7 = (ICE.find(d => d.Year === 2007) || {}).v;
+      const ire7 = (IRE.find(d => d.Year === 2007) || {}).v;
+      if (ice7 != null && ire7 != null) {
+        plot('iceland-recovery', [
+          { x: ICE.map(d => d.Year), y: ICE.map(d => d.v - ice7), name: 'Iceland delta', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 }, marker: { size: 4 } },
+          { x: IRE.map(d => d.Year), y: IRE.map(d => d.v - ire7), name: 'Ireland delta', mode: 'lines+markers', line: { color: '#666', width: 2.4 }, marker: { size: 4 } }
+        ], {
+          title: { text: 'Recovery trajectory: deviation from 2007 baseline', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+          xaxis: { title: '', gridcolor: '#eee' },
+          yaxis: { title: 'Delta from 2007 baseline', gridcolor: '#eee', zerolinecolor: '#1a1a1a' }
+        });
+      }
+
+      // Iceland-relative: rough M2 percentile for Iceland and Ireland within the Nordic-Atlantic 5-set per year
+      const peerSet = ['Iceland','Ireland','Norway','Denmark','United Kingdom'];
+      function pctRank(country, year) {
+        const vals = peerSet.map(c => (sm => sm.find(d => d.Year === year))( {Iceland: ICE, Ireland: IRE, Norway: NOR, Denmark: DEN, 'United Kingdom': UK_}[c] || []) || {}).map(d => d.v).filter(v => v != null);
+        if (!vals.length) return null;
+        const sorted = vals.slice().sort((a,b) => a - b);
+        const focal = (function(){ const lookup = {Iceland: ICE, Ireland: IRE}; const series = lookup[country] || []; const row = series.find(d => d.Year === year); return row ? row.v : null; })();
+        if (focal == null) return null;
+        return (sorted.indexOf(focal) + 1) / sorted.length;
+      }
+      const yrs = ICE.map(d => d.Year);
+      plot('iceland-relative', [
+        { x: yrs, y: yrs.map(y => pctRank('Iceland', y)), name: 'Iceland M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 ,dash:'dot'}, marker: { size: 4 } },
+        { x: yrs, y: yrs.map(y => pctRank('Ireland', y)), name: 'Ireland M4 percentile', mode: 'lines+markers', line: { color: '#666', width: 2 ,dash:'dot'}, marker: { size: 4 } }
+      ], {
+        title: { text: 'M4 percentile within the Nordic-Atlantic 5-country peer set', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 1], gridcolor: '#eee' }
+      });
+
+      // Iceland-shadow: a placeholder showing actual scores; real shadow data is on shadow.html
+      plot('iceland-shadow', [
+        { x: ICE.map(d => d.Year), y: ICE.map(d => d.v), name: 'Iceland actual', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } },
+        { x: IRE.map(d => d.Year), y: IRE.map(d => d.v), name: 'Ireland actual', mode: 'lines+markers', line: { color: '#666', width: 2 }, marker: { size: 4 } }
+      ], {
+        title: { text: 'Iceland and Ireland: actual composite (shadow chart available on shadow.html)', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 65], gridcolor: '#eee' }
+      });
+    }
+
+    // Argentina relative + shadow placeholders
+    if (ARG.length) {
+      const peerSet = ['Argentina','Brazil','Chile','Mexico','Colombia'];
+      const lookup = {Argentina: ARG, Brazil: BRA, Chile: CHL, Mexico: MEX, Colombia: COL};
+      function pctArg(country, year) {
+        const vals = peerSet.map(c => (lookup[c] || []).find(d => d.Year === year)).map(r => r ? r.v : null).filter(v => v != null);
+        if (!vals.length) return null;
+        const sorted = vals.slice().sort((a,b)=>a-b);
+        const r = (lookup[country] || []).find(d => d.Year === year);
+        if (!r) return null;
+        return (sorted.indexOf(r.v) + 1) / sorted.length;
+      }
+      const yrsA = ARG.map(d => d.Year);
+      plot('arg-relative', [
+        { x: yrsA, y: yrsA.map(y => pctArg('Argentina', y)), name: 'Argentina M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 ,dash:'dot'}, marker: { size: 4 } },
+        { x: yrsA, y: yrsA.map(y => pctArg('Brazil', y)), name: 'Brazil M4 percentile', mode: 'lines', line: { color: '#666', width: 1.8 ,dash:'dot'} },
+        { x: yrsA, y: yrsA.map(y => pctArg('Chile', y)), name: 'Chile M4 percentile', mode: 'lines', line: { color: '#888', width: 1.8 ,dash:'dot'} }
+      ], {
+        title: { text: 'M4 percentile in the Latin America 5-country peer set', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 1], gridcolor: '#eee' }
+      });
+
+      plot('arg-shadow', [
+        { x: ARG.map(d => d.Year), y: ARG.map(d => d.v), name: 'Argentina actual', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 }, marker: { size: 4 } },
+        { x: BRA.map(d => d.Year), y: BRA.map(d => d.v), name: 'Brazil', mode: 'lines', line: { color: '#666', width: 1.8 } },
+        { x: CHL.map(d => d.Year), y: CHL.map(d => d.v), name: 'Chile', mode: 'lines', line: { color: '#888', width: 1.8 } }
+      ], {
+        title: { text: 'Argentina and Latin America peers (shadow chart on shadow.html)', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 65], gridcolor: '#eee' }
+      });
+    }
+
+  // ── Ghana / Belize / Barbados relative + shadow renders (v78 patch)
+  try {
+    const G = [{"Year": 2010, "v": 18.0}, {"Year": 2011, "v": 18.0}, {"Year": 2012, "v": 19.5}, {"Year": 2013, "v": 21.0}, {"Year": 2014, "v": 18.0}, {"Year": 2015, "v": 18.0}, {"Year": 2016, "v": 15.0}, {"Year": 2017, "v": 15.0}, {"Year": 2018, "v": 16.5}, {"Year": 2019, "v": 16.5}, {"Year": 2020, "v": 15.0}, {"Year": 2021, "v": 15.0}, {"Year": 2022, "v": 1.5}, {"Year": 2023, "v": 1.5}, {"Year": 2024, "v": 1.5}, {"Year": 2025, "v": 13.5}];
+    const BLZ = [{"Year": 2000, "v": 27.0}, {"Year": 2001, "v": 25.5}, {"Year": 2002, "v": 24.0}, {"Year": 2003, "v": 24.0}, {"Year": 2004, "v": 24.0}, {"Year": 2005, "v": 13.5}, {"Year": 2006, "v": 3.0}, {"Year": 2007, "v": 15.0}, {"Year": 2008, "v": 15.0}, {"Year": 2009, "v": 16.5}, {"Year": 2010, "v": 16.5}, {"Year": 2011, "v": 15.0}, {"Year": 2012, "v": 1.5}, {"Year": 2013, "v": 12.0}, {"Year": 2014, "v": 12.0}, {"Year": 2015, "v": 12.0}, {"Year": 2016, "v": 12.0}, {"Year": 2017, "v": 15.0}, {"Year": 2018, "v": 15.0}, {"Year": 2019, "v": 15.0}, {"Year": 2020, "v": 9.0}, {"Year": 2021, "v": 10.5}, {"Year": 2022, "v": 12.0}, {"Year": 2023, "v": 12.0}, {"Year": 2024, "v": 13.5}, {"Year": 2025, "v": 13.5}];
+    const BAR = [{"Year": 2000, "v": 39.0}, {"Year": 2001, "v": 39.0}, {"Year": 2002, "v": 39.0}, {"Year": 2003, "v": 39.0}, {"Year": 2004, "v": 37.5}, {"Year": 2005, "v": 37.5}, {"Year": 2006, "v": 37.5}, {"Year": 2007, "v": 37.5}, {"Year": 2008, "v": 37.5}, {"Year": 2009, "v": 34.5}, {"Year": 2010, "v": 33.0}, {"Year": 2011, "v": 33.0}, {"Year": 2012, "v": 31.5}, {"Year": 2013, "v": 31.5}, {"Year": 2014, "v": 31.5}, {"Year": 2015, "v": 31.5}, {"Year": 2016, "v": 21.0}, {"Year": 2017, "v": 18.0}, {"Year": 2018, "v": 3.0}, {"Year": 2019, "v": 13.5}, {"Year": 2020, "v": 13.5}, {"Year": 2021, "v": 13.5}, {"Year": 2022, "v": 13.5}, {"Year": 2023, "v": 15.0}, {"Year": 2024, "v": 15.0}, {"Year": 2025, "v": 19.5}];
+    const SSA = {"Ghana": [{"Year": 2010, "v": 18.0}, {"Year": 2011, "v": 18.0}, {"Year": 2012, "v": 19.5}, {"Year": 2013, "v": 21.0}, {"Year": 2014, "v": 18.0}, {"Year": 2015, "v": 18.0}, {"Year": 2016, "v": 15.0}, {"Year": 2017, "v": 15.0}, {"Year": 2018, "v": 16.5}, {"Year": 2019, "v": 16.5}, {"Year": 2020, "v": 15.0}, {"Year": 2021, "v": 15.0}, {"Year": 2022, "v": 1.5}, {"Year": 2023, "v": 1.5}, {"Year": 2024, "v": 1.5}, {"Year": 2025, "v": 13.5}], "Kenya": [{"Year": 2006, "v": 21.0}, {"Year": 2007, "v": 21.0}, {"Year": 2008, "v": 18.0}, {"Year": 2009, "v": 18.0}, {"Year": 2010, "v": 21.0}, {"Year": 2011, "v": 21.0}, {"Year": 2012, "v": 21.0}, {"Year": 2013, "v": 21.0}, {"Year": 2014, "v": 21.0}, {"Year": 2015, "v": 21.0}, {"Year": 2016, "v": 21.0}, {"Year": 2017, "v": 21.0}, {"Year": 2018, "v": 19.5}, {"Year": 2019, "v": 19.5}, {"Year": 2020, "v": 19.5}, {"Year": 2021, "v": 18.0}, {"Year": 2022, "v": 18.0}, {"Year": 2023, "v": 16.5}, {"Year": 2024, "v": 15.0}, {"Year": 2025, "v": 16.5}], "Nigeria": [{"Year": 2006, "v": 24.0}, {"Year": 2007, "v": 24.0}, {"Year": 2008, "v": 24.0}, {"Year": 2009, "v": 21.0}, {"Year": 2010, "v": 21.0}, {"Year": 2011, "v": 21.0}, {"Year": 2012, "v": 24.0}, {"Year": 2013, "v": 24.0}, {"Year": 2014, "v": 24.0}, {"Year": 2015, "v": 22.5}, {"Year": 2016, "v": 19.5}, {"Year": 2017, "v": 18.0}, {"Year": 2018, "v": 18.0}, {"Year": 2019, "v": 18.0}, {"Year": 2020, "v": 16.5}, {"Year": 2021, "v": 16.5}, {"Year": 2022, "v": 15.0}, {"Year": 2023, "v": 13.5}, {"Year": 2024, "v": 13.5}, {"Year": 2025, "v": 15.0}], "South Africa": [{"Year": 2000, "v": 33.0}, {"Year": 2001, "v": 34.5}, {"Year": 2002, "v": 34.5}, {"Year": 2003, "v": 36.0}, {"Year": 2004, "v": 36.0}, {"Year": 2005, "v": 39.0}, {"Year": 2006, "v": 39.0}, {"Year": 2007, "v": 39.0}, {"Year": 2008, "v": 39.0}, {"Year": 2009, "v": 40.5}, {"Year": 2010, "v": 40.5}, {"Year": 2011, "v": 40.5}, {"Year": 2012, "v": 40.5}, {"Year": 2013, "v": 40.5}, {"Year": 2014, "v": 34.5}, {"Year": 2015, "v": 34.5}, {"Year": 2016, "v": 34.5}, {"Year": 2017, "v": 30.0}, {"Year": 2018, "v": 30.0}, {"Year": 2019, "v": 30.0}, {"Year": 2020, "v": 28.5}, {"Year": 2021, "v": 28.5}, {"Year": 2022, "v": 25.5}, {"Year": 2023, "v": 25.5}, {"Year": 2024, "v": 25.5}, {"Year": 2025, "v": 25.5}], "Senegal": [{"Year": 2000, "v": 21.0}, {"Year": 2001, "v": 21.0}, {"Year": 2002, "v": 21.0}, {"Year": 2003, "v": 21.0}, {"Year": 2004, "v": 21.0}, {"Year": 2005, "v": 21.0}, {"Year": 2006, "v": 21.0}, {"Year": 2007, "v": 21.0}, {"Year": 2008, "v": 21.0}, {"Year": 2009, "v": 21.0}, {"Year": 2010, "v": 21.0}, {"Year": 2011, "v": 21.0}, {"Year": 2012, "v": 21.0}, {"Year": 2013, "v": 21.0}, {"Year": 2014, "v": 21.0}, {"Year": 2015, "v": 21.0}, {"Year": 2016, "v": 21.0}, {"Year": 2017, "v": 22.5}, {"Year": 2018, "v": 22.5}, {"Year": 2019, "v": 22.5}, {"Year": 2020, "v": 22.5}, {"Year": 2021, "v": 22.5}, {"Year": 2022, "v": 22.5}, {"Year": 2023, "v": 22.5}, {"Year": 2024, "v": 21.0}, {"Year": 2025, "v": 16.5}], "Zambia": [{"Year": 2011, "v": 21.0}, {"Year": 2012, "v": 21.0}, {"Year": 2013, "v": 21.0}, {"Year": 2014, "v": 21.0}, {"Year": 2015, "v": 18.0}, {"Year": 2016, "v": 18.0}, {"Year": 2017, "v": 18.0}, {"Year": 2018, "v": 13.5}, {"Year": 2019, "v": 12.0}, {"Year": 2020, "v": 1.5}, {"Year": 2021, "v": 1.5}, {"Year": 2022, "v": 1.5}, {"Year": 2023, "v": 1.5}, {"Year": 2024, "v": 4.5}, {"Year": 2025, "v": 10.5}], "Ethiopia": [{"Year": 2014, "v": 19.5}, {"Year": 2015, "v": 19.5}, {"Year": 2016, "v": 19.5}, {"Year": 2017, "v": 19.5}, {"Year": 2018, "v": 19.5}, {"Year": 2019, "v": 19.5}, {"Year": 2020, "v": 18.0}, {"Year": 2021, "v": 15.0}, {"Year": 2022, "v": 15.0}, {"Year": 2023, "v": 3.0}, {"Year": 2024, "v": 3.0}, {"Year": 2025, "v": 3.0}], "Cameroon": [{"Year": 2003, "v": 18.0}, {"Year": 2004, "v": 9.0}, {"Year": 2005, "v": 9.0}, {"Year": 2006, "v": 15.0}, {"Year": 2007, "v": 18.0}, {"Year": 2008, "v": 18.0}, {"Year": 2009, "v": 18.0}, {"Year": 2010, "v": 18.0}, {"Year": 2011, "v": 18.0}, {"Year": 2012, "v": 18.0}, {"Year": 2013, "v": 18.0}, {"Year": 2014, "v": 18.0}, {"Year": 2015, "v": 18.0}, {"Year": 2016, "v": 18.0}, {"Year": 2017, "v": 18.0}, {"Year": 2018, "v": 18.0}, {"Year": 2019, "v": 18.0}, {"Year": 2020, "v": 16.5}, {"Year": 2021, "v": 16.5}, {"Year": 2022, "v": 16.5}, {"Year": 2023, "v": 12.0}, {"Year": 2024, "v": 13.5}, {"Year": 2025, "v": 13.5}], "Cote d'Ivoire": []};
+    const CARIB = {"Belize": [{"Year": 2000, "v": 27.0}, {"Year": 2001, "v": 25.5}, {"Year": 2002, "v": 24.0}, {"Year": 2003, "v": 24.0}, {"Year": 2004, "v": 24.0}, {"Year": 2005, "v": 13.5}, {"Year": 2006, "v": 3.0}, {"Year": 2007, "v": 15.0}, {"Year": 2008, "v": 15.0}, {"Year": 2009, "v": 16.5}, {"Year": 2010, "v": 16.5}, {"Year": 2011, "v": 15.0}, {"Year": 2012, "v": 1.5}, {"Year": 2013, "v": 12.0}, {"Year": 2014, "v": 12.0}, {"Year": 2015, "v": 12.0}, {"Year": 2016, "v": 12.0}, {"Year": 2017, "v": 15.0}, {"Year": 2018, "v": 15.0}, {"Year": 2019, "v": 15.0}, {"Year": 2020, "v": 9.0}, {"Year": 2021, "v": 10.5}, {"Year": 2022, "v": 12.0}, {"Year": 2023, "v": 12.0}, {"Year": 2024, "v": 13.5}, {"Year": 2025, "v": 13.5}], "Jamaica": [{"Year": 2000, "v": 21.0}, {"Year": 2001, "v": 22.5}, {"Year": 2002, "v": 22.5}, {"Year": 2003, "v": 19.5}, {"Year": 2004, "v": 19.5}, {"Year": 2005, "v": 19.5}, {"Year": 2006, "v": 19.5}, {"Year": 2007, "v": 19.5}, {"Year": 2008, "v": 19.5}, {"Year": 2009, "v": 18.0}, {"Year": 2010, "v": 15.0}, {"Year": 2011, "v": 15.0}, {"Year": 2012, "v": 15.0}, {"Year": 2013, "v": 9.0}, {"Year": 2014, "v": 9.0}, {"Year": 2015, "v": 12.0}, {"Year": 2016, "v": 16.5}, {"Year": 2017, "v": 16.5}, {"Year": 2018, "v": 16.5}, {"Year": 2019, "v": 19.5}, {"Year": 2020, "v": 19.5}, {"Year": 2021, "v": 19.5}, {"Year": 2022, "v": 19.5}, {"Year": 2023, "v": 21.0}, {"Year": 2024, "v": 21.0}, {"Year": 2025, "v": 25.5}], "Barbados": [{"Year": 2000, "v": 39.0}, {"Year": 2001, "v": 39.0}, {"Year": 2002, "v": 39.0}, {"Year": 2003, "v": 39.0}, {"Year": 2004, "v": 37.5}, {"Year": 2005, "v": 37.5}, {"Year": 2006, "v": 37.5}, {"Year": 2007, "v": 37.5}, {"Year": 2008, "v": 37.5}, {"Year": 2009, "v": 34.5}, {"Year": 2010, "v": 33.0}, {"Year": 2011, "v": 33.0}, {"Year": 2012, "v": 31.5}, {"Year": 2013, "v": 31.5}, {"Year": 2014, "v": 31.5}, {"Year": 2015, "v": 31.5}, {"Year": 2016, "v": 21.0}, {"Year": 2017, "v": 18.0}, {"Year": 2018, "v": 3.0}, {"Year": 2019, "v": 13.5}, {"Year": 2020, "v": 13.5}, {"Year": 2021, "v": 13.5}, {"Year": 2022, "v": 13.5}, {"Year": 2023, "v": 15.0}, {"Year": 2024, "v": 15.0}, {"Year": 2025, "v": 19.5}], "Trinidad and Tobago": [{"Year": 2000, "v": 33.0}, {"Year": 2001, "v": 33.0}, {"Year": 2002, "v": 33.0}, {"Year": 2003, "v": 34.5}, {"Year": 2004, "v": 34.5}, {"Year": 2005, "v": 39.0}, {"Year": 2006, "v": 40.5}, {"Year": 2007, "v": 40.5}, {"Year": 2008, "v": 42.0}, {"Year": 2009, "v": 42.0}, {"Year": 2010, "v": 42.0}, {"Year": 2011, "v": 42.0}, {"Year": 2012, "v": 42.0}, {"Year": 2013, "v": 42.0}, {"Year": 2014, "v": 42.0}, {"Year": 2015, "v": 42.0}, {"Year": 2016, "v": 42.0}, {"Year": 2017, "v": 34.5}, {"Year": 2018, "v": 34.5}, {"Year": 2019, "v": 33.0}, {"Year": 2020, "v": 31.5}, {"Year": 2021, "v": 30.0}, {"Year": 2022, "v": 30.0}, {"Year": 2023, "v": 30.0}, {"Year": 2024, "v": 30.0}, {"Year": 2025, "v": 30.0}], "Bahamas": [{"Year": 2000, "v": 42.0}, {"Year": 2001, "v": 42.0}, {"Year": 2002, "v": 42.0}, {"Year": 2003, "v": 42.0}, {"Year": 2004, "v": 42.0}, {"Year": 2005, "v": 42.0}, {"Year": 2006, "v": 42.0}, {"Year": 2007, "v": 42.0}, {"Year": 2008, "v": 42.0}, {"Year": 2009, "v": 40.5}, {"Year": 2010, "v": 40.5}, {"Year": 2011, "v": 39.0}, {"Year": 2012, "v": 39.0}, {"Year": 2013, "v": 39.0}, {"Year": 2014, "v": 36.0}, {"Year": 2015, "v": 36.0}, {"Year": 2016, "v": 31.5}, {"Year": 2017, "v": 31.5}, {"Year": 2018, "v": 31.5}, {"Year": 2019, "v": 31.5}, {"Year": 2020, "v": 31.5}, {"Year": 2021, "v": 27.0}, {"Year": 2022, "v": 21.0}, {"Year": 2023, "v": 21.0}, {"Year": 2024, "v": 21.0}, {"Year": 2025, "v": 22.5}], "Dominican Republic": [{"Year": 2000, "v": 21.0}, {"Year": 2001, "v": 27.0}, {"Year": 2002, "v": 27.0}, {"Year": 2003, "v": 21.0}, {"Year": 2004, "v": 21.0}, {"Year": 2005, "v": 15.0}, {"Year": 2006, "v": 15.0}, {"Year": 2007, "v": 18.0}, {"Year": 2008, "v": 18.0}, {"Year": 2009, "v": 18.0}, {"Year": 2010, "v": 21.0}, {"Year": 2011, "v": 21.0}, {"Year": 2012, "v": 21.0}, {"Year": 2013, "v": 21.0}, {"Year": 2014, "v": 21.0}, {"Year": 2015, "v": 22.5}, {"Year": 2016, "v": 22.5}, {"Year": 2017, "v": 24.0}, {"Year": 2018, "v": 24.0}, {"Year": 2019, "v": 24.0}, {"Year": 2020, "v": 24.0}, {"Year": 2021, "v": 24.0}, {"Year": 2022, "v": 25.5}, {"Year": 2023, "v": 25.5}, {"Year": 2024, "v": 25.5}, {"Year": 2025, "v": 27.0}]};
+    const GHANA_SH = {"ols": [{"Country": "Ghana", "Year": 2010, "Actual": 18.0, "Shadow_OLS": 16.28, "Residual": 1.72}, {"Country": "Ghana", "Year": 2011, "Actual": 18.0, "Shadow_OLS": 17.94, "Residual": 0.06}, {"Country": "Ghana", "Year": 2012, "Actual": 19.5, "Shadow_OLS": 17.69, "Residual": 1.81}, {"Country": "Ghana", "Year": 2013, "Actual": 21.0, "Shadow_OLS": 22.84, "Residual": -1.84}, {"Country": "Ghana", "Year": 2014, "Actual": 18.0, "Shadow_OLS": 19.44, "Residual": -1.44}, {"Country": "Ghana", "Year": 2015, "Actual": 18.0, "Shadow_OLS": 18.34, "Residual": -0.34}, {"Country": "Ghana", "Year": 2016, "Actual": 15.0, "Shadow_OLS": 20.0, "Residual": -5.0}, {"Country": "Ghana", "Year": 2017, "Actual": 15.0, "Shadow_OLS": 20.32, "Residual": -5.32}, {"Country": "Ghana", "Year": 2018, "Actual": 16.5, "Shadow_OLS": 21.27, "Residual": -4.77}, {"Country": "Ghana", "Year": 2019, "Actual": 16.5, "Shadow_OLS": 20.96, "Residual": -4.46}, {"Country": "Ghana", "Year": 2020, "Actual": 15.0, "Shadow_OLS": 21.03, "Residual": -6.03}, {"Country": "Ghana", "Year": 2021, "Actual": 15.0, "Shadow_OLS": 22.38, "Residual": -7.38}, {"Country": "Ghana", "Year": 2022, "Actual": 1.5, "Shadow_OLS": 20.91, "Residual": -19.41}, {"Country": "Ghana", "Year": 2023, "Actual": 1.5, "Shadow_OLS": 22.01, "Residual": -20.51}, {"Country": "Ghana", "Year": 2024, "Actual": 1.5, "Shadow_OLS": 21.84, "Residual": -20.34}], "knn": [{"Country": "Ghana", "Year": 2010, "Actual": 18.0, "Shadow_kNN": 25.35, "Residual": -7.35}, {"Country": "Ghana", "Year": 2011, "Actual": 18.0, "Shadow_kNN": 19.26, "Residual": -1.26}, {"Country": "Ghana", "Year": 2012, "Actual": 19.5, "Shadow_kNN": 20.09, "Residual": -0.59}, {"Country": "Ghana", "Year": 2013, "Actual": 21.0, "Shadow_kNN": 30.69, "Residual": -9.69}, {"Country": "Ghana", "Year": 2014, "Actual": 18.0, "Shadow_kNN": 29.66, "Residual": -11.66}, {"Country": "Ghana", "Year": 2015, "Actual": 18.0, "Shadow_kNN": 21.9, "Residual": -3.9}, {"Country": "Ghana", "Year": 2016, "Actual": 15.0, "Shadow_kNN": 22.91, "Residual": -7.91}, {"Country": "Ghana", "Year": 2017, "Actual": 15.0, "Shadow_kNN": 20.41, "Residual": -5.41}, {"Country": "Ghana", "Year": 2018, "Actual": 16.5, "Shadow_kNN": 21.42, "Residual": -4.92}, {"Country": "Ghana", "Year": 2019, "Actual": 16.5, "Shadow_kNN": 22.15, "Residual": -5.65}, {"Country": "Ghana", "Year": 2020, "Actual": 15.0, "Shadow_kNN": 19.25, "Residual": -4.25}, {"Country": "Ghana", "Year": 2021, "Actual": 15.0, "Shadow_kNN": 21.56, "Residual": -6.56}, {"Country": "Ghana", "Year": 2022, "Actual": 1.5, "Shadow_kNN": 17.3, "Residual": -15.8}, {"Country": "Ghana", "Year": 2023, "Actual": 1.5, "Shadow_kNN": 25.16, "Residual": -23.66}, {"Country": "Ghana", "Year": 2024, "Actual": 1.5, "Shadow_kNN": 15.64, "Residual": -14.14}], "bayes": [{"Country": "Ghana", "Year": 2010, "Actual": 18.0, "Shadow_Bayes": 27.51, "Residual": -9.51}, {"Country": "Ghana", "Year": 2011, "Actual": 18.0, "Shadow_Bayes": 27.51, "Residual": -9.51}, {"Country": "Ghana", "Year": 2012, "Actual": 19.5, "Shadow_Bayes": 27.91, "Residual": -8.41}, {"Country": "Ghana", "Year": 2013, "Actual": 21.0, "Shadow_Bayes": 28.24, "Residual": -7.24}, {"Country": "Ghana", "Year": 2014, "Actual": 18.0, "Shadow_Bayes": 26.43, "Residual": -8.43}, {"Country": "Ghana", "Year": 2015, "Actual": 18.0, "Shadow_Bayes": 26.16, "Residual": -8.16}, {"Country": "Ghana", "Year": 2016, "Actual": 15.0, "Shadow_Bayes": 24.38, "Residual": -9.38}, {"Country": "Ghana", "Year": 2017, "Actual": 15.0, "Shadow_Bayes": 24.14, "Residual": -9.14}, {"Country": "Ghana", "Year": 2018, "Actual": 16.5, "Shadow_Bayes": 24.64, "Residual": -8.14}, {"Country": "Ghana", "Year": 2019, "Actual": 16.5, "Shadow_Bayes": 24.48, "Residual": -7.98}, {"Country": "Ghana", "Year": 2020, "Actual": 15.0, "Shadow_Bayes": 23.34, "Residual": -8.34}, {"Country": "Ghana", "Year": 2021, "Actual": 15.0, "Shadow_Bayes": 23.21, "Residual": -8.21}, {"Country": "Ghana", "Year": 2022, "Actual": 1.5, "Shadow_Bayes": 16.2, "Residual": -14.7}, {"Country": "Ghana", "Year": 2023, "Actual": 1.5, "Shadow_Bayes": 16.13, "Residual": -14.63}, {"Country": "Ghana", "Year": 2024, "Actual": 1.5, "Shadow_Bayes": 16.1, "Residual": -14.6}]};
+    const BELIZE_SH = {"ols": [{"Country": "Belize", "Year": 2000, "Actual": 27.0, "Shadow_OLS": 28.75, "Residual": -1.75}, {"Country": "Belize", "Year": 2001, "Actual": 25.5, "Shadow_OLS": 28.42, "Residual": -2.92}, {"Country": "Belize", "Year": 2002, "Actual": 24.0, "Shadow_OLS": 28.8, "Residual": -4.8}, {"Country": "Belize", "Year": 2003, "Actual": 24.0, "Shadow_OLS": 28.98, "Residual": -4.98}, {"Country": "Belize", "Year": 2004, "Actual": 24.0, "Shadow_OLS": 29.38, "Residual": -5.38}, {"Country": "Belize", "Year": 2005, "Actual": 13.5, "Shadow_OLS": 29.55, "Residual": -16.05}, {"Country": "Belize", "Year": 2006, "Actual": 3.0, "Shadow_OLS": 30.08, "Residual": -27.08}, {"Country": "Belize", "Year": 2007, "Actual": 15.0, "Shadow_OLS": 30.46, "Residual": -15.46}, {"Country": "Belize", "Year": 2008, "Actual": 15.0, "Shadow_OLS": 30.22, "Residual": -15.22}, {"Country": "Belize", "Year": 2009, "Actual": 16.5, "Shadow_OLS": 29.56, "Residual": -13.06}, {"Country": "Belize", "Year": 2010, "Actual": 16.5, "Shadow_OLS": 29.85, "Residual": -13.35}, {"Country": "Belize", "Year": 2011, "Actual": 15.0, "Shadow_OLS": 30.12, "Residual": -15.12}, {"Country": "Belize", "Year": 2012, "Actual": 1.5, "Shadow_OLS": 30.34, "Residual": -28.84}, {"Country": "Belize", "Year": 2013, "Actual": 12.0, "Shadow_OLS": 30.76, "Residual": -18.76}, {"Country": "Belize", "Year": 2014, "Actual": 12.0, "Shadow_OLS": 31.0, "Residual": -19.0}, {"Country": "Belize", "Year": 2015, "Actual": 12.0, "Shadow_OLS": 30.98, "Residual": -18.98}, {"Country": "Belize", "Year": 2016, "Actual": 12.0, "Shadow_OLS": 30.95, "Residual": -18.95}, {"Country": "Belize", "Year": 2017, "Actual": 15.0, "Shadow_OLS": 30.81, "Residual": -15.81}, {"Country": "Belize", "Year": 2018, "Actual": 15.0, "Shadow_OLS": 30.7, "Residual": -15.7}, {"Country": "Belize", "Year": 2019, "Actual": 15.0, "Shadow_OLS": 31.05, "Residual": -16.05}, {"Country": "Belize", "Year": 2020, "Actual": 9.0, "Shadow_OLS": 28.96, "Residual": -19.96}, {"Country": "Belize", "Year": 2021, "Actual": 10.5, "Shadow_OLS": 31.4, "Residual": -20.9}, {"Country": "Belize", "Year": 2022, "Actual": 12.0, "Shadow_OLS": 32.72, "Residual": -20.72}, {"Country": "Belize", "Year": 2023, "Actual": 12.0, "Shadow_OLS": 32.92, "Residual": -20.92}, {"Country": "Belize", "Year": 2024, "Actual": 13.5, "Shadow_OLS": 33.18, "Residual": -19.68}], "knn": [{"Country": "Belize", "Year": 2000, "Actual": 27.0, "Shadow_kNN": 27.82, "Residual": -0.82}, {"Country": "Belize", "Year": 2001, "Actual": 25.5, "Shadow_kNN": 28.64, "Residual": -3.14}, {"Country": "Belize", "Year": 2002, "Actual": 24.0, "Shadow_kNN": 32.79, "Residual": -8.79}, {"Country": "Belize", "Year": 2003, "Actual": 24.0, "Shadow_kNN": 32.7, "Residual": -8.7}, {"Country": "Belize", "Year": 2004, "Actual": 24.0, "Shadow_kNN": 28.53, "Residual": -4.53}, {"Country": "Belize", "Year": 2005, "Actual": 13.5, "Shadow_kNN": 30.29, "Residual": -16.79}, {"Country": "Belize", "Year": 2006, "Actual": 3.0, "Shadow_kNN": 29.87, "Residual": -26.87}, {"Country": "Belize", "Year": 2007, "Actual": 15.0, "Shadow_kNN": 31.92, "Residual": -16.92}, {"Country": "Belize", "Year": 2008, "Actual": 15.0, "Shadow_kNN": 34.45, "Residual": -19.45}, {"Country": "Belize", "Year": 2009, "Actual": 16.5, "Shadow_kNN": 29.22, "Residual": -12.72}, {"Country": "Belize", "Year": 2010, "Actual": 16.5, "Shadow_kNN": 25.25, "Residual": -8.75}, {"Country": "Belize", "Year": 2011, "Actual": 15.0, "Shadow_kNN": 25.59, "Residual": -10.59}, {"Country": "Belize", "Year": 2012, "Actual": 1.5, "Shadow_kNN": 23.59, "Residual": -22.09}, {"Country": "Belize", "Year": 2013, "Actual": 12.0, "Shadow_kNN": 28.62, "Residual": -16.62}, {"Country": "Belize", "Year": 2014, "Actual": 12.0, "Shadow_kNN": 23.52, "Residual": -11.52}, {"Country": "Belize", "Year": 2015, "Actual": 12.0, "Shadow_kNN": 25.26, "Residual": -13.26}, {"Country": "Belize", "Year": 2016, "Actual": 12.0, "Shadow_kNN": 27.99, "Residual": -15.99}, {"Country": "Belize", "Year": 2017, "Actual": 15.0, "Shadow_kNN": 19.64, "Residual": -4.64}, {"Country": "Belize", "Year": 2018, "Actual": 15.0, "Shadow_kNN": 22.5, "Residual": -7.5}, {"Country": "Belize", "Year": 2019, "Actual": 15.0, "Shadow_kNN": 22.6, "Residual": -7.6}, {"Country": "Belize", "Year": 2020, "Actual": 9.0, "Shadow_kNN": 25.06, "Residual": -16.06}, {"Country": "Belize", "Year": 2021, "Actual": 10.5, "Shadow_kNN": 24.13, "Residual": -13.63}, {"Country": "Belize", "Year": 2022, "Actual": 12.0, "Shadow_kNN": 21.86, "Residual": -9.86}, {"Country": "Belize", "Year": 2023, "Actual": 12.0, "Shadow_kNN": 27.96, "Residual": -15.96}, {"Country": "Belize", "Year": 2024, "Actual": 13.5, "Shadow_kNN": 16.67, "Residual": -3.17}], "bayes": [{"Country": "Belize", "Year": 2000, "Actual": 27.0, "Shadow_Bayes": 31.93, "Residual": -4.93}, {"Country": "Belize", "Year": 2001, "Actual": 25.5, "Shadow_Bayes": 31.25, "Residual": -5.75}, {"Country": "Belize", "Year": 2002, "Actual": 24.0, "Shadow_Bayes": 31.03, "Residual": -7.03}, {"Country": "Belize", "Year": 2003, "Actual": 24.0, "Shadow_Bayes": 31.14, "Residual": -7.14}, {"Country": "Belize", "Year": 2004, "Actual": 24.0, "Shadow_Bayes": 31.0, "Residual": -7.0}, {"Country": "Belize", "Year": 2005, "Actual": 13.5, "Shadow_Bayes": 25.86, "Residual": -12.36}, {"Country": "Belize", "Year": 2006, "Actual": 3.0, "Shadow_Bayes": 20.62, "Residual": -17.62}, {"Country": "Belize", "Year": 2007, "Actual": 15.0, "Shadow_Bayes": 26.5, "Residual": -11.5}, {"Country": "Belize", "Year": 2008, "Actual": 15.0, "Shadow_Bayes": 26.32, "Residual": -11.32}, {"Country": "Belize", "Year": 2009, "Actual": 16.5, "Shadow_Bayes": 27.05, "Residual": -10.55}, {"Country": "Belize", "Year": 2010, "Actual": 16.5, "Shadow_Bayes": 26.77, "Residual": -10.27}, {"Country": "Belize", "Year": 2011, "Actual": 15.0, "Shadow_Bayes": 26.02, "Residual": -11.02}, {"Country": "Belize", "Year": 2012, "Actual": 1.5, "Shadow_Bayes": 18.98, "Residual": -17.48}, {"Country": "Belize", "Year": 2013, "Actual": 12.0, "Shadow_Bayes": 23.78, "Residual": -11.78}, {"Country": "Belize", "Year": 2014, "Actual": 12.0, "Shadow_Bayes": 23.45, "Residual": -11.45}, {"Country": "Belize", "Year": 2015, "Actual": 12.0, "Shadow_Bayes": 23.18, "Residual": -11.18}, {"Country": "Belize", "Year": 2016, "Actual": 12.0, "Shadow_Bayes": 22.9, "Residual": -10.9}, {"Country": "Belize", "Year": 2017, "Actual": 15.0, "Shadow_Bayes": 24.14, "Residual": -9.14}, {"Country": "Belize", "Year": 2018, "Actual": 15.0, "Shadow_Bayes": 23.89, "Residual": -8.89}, {"Country": "Belize", "Year": 2019, "Actual": 15.0, "Shadow_Bayes": 23.73, "Residual": -8.73}, {"Country": "Belize", "Year": 2020, "Actual": 9.0, "Shadow_Bayes": 20.36, "Residual": -11.36}, {"Country": "Belize", "Year": 2021, "Actual": 10.5, "Shadow_Bayes": 20.98, "Residual": -10.48}, {"Country": "Belize", "Year": 2022, "Actual": 12.0, "Shadow_Bayes": 21.41, "Residual": -9.41}, {"Country": "Belize", "Year": 2023, "Actual": 12.0, "Shadow_Bayes": 21.34, "Residual": -9.34}, {"Country": "Belize", "Year": 2024, "Actual": 13.5, "Shadow_Bayes": 22.06, "Residual": -8.56}]};
+    const BARBADOS_SH = {"ols": [{"Country": "Barbados", "Year": 2000, "Actual": 39.0, "Shadow_OLS": 37.19, "Residual": 1.81}, {"Country": "Barbados", "Year": 2001, "Actual": 39.0, "Shadow_OLS": 37.05, "Residual": 1.95}, {"Country": "Barbados", "Year": 2002, "Actual": 39.0, "Shadow_OLS": 37.19, "Residual": 1.81}, {"Country": "Barbados", "Year": 2003, "Actual": 39.0, "Shadow_OLS": 37.5, "Residual": 1.5}, {"Country": "Barbados", "Year": 2004, "Actual": 37.5, "Shadow_OLS": 38.23, "Residual": -0.73}, {"Country": "Barbados", "Year": 2005, "Actual": 37.5, "Shadow_OLS": 39.27, "Residual": -1.77}, {"Country": "Barbados", "Year": 2006, "Actual": 37.5, "Shadow_OLS": 40.17, "Residual": -2.67}, {"Country": "Barbados", "Year": 2007, "Actual": 37.5, "Shadow_OLS": 41.13, "Residual": -3.63}, {"Country": "Barbados", "Year": 2008, "Actual": 37.5, "Shadow_OLS": 41.07, "Residual": -3.57}, {"Country": "Barbados", "Year": 2009, "Actual": 34.5, "Shadow_OLS": 40.1, "Residual": -5.6}, {"Country": "Barbados", "Year": 2010, "Actual": 33.0, "Shadow_OLS": 43.32, "Residual": -10.32}, {"Country": "Barbados", "Year": 2011, "Actual": 33.0, "Shadow_OLS": 42.51, "Residual": -9.51}, {"Country": "Barbados", "Year": 2012, "Actual": 31.5, "Shadow_OLS": 42.7, "Residual": -11.2}, {"Country": "Barbados", "Year": 2013, "Actual": 31.5, "Shadow_OLS": 42.43, "Residual": -10.93}, {"Country": "Barbados", "Year": 2014, "Actual": 31.5, "Shadow_OLS": 42.33, "Residual": -10.83}, {"Country": "Barbados", "Year": 2015, "Actual": 31.5, "Shadow_OLS": 42.5, "Residual": -11.0}, {"Country": "Barbados", "Year": 2016, "Actual": 21.0, "Shadow_OLS": 42.4, "Residual": -21.4}, {"Country": "Barbados", "Year": 2017, "Actual": 18.0, "Shadow_OLS": 42.42, "Residual": -24.42}, {"Country": "Barbados", "Year": 2018, "Actual": 3.0, "Shadow_OLS": 43.08, "Residual": -40.08}, {"Country": "Barbados", "Year": 2019, "Actual": 13.5, "Shadow_OLS": 43.23, "Residual": -29.73}, {"Country": "Barbados", "Year": 2020, "Actual": 13.5, "Shadow_OLS": 41.54, "Residual": -28.04}, {"Country": "Barbados", "Year": 2021, "Actual": 13.5, "Shadow_OLS": 43.06, "Residual": -29.56}, {"Country": "Barbados", "Year": 2022, "Actual": 13.5, "Shadow_OLS": 44.63, "Residual": -31.13}, {"Country": "Barbados", "Year": 2023, "Actual": 15.0, "Shadow_OLS": 44.79, "Residual": -29.79}, {"Country": "Barbados", "Year": 2024, "Actual": 15.0, "Shadow_OLS": 45.12, "Residual": -30.12}], "knn": [{"Country": "Barbados", "Year": 2000, "Actual": 39.0, "Shadow_kNN": 41.61, "Residual": -2.61}, {"Country": "Barbados", "Year": 2001, "Actual": 39.0, "Shadow_kNN": 41.82, "Residual": -2.82}, {"Country": "Barbados", "Year": 2002, "Actual": 39.0, "Shadow_kNN": 42.29, "Residual": -3.29}, {"Country": "Barbados", "Year": 2003, "Actual": 39.0, "Shadow_kNN": 41.46, "Residual": -2.46}, {"Country": "Barbados", "Year": 2004, "Actual": 37.5, "Shadow_kNN": 36.92, "Residual": 0.58}, {"Country": "Barbados", "Year": 2005, "Actual": 37.5, "Shadow_kNN": 45.18, "Residual": -7.68}, {"Country": "Barbados", "Year": 2006, "Actual": 37.5, "Shadow_kNN": 44.17, "Residual": -6.67}, {"Country": "Barbados", "Year": 2007, "Actual": 37.5, "Shadow_kNN": 47.31, "Residual": -9.81}, {"Country": "Barbados", "Year": 2008, "Actual": 37.5, "Shadow_kNN": 47.59, "Residual": -10.09}, {"Country": "Barbados", "Year": 2009, "Actual": 34.5, "Shadow_kNN": 45.07, "Residual": -10.57}, {"Country": "Barbados", "Year": 2010, "Actual": 33.0, "Shadow_kNN": 40.2, "Residual": -7.2}, {"Country": "Barbados", "Year": 2011, "Actual": 33.0, "Shadow_kNN": 41.42, "Residual": -8.42}, {"Country": "Barbados", "Year": 2012, "Actual": 31.5, "Shadow_kNN": 42.1, "Residual": -10.6}, {"Country": "Barbados", "Year": 2013, "Actual": 31.5, "Shadow_kNN": 30.64, "Residual": 0.86}, {"Country": "Barbados", "Year": 2014, "Actual": 31.5, "Shadow_kNN": 34.44, "Residual": -2.94}, {"Country": "Barbados", "Year": 2015, "Actual": 31.5, "Shadow_kNN": 41.67, "Residual": -10.17}, {"Country": "Barbados", "Year": 2016, "Actual": 21.0, "Shadow_kNN": 35.04, "Residual": -14.04}, {"Country": "Barbados", "Year": 2017, "Actual": 18.0, "Shadow_kNN": 36.22, "Residual": -18.22}, {"Country": "Barbados", "Year": 2018, "Actual": 3.0, "Shadow_kNN": 31.23, "Residual": -28.23}, {"Country": "Barbados", "Year": 2019, "Actual": 13.5, "Shadow_kNN": 42.04, "Residual": -28.54}, {"Country": "Barbados", "Year": 2020, "Actual": 13.5, "Shadow_kNN": 32.43, "Residual": -18.93}, {"Country": "Barbados", "Year": 2021, "Actual": 13.5, "Shadow_kNN": 38.88, "Residual": -25.38}, {"Country": "Barbados", "Year": 2022, "Actual": 13.5, "Shadow_kNN": 30.32, "Residual": -16.82}, {"Country": "Barbados", "Year": 2023, "Actual": 15.0, "Shadow_kNN": 43.01, "Residual": -28.01}, {"Country": "Barbados", "Year": 2024, "Actual": 15.0, "Shadow_kNN": 37.81, "Residual": -22.81}], "bayes": [{"Country": "Barbados", "Year": 2000, "Actual": 39.0, "Shadow_Bayes": 37.87, "Residual": 1.13}, {"Country": "Barbados", "Year": 2001, "Actual": 39.0, "Shadow_Bayes": 37.93, "Residual": 1.07}, {"Country": "Barbados", "Year": 2002, "Actual": 39.0, "Shadow_Bayes": 38.45, "Residual": 0.55}, {"Country": "Barbados", "Year": 2003, "Actual": 39.0, "Shadow_Bayes": 38.56, "Residual": 0.44}, {"Country": "Barbados", "Year": 2004, "Actual": 37.5, "Shadow_Bayes": 37.69, "Residual": -0.19}, {"Country": "Barbados", "Year": 2005, "Actual": 37.5, "Shadow_Bayes": 37.75, "Residual": -0.25}, {"Country": "Barbados", "Year": 2006, "Actual": 37.5, "Shadow_Bayes": 37.72, "Residual": -0.22}, {"Country": "Barbados", "Year": 2007, "Actual": 37.5, "Shadow_Bayes": 37.66, "Residual": -0.16}, {"Country": "Barbados", "Year": 2008, "Actual": 37.5, "Shadow_Bayes": 37.48, "Residual": 0.02}, {"Country": "Barbados", "Year": 2009, "Actual": 34.5, "Shadow_Bayes": 35.97, "Residual": -1.47}, {"Country": "Barbados", "Year": 2010, "Actual": 33.0, "Shadow_Bayes": 34.95, "Residual": -1.95}, {"Country": "Barbados", "Year": 2011, "Actual": 33.0, "Shadow_Bayes": 34.94, "Residual": -1.94}, {"Country": "Barbados", "Year": 2012, "Actual": 31.5, "Shadow_Bayes": 33.86, "Residual": -2.36}, {"Country": "Barbados", "Year": 2013, "Actual": 31.5, "Shadow_Bayes": 33.45, "Residual": -1.95}, {"Country": "Barbados", "Year": 2014, "Actual": 31.5, "Shadow_Bayes": 33.13, "Residual": -1.63}, {"Country": "Barbados", "Year": 2015, "Actual": 31.5, "Shadow_Bayes": 32.86, "Residual": -1.36}, {"Country": "Barbados", "Year": 2016, "Actual": 21.0, "Shadow_Bayes": 27.36, "Residual": -6.36}, {"Country": "Barbados", "Year": 2017, "Actual": 18.0, "Shadow_Bayes": 25.63, "Residual": -7.63}, {"Country": "Barbados", "Year": 2018, "Actual": 3.0, "Shadow_Bayes": 17.94, "Residual": -14.94}, {"Country": "Barbados", "Year": 2019, "Actual": 13.5, "Shadow_Bayes": 22.99, "Residual": -9.49}, {"Country": "Barbados", "Year": 2020, "Actual": 13.5, "Shadow_Bayes": 22.59, "Residual": -9.09}, {"Country": "Barbados", "Year": 2021, "Actual": 13.5, "Shadow_Bayes": 22.47, "Residual": -8.97}, {"Country": "Barbados", "Year": 2022, "Actual": 13.5, "Shadow_Bayes": 22.16, "Residual": -8.66}, {"Country": "Barbados", "Year": 2023, "Actual": 15.0, "Shadow_Bayes": 22.83, "Residual": -7.83}, {"Country": "Barbados", "Year": 2024, "Actual": 15.0, "Shadow_Bayes": 22.8, "Residual": -7.8}]};
+
+    function pctRankInPeers(country, year, peers) {
+      const vals = Object.keys(peers).map(c => (peers[c].find(d => d.Year === year) || {}).v).filter(v => v != null);
+      if (!vals.length) return null;
+      const sorted = vals.slice().sort((a,b) => a - b);
+      const r = (peers[country] || []).find(d => d.Year === year);
+      if (!r) return null;
+      return (sorted.indexOf(r.v) + 1) / sorted.length;
+    }
+    function plot(div, traces, layoutExtra) {
+      if (!document.getElementById(div) || !traces || !traces.length) return;
+      const layout = Object.assign({}, baseLayout, layoutExtra || {});
+      Plotly.newPlot(div, traces, layout, window.scrChartConfig || { responsive: true, displayModeBar: true });
+    }
+    function shadowTraces(focal, sh, xrange) {
+      // Returns 4 traces: actual, ols, knn, bayes (filtered to xrange if given)
+      const filt = arr => xrange ? arr.filter(r => r.Year >= xrange[0] && r.Year <= xrange[1]) : arr;
+      function pred(r) { return r.Predicted != null ? r.Predicted : (r.Shadow_OLS != null ? r.Shadow_OLS : (r.Shadow_KNN != null ? r.Shadow_KNN : (r.Shadow_Bayes != null ? r.Shadow_Bayes : (r.Shadow != null ? r.Shadow : null)))); }
+      const ols = filt(sh.ols || []), knn = filt(sh.knn || []), bay = filt(sh.bayes || []);
+      const af = filt(focal);
+      return [
+        { x: af.map(d => d.Year), y: af.map(d => d.v), name: 'Actual', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 }, marker: { size: 5 } },
+        { x: ols.map(r => r.Year), y: ols.map(r => pred(r)), name: 'OLS shadow', mode: 'lines', line: { color: '#5b9bd5', width: 2 ,dash:'dash'} },
+        { x: knn.map(r => r.Year), y: knn.map(r => pred(r)), name: 'k-NN shadow', mode: 'lines', line: { color: '#e15759', width: 2 ,dash:'dash'} },
+        { x: bay.map(r => r.Year), y: bay.map(r => pred(r)), name: 'Bayes shadow', mode: 'lines', line: { color: '#76b56a', width: 2 ,dash:'dash'} }
+      ];
+    }
+
+    // Ghana relative & shadow
+    if (G.length) {
+      const yrs = G.map(d => d.Year);
+      plot('ghana-relative', [
+        { x: yrs, y: yrs.map(y => pctRankInPeers('Ghana', y, SSA)), name: 'Ghana M4 percentile (SSA peers)', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 ,dash:'dot'}, marker: { size: 4 } }
+      ], {
+        title: { text: 'Ghana M4 percentile within Sub-Saharan Africa peer set', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 1], gridcolor: '#eee' }
+      });
+      plot('ghana-shadow', shadowTraces(G, GHANA_SH), {
+        title: { text: 'Ghana actual vs three shadow predictions', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 30], gridcolor: '#eee' }
+      });
+    }
+
+    // Belize 2007 relative & shadow
+    if (BLZ.length) {
+      const yrs = BLZ.map(d => d.Year);
+      plot('belize2007-relative', [
+        { x: yrs, y: yrs.map(y => pctRankInPeers('Belize', y, CARIB)), name: 'Belize M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 ,dash:'dot'}, marker: { size: 4 } }
+      ], {
+        title: { text: 'Belize M4 percentile within Caribbean peer set, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 1], gridcolor: '#eee' }
+      });
+      plot('belize2007-shadow', shadowTraces(BLZ, BELIZE_SH), {
+        title: { text: 'Belize actual vs three shadow predictions, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 35], gridcolor: '#eee' }
+      });
+    }
+
+    // Belize 2013 (zoomed 2005-2025)
+    if (BLZ.length) {
+      const sub = BLZ.filter(d => d.Year >= 2005);
+      const yrs = sub.map(d => d.Year);
+      plot('belize2013-relative', [
+        { x: yrs, y: yrs.map(y => pctRankInPeers('Belize', y, CARIB)), name: 'Belize M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 ,dash:'dot'}, marker: { size: 4 } }
+      ], {
+        title: { text: 'Belize M4 percentile within Caribbean peer set, 2005-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 1], gridcolor: '#eee' }
+      });
+      plot('belize2013-shadow', shadowTraces(sub, BELIZE_SH, [2005, 2025]), {
+        title: { text: 'Belize actual vs three shadow predictions, 2005-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 25], gridcolor: '#eee' }
+      });
+    }
+
+    // Barbados relative & shadow
+    if (BAR.length) {
+      const yrs = BAR.map(d => d.Year);
+      plot('barbados-relative', [
+        { x: yrs, y: yrs.map(y => pctRankInPeers('Barbados', y, CARIB)), name: 'Barbados M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 ,dash:'dot'}, marker: { size: 4 } }
+      ], {
+        title: { text: 'Barbados M4 percentile within Caribbean peer set, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 1], gridcolor: '#eee' }
+      });
+      plot('barbados-shadow', shadowTraces(BAR, BARBADOS_SH), {
+        title: { text: 'Barbados actual vs three shadow predictions, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 50], gridcolor: '#eee' }
+      });
+    }
+  } catch (e) { console.warn('story rel/shadow:', e); }
+
+  } catch (e) { console.warn('iceland/arg patch:', e); }
+
+  } catch (e) { console.warn('new stories rendering partial:', e); }
+
+  } catch (e) {
+    console.warn('stories renderAll partial:', e);
+  }
+
+  // ── v79 final-pass: argentina relative + shadow + clean axis (idempotent over reload)
+  try {
+    const ARG_DATA = [{"Year": 2000, "v": 22.5}, {"Year": 2001, "v": 1.5}, {"Year": 2002, "v": 1.5}, {"Year": 2003, "v": 6.0}, {"Year": 2004, "v": 6.0}, {"Year": 2005, "v": 15.0}, {"Year": 2006, "v": 18.0}, {"Year": 2007, "v": 17.0}, {"Year": 2008, "v": 15.0}, {"Year": 2009, "v": 15.0}, {"Year": 2010, "v": 16.0}, {"Year": 2011, "v": 17.0}, {"Year": 2012, "v": 17.0}, {"Year": 2013, "v": 16.0}, {"Year": 2014, "v": 4.0}, {"Year": 2015, "v": 4.0}, {"Year": 2016, "v": 16.0}, {"Year": 2017, "v": 19.0}, {"Year": 2018, "v": 18.0}, {"Year": 2019, "v": 3.0}, {"Year": 2020, "v": 8.0}, {"Year": 2021, "v": 8.0}, {"Year": 2022, "v": 8.0}, {"Year": 2023, "v": 8.0}, {"Year": 2024, "v": 9.0}, {"Year": 2025, "v": 13.0}];
+    const LATAM = {"Argentina": [{"Year": 2000, "v": 22.5}, {"Year": 2001, "v": 1.5}, {"Year": 2002, "v": 1.5}, {"Year": 2003, "v": 6.0}, {"Year": 2004, "v": 6.0}, {"Year": 2005, "v": 15.0}, {"Year": 2006, "v": 18.0}, {"Year": 2007, "v": 17.0}, {"Year": 2008, "v": 15.0}, {"Year": 2009, "v": 15.0}, {"Year": 2010, "v": 16.0}, {"Year": 2011, "v": 17.0}, {"Year": 2012, "v": 17.0}, {"Year": 2013, "v": 16.0}, {"Year": 2014, "v": 4.0}, {"Year": 2015, "v": 4.0}, {"Year": 2016, "v": 16.0}, {"Year": 2017, "v": 19.0}, {"Year": 2018, "v": 18.0}, {"Year": 2019, "v": 3.0}, {"Year": 2020, "v": 8.0}, {"Year": 2021, "v": 8.0}, {"Year": 2022, "v": 8.0}, {"Year": 2023, "v": 8.0}, {"Year": 2024, "v": 9.0}, {"Year": 2025, "v": 13.0}], "Brazil": [{"Year": 2000, "v": 21.0}, {"Year": 2001, "v": 22.5}, {"Year": 2002, "v": 21.0}, {"Year": 2003, "v": 19.5}, {"Year": 2004, "v": 22.5}, {"Year": 2005, "v": 24.0}, {"Year": 2006, "v": 27.0}, {"Year": 2007, "v": 28.0}, {"Year": 2008, "v": 32.0}, {"Year": 2009, "v": 32.0}, {"Year": 2010, "v": 32.0}, {"Year": 2011, "v": 34.0}, {"Year": 2012, "v": 34.0}, {"Year": 2013, "v": 36.0}, {"Year": 2014, "v": 35.0}, {"Year": 2015, "v": 33.0}, {"Year": 2016, "v": 33.0}, {"Year": 2017, "v": 31.0}, {"Year": 2018, "v": 25.0}, {"Year": 2019, "v": 25.0}, {"Year": 2020, "v": 25.0}, {"Year": 2021, "v": 25.0}, {"Year": 2022, "v": 25.0}, {"Year": 2023, "v": 27.0}, {"Year": 2024, "v": 27.0}, {"Year": 2025, "v": 28.0}], "Chile": [{"Year": 2000, "v": 40.5}, {"Year": 2001, "v": 40.5}, {"Year": 2002, "v": 40.5}, {"Year": 2003, "v": 40.5}, {"Year": 2004, "v": 42.0}, {"Year": 2005, "v": 42.0}, {"Year": 2006, "v": 46.0}, {"Year": 2007, "v": 47.0}, {"Year": 2008, "v": 47.0}, {"Year": 2009, "v": 48.0}, {"Year": 2010, "v": 49.0}, {"Year": 2011, "v": 49.0}, {"Year": 2012, "v": 50.0}, {"Year": 2013, "v": 51.0}, {"Year": 2014, "v": 51.0}, {"Year": 2015, "v": 51.0}, {"Year": 2016, "v": 51.0}, {"Year": 2017, "v": 49.5}, {"Year": 2018, "v": 48.0}, {"Year": 2019, "v": 48.0}, {"Year": 2020, "v": 48.0}, {"Year": 2021, "v": 46.5}, {"Year": 2022, "v": 45.0}, {"Year": 2023, "v": 45.0}, {"Year": 2024, "v": 45.0}, {"Year": 2025, "v": 45.0}], "Mexico": [{"Year": 2000, "v": 30.0}, {"Year": 2001, "v": 30.0}, {"Year": 2002, "v": 34.5}, {"Year": 2003, "v": 34.5}, {"Year": 2004, "v": 34.5}, {"Year": 2005, "v": 37.5}, {"Year": 2006, "v": 37.0}, {"Year": 2007, "v": 38.0}, {"Year": 2008, "v": 38.0}, {"Year": 2009, "v": 37.0}, {"Year": 2010, "v": 37.0}, {"Year": 2011, "v": 37.0}, {"Year": 2012, "v": 37.0}, {"Year": 2013, "v": 38.0}, {"Year": 2014, "v": 40.0}, {"Year": 2015, "v": 40.0}, {"Year": 2016, "v": 40.0}, {"Year": 2017, "v": 40.0}, {"Year": 2018, "v": 40.0}, {"Year": 2019, "v": 40.0}, {"Year": 2020, "v": 40.0}, {"Year": 2021, "v": 39.0}, {"Year": 2022, "v": 36.0}, {"Year": 2023, "v": 36.0}, {"Year": 2024, "v": 36.0}, {"Year": 2025, "v": 36.0}], "Colombia": [{"Year": 2000, "v": 28.5}, {"Year": 2001, "v": 28.5}, {"Year": 2002, "v": 28.5}, {"Year": 2003, "v": 27.0}, {"Year": 2004, "v": 27.0}, {"Year": 2005, "v": 27.0}, {"Year": 2006, "v": 28.0}, {"Year": 2007, "v": 29.0}, {"Year": 2008, "v": 30.0}, {"Year": 2009, "v": 31.0}, {"Year": 2010, "v": 31.0}, {"Year": 2011, "v": 33.0}, {"Year": 2012, "v": 33.0}, {"Year": 2013, "v": 35.0}, {"Year": 2014, "v": 36.0}, {"Year": 2015, "v": 36.0}, {"Year": 2016, "v": 36.0}, {"Year": 2017, "v": 35.0}, {"Year": 2018, "v": 35.0}, {"Year": 2019, "v": 35.0}, {"Year": 2020, "v": 35.0}, {"Year": 2021, "v": 33.0}, {"Year": 2022, "v": 33.0}, {"Year": 2023, "v": 33.0}, {"Year": 2024, "v": 33.0}, {"Year": 2025, "v": 32.0}], "Peru": [{"Year": 2000, "v": 24.0}, {"Year": 2001, "v": 24.0}, {"Year": 2002, "v": 24.0}, {"Year": 2003, "v": 24.0}, {"Year": 2004, "v": 25.5}, {"Year": 2005, "v": 25.5}, {"Year": 2006, "v": 27.0}, {"Year": 2007, "v": 30.0}, {"Year": 2008, "v": 32.0}, {"Year": 2009, "v": 33.0}, {"Year": 2010, "v": 33.0}, {"Year": 2011, "v": 34.0}, {"Year": 2012, "v": 34.0}, {"Year": 2013, "v": 35.0}, {"Year": 2014, "v": 40.0}, {"Year": 2015, "v": 40.0}, {"Year": 2016, "v": 40.0}, {"Year": 2017, "v": 40.5}, {"Year": 2018, "v": 40.5}, {"Year": 2019, "v": 40.5}, {"Year": 2020, "v": 40.5}, {"Year": 2021, "v": 39.0}, {"Year": 2022, "v": 37.5}, {"Year": 2023, "v": 37.5}, {"Year": 2024, "v": 36.0}, {"Year": 2025, "v": 36.0}], "Uruguay": [{"Year": 2000, "v": 33.0}, {"Year": 2001, "v": 33.0}, {"Year": 2002, "v": 33.0}, {"Year": 2003, "v": 33.0}, {"Year": 2004, "v": 15.0}, {"Year": 2005, "v": 15.0}, {"Year": 2006, "v": 21.0}, {"Year": 2007, "v": 21.0}, {"Year": 2008, "v": 22.5}, {"Year": 2009, "v": 24.0}, {"Year": 2010, "v": 28.5}, {"Year": 2011, "v": 29.0}, {"Year": 2012, "v": 30.0}, {"Year": 2013, "v": 32.0}, {"Year": 2014, "v": 34.0}, {"Year": 2015, "v": 35.0}, {"Year": 2016, "v": 35.0}, {"Year": 2017, "v": 35.0}, {"Year": 2018, "v": 35.0}, {"Year": 2019, "v": 35.0}, {"Year": 2020, "v": 35.0}, {"Year": 2021, "v": 35.0}, {"Year": 2022, "v": 36.0}, {"Year": 2023, "v": 37.0}, {"Year": 2024, "v": 38.0}, {"Year": 2025, "v": 38.0}]};
+    const ARG_SH = {"ols": [{"Country": "Argentina", "Year": 2000, "Actual": 22.5, "Shadow_OLS": 32.99, "Residual": -10.49}, {"Country": "Argentina", "Year": 2001, "Actual": 1.5, "Shadow_OLS": 32.19, "Residual": -30.69}, {"Country": "Argentina", "Year": 2002, "Actual": 1.5, "Shadow_OLS": 20.7, "Residual": -19.2}, {"Country": "Argentina", "Year": 2003, "Actual": 6.0, "Shadow_OLS": 25.81, "Residual": -19.81}, {"Country": "Argentina", "Year": 2004, "Actual": 6.0, "Shadow_OLS": 28.13, "Residual": -22.13}, {"Country": "Argentina", "Year": 2005, "Actual": 15.0, "Shadow_OLS": 29.61, "Residual": -14.61}, {"Country": "Argentina", "Year": 2006, "Actual": 18.0, "Shadow_OLS": 30.93, "Residual": -12.93}, {"Country": "Argentina", "Year": 2007, "Actual": 17.0, "Shadow_OLS": 33.06, "Residual": -16.06}, {"Country": "Argentina", "Year": 2008, "Actual": 15.0, "Shadow_OLS": 35.23, "Residual": -20.23}, {"Country": "Argentina", "Year": 2009, "Actual": 15.0, "Shadow_OLS": 33.4, "Residual": -18.4}, {"Country": "Argentina", "Year": 2010, "Actual": 16.0, "Shadow_OLS": 36.6, "Residual": -20.6}, {"Country": "Argentina", "Year": 2011, "Actual": 17.0, "Shadow_OLS": 38.61, "Residual": -21.61}, {"Country": "Argentina", "Year": 2012, "Actual": 17.0, "Shadow_OLS": 38.17, "Residual": -21.17}, {"Country": "Argentina", "Year": 2013, "Actual": 16.0, "Shadow_OLS": 38.13, "Residual": -22.13}, {"Country": "Argentina", "Year": 2014, "Actual": 4.0, "Shadow_OLS": 37.41, "Residual": -33.41}, {"Country": "Argentina", "Year": 2015, "Actual": 4.0, "Shadow_OLS": 38.98, "Residual": -34.98}, {"Country": "Argentina", "Year": 2016, "Actual": 16.0, "Shadow_OLS": 37.73, "Residual": -21.73}, {"Country": "Argentina", "Year": 2017, "Actual": 19.0, "Shadow_OLS": 39.63, "Residual": -20.63}, {"Country": "Argentina", "Year": 2018, "Actual": 18.0, "Shadow_OLS": 36.64, "Residual": -18.64}, {"Country": "Argentina", "Year": 2019, "Actual": 3.0, "Shadow_OLS": 35.14, "Residual": -32.14}, {"Country": "Argentina", "Year": 2020, "Actual": 8.0, "Shadow_OLS": 33.68, "Residual": -25.68}, {"Country": "Argentina", "Year": 2021, "Actual": 8.0, "Shadow_OLS": 37.01, "Residual": -29.01}, {"Country": "Argentina", "Year": 2022, "Actual": 8.0, "Shadow_OLS": 39.66, "Residual": -31.66}, {"Country": "Argentina", "Year": 2023, "Actual": 8.0, "Shadow_OLS": 39.08, "Residual": -31.08}, {"Country": "Argentina", "Year": 2024, "Actual": 9.0, "Shadow_OLS": 38.77, "Residual": -29.77}], "knn": [{"Country": "Argentina", "Year": 2000, "Actual": 22.5, "Shadow_kNN": 39.19, "Residual": -16.69}, {"Country": "Argentina", "Year": 2001, "Actual": 1.5, "Shadow_kNN": 36.72, "Residual": -35.22}, {"Country": "Argentina", "Year": 2002, "Actual": 1.5, "Shadow_kNN": 27.72, "Residual": -26.22}, {"Country": "Argentina", "Year": 2003, "Actual": 6.0, "Shadow_kNN": 29.68, "Residual": -23.68}, {"Country": "Argentina", "Year": 2004, "Actual": 6.0, "Shadow_kNN": 29.76, "Residual": -23.76}, {"Country": "Argentina", "Year": 2005, "Actual": 15.0, "Shadow_kNN": 32.78, "Residual": -17.78}, {"Country": "Argentina", "Year": 2006, "Actual": 18.0, "Shadow_kNN": 32.54, "Residual": -14.54}, {"Country": "Argentina", "Year": 2007, "Actual": 17.0, "Shadow_kNN": 27.33, "Residual": -10.33}, {"Country": "Argentina", "Year": 2008, "Actual": 15.0, "Shadow_kNN": 33.73, "Residual": -18.73}, {"Country": "Argentina", "Year": 2009, "Actual": 15.0, "Shadow_kNN": 35.52, "Residual": -20.52}, {"Country": "Argentina", "Year": 2010, "Actual": 16.0, "Shadow_kNN": 37.97, "Residual": -21.97}, {"Country": "Argentina", "Year": 2011, "Actual": 17.0, "Shadow_kNN": 37.9, "Residual": -20.9}, {"Country": "Argentina", "Year": 2012, "Actual": 17.0, "Shadow_kNN": 36.51, "Residual": -19.51}, {"Country": "Argentina", "Year": 2013, "Actual": 16.0, "Shadow_kNN": 36.98, "Residual": -20.98}, {"Country": "Argentina", "Year": 2014, "Actual": 4.0, "Shadow_kNN": 35.97, "Residual": -31.97}, {"Country": "Argentina", "Year": 2015, "Actual": 4.0, "Shadow_kNN": 31.04, "Residual": -27.04}, {"Country": "Argentina", "Year": 2016, "Actual": 16.0, "Shadow_kNN": 35.18, "Residual": -19.18}, {"Country": "Argentina", "Year": 2017, "Actual": 19.0, "Shadow_kNN": 38.33, "Residual": -19.33}, {"Country": "Argentina", "Year": 2018, "Actual": 18.0, "Shadow_kNN": 20.58, "Residual": -2.58}, {"Country": "Argentina", "Year": 2019, "Actual": 3.0, "Shadow_kNN": 28.32, "Residual": -25.32}, {"Country": "Argentina", "Year": 2020, "Actual": 8.0, "Shadow_kNN": 32.68, "Residual": -24.68}, {"Country": "Argentina", "Year": 2021, "Actual": 8.0, "Shadow_kNN": 29.64, "Residual": -21.64}, {"Country": "Argentina", "Year": 2022, "Actual": 8.0, "Shadow_kNN": 25.87, "Residual": -17.87}, {"Country": "Argentina", "Year": 2023, "Actual": 8.0, "Shadow_kNN": 27.55, "Residual": -19.55}, {"Country": "Argentina", "Year": 2024, "Actual": 9.0, "Shadow_kNN": 40.3, "Residual": -31.3}], "bayes": [{"Country": "Argentina", "Year": 2000, "Actual": 22.5, "Shadow_Bayes": 29.71, "Residual": -7.21}, {"Country": "Argentina", "Year": 2001, "Actual": 1.5, "Shadow_Bayes": 19.38, "Residual": -17.88}, {"Country": "Argentina", "Year": 2002, "Actual": 1.5, "Shadow_Bayes": 19.89, "Residual": -18.39}, {"Country": "Argentina", "Year": 2003, "Actual": 6.0, "Shadow_Bayes": 22.23, "Residual": -16.23}, {"Country": "Argentina", "Year": 2004, "Actual": 6.0, "Shadow_Bayes": 22.09, "Residual": -16.09}, {"Country": "Argentina", "Year": 2005, "Actual": 15.0, "Shadow_Bayes": 26.61, "Residual": -11.61}, {"Country": "Argentina", "Year": 2006, "Actual": 18.0, "Shadow_Bayes": 28.06, "Residual": -10.06}, {"Country": "Argentina", "Year": 2007, "Actual": 17.0, "Shadow_Bayes": 27.5, "Residual": -10.5}, {"Country": "Argentina", "Year": 2008, "Actual": 15.0, "Shadow_Bayes": 26.32, "Residual": -11.32}, {"Country": "Argentina", "Year": 2009, "Actual": 15.0, "Shadow_Bayes": 26.31, "Residual": -11.31}, {"Country": "Argentina", "Year": 2010, "Actual": 16.0, "Shadow_Bayes": 26.52, "Residual": -10.52}, {"Country": "Argentina", "Year": 2011, "Actual": 17.0, "Shadow_Bayes": 27.01, "Residual": -10.01}, {"Country": "Argentina", "Year": 2012, "Actual": 17.0, "Shadow_Bayes": 26.67, "Residual": -9.67}, {"Country": "Argentina", "Year": 2013, "Actual": 16.0, "Shadow_Bayes": 25.76, "Residual": -9.76}, {"Country": "Argentina", "Year": 2014, "Actual": 4.0, "Shadow_Bayes": 19.49, "Residual": -15.49}, {"Country": "Argentina", "Year": 2015, "Actual": 4.0, "Shadow_Bayes": 19.21, "Residual": -15.21}, {"Country": "Argentina", "Year": 2016, "Actual": 16.0, "Shadow_Bayes": 24.88, "Residual": -8.88}, {"Country": "Argentina", "Year": 2017, "Actual": 19.0, "Shadow_Bayes": 26.13, "Residual": -7.13}, {"Country": "Argentina", "Year": 2018, "Actual": 18.0, "Shadow_Bayes": 25.38, "Residual": -7.38}, {"Country": "Argentina", "Year": 2019, "Actual": 3.0, "Shadow_Bayes": 17.78, "Residual": -14.78}, {"Country": "Argentina", "Year": 2020, "Actual": 8.0, "Shadow_Bayes": 19.86, "Residual": -11.86}, {"Country": "Argentina", "Year": 2021, "Actual": 8.0, "Shadow_Bayes": 19.74, "Residual": -11.74}, {"Country": "Argentina", "Year": 2022, "Actual": 8.0, "Shadow_Bayes": 19.43, "Residual": -11.43}, {"Country": "Argentina", "Year": 2023, "Actual": 8.0, "Shadow_Bayes": 19.35, "Residual": -11.35}, {"Country": "Argentina", "Year": 2024, "Actual": 9.0, "Shadow_Bayes": 19.83, "Residual": -10.83}]};
+
+    function v79pctRank(country, year, peers) {
+      const vals = Object.keys(peers).map(c => (peers[c].find(d => d.Year === year) || {}).v).filter(v => v != null);
+      if (!vals.length) return null;
+      const sorted = vals.slice().sort((a,b) => a - b);
+      const r = (peers[country] || []).find(d => d.Year === year);
+      if (!r) return null;
+      return (sorted.indexOf(r.v) + 1) / sorted.length;
+    }
+    function v79plot(div, traces, layoutExtra) {
+      if (!document.getElementById(div) || !traces || !traces.length) return;
+      const layout = Object.assign({}, baseLayout, layoutExtra || {});
+      Plotly.newPlot(div, traces, layout, window.scrChartConfig || { responsive: true, displayModeBar: true });
+    }
+    function v79pred(r) { return r.Predicted != null ? r.Predicted : (r.Shadow_OLS != null ? r.Shadow_OLS : (r.Shadow_KNN != null ? r.Shadow_KNN : (r.Shadow_Bayes != null ? r.Shadow_Bayes : (r.Shadow != null ? r.Shadow : null)))); }
+
+    // Argentina relative
+    if (ARG_DATA.length && document.getElementById('arg-relative')) {
+      const yrs = ARG_DATA.map(d => d.Year);
+      v79plot('arg-relative', [
+        { x: yrs, y: yrs.map(y => v79pctRank('Argentina', y, LATAM)), name: 'Argentina M4 percentile (Latin America peer set)', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 ,dash:'dot'}, marker: { size: 4 } }
+      ], {
+        title: { text: 'Argentina M4 percentile within the Latin America peer set, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 1], gridcolor: '#eee' }
+      });
+    }
+
+    // Argentina shadow
+    if (ARG_DATA.length && document.getElementById('arg-shadow')) {
+      const ols = ARG_SH.ols || [], knn = ARG_SH.knn || [], bayes = ARG_SH.bayes || [];
+      v79plot('arg-shadow', [
+        { x: ARG_DATA.map(d => d.Year), y: ARG_DATA.map(d => d.v), name: 'Actual', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 }, marker: { size: 5 } },
+        { x: ols.map(r => r.Year), y: ols.map(r => v79pred(r)), name: 'OLS shadow', mode: 'lines', line: { color: '#5b9bd5', width: 2 ,dash:'dash'} },
+        { x: knn.map(r => r.Year), y: knn.map(r => v79pred(r)), name: 'k-NN shadow', mode: 'lines', line: { color: '#e15759', width: 2 ,dash:'dash'} },
+        { x: bayes.map(r => r.Year), y: bayes.map(r => v79pred(r)), name: 'Bayes shadow', mode: 'lines', line: { color: '#76b56a', width: 2 ,dash:'dash'} }
+      ], {
+        title: { text: 'Argentina actual vs three shadow predictions, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+        xaxis: { title: '', gridcolor: '#eee' },
+        yaxis: { title: '', range: [0, 60], gridcolor: '#eee' }
+      });
+    }
+  } catch (e) { console.warn('v79 arg patch:', e); }
+
+}
+</script>
+
+
+<script defer>
+(function() {
+  function applyChartTheme() {
+    const dark = document.body.classList.contains('dark');
+    const txt = dark ? '#ececec' : '#333';
+    const grid = dark ? 'rgba(255,255,255,0.10)' : '#eee';
+    const zero = dark ? '#aaa' : '#1a1a1a';
+    const charts = document.querySelectorAll('.chart-box > div');
+    charts.forEach(div => {
+      if (!div._fullLayout) return;
+      try {
+        Plotly.relayout(div, {
+          'paper_bgcolor': 'rgba(0,0,0,0)',
+          'plot_bgcolor': 'rgba(0,0,0,0)',
+          'font.color': txt,
+          'xaxis.gridcolor': grid,
+          'xaxis.tickfont.color': txt,
+          'xaxis.title.font.color': txt,
+          'yaxis.gridcolor': grid,
+          'yaxis.tickfont.color': txt,
+          'yaxis.title.font.color': txt,
+          'legend.font.color': txt,
+          'title.font.color': txt
+        });
+      } catch (e) { /* swallow */ }
+    });
+  }
+  // Apply after DOMContentLoaded + after Plotly first plots (delayed) + on body.class change
+  window.addEventListener('load', () => setTimeout(applyChartTheme, 600));
+  setTimeout(applyChartTheme, 1500);
+  setTimeout(applyChartTheme, 3000);
+  const obs = new MutationObserver(applyChartTheme);
+  obs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  window.scrTheChartTheme = applyChartTheme;
+})();
+</script>
+
+
+<script defer>
+// v80g: auto-wire absolute/relative/shadow view switcher on every story.
+// For each .story container, look for chart-boxes whose first <div> id ends
+// in -chart (or -spread / -recovery / -peers / -pairwise / -cluster as
+// peer-group siblings of -chart), -relative, or -shadow. Group them by
+// suffix and toggle visibility on switcher click. Stories that lack a given
+// chart-box just don't get that pill.
+(function wireAllStorySwitchers(){
+  function go(){
+    const stories = document.querySelectorAll('.story');
+    if (!stories.length) { setTimeout(go, 200); return; }
+    stories.forEach(story => {
+      if (story.dataset.viewWired === '1') return;
+      const boxes = story.querySelectorAll('.chart-box');
+      if (!boxes.length) return;
+      // Classify each chart-box by its inner div id
+      const groups = { abs: [], rel: [], shad: [] };
+      boxes.forEach(b => {
+        const inner = b.querySelector('[id]');
+        if (!inner) return;
+        const id = inner.id;
+        if (/-relative$/.test(id) || /-pairwise-rel$/.test(id) || /-rel$/.test(id)) groups.rel.push(b);
+        else if (/-shadow$/.test(id)) groups.shad.push(b);
+        else groups.abs.push(b);
+      });
+      const has = { abs: groups.abs.length > 0, rel: groups.rel.length > 0, shad: groups.shad.length > 0 };
+      const numGroups = (has.abs?1:0) + (has.rel?1:0) + (has.shad?1:0);
+      if (numGroups < 2) return;  // nothing to switch
+      story.dataset.viewWired = '1';
+      // Build switcher
+      const bar = document.createElement('div');
+      bar.className = 'story-view-switcher';
+      bar.style.cssText = 'margin: 8px 0 12px; display:flex; gap:0; align-items:center; flex-wrap:wrap; font-family: Helvetica Neue, Arial, sans-serif; font-size: 0.74rem;';
+      const lbl = document.createElement('span');
+      lbl.textContent = 'VIEW:';
+      lbl.style.cssText = 'color: var(--muted); margin-right: 8px; letter-spacing: 0.06em; font-weight: 700;';
+      bar.appendChild(lbl);
+      function makePill(key, label){
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'pill';
+        b.dataset.view = key;
+        b.textContent = label;
+        b.style.cssText = 'background: var(--bg-card); color: var(--ink); border: 1px solid var(--border); padding: 4px 12px; cursor: pointer; font: inherit; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 700; margin-right: -1px;';
+        return b;
+      }
+      const pillAbs  = has.abs  ? makePill('abs',  'Absolute') : null;
+      const pillRel  = has.rel  ? makePill('rel',  'Relative') : null;
+      const pillShad = has.shad ? makePill('shad', 'Shadow')   : null;
+      [pillAbs, pillRel, pillShad].filter(Boolean).forEach(p => bar.appendChild(p));
+      function applyView(v){
+        const showAbs = v === 'abs';
+        const showRel = v === 'rel';
+        const showShad = v === 'shad';
+        groups.abs.forEach(b => b.style.display = showAbs ? '' : 'none');
+        groups.rel.forEach(b => b.style.display = showRel ? '' : 'none');
+        groups.shad.forEach(b => b.style.display = showShad ? '' : 'none');
+        // also hide their captions (the next .chart-caption sibling)
+        function cap(b){ const n = b.nextElementSibling; if (n && n.classList.contains('chart-caption')) return n; return null; }
+        groups.abs.forEach(b => { const c = cap(b); if (c) c.style.display = showAbs ? '' : 'none'; });
+        groups.rel.forEach(b => { const c = cap(b); if (c) c.style.display = showRel ? '' : 'none'; });
+        groups.shad.forEach(b => { const c = cap(b); if (c) c.style.display = showShad ? '' : 'none'; });
+        [pillAbs, pillRel, pillShad].forEach(p => {
+          if (!p) return;
+          const active = p.dataset.view === v;
+          p.style.background = active ? 'var(--accent)' : 'var(--bg-card)';
+          p.style.color = active ? 'var(--bg-card)' : 'var(--ink)';
+        });
+      }
+      [pillAbs, pillRel, pillShad].forEach(p => { if (p) p.addEventListener('click', () => applyView(p.dataset.view)); });
+      // Insert AFTER the story-meta or h2, BEFORE the lede
+      const lede = story.querySelector('.lede');
+      const insertBefore = lede || story.querySelector('p, .chart-box');
+      if (insertBefore) story.insertBefore(bar, insertBefore);
+      else story.appendChild(bar);
+      applyView('abs');  // default Absolute view
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(go, 600));
+  else setTimeout(go, 600);
+})();
+</script>
+
+</body>
+</html>

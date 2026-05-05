@@ -336,8 +336,6 @@ function renderDistributions() {
       margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 }
     }, window.scrChartConfig || { responsive: true, displayModeBar: true });
   }
-  // v82: also kick the Lorenz renderer from here
-  try { renderLorenz(); } catch(e) { console.warn('renderLorenz failed:', e); }
 }
 
 function renderVsCredit(country) {
