@@ -817,22 +817,8 @@
     const hasOurs = (lo.annotations || []).some(a => a && a._scrAxisArrow);
     if (hasOurs) return; // arrows already present; no-op
     const fg = document.body.classList.contains('dark') ? '#ececec' : '#1a1a1a';
-    function _scrAxisDim(t){
-      if (!t) return '';
-      const s = String(t).toLowerCase();
-      if (s.indexOf('year') >= 0 || s.indexOf('time') >= 0) return 'Time';
-      if (s.indexOf('percentile') >= 0) return 'Percentile';
-      if (s.indexOf('rank') >= 0) return 'Rank';
-      if (s.indexOf('residual') >= 0 || s.indexOf('composite') >= 0 || s.indexOf('score') >= 0 || s.indexOf('points') >= 0 || s.indexOf('0-60') >= 0 || s.indexOf('0\u201360') >= 0) return 'Points';
-      if (s.indexOf('hdi') >= 0) return 'HDI';
-      if (s.indexOf('gini') >= 0) return 'Gini';
-      if (s.indexOf('ppi') >= 0) return 'PPI';
-      if (s.indexOf('m1') >= 0) return 'M1';
-      if (s.indexOf('m4') >= 0) return 'M4';
-      return t;
-    }
-    const titleX = _scrAxisDim((lo.xaxis && lo.xaxis.title && (lo.xaxis.title.text || '')) || '') || 'Time';
-    const titleY = _scrAxisDim((lo.yaxis && lo.yaxis.title && (lo.yaxis.title.text || '')) || '') || 'Points';
+    const titleX = (lo.xaxis && lo.xaxis.title && (lo.xaxis.title.text || '')) || '';
+    const titleY = (lo.yaxis && lo.yaxis.title && (lo.yaxis.title.text || '')) || '';
     const existing = (lo.annotations || []).filter(a => !a._scrAxisArrow);
     // Each arrow IS the visual extension of its axis line: ax/ay is the start
     // point right where the axis ends, (x, y) is the tip with a chunky arrowhead.

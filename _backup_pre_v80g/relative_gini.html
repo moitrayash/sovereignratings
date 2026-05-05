@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relative Gini: Sovereign Scores</title>
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<style>
+  .controls { background: #fff; border: 1px solid #ccc; padding: 14px 18px; margin: 18px 0; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.86rem; }
+  .controls label { font-weight: 700; font-size: 0.74rem; letter-spacing: 0.05em; text-transform: uppercase; color: #555; margin-right: 6px; }
+  .controls select { font-family: inherit; font-size: 0.86rem; padding: 4px 8px; border: 1px solid #aaa; background: #fff; margin-right: 14px; }
+  .chart-box { background: #fff; border: 1px solid #ccc; padding: 8px; margin: 14px 0; }
+
+  body.dark .controls,
+  body.dark .chart-box { background: var(--bg-card); border-color: var(--border); }
+  body.dark .controls label { color: var(--ink-soft); }
+  body.dark .controls select { background: var(--bg-card); color: var(--ink); border-color: var(--border); }
+</style>
+<script defer src="pct_change.js"></script>
+</head>
+<body>
+
+<header class="site">
+  <div class="head-row">
+    <div class="head-text">
+      <h1>Sovereign Ratings &amp; Scores</h1>
+            <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4 &middot; Relative HDI / Gini / PPI &middot; Shadow ratings (OLS, k-NN, Bayes)</p>
+    </div>
+  </div>
+</header>
+<nav class="site"></nav>
+
+<main>
+
+  <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Relative Gini Index</h2>
+  <p>The Gini index, defined by Corrado Gini in 1912,<sup class="note-ref"><a href="#note-1">1</a></sup> measures inequality on a scale where 0 is perfect equality and 1 (or 100, depending on convention) is perfect concentration. The World Bank publishes a country-level income Gini under indicator <code>SI.POV.GINI</code>, drawn from household income surveys.<sup class="note-ref"><a href="#note-2">2</a></sup> Coverage is sparse: not every country reports every year, and many low-income countries report only every five to ten years. This page applies the leave-one-out relative-rating logic of <a href="methodology.html#sec4">Methodology &sect;4</a> to the income-Gini series and asks whether a country's standing in the global inequality distribution moves with its credit rating.</p>
+
+  <h2 id="construction"><span class="section-num">1</span> Construction</h2>
+  <p>The Gini convention used here is &ldquo;higher is more unequal,&rdquo; the World Bank standard. Because the relative-rating methods M1, M2, and M4 are all defined to interpret &ldquo;higher value = better,&rdquo; we invert the scale: <code>GiniInv = 100 &minus; Gini</code>. A country with Gini = 25 (relatively equal, like the Slovak Republic) has GiniInv = 75; a country with Gini = 60 (high inequality, like South Africa) has GiniInv = 40. The leave-one-out world mean and M1&ndash;M4 then follow the standard formulas:</p>
+
+  <div class="formula-block">
+    <span class="label">M1 (Gini)</span>GiniInv<sub>it</sub><sup>2</sup> / LOO<sub>it</sub>
+    <br><span class="label">M2 (Gini)</span>rank of GiniInv<sub>it</sub> within reporting countries, year <em>t</em>
+    <br><span class="label">M4 (Gini)</span>M2 / N<sub>t</sub>
+  </div>
+
+  <p>The world used for the leave-one-out mean is the set of countries reporting in that year only—there is no plausible imputation strategy at country&times;year resolution—so N<sub>t</sub> varies between roughly 25 and 95 across the panel. This sparse-and-unbalanced structure makes inter-year comparisons noisier than for the credit-rating or HDI panels; the explorer below shows the underlying observation density alongside the relative measures.</p>
+
+  <details class="example">
+    <summary>Worked example: India GiniInv in one country-year</summary>
+    <p><strong>Step 1: invert the Gini.</strong> Lower inequality is conventionally treated as better, so the metric is inverted before relative-rating arithmetic. If India's reported Gini is 32.8, then GiniInv = 100 &minus; 32.8 = <strong>67.2</strong>.</p>
+    <p><strong>Step 2: compute M1.</strong> If the leave-one-out peer mean for GiniInv that year is 61.5, M1 = focal&sup2; / peer mean = 67.2&sup2; / 61.5 = 4515.84 / 61.5 = <strong>73.43</strong>.</p>
+    <p><strong>Step 3: compute M2.</strong> Sort all reporting countries that year from lowest to highest GiniInv. If India ranks 58th out of 95 reporting countries, M2 = <strong>58</strong>.</p>
+    <p><strong>Step 4: compute M4.</strong> M4 = M2 / N<sub>t</sub> = 58 / 95 = <strong>0.611</strong>.</p>
+    <p><strong>Reading.</strong> Because Gini reporting is sparser than HDI, the N<sub>t</sub> denominator changes from year to year. The same country at the same Gini can therefore receive a different M4 depending on how many other countries reported in that year &mdash; another reason to read M4 alongside M2 rather than in isolation.</p>
+  </details>
+
+  <h2 id="explorer"><span class="section-num">2</span> Country explorer</h2>
+
+  <div class="controls">
+    <label for="country">Country</label>
+    <select id="country"></select>
+    <label for="peerset" style="margin-left:14px">Compare against</label>
+    <select id="peerset">
+      <optgroup label="Geographic">
+        <option value="world">World (all reporting countries)</option>
+        <option value="region">Same continent</option>
+      </optgroup>
+      <optgroup label="Multilateral / political / economic" id="peerset-presets">
+        <!-- presets injected at runtime from SCR_PRESET_ORDER -->
+      </optgroup>
+      <optgroup label="Custom">
+        <option value="custom">Custom subset…</option>
+      </optgroup>
+    </select>
+    <span id="peer-info" style="margin-left:10px;color:#888;font-size:0.78rem"></span>
+  </div>
+
+  <div id="custom-picker" class="controls" style="display:none;margin-top:-6px">
+    <label for="custom-countries" style="display:block;margin-bottom:4px">Custom peer set (Cmd/Ctrl-click to multi-select; min 2)</label>
+    <select id="custom-countries" multiple style="height:130px;width:100%;max-width:520px"></select>
+    <div style="margin-top:6px">
+      <button type="button" id="custom-apply" style="padding:4px 10px;font-size:0.78rem;cursor:pointer">Apply</button>
+      <button type="button" id="custom-clear" style="padding:4px 10px;font-size:0.78rem;cursor:pointer;margin-left:6px">Clear</button>
+    </div>
+  </div>
+
+  <div id="gini-headline-switcher" style="margin-top:8px"></div>
+  <div class="chart-box" id="gini-abs-box"><div id="gini-abs" style="height:340px"></div></div>
+  <div class="chart-box" id="gini-rel-box"><div id="gini-rel" style="height:340px"></div></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const wrap = document.getElementById('gini-headline-switcher');
+      function applyView(v) {
+        document.getElementById('gini-abs-box').style.display = (v === 'absolute') ? '' : 'none';
+        document.getElementById('gini-rel-box').style.display = (v === 'relative') ? '' : 'none';
+      }
+      function build() {
+        if (!window.scrMakeViewSwitcher) { setTimeout(build, 80); return; }
+        window.scrMakeViewSwitcher(wrap, { keys: ['relative','absolute'], default: 'relative', onChange: applyView });
+      }
+      build();
+    });
+  </script>
+  <div class="chart-box"><div id="gini-vs-credit" style="height:340px"></div></div>
+
+  <p>The <strong>Compare against</strong> control lets the peer set be re-cast on the fly. The default is the world (all reporters in that year). <em>Same continent</em> restricts the leave-one-out mean and the rank-based M2 / M4 to the focal country's UN-style continent — useful for inequality questions that are mostly regional in nature (Latin American income inequality vs. East Asian, for example). <em>Custom subset</em> lets you build an ad-hoc set; combined with Gini's spotty annual reporting this means small custom sets may yield very few country-years (when N drops below 2 in a year, the LOO is undefined and that year is dropped).</p>
+
+  <p>The first chart plots a country's raw Gini against the leave-one-out peer-set mean; gaps in the line are years where the country did not report. The second shows the relative measures M1, M2 (rank), and M4 (percentile). The third overlays the inverted Gini against the credit composite score. The hypothesis sometimes advanced—that more equal countries enjoy better sovereign ratings—has weak support in this data: cross-sectional correlation between GiniInv and credit composite is positive but modest (r &asymp; 0.35), and within-country variation in Gini is too small over the panel window to drive credit movements.</p>
+
+
+  <h2 id="distribution"><span class="section-num">3</span> Distribution shape (latest year)</h2>
+  <p>Three views of how income Gini values are distributed across reporting countries in the most recent year of the panel: the <span class="term" data-term="cdf">empirical CDF</span>, the <a href="https://en.wikipedia.org/wiki/Lorenz_curve" target="_blank" rel="noopener">Lorenz-style curve</a> over the inverted Gini values with its inequality quotient, and a histogram with a fitted <span class="term" data-term="normal-distribution">normal density</span> overlay.</p>
+
+  <div class="chart-box"><div id="gini-cdf" style="height:340px"></div></div>
+  <div class="chart-box"><div id="gini-lorenz" style="height:340px"></div></div>
+  <div class="chart-box"><div id="gini-hist" style="height:340px"></div></div>
+
+  <h2 id="caveats"><span class="section-num">3</span> Caveats</h2>
+  <p>Income Gini is a <em>flow</em> measure, while wealth Gini (which tracks household balance-sheet inequality) is a <em>stock</em> measure; the two can diverge meaningfully and only the former is reported here. Survey methodology varies across countries (consumption vs disposable income, urban vs national coverage), and World Bank harmonisation is imperfect. The leave-one-out world mean implicitly weights every reporting country equally regardless of population, which over-represents small economies; a population-weighted variant is straightforward to compute but is not pre-bundled in <code>extras.json</code>. Sparseness means trend reads from this page should be treated as illustrative rather than confirmatory—serious cross-country inequality work uses harmonised micro-data sources such as the <a href="https://wid.world" target="_blank" rel="noopener">World Inequality Database</a> or the <a href="https://www.lisdatacenter.org" target="_blank" rel="noopener">Luxembourg Income Study</a>.</p>
+
+  <div class="endnotes" id="endnotes">
+    <h3>Endnotes</h3>
+    <ol>
+      <li id="note-1">Corrado Gini, <em>Variabilit&agrave; e Mutabilit&agrave;</em> (Bologna: Tipografia di Paolo Cuppini, 1912). See the <a href="https://en.wikipedia.org/wiki/Gini_coefficient" target="_blank" rel="noopener">Wikipedia summary</a> for the modern algebraic statement.</li>
+      <li id="note-2">World Bank, <em>World Development Indicators</em>, indicator <a href="https://data.worldbank.org/indicator/SI.POV.GINI" target="_blank" rel="noopener">SI.POV.GINI</a>; methodological notes at the World Bank's <a href="https://datacatalog.worldbank.org/search/dataset/0037712" target="_blank" rel="noopener">data catalogue</a>.</li>
+    </ol>
+  </div>
+
+  <p class="page-footer">Gini relative series are pre-computed and bundled into <code>extras.json</code>. Source: World Bank WDI <code>SI.POV.GINI</code>, 2000&ndash;2024; 1,858 country&times;year observations across 168 countries.</p>
+
+</main>
+
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("relative_gini.html"));</script>
+<script defer src="shared.js"></script>
+<script defer>
+let EXTRAS = null;
+let CUSTOM_PEERS = [];
+window.addEventListener('load', () => {
+  if (!window.scrLoadExtras) {
+    document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">shared.js failed to load.</p>');
+    return;
+  }
+  window.scrLoadExtras().then(j => {
+    EXTRAS = j;
+    populateCountries();
+    wirePeerControls();
+    renderDistributions();
+  }).catch(err => {
+    document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">Could not load extras.json: ' + err.message + '</p>');
+  });
+});
+
+function populateCountries() {
+  const sel = document.getElementById('country');
+  if (!sel) return;
+  const countries = Array.from(new Set(EXTRAS.gini_rel.map(r => r.Country))).sort();
+  sel.innerHTML = '';
+  countries.forEach(c => sel.appendChild(new Option(c, c)));
+  const def = countries.includes('South Africa') ? 'South Africa' : countries[0];
+  sel.value = def;
+  sel.onchange = () => { renderExplorer(sel.value); renderDistributions(); };
+  renderExplorer(def);
+}
+
+function wirePeerControls() {
+  const peerSel = document.getElementById('peerset');
+  const customBox = document.getElementById('custom-picker');
+  const customSel = document.getElementById('custom-countries');
+  const all = Array.from(new Set(EXTRAS.gini_rel.map(r => r.Country))).sort();
+  customSel.innerHTML = '';
+  all.forEach(c => customSel.appendChild(new Option(c, c)));
+  // Inject preset peer-group options (OECD, BRICS+, EU, etc.)
+  const presetOg = document.getElementById('peerset-presets');
+  if (presetOg && window.SCR_PRESET_ORDER) {
+    presetOg.innerHTML = '';
+    window.SCR_PRESET_ORDER.forEach(name => {
+      const members = (window.SCR_PRESET_GROUPS[name] || []).filter(c => all.includes(c));
+      if (!members.length) return;
+      const opt = new Option(name + ' (' + members.length + ')', 'preset:' + name);
+      presetOg.appendChild(opt);
+    });
+  }
+  peerSel.onchange = () => {
+    customBox.style.display = (peerSel.value === 'custom') ? 'block' : 'none';
+    if (peerSel.value !== 'custom') {
+      renderExplorer(document.getElementById('country').value);
+      renderDistributions();
+    }
+  };
+  document.getElementById('custom-apply').onclick = () => {
+    CUSTOM_PEERS = Array.from(customSel.selectedOptions).map(o => o.value);
+    if (CUSTOM_PEERS.length < 2) { alert('Pick at least 2 countries.'); return; }
+    const focal = document.getElementById('country').value;
+    if (!CUSTOM_PEERS.includes(focal)) CUSTOM_PEERS.push(focal);
+    renderExplorer(focal);
+    renderDistributions();
+  };
+  document.getElementById('custom-clear').onclick = () => {
+    Array.from(customSel.options).forEach(o => o.selected = false);
+  };
+}
+
+function currentPeerSet(focal) {
+  const mode = document.getElementById('peerset').value;
+  const all = new Set(EXTRAS.gini_rel.map(r => r.Country));
+  if (mode === 'world') return {set: all, label: 'World'};
+  if (mode === 'region') {
+    const reg = window.SCR_REGION_OF[focal];
+    if (!reg) return {set: all, label: 'World (focal has no region mapping)'};
+    const peers = new Set(window.SCR_COUNTRIES_IN(reg).filter(c => all.has(c)));
+    peers.add(focal);
+    return {set: peers, label: reg + ' (' + peers.size + ' countries)'};
+  }
+  if (mode.startsWith('preset:')) {
+    const name = mode.slice(7);
+    const members = (window.SCR_PRESET_GROUPS[name] || []).filter(c => all.has(c));
+    const peers = new Set(members);
+    peers.add(focal);
+    return {set: peers, label: name + ' (' + peers.size + ' countries)'};
+  }
+  const peers = new Set(CUSTOM_PEERS.length ? CUSTOM_PEERS : [focal]);
+  peers.add(focal);
+  return {set: peers, label: 'Custom (' + peers.size + ' countries)'};
+}
+
+// Gini panel uses field name "Gini" (not "Value"). Adapt for the recompute.
+function peerRowsFor(focal) {
+  const {set, label} = currentPeerSet(focal);
+  const allWorld = new Set(EXTRAS.gini_rel.map(r => r.Country));
+  let rows;
+  if (set.size === allWorld.size) {
+    rows = EXTRAS.gini_rel.filter(r => r.Country === focal).sort((a,b) => a.Year - b.Year);
+  } else {
+    // Build {Country, Year, Value} from EXTRAS.gini for the subset, then recompute
+    const giniRows = EXTRAS.gini.filter(r => set.has(r.Country)).map(r => ({Country: r.Country, Year: r.Year, Value: r.Gini}));
+    const recomputed = window.scrRecomputeRelative(giniRows, set);

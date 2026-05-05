@@ -447,7 +447,7 @@ const baseLayout = {
   margin: {l: 64, r: 56, t: 84, b: 92, pad: 6},
   legend: {orientation: 'h', y: -0.32, x: 0.5, xanchor: 'center'}
 };
-const lineDash = ['#1B4F8A','#C0392B','#2E7D32','#E67E22','#9B59B6','#16A085','#D35400','#34495E'];
+const lineDash = ['#1a1a1a','#666','#999','#bbb','#444','#888','#000','#777'];
 
 function renderAll() {
   // ── Argentina
@@ -781,8 +781,8 @@ function renderAll() {
       }
       const yrs = ICE.map(d => d.Year);
       plot('iceland-relative', [
-        { x: yrs, y: yrs.map(y => pctRank('Iceland', y)), name: 'Iceland M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 ,dash:'dot'}, marker: { size: 4 } },
-        { x: yrs, y: yrs.map(y => pctRank('Ireland', y)), name: 'Ireland M4 percentile', mode: 'lines+markers', line: { color: '#666', width: 2 ,dash:'dot'}, marker: { size: 4 } }
+        { x: yrs, y: yrs.map(y => pctRank('Iceland', y)), name: 'Iceland M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } },
+        { x: yrs, y: yrs.map(y => pctRank('Ireland', y)), name: 'Ireland M4 percentile', mode: 'lines+markers', line: { color: '#666', width: 2 }, marker: { size: 4 } }
       ], {
         title: { text: 'M4 percentile within the Nordic-Atlantic 5-country peer set', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: '', gridcolor: '#eee' },
@@ -814,9 +814,9 @@ function renderAll() {
       }
       const yrsA = ARG.map(d => d.Year);
       plot('arg-relative', [
-        { x: yrsA, y: yrsA.map(y => pctArg('Argentina', y)), name: 'Argentina M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 ,dash:'dot'}, marker: { size: 4 } },
-        { x: yrsA, y: yrsA.map(y => pctArg('Brazil', y)), name: 'Brazil M4 percentile', mode: 'lines', line: { color: '#666', width: 1.8 ,dash:'dot'} },
-        { x: yrsA, y: yrsA.map(y => pctArg('Chile', y)), name: 'Chile M4 percentile', mode: 'lines', line: { color: '#888', width: 1.8 ,dash:'dot'} }
+        { x: yrsA, y: yrsA.map(y => pctArg('Argentina', y)), name: 'Argentina M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } },
+        { x: yrsA, y: yrsA.map(y => pctArg('Brazil', y)), name: 'Brazil M4 percentile', mode: 'lines', line: { color: '#666', width: 1.8 } },
+        { x: yrsA, y: yrsA.map(y => pctArg('Chile', y)), name: 'Chile M4 percentile', mode: 'lines', line: { color: '#888', width: 1.8 } }
       ], {
         title: { text: 'M4 percentile in the Latin America 5-country peer set', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: '', gridcolor: '#eee' },
@@ -866,9 +866,9 @@ function renderAll() {
       const af = filt(focal);
       return [
         { x: af.map(d => d.Year), y: af.map(d => d.v), name: 'Actual', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 }, marker: { size: 5 } },
-        { x: ols.map(r => r.Year), y: ols.map(r => pred(r)), name: 'OLS shadow', mode: 'lines', line: { color: '#5b9bd5', width: 2 ,dash:'dash'} },
-        { x: knn.map(r => r.Year), y: knn.map(r => pred(r)), name: 'k-NN shadow', mode: 'lines', line: { color: '#e15759', width: 2 ,dash:'dash'} },
-        { x: bay.map(r => r.Year), y: bay.map(r => pred(r)), name: 'Bayes shadow', mode: 'lines', line: { color: '#76b56a', width: 2 ,dash:'dash'} }
+        { x: ols.map(r => r.Year), y: ols.map(r => pred(r)), name: 'OLS shadow', mode: 'lines', line: { color: '#5b9bd5', width: 2 } },
+        { x: knn.map(r => r.Year), y: knn.map(r => pred(r)), name: 'k-NN shadow', mode: 'lines', line: { color: '#e15759', width: 2 } },
+        { x: bay.map(r => r.Year), y: bay.map(r => pred(r)), name: 'Bayes shadow', mode: 'lines', line: { color: '#76b56a', width: 2 } }
       ];
     }
 
@@ -876,7 +876,7 @@ function renderAll() {
     if (G.length) {
       const yrs = G.map(d => d.Year);
       plot('ghana-relative', [
-        { x: yrs, y: yrs.map(y => pctRankInPeers('Ghana', y, SSA)), name: 'Ghana M4 percentile (SSA peers)', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 ,dash:'dot'}, marker: { size: 4 } }
+        { x: yrs, y: yrs.map(y => pctRankInPeers('Ghana', y, SSA)), name: 'Ghana M4 percentile (SSA peers)', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } }
       ], {
         title: { text: 'Ghana M4 percentile within Sub-Saharan Africa peer set', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: '', gridcolor: '#eee' },
@@ -893,7 +893,7 @@ function renderAll() {
     if (BLZ.length) {
       const yrs = BLZ.map(d => d.Year);
       plot('belize2007-relative', [
-        { x: yrs, y: yrs.map(y => pctRankInPeers('Belize', y, CARIB)), name: 'Belize M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 ,dash:'dot'}, marker: { size: 4 } }
+        { x: yrs, y: yrs.map(y => pctRankInPeers('Belize', y, CARIB)), name: 'Belize M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } }
       ], {
         title: { text: 'Belize M4 percentile within Caribbean peer set, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: '', gridcolor: '#eee' },
@@ -911,7 +911,7 @@ function renderAll() {
       const sub = BLZ.filter(d => d.Year >= 2005);
       const yrs = sub.map(d => d.Year);
       plot('belize2013-relative', [
-        { x: yrs, y: yrs.map(y => pctRankInPeers('Belize', y, CARIB)), name: 'Belize M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 ,dash:'dot'}, marker: { size: 4 } }
+        { x: yrs, y: yrs.map(y => pctRankInPeers('Belize', y, CARIB)), name: 'Belize M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } }
       ], {
         title: { text: 'Belize M4 percentile within Caribbean peer set, 2005-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: '', gridcolor: '#eee' },
@@ -928,7 +928,7 @@ function renderAll() {
     if (BAR.length) {
       const yrs = BAR.map(d => d.Year);
       plot('barbados-relative', [
-        { x: yrs, y: yrs.map(y => pctRankInPeers('Barbados', y, CARIB)), name: 'Barbados M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 ,dash:'dot'}, marker: { size: 4 } }
+        { x: yrs, y: yrs.map(y => pctRankInPeers('Barbados', y, CARIB)), name: 'Barbados M4 percentile', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2 }, marker: { size: 4 } }
       ], {
         title: { text: 'Barbados M4 percentile within Caribbean peer set, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: '', gridcolor: '#eee' },
@@ -975,7 +975,7 @@ function renderAll() {
     if (ARG_DATA.length && document.getElementById('arg-relative')) {
       const yrs = ARG_DATA.map(d => d.Year);
       v79plot('arg-relative', [
-        { x: yrs, y: yrs.map(y => v79pctRank('Argentina', y, LATAM)), name: 'Argentina M4 percentile (Latin America peer set)', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 ,dash:'dot'}, marker: { size: 4 } }
+        { x: yrs, y: yrs.map(y => v79pctRank('Argentina', y, LATAM)), name: 'Argentina M4 percentile (Latin America peer set)', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 }, marker: { size: 4 } }
       ], {
         title: { text: 'Argentina M4 percentile within the Latin America peer set, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: '', gridcolor: '#eee' },
@@ -988,9 +988,9 @@ function renderAll() {
       const ols = ARG_SH.ols || [], knn = ARG_SH.knn || [], bayes = ARG_SH.bayes || [];
       v79plot('arg-shadow', [
         { x: ARG_DATA.map(d => d.Year), y: ARG_DATA.map(d => d.v), name: 'Actual', mode: 'lines+markers', line: { color: '#1a1a1a', width: 2.4 }, marker: { size: 5 } },
-        { x: ols.map(r => r.Year), y: ols.map(r => v79pred(r)), name: 'OLS shadow', mode: 'lines', line: { color: '#5b9bd5', width: 2 ,dash:'dash'} },
-        { x: knn.map(r => r.Year), y: knn.map(r => v79pred(r)), name: 'k-NN shadow', mode: 'lines', line: { color: '#e15759', width: 2 ,dash:'dash'} },
-        { x: bayes.map(r => r.Year), y: bayes.map(r => v79pred(r)), name: 'Bayes shadow', mode: 'lines', line: { color: '#76b56a', width: 2 ,dash:'dash'} }
+        { x: ols.map(r => r.Year), y: ols.map(r => v79pred(r)), name: 'OLS shadow', mode: 'lines', line: { color: '#5b9bd5', width: 2 } },
+        { x: knn.map(r => r.Year), y: knn.map(r => v79pred(r)), name: 'k-NN shadow', mode: 'lines', line: { color: '#e15759', width: 2 } },
+        { x: bayes.map(r => r.Year), y: bayes.map(r => v79pred(r)), name: 'Bayes shadow', mode: 'lines', line: { color: '#76b56a', width: 2 } }
       ], {
         title: { text: 'Argentina actual vs three shadow predictions, 2000-2025', font: { size: 13 }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
         xaxis: { title: '', gridcolor: '#eee' },
@@ -1037,90 +1037,6 @@ function renderAll() {
   const obs = new MutationObserver(applyChartTheme);
   obs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
   window.scrTheChartTheme = applyChartTheme;
-})();
-</script>
-
-
-<script defer>
-// v80g: auto-wire absolute/relative/shadow view switcher on every story.
-// For each .story container, look for chart-boxes whose first <div> id ends
-// in -chart (or -spread / -recovery / -peers / -pairwise / -cluster as
-// peer-group siblings of -chart), -relative, or -shadow. Group them by
-// suffix and toggle visibility on switcher click. Stories that lack a given
-// chart-box just don't get that pill.
-(function wireAllStorySwitchers(){
-  function go(){
-    const stories = document.querySelectorAll('.story');
-    if (!stories.length) { setTimeout(go, 200); return; }
-    stories.forEach(story => {
-      if (story.dataset.viewWired === '1') return;
-      const boxes = story.querySelectorAll('.chart-box');
-      if (!boxes.length) return;
-      // Classify each chart-box by its inner div id
-      const groups = { abs: [], rel: [], shad: [] };
-      boxes.forEach(b => {
-        const inner = b.querySelector('[id]');
-        if (!inner) return;
-        const id = inner.id;
-        if (/-relative$/.test(id) || /-pairwise-rel$/.test(id) || /-rel$/.test(id)) groups.rel.push(b);
-        else if (/-shadow$/.test(id)) groups.shad.push(b);
-        else groups.abs.push(b);
-      });
-      const has = { abs: groups.abs.length > 0, rel: groups.rel.length > 0, shad: groups.shad.length > 0 };
-      const numGroups = (has.abs?1:0) + (has.rel?1:0) + (has.shad?1:0);
-      if (numGroups < 2) return;  // nothing to switch
-      story.dataset.viewWired = '1';
-      // Build switcher
-      const bar = document.createElement('div');
-      bar.className = 'story-view-switcher';
-      bar.style.cssText = 'margin: 8px 0 12px; display:flex; gap:0; align-items:center; flex-wrap:wrap; font-family: Helvetica Neue, Arial, sans-serif; font-size: 0.74rem;';
-      const lbl = document.createElement('span');
-      lbl.textContent = 'VIEW:';
-      lbl.style.cssText = 'color: var(--muted); margin-right: 8px; letter-spacing: 0.06em; font-weight: 700;';
-      bar.appendChild(lbl);
-      function makePill(key, label){
-        const b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'pill';
-        b.dataset.view = key;
-        b.textContent = label;
-        b.style.cssText = 'background: var(--bg-card); color: var(--ink); border: 1px solid var(--border); padding: 4px 12px; cursor: pointer; font: inherit; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 700; margin-right: -1px;';
-        return b;
-      }
-      const pillAbs  = has.abs  ? makePill('abs',  'Absolute') : null;
-      const pillRel  = has.rel  ? makePill('rel',  'Relative') : null;
-      const pillShad = has.shad ? makePill('shad', 'Shadow')   : null;
-      [pillAbs, pillRel, pillShad].filter(Boolean).forEach(p => bar.appendChild(p));
-      function applyView(v){
-        const showAbs = v === 'abs';
-        const showRel = v === 'rel';
-        const showShad = v === 'shad';
-        groups.abs.forEach(b => b.style.display = showAbs ? '' : 'none');
-        groups.rel.forEach(b => b.style.display = showRel ? '' : 'none');
-        groups.shad.forEach(b => b.style.display = showShad ? '' : 'none');
-        // also hide their captions (the next .chart-caption sibling)
-        function cap(b){ const n = b.nextElementSibling; if (n && n.classList.contains('chart-caption')) return n; return null; }
-        groups.abs.forEach(b => { const c = cap(b); if (c) c.style.display = showAbs ? '' : 'none'; });
-        groups.rel.forEach(b => { const c = cap(b); if (c) c.style.display = showRel ? '' : 'none'; });
-        groups.shad.forEach(b => { const c = cap(b); if (c) c.style.display = showShad ? '' : 'none'; });
-        [pillAbs, pillRel, pillShad].forEach(p => {
-          if (!p) return;
-          const active = p.dataset.view === v;
-          p.style.background = active ? 'var(--accent)' : 'var(--bg-card)';
-          p.style.color = active ? 'var(--bg-card)' : 'var(--ink)';
-        });
-      }
-      [pillAbs, pillRel, pillShad].forEach(p => { if (p) p.addEventListener('click', () => applyView(p.dataset.view)); });
-      // Insert AFTER the story-meta or h2, BEFORE the lede
-      const lede = story.querySelector('.lede');
-      const insertBefore = lede || story.querySelector('p, .chart-box');
-      if (insertBefore) story.insertBefore(bar, insertBefore);
-      else story.appendChild(bar);
-      applyView('abs');  // default Absolute view
-    });
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(go, 600));
-  else setTimeout(go, 600);
 })();
 </script>
 

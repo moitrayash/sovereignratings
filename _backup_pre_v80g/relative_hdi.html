@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relative HDI: Sovereign Scores</title>
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<style>
+  .controls {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 14px 18px;
+    margin: 18px 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.86rem;
+  }
+  .controls label {
+    font-weight: 700;
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #555;
+    margin-right: 6px;
+  }
+  .controls select {
+    font-family: inherit;
+    font-size: 0.86rem;
+    padding: 4px 8px;
+    border: 1px solid #aaa;
+    background: #fff;
+    margin-right: 14px;
+  }
+  .chart-box { background: #fff; border: 1px solid #ccc; padding: 8px; margin: 14px 0; }
+
+  /* Dark-mode overrides */
+  body.dark .controls,
+  body.dark .chart-box { background: var(--bg-card); border-color: var(--border); }
+  body.dark .controls label { color: var(--ink-soft); }
+  body.dark .controls select { background: var(--bg-card); color: var(--ink); border-color: var(--border); }
+</style>
+<script defer src="pct_change.js"></script>
+</head>
+<body>
+
+<header class="site">
+  <div class="head-row">
+    <div class="head-text">
+      <h1>Sovereign Ratings &amp; Scores</h1>
+            <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4 &middot; Relative HDI / Gini / PPI &middot; Shadow ratings (OLS, k-NN, Bayes)</p>
+    </div>
+  </div>
+</header>
+<nav class="site"></nav>
+
+<main>
+
+  <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Relative Human Development Index</h2>
+  <p>The Human Development Index, developed by <a href="https://en.wikipedia.org/wiki/Mahbub_ul_Haq" target="_blank" rel="noopener">Mahbub ul Haq</a> for the <a href="https://hdr.undp.org" target="_blank" rel="noopener">United Nations Development Programme</a> in 1990 and refined by <a href="https://en.wikipedia.org/wiki/Amartya_Sen" target="_blank" rel="noopener">Amartya Sen</a>, is a composite of life expectancy, education, and gross national income per capita.<sup class="note-ref"><a href="#note-1">1</a></sup> It is published annually for roughly 190 countries on a 0&ndash;1 scale, with higher values indicating greater &ldquo;human development.&rdquo; This page applies the same relative-rating logic as &sect;4 of the <a href="methodology.html#sec4">Methodology</a> to a re-scaled HDI—HDI multiplied by 100 to align with the credit-rating scale—and asks the natural question: how does a country's standing in the human-development distribution compare to its standing in the credit-rating distribution?</p>
+
+  <h2 id="construction"><span class="section-num">1</span> Construction</h2>
+  <p>The 2023/24 UNDP HDR composite-indices file<sup class="note-ref"><a href="#note-2">2</a></sup> provides annual HDI values from 1990 through 2022 for 191 entities. Each value is multiplied by 100 to produce <code>HDI100</code> (range 0&ndash;100). For each country&ndash;year, the leave-one-out world mean is computed, and four relative measures follow the same definitions as the credit-rating M1&ndash;M4:</p>
+
+  <div class="formula-block">
+    <span class="label">M1 (HDI)</span>HDI100<sub>it</sub><sup>2</sup> / LOO<sub>it</sub>
+    <br><span class="label">M2 (HDI)</span>rank of HDI100<sub>it</sub> within world, year <em>t</em>
+    <br><span class="label">M4 (HDI)</span>M2 / N
+  </div>
+
+  <p>Inflating to 100 rather than 60 is a deliberate choice: HDI varies over a wider relative range than credit ratings (some sub-Saharan countries are below 0.4, while Norway tops 0.96), so the squared-numerator method is better-behaved on a 0&ndash;100 scale than on 0&ndash;60. Otherwise the metric is identical.</p>
+
+  <details class="example">
+    <summary>Worked example: India HDI100 in one country-year</summary>
+    <p><strong>Step 1: start with the focal value.</strong> If India's HDI is 0.644, then HDI100 = 0.644 &times; 100 = 64.4. Suppose the leave-one-out peer mean for the active peer set in that year is 73.2.</p>
+    <p><strong>Step 2: compute M1.</strong> M1 = focal&sup2; / peer mean = 64.4&sup2; / 73.2 = 4147.36 / 73.2 = <strong>56.66</strong>. M1 sits below the peer mean, so India is performing below the peer benchmark on the squared-magnitude metric.</p>
+    <p><strong>Step 3: compute M2.</strong> Sort all peer-set countries from lowest to highest HDI100 in that year. If India ranks 86th out of 142 reporting countries, M2 = <strong>86</strong>.</p>
+    <p><strong>Step 4: compute M4.</strong> M4 = M2 / N = 86 / 142 = <strong>0.606</strong>. India sits at roughly the 61st percentile of the peer distribution.</p>
+    <p><strong>Reading.</strong> The arithmetic separates level from position. M1 reports how far the value stands above or below the leave-one-out benchmark; M4 reports where it sits in the ranked cross-section. Missing-reporting years are skipped rather than imputed.</p>
+  </details>
+
+  <h2 id="explorer"><span class="section-num">2</span> Country explorer</h2>
+
+  <div class="controls">
+    <label for="country">Country</label>
+    <select id="country"></select>
+    <label for="peerset" style="margin-left:14px">Compare against</label>
+    <select id="peerset">
+      <optgroup label="Geographic">
+        <option value="world">World (all reporting countries)</option>
+        <option value="region">Same continent</option>
+      </optgroup>
+      <optgroup label="Multilateral / political / economic" id="peerset-presets">
+        <!-- presets injected at runtime from SCR_PRESET_ORDER -->
+      </optgroup>
+      <optgroup label="Custom">
+        <option value="custom">Custom subset…</option>
+      </optgroup>
+    </select>
+    <span id="peer-info" style="margin-left:10px;color:#888;font-size:0.78rem"></span>
+  </div>
+
+  <div id="custom-picker" class="controls" style="display:none;margin-top:-6px">
+    <label for="custom-countries" style="display:block;margin-bottom:4px">Custom peer set (Cmd/Ctrl-click to multi-select; min 2)</label>
+    <select id="custom-countries" multiple style="height:130px;width:100%;max-width:520px"></select>
+    <div style="margin-top:6px">
+      <button type="button" id="custom-apply" style="padding:4px 10px;font-size:0.78rem;cursor:pointer">Apply</button>
+      <button type="button" id="custom-clear" style="padding:4px 10px;font-size:0.78rem;cursor:pointer;margin-left:6px">Clear</button>
+    </div>
+  </div>
+
+  <div id="hdi-headline-switcher" style="margin-top:8px"></div>
+  <div class="chart-box" id="hdi-abs-box"><div id="hdi-abs" style="height:340px"></div></div>
+  <div class="chart-box" id="hdi-rel-box"><div id="hdi-rel" style="height:340px"></div></div>
+  <div class="chart-box"><div id="hdi-vs-credit" style="height:340px"></div></div>
+  <script>
+    // Wire up Relative · Absolute switcher above the headline panel — default Relative.
+    document.addEventListener('DOMContentLoaded', function() {
+      const wrap = document.getElementById('hdi-headline-switcher');
+      function applyView(v) {
+        document.getElementById('hdi-abs-box').style.display = (v === 'absolute') ? '' : 'none';
+        document.getElementById('hdi-rel-box').style.display = (v === 'relative') ? '' : 'none';
+      }
+      function build() {
+        if (!window.scrMakeViewSwitcher) { setTimeout(build, 80); return; }
+        window.scrMakeViewSwitcher(wrap, { keys: ['relative','absolute'], default: 'relative', onChange: applyView });
+      }
+      build();
+    });
+  </script>
+
+  <p>The <strong>Compare against</strong> control above the charts lets the comparison set be re-cast on the fly. The default is the world (all 142 reporting countries). <em>Same continent</em> restricts the leave-one-out mean and the rank-based M2 / M4 to the focal country's UN-style continent (Africa, Asia, Europe, North America, Oceania, or South America); this makes the most sense for countries whose human-development trajectory is shaped primarily by regional conditions (a Gulf state versus other Gulf states, a Sub-Saharan low-income country against Sub-Saharan peers). <em>Custom subset</em> lets you build an ad-hoc comparison set — useful for SIDS clusters, BRICS, OECD, ASEAN, or any other peer grouping you care about. M1, M2, and M4 are recomputed client-side against whatever set is active.</p>
+
+  <p>The first chart shows absolute HDI100 over time alongside the leave-one-out peer-set mean. The second plots the M1, M2 (rank), and M4 (percentile) trajectories. The third overlays HDI100 on the credit composite score for the same country, both on the 0&ndash;100 scale (credit scaled up by 5/3) so the two are visually comparable. Most countries' HDI evolves slowly and monotonically; the credit score is more reactive and can fall sharply on a default. Where the two diverge sharply within a short window, the underlying story is almost always a financial crisis whose human-development consequences are absorbed only over several subsequent years—Argentina 2001, Iceland 2009, Greece 2012, Ghana 2022.<sup class="note-ref"><a href="#note-3">3</a></sup></p>
+
+
+  <h2 id="distribution"><span class="section-num">3</span> Distribution shape (latest year)</h2>
+  <p>Three views of how HDI values are distributed across the world in the most recent year of the panel: the <span class="term" data-term="cdf">empirical CDF</span> sorts every reporting country and shows the cumulative share at each value; the <a href="https://en.wikipedia.org/wiki/Lorenz_curve" target="_blank" rel="noopener">Lorenz-style curve</a> with the inequality quotient (twice the area between the 45° equality line and the curve, computed on HDI100 values rather than incomes); and the histogram with a fitted <span class="term" data-term="normal-distribution">normal density</span> overlay.</p>
+
+  <div class="chart-box"><div id="hdi-cdf" style="height:340px"></div></div>
+  <div class="chart-box"><div id="hdi-lorenz" style="height:340px"></div></div>
+  <div class="chart-box"><div id="hdi-hist" style="height:340px"></div></div>
+
+  <h2 id="evolution"><span class="section-num">4</span> HDI evolution over time</h2>
+  <p>Two animated views of how the HDI distribution moves year by year. The first is a horizontal racing bar of the top-25 HDI countries; the second is a scatter of HDI&times;100 against M4 percentile (rank within the active peer set), with each country a dot. Both respect the <strong>Compare against</strong> selector at the top of the page &mdash; pick a peer set there, then press Play below to watch ranks shift across the panel.</p>
+
+  <div class="chart-box"><div id="hdi-time-bars" style="height:560px"></div></div>
+  <div class="chart-caption">Figure 4.1: Top-25 by HDI&times;100 in the active peer set. Press Play or drag the slider to scrub through years. Bar order re-sorts each frame, so countries visibly overtake or fall behind one another as the panel advances.</div>
+
+  <div class="chart-box"><div id="hdi-time-scatter" style="height:480px"></div></div>
+  <div class="chart-caption">Figure 4.2: HDI&times;100 (x) vs M4 percentile within the active peer set (y), one dot per country, colored by continent. The diagonal cloud means HDI level and within-peer rank track closely; vertical movement at fixed HDI shows a country gaining or losing rank because its peers moved, not because it did.</div>
+
+  <h2 id="caveats"><span class="section-num">5</span> Caveats</h2>
+  <p>The HDI is updated annually but is methodologically backward-looking: the latest year's value typically reflects life-expectancy and education data released with a one-to-three year lag. The HDI panel here ends in 2022 because UNDP HDR 2023/24 had not yet released subsequent vintages at the time of this build; updates would extend the series without changing the methodology. The world used for the leave-one-out mean is the union of HDI-reporting countries (191), which is broader than the 150 rated by the three credit-rating agencies. Restricting the HDI benchmark to the rated subset shifts the world mean upward by approximately 4 HDI100 points but leaves country-level relative ranks essentially unchanged.</p>
+
+  <div class="endnotes" id="endnotes">
+    <h3>Endnotes</h3>
+    <ol>
+      <li id="note-1">Mahbub ul Haq's original 1990 framing of the HDI is documented in the inaugural <em>Human Development Report</em>; subsequent refinements (the inequality-adjusted HDI, the gender development index) are surveyed in UNDP's <a href="https://hdr.undp.org/data-center/documentation-and-downloads" target="_blank" rel="noopener">Documentation &amp; Downloads</a> page. For Amartya Sen's contribution to the underlying capabilities approach see Sen (1977), cited on the <a href="citations.html">Citations</a> page.</li>
+      <li id="note-2">United Nations Development Programme, <em>Human Development Report 2023/2024: Composite Indices Time Series</em>, accessed via the HDRO data centre.</li>
+      <li id="note-3">See the <a href="stories.html">Stories</a> page for narrative reconstructions of these episodes.</li>
+    </ol>
+  </div>
+
+  <p class="page-footer">Relative HDI series are pre-computed and bundled into <code>extras.json</code>. Source: UNDP HDR 2023/24, 142 of 191 reporting countries match the credit-rating panel.</p>
+
+</main>
+
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("relative_hdi.html"));</script>
+<script defer src="shared.js"></script>
+<script defer>
+let EXTRAS = null;
+let CUSTOM_PEERS = [];   // user-chosen subset for "custom" mode
+window.addEventListener('load', () => {
+  if (!window.scrLoadExtras) {
+    document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">shared.js failed to load.</p>');
+    return;
+  }
+  window.scrLoadExtras().then(j => {
+    EXTRAS = j;
+    populateCountries();
+    wirePeerControls();
+    renderDistributions();
+  }).catch(err => {
+    document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">Could not load extras.json: ' + err.message + '</p>');
+  });
+});
+
+function populateCountries() {
+  const sel = document.getElementById('country');
+  if (!sel) return;
+  const countries = Array.from(new Set(EXTRAS.hdi_rel.map(r => r.Country))).sort();
+  sel.innerHTML = '';
+  countries.forEach(c => sel.appendChild(new Option(c, c)));
+  const def = countries.includes('Norway') ? 'Norway' : countries[0];
+  sel.value = def;
+  sel.onchange = () => { renderExplorer(sel.value); renderDistributions(); };
+  renderExplorer(def);
+}
+
+function wirePeerControls() {
+  const peerSel = document.getElementById('peerset');
+  const customBox = document.getElementById('custom-picker');
+  const customSel = document.getElementById('custom-countries');
+  // Populate custom multi-select with all reporting countries
+  const all = Array.from(new Set(EXTRAS.hdi_rel.map(r => r.Country))).sort();
+  customSel.innerHTML = '';
+  all.forEach(c => customSel.appendChild(new Option(c, c)));
+  // Inject preset peer-group options (OECD, BRICS+, EU, etc.) into the dropdown
+  const presetOg = document.getElementById('peerset-presets');
+  if (presetOg && window.SCR_PRESET_ORDER) {
+    presetOg.innerHTML = '';
+    window.SCR_PRESET_ORDER.forEach(name => {
+      // Pre-compute size of the intersection with the panel so the user can see
+      // how many countries are actually in the comparison
+      const members = (window.SCR_PRESET_GROUPS[name] || []).filter(c => all.includes(c));
+      if (!members.length) return;
+      const opt = new Option(name + ' (' + members.length + ')', 'preset:' + name);
+      presetOg.appendChild(opt);
+    });
+  }
+  peerSel.onchange = () => {
+    customBox.style.display = (peerSel.value === 'custom') ? 'block' : 'none';
+    if (peerSel.value !== 'custom') {
+      renderExplorer(document.getElementById('country').value);
+      renderDistributions();
+    }
+  };
+  document.getElementById('c

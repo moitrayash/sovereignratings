@@ -264,7 +264,7 @@ function renderPairView(divId, a, b, view) {
       }
       if (olsB.length) {
         traces.push({x:olsB.map(r=>r.Year), y:olsB.map(r=>r.Actual), name:b + ' actual', mode:'lines+markers', line:{color:colB,width:2.2}, marker:{color:colB,size:4}, legendgroup:b});
-        traces.push({x:olsB.map(r=>r.Year), y:olsB.map(r=>r.Shadow_OLS), name:b + ' shadow OLS', mode:'lines', line:{color:colB,width:1.5,dash:'dash'}, legendgroup:b});
+        traces.push({x:olsB.map(r=>r.Year), y:olsB.map(r=>r.Shadow_OLS), name:b + ' shadow OLS', mode:'lines', line:{color:colB,width:1.5}, legendgroup:b});
       }
       plotIt(divId, traces, Object.assign({}, baseLayout, {
         title:{text:a+' vs '+b+': actual (solid) vs shadow OLS (dashed)',font:{size:12}},
