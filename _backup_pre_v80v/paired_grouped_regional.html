@@ -199,22 +199,7 @@ function initPair() {
 
 // Cached caches for relative + shadow lookups
 function _m4Of(country, year) {
-  // v80v: inline M4 lookup, no dependency on shared js
-  if (!window._scrM4Inline){
-    const sm = EXTRAS.score_matrix || {}; const out = {};
-    for (const y in sm){
-      const row = sm[y]; if (!row) continue;
-      const entries = [];
-      for (const c in row){ if (row[c] != null) entries.push([c, row[c]]); }
-      if (entries.length < 2){ out[y] = {}; continue; }
-      entries.sort((a,b)=>a[1]-b[1]);
-      const N = entries.length; const m4y = {};
-      entries.forEach(([c,v], i) => { m4y[c] = (i+1)/N; });
-      out[y] = m4y;
-    }
-    window._scrM4Inline = out;
-  }
-  const m = window._scrM4Inline;
+  const m = (window.scrComputeCreditM4 ? window.scrComputeCreditM4(EXTRAS.score_matrix) : {});
   return (m[year] && m[year][country] != null) ? m[year][country] : null;
 }
 
@@ -256,21 +241,7 @@ function renderPairView(divId, a, b, view) {
       yaxis:{title:'',range:[0,60],gridcolor:'rgba(128,128,128,0.2)'}
     }));
   } else if (view === 'relative') {
-    const m4 = (function(){
-      // v80v: inline M4 percentile per year (year -> country -> rank/N).
-      const sm = EXTRAS.score_matrix || {}; const out = {};
-      for (const y in sm){
-        const row = sm[y]; if (!row) continue;
-        const entries = [];
-        for (const c in row){ if (row[c] != null) entries.push([c, row[c]]); }
-        if (entries.length < 2){ out[y] = {}; continue; }
-        entries.sort((a,b)=>a[1]-b[1]);
-        const N = entries.length; const m4y = {};
-        entries.forEach(([c,v], i) => { m4y[c] = (i+1)/N; });
-        out[y] = m4y;
-      }
-      return out;
-    })();
+    const m4 = (window.scrComputeCreditM4 ? window.scrComputeCreditM4(EXTRAS.score_matrix) : {});
     const xs=[], ya=[], yb=[];
     years.forEach(y => {
       const yr = m4[y];
