@@ -1,0 +1,20 @@
+[2026-05-07T15:46:57] === v90 fix start ===
+[2026-05-07T15:46:57] backed up shared.js + nav.js + stories.html + relative_hdi.html -> _backup_pre_v90/
+[2026-05-07T15:46:57] shared.js: appended v90 IIFE (~5185 chars), atomic-wrote with CRLF
+[2026-05-07T15:46:57] applied: nav.js navbar label
+[2026-05-07T15:46:57] nav.js: atomic-wrote with CRLF
+[2026-05-07T15:46:57] applied: stories.html H2 heading
+[2026-05-07T15:46:57] applied: stories.html <title>
+[2026-05-07T15:46:57] applied: story-meta Story 1 -> Case 1
+[2026-05-07T15:46:57] applied: story-meta Story 2 -> Case 2
+[2026-05-07T15:46:57] applied: story-meta Story 3 -> Case 3
+[2026-05-07T15:46:57] applied: story-meta Story 4 -> Case 4
+[2026-05-07T15:46:57] applied: story-meta Story 5 -> Case 5
+[2026-05-07T15:46:57] applied: story-meta Story 6 -> Case 6
+[2026-05-07T15:46:57] applied: story-meta Story 7 -> Case 7
+[2026-05-07T15:46:57] applied: story-meta Story 8 -> Case 8
+[2026-05-07T15:46:57] applied: story-meta Story 9 -> Case 9
+[2026-05-07T15:46:57] stories.html: atomic-wrote with CRLF
+[2026-05-07T15:46:57] applied: relative_hdi.html in-prose Stories link
+[2026-05-07T15:46:57] relative_hdi.html: atomic-wrote with CRLF
+[2026-05-07T15:46:57] === v90 fix end (success) ===

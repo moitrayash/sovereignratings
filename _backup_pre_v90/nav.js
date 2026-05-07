@@ -26,7 +26,7 @@
     {sep:true},
     {dropdown:'Macro Relatives', items: MACRO_RELATIVES},
     {sep:true},
-    {href:'stories.html',                     label:'Cases',                            side:'right'},
+    {href:'stories.html',                     label:'Stories',                            side:'right'},
     {spacer:true},
     {href:'land_acknowledgement.html',        label:'Land Acknowledgement',               side:'right'}
   ];
