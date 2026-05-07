@@ -849,13 +849,20 @@
     // injection entirely and lets Plotly's default rotated axis titles do
     // their job (one label per axis, no overlap). Arrow line extensions
     // and the (0,0) origin label are kept because they were always clean.
-    // v93: arrow LINE extensions removed entirely - they were drawing
-    // a second horizontal line at paper y=0 just above (or aligned
-    // with) Plotly's native x-axis line, producing the "double axis"
-    // look Yash flagged, plus the y-arrow tip rendered as a thin
-    // cooked-looking caret. Plotly's default axis lines are already
-    // clean and need no extension. Keep only the (0,0) origin marker.
     const arrows = [
+      // X-axis line extension — runs along y=0 from inside the chart out past x=1
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper',
+        ax: 0.995, ay: 0, axref: 'paper', ayref: 'paper',
+        x: 1.04, y: 0,
+        showarrow: true, arrowhead: 3, arrowsize: 1.2, arrowwidth: 1.4, arrowcolor: fg,
+        text: '', standoff: 0, startstandoff: 0 },
+      // Y-axis line extension — runs along x=0 from inside the chart up past y=1
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper',
+        ax: 0, ay: 0.995, axref: 'paper', ayref: 'paper',
+        x: 0, y: 1.05,
+        showarrow: true, arrowhead: 3, arrowsize: 1.2, arrowwidth: 1.4, arrowcolor: fg,
+        text: '', standoff: 0, startstandoff: 0 },
+      // 0,0 union marker at the chart origin
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 0,
         xanchor: 'right', yanchor: 'top', xshift: -4, yshift: -4,
         showarrow: false, text: '0,0',
@@ -863,20 +870,13 @@
     ];
     gd._scrInjectingArrows = true;
     try {
-      // v93: relayout the (0,0) marker AND force showline=true on
-      // every cartesian axis present in the layout so dual-axis charts
-      // (yaxis2 with pairwise spread on India-Pakistan, etc.) get a
-      // proper visible right-side axis line instead of floating tick
-      // labels with no axis line.
-      var _layoutPatch = { annotations: existing.concat(arrows) };
-      ['xaxis','yaxis','xaxis2','yaxis2','xaxis3','yaxis3'].forEach(function(ax){
-        if (lo[ax]) {
-          _layoutPatch[ax + '.showline']   = true;
-          _layoutPatch[ax + '.linecolor']  = fg;
-          _layoutPatch[ax + '.linewidth']  = 1;
-        }
+      // v88: relayout only the annotations - no longer blanking rotated
+      // axis titles since v88 also dropped the arrow-tip text annotations
+      // that necessitated the blanking. Default Plotly rotated y-axis
+      // titles render normally now.
+      window.Plotly.relayout(gd, {
+        annotations: existing.concat(arrows)
       });
-      window.Plotly.relayout(gd, _layoutPatch);
     } catch(e) { console.warn('axis arrows relayout failed:', e); }
     setTimeout(() => { gd._scrInjectingArrows = false; }, 80);
   }

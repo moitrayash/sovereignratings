@@ -1,0 +1,8 @@
+[2026-05-07T18:57:38] === v93 fix start ===
+[2026-05-07T18:57:38] backed up shared.js + stories.html -> _backup_pre_v93/
+[2026-05-07T18:57:38] applied: arrows array (kill line extensions)
+[2026-05-07T18:57:38] applied: relayout (force showline on every axis)
+[2026-05-07T18:57:38] shared.js: atomic-wrote with CRLF
+[2026-05-07T18:57:38] applied: Ghana annotations y-stagger
+[2026-05-07T18:57:38] stories.html: atomic-wrote with CRLF
+[2026-05-07T18:57:38] === v93 fix end (success) ===
