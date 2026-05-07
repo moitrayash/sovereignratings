@@ -1,0 +1,25 @@
+[2026-05-07T18:57:29] === v92 fix start ===
+[2026-05-07T18:57:29] backed up stories.html + relative_gini.html -> _backup_pre_v92/
+[2026-05-07T18:57:29] applied: IP layout reorder
+[2026-05-07T18:57:29] applied: Iceland meta
+[2026-05-07T18:57:29] applied: Iceland 5.1
+[2026-05-07T18:57:29] applied: Iceland 5.2
+[2026-05-07T18:57:29] applied: Iceland 5.3
+[2026-05-07T18:57:29] applied: Iceland 5.4
+[2026-05-07T18:57:29] applied: Ghana meta
+[2026-05-07T18:57:29] applied: Ghana 6.1
+[2026-05-07T18:57:29] applied: Ghana 6.2
+[2026-05-07T18:57:29] applied: Ghana 6.3
+[2026-05-07T18:57:29] applied: Ghana 6.4
+[2026-05-07T18:57:29] applied: IndPak meta
+[2026-05-07T18:57:29] applied: IndPak 3.1
+[2026-05-07T18:57:29] applied: IndPak 3.2
+[2026-05-07T18:57:29] applied: IndPak 3.3
+[2026-05-07T18:57:29] applied: IndPak 3.4
+[2026-05-07T18:57:29] applied: IndPak 3.5
+[2026-05-07T18:57:29] applied: IndPak ref a
+[2026-05-07T18:57:29] applied: IndPak ref b
+[2026-05-07T18:57:29] stories.html: atomic-wrote with CRLF
+[2026-05-07T18:57:30] applied: gini dashed line GiniInv->Value
+[2026-05-07T18:57:30] relative_gini.html: atomic-wrote with CRLF
+[2026-05-07T18:57:30] === v92 fix end (success) ===

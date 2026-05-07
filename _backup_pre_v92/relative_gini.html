@@ -352,7 +352,7 @@ function renderVsCredit(country) {
   const t = giniTheme();
   Plotly.newPlot('gini-vs-credit', [
     { x: hdi.map(r => r.Year), y: hdi.map(r => r.GiniInv), name: country + ' GiniInv', mode: 'lines+markers', line: { color: '#1B4F8A', width: 2 }, marker: { size: 4 } },
-    { x: credit.map(r => r.Year), y: credit.map(r => r.Value * 5 / 3), name: country + ' credit composite (\u00d75/3)', mode: 'lines+markers', line: { color: '#C0392B', width: 2, dash: 'dash' }, marker: { size: 4 } }
+    { x: credit.map(r => r.Year), y: credit.map(r => r.GiniInv * 5 / 3), name: country + ' credit composite (\u00d75/3)', mode: 'lines+markers', line: { color: '#C0392B', width: 2, dash: 'dash' }, marker: { size: 4 } }
   ], {
     title: { text: country + ': GiniInv vs credit composite (both on 0-100 scale)', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
     xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
