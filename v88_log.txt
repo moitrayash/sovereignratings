@@ -1,0 +1,6 @@
+[2026-05-07T15:29:11] === v88 fix start ===
+[2026-05-07T15:29:11] backed up shared.js -> _backup_pre_v88/
+[2026-05-07T15:29:11] applied: arrows array
+[2026-05-07T15:29:11] applied: relayout block
+[2026-05-07T15:29:11] shared.js: atomic-wrote with CRLF
+[2026-05-07T15:29:11] === v88 fix end (success) ===

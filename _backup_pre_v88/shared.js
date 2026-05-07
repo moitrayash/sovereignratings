@@ -839,16 +839,6 @@
     // Each arrow IS the visual extension of its axis line: ax/ay is the start
     // point right where the axis ends, (x, y) is the tip with a chunky arrowhead.
     // Then a separate text-only annotation sits beside the arrowhead with the unit.
-    // v88: arrow LINE extensions on each axis only - the v84/v85 arrow-tip
-    // text labels (titleX/titleY) plus the v85 rotated-title blanking
-    // produced a double-label bug because the 'xaxis.title.text': ''
-    // dotted-key relayout did not actually clear the rotated default title
-    // on the deployed Plotly version, so every chart rendered BOTH the
-    // rotated default y-axis title AND the v84 tip label stacked on top
-    // ("FFcints" / "PoMints" garbled appearance). v88 reverts the tip-text
-    // injection entirely and lets Plotly's default rotated axis titles do
-    // their job (one label per axis, no overlap). Arrow line extensions
-    // and the (0,0) origin label are kept because they were always clean.
     const arrows = [
       // X-axis line extension — runs along y=0 from inside the chart out past x=1
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper',
@@ -856,12 +846,20 @@
         x: 1.04, y: 0,
         showarrow: true, arrowhead: 3, arrowsize: 1.2, arrowwidth: 1.4, arrowcolor: fg,
         text: '', standoff: 0, startstandoff: 0 },
+      // X-axis tip label — sits just past the X-arrow tip
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 1.05, y: 0,
+        xanchor: 'left', yanchor: 'middle', xshift: 8, showarrow: false,
+        text: titleX, font: { size: 11, color: fg, family: 'Helvetica Neue, Arial, sans-serif' } },
       // Y-axis line extension — runs along x=0 from inside the chart up past y=1
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper',
         ax: 0, ay: 0.995, axref: 'paper', ayref: 'paper',
         x: 0, y: 1.05,
         showarrow: true, arrowhead: 3, arrowsize: 1.2, arrowwidth: 1.4, arrowcolor: fg,
         text: '', standoff: 0, startstandoff: 0 },
+      // Y-axis tip label — sits just above the Y-arrow tip
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 1.06,
+        xanchor: 'center', yanchor: 'bottom', yshift: 6, showarrow: false,
+        text: titleY, font: { size: 11, color: fg, family: 'Helvetica Neue, Arial, sans-serif' } },
       // 0,0 union marker at the chart origin
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 0,
         xanchor: 'right', yanchor: 'top', xshift: -4, yshift: -4,
@@ -870,12 +868,12 @@
     ];
     gd._scrInjectingArrows = true;
     try {
-      // v88: relayout only the annotations - no longer blanking rotated
-      // axis titles since v88 also dropped the arrow-tip text annotations
-      // that necessitated the blanking. Default Plotly rotated y-axis
-      // titles render normally now.
+      // v85: also blank out Plotly's rotated axis titles so the arrow tip
+      // labels we just injected are the sole label per axis (no doubles).
       window.Plotly.relayout(gd, {
-        annotations: existing.concat(arrows)
+        annotations: existing.concat(arrows),
+        'xaxis.title.text': '',
+        'yaxis.title.text': ''
       });
     } catch(e) { console.warn('axis arrows relayout failed:', e); }
     setTimeout(() => { gd._scrInjectingArrows = false; }, 80);
