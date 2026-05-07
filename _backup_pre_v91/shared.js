@@ -1185,32 +1185,12 @@
   window.scrCountryColors = function(country, n) {
     n = Math.max(1, n || 1);
     const arr = (window.SCR_COUNTRY_COLORS && window.SCR_COUNTRY_COLORS[country]) || null;
-    // v91: filter near-white colors out of the recycle pool so charts
-    // never paint a country line in #FFFFFF on a white/cream background
-    // (Argentina's M2 line was invisible because its flag palette has
-    // white at index 2 and the M2 chart used flag[2] verbatim).
-    function _luma(hex) {
-      const m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(hex || '');
-      if (!m) return 0;
-      let s = m[1];
-      if (s.length === 3) s = s.split('').map(c => c + c).join('');
-      const r = parseInt(s.slice(0,2),16), g = parseInt(s.slice(2,4),16), b = parseInt(s.slice(4,6),16);
-      return (0.299*r + 0.587*g + 0.114*b) / 255;
-    }
-    function _isVisible(c) {
-      if (!c) return false;
-      const u = String(c).trim().toUpperCase();
-      if (u === '#FFFFFF' || u === '#FFF' || u === 'WHITE') return false;
-      return _luma(u) <= 0.92;
-    }
-    let pool = (arr && arr.length) ? arr.filter(_isVisible) : null;
-    if (pool && pool.length) {
+    if (arr && arr.length) {
       const out = [];
-      for (let i = 0; i < n; i++) out.push(pool[i % pool.length]);
+      for (let i = 0; i < n; i++) out.push(arr[i % arr.length]);
       return out;
     }
-    // Hash-based fallback (also covers degenerate all-white flag arrays
-    // and countries that aren't in SCR_COUNTRY_COLORS at all).
+    // Hash-based fallback
     let h = 0;
     for (let i = 0; i < (country || '').length; i++) h = (h * 31 + country.charCodeAt(i)) | 0;
     const out = [];
