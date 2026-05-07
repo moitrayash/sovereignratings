@@ -1,0 +1,8 @@
+[2026-05-07T15:00:05] === v87 fix start ===
+[2026-05-07T15:00:05] backed up index.html -> _backup_pre_v87/
+[2026-05-07T15:00:05] applied: defCountry line
+[2026-05-07T15:00:05] applied: peer comment
+[2026-05-07T15:00:05] applied: peer line
+[2026-05-07T15:00:05] applied: mode B list
+[2026-05-07T15:00:05] index.html: atomic-wrote with CRLF
+[2026-05-07T15:00:05] === v87 fix end (success) ===
