@@ -198,14 +198,6 @@
         </dd>
       </div>
 
-      <div class="entry" data-terms="dynamic time warping dtw sakoe chiba shape similarity">
-        <dt>Dynamic Time Warping (DTW)</dt>
-        <dd>
-          <p>An alignment-based distance for two time series of equal or unequal length, originally introduced by <a href="https://ieeexplore.ieee.org/document/1163055" target="_blank" rel="noopener">Sakoe and Chiba (1978)</a> for spoken-word recognition and adapted to general time-series similarity by <a href="https://www.aaai.org/Papers/Workshops/1994/WS-94-03/WS94-03-031.pdf" target="_blank" rel="noopener">Berndt and Clifford (1994)</a>. DTW finds the optimal monotone alignment between two series under a squared-difference cost and reports the square root of the total aligned cost as the distance.</p>
-          <p>In this project DTW is computed on z-scored composite, M4, and Shadow-OLS trajectories so the matching keys on <em>shape</em>: timing of rises and falls, depth of troughs, recovery slope, regardless of the country's absolute rating band. A Sakoe-Chiba band of 5 years caps the maximum allowed warp. See the <a href="similarity.html">Similarity engine</a> page and <a href="methodology.html">Methodology</a>.</p>
-        </dd>
-      </div>
-
     </dl>
   </div>
 
@@ -476,14 +468,6 @@
     <h2 id="gloss-s">S</h2>
     <dl>
 
-      <div class="entry" data-terms="sakoe chiba band dtw constraint warping window">
-        <dt>Sakoe-Chiba Band</dt>
-        <dd>
-          <p>A locality constraint on Dynamic Time Warping that caps how far apart two aligned time-points can sit in calendar time. With band width <em>w</em>, the alignment between series at positions <em>i</em> and <em>j</em> is allowed only when |<em>i</em>&minus;<em>j</em>| &le; <em>w</em>. Introduced by <a href="https://ieeexplore.ieee.org/document/1163055" target="_blank" rel="noopener">Sakoe and Chiba (1978)</a> to prevent pathological warps in speech recognition; widely adopted in time-series matching as the standard regularisation on DTW.</p>
-          <p>This project uses <em>w</em> = 5 years on the <a href="similarity.html">Similarity engine</a> page, so two sovereign trajectories can be matched even when one's default cliff falls up to five years before or after the other's. Wider bands let earlier defaults rhyme with later ones; narrower bands enforce more calendar-aligned matches. Five years is academically conservative.</p>
-        </dd>
-      </div>
-
       <div class="entry" data-terms="score numeric score 0 60 scale rating scale">
         <dt>Score (0&ndash;60 Scale)</dt>
         <dd>
@@ -564,22 +548,6 @@
   </div><!-- /glossary-body -->
 
   <p class="page-footer">For full formula derivations and regression specifications, see the <a href="methodology.html">Methodology</a>. For all citations and source documents, see the <a href="citations.html">Citations</a> page.</p>
-
-  <!-- ─── Z ─────────────────────────────────────────────── -->
-  <div class="alpha-section" id="sec-Z">
-    <h2 id="gloss-z">Z</h2>
-    <dl>
-
-      <div class="entry" data-terms="z score normalisation normalization standardisation standardization shape similarity">
-        <dt>Z-score Normalisation</dt>
-        <dd>
-          <p>A standardisation step in which each value of a series is replaced by the number of standard deviations it sits from the series's mean: <code>z<sub>t</sub> = (x<sub>t</sub> &minus; &mu;) / &sigma;</code>. After z-scoring, every series has mean 0 and standard deviation 1, making shape-based comparisons across series with different absolute levels well-defined.</p>
-          <p>Used on the <a href="similarity.html">Similarity engine</a> page to make trajectories comparable across countries with very different rating bands (e.g. Norway and Argentina). Without z-scoring, DTW distance would be dominated by level differences rather than shape differences, and every AAA sovereign would look "near" every other AAA sovereign even when their year-on-year movements rhyme with sovereigns several rating-classes lower.</p>
-        </dd>
-      </div>
-
-    </dl>
-  </div>
 
 </main>
 

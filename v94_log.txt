@@ -1,0 +1,44 @@
+[2026-05-09T14:41:10] === v94 fix start ===
+[2026-05-09T14:41:10] backed up nav.js + glossary.html + citations.html -> _backup_pre_v94/
+[2026-05-09T14:41:10] applied: nav.js Macro Relatives dropdown
+[2026-05-09T14:41:10] nav.js: atomic-wrote with CRLF
+[2026-05-09T14:41:10] applied: glossary D-section append DTW
+[2026-05-09T14:41:10] applied: glossary S-section prepend Sakoe-Chiba
+[2026-05-09T14:41:10] ERROR glossary append Z-section: expected 1 match, found 0 - bailing
+[2026-05-09T14:57:20] === v94 fix start ===
+[2026-05-09T14:57:20] backed up nav.js + glossary.html + citations.html -> _backup_pre_v94/
+[2026-05-09T14:57:20] ERROR nav.js Macro Relatives dropdown: expected 1 match, found 0 - bailing
+[2026-05-09T14:57:22] === v94 fix start ===
+[2026-05-09T14:57:22] backed up nav.js + glossary.html + citations.html -> _backup_pre_v94/
+[2026-05-09T14:57:22] ERROR nav.js Macro Relatives dropdown: expected 1 match, found 0 - bailing
+[2026-05-09T14:57:24] === v94 fix start ===
+[2026-05-09T14:57:24] backed up nav.js + glossary.html + citations.html -> _backup_pre_v94/
+[2026-05-09T14:57:24] ERROR nav.js Macro Relatives dropdown: expected 1 match, found 0 - bailing
+[2026-05-09T14:57:26] === v94 fix start ===
+[2026-05-09T14:57:26] backed up nav.js + glossary.html + citations.html -> _backup_pre_v94/
+[2026-05-09T14:57:26] ERROR nav.js Macro Relatives dropdown: expected 1 match, found 0 - bailing
+[2026-05-09T15:03:09] === v94 fix start ===
+[2026-05-09T15:03:09] backed up nav.js + glossary.html + citations.html -> _backup_pre_v94/
+[2026-05-09T15:03:09] skipped (already applied): nav.js Macro Relatives dropdown
+[2026-05-09T15:03:09] nav.js: atomic-wrote with CRLF
+[2026-05-09T15:03:09] applied: glossary D-section append DTW
+[2026-05-09T15:03:09] applied: glossary S-section prepend Sakoe-Chiba
+[2026-05-09T15:03:09] ERROR glossary append Z-section: expected old=1 found 0, new=0 - bailing
+[2026-05-09T15:03:10] === v94 fix start ===
+[2026-05-09T15:03:10] backed up nav.js + glossary.html + citations.html -> _backup_pre_v94/
+[2026-05-09T15:03:10] skipped (already applied): nav.js Macro Relatives dropdown
+[2026-05-09T15:03:10] nav.js: atomic-wrote with CRLF
+[2026-05-09T15:03:10] applied: glossary D-section append DTW
+[2026-05-09T15:03:10] applied: glossary S-section prepend Sakoe-Chiba
+[2026-05-09T15:03:10] ERROR glossary append Z-section: expected old=1 found 0, new=0 - bailing
+[2026-05-09T15:06:17] === v94 fix start ===
+[2026-05-09T15:06:17] backed up nav.js + glossary.html + citations.html -> _backup_pre_v94/
+[2026-05-09T15:06:17] skipped (already applied): nav.js Macro Relatives dropdown
+[2026-05-09T15:06:17] nav.js: atomic-wrote with CRLF
+[2026-05-09T15:06:17] applied: glossary D-section append DTW
+[2026-05-09T15:06:17] applied: glossary S-section prepend Sakoe-Chiba
+[2026-05-09T15:06:17] applied: glossary append Z-section
+[2026-05-09T15:06:17] glossary.html: atomic-wrote with CRLF
+[2026-05-09T15:06:17] applied: citations DTW cluster (Berndt+Keogh+Sakoe) after Cantor
+[2026-05-09T15:06:17] citations.html: atomic-wrote with CRLF
+[2026-05-09T15:06:17] === v94 fix end (success) ===

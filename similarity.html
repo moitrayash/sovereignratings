@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Country Similarity (test): Sovereign Scores</title>
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<style>
+  .controls { background: var(--bg-card); border: 1px solid var(--border); padding: 16px 18px; margin: 18px 0; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.86rem; display: flex; flex-wrap: wrap; gap: 18px 26px; align-items: center; }
+  .controls label { font-weight: 700; font-size: 0.74rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft); margin-right: 6px; }
+  .controls select { font-family: inherit; font-size: 0.86rem; padding: 4px 8px; border: 1px solid var(--border); background: var(--bg-card); color: var(--ink); }
+  .pill-row { display: inline-flex; gap: 0; }
+  .pill-row .pill { background: var(--bg-card); color: var(--ink); border: 1px solid var(--border); padding: 4px 14px; cursor: pointer; font-family: inherit; font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 700; margin-right: -1px; }
+  .pill-row .pill.on { background: var(--ink); color: var(--bg-card); }
+  .sim-table { border-collapse: collapse; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.88rem; margin: 14px 0; width: 100%; max-width: 560px; }
+  .sim-table thead th { background: var(--ink); color: var(--bg-card); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.72rem; padding: 8px 12px; text-align: left; }
+  .sim-table tbody td { padding: 6px 12px; border-bottom: 1px solid var(--border); }
+  .sim-table .rank { width: 50px; color: var(--muted); }
+  .sim-table .dist { width: 120px; font-family: 'Courier New', monospace; text-align: right; }
+  .test-banner { background: #FFF3CD; border-left: 4px solid #F77F00; padding: 10px 14px; margin: 16px 0; font-size: 0.86rem; font-family: 'Helvetica Neue', Arial, sans-serif; }
+  body.dark .test-banner { background: #3a2e0c; color: #fceabb; }
+  .method-step { margin: 14px 0; }
+  .method-step .step-label { display: inline-block; background: var(--ink); color: var(--bg-card); font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; margin-right: 8px; }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="head-row"><div class="head-text">
+    <h1>Sovereign Ratings &amp; Scores</h1>
+    <p class="sub-tagline">151 countries &middot; S&amp;P, Moody's, DBRS &middot; 2000&ndash;2025 &middot; Composite scores (0&ndash;60) &middot; Relative methods M1&ndash;M4 &middot; Relative HDI / Gini / PPI &middot; Shadow ratings (OLS, k-NN, Bayes)</p>
+  </div></div>
+</header>
+<nav class="site"></nav>
+
+<main>
+  <div class="test-banner"><strong>Test feature.</strong> Country similarity engine. Not yet linked from the main nav. If you like it, we ship it as v94.</div>
+
+  <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Country Similarity Engine</h2>
+
+  <p>Pick a focal country. The engine returns the sovereigns whose 2000 to 2025 trajectory is most similarly <em>shaped</em>, regardless of absolute level. The classic finding: on the Absolute view, Greece's nearest neighbours are the entire Eurozone-periphery cluster (Iceland, Cyprus, Ireland, Portugal, Spain). Argentina pairs with Belize, the Caribbean serial-restructurer. Ghana matches with Sri Lanka and Zambia, the other 2020s sovereign defaulters, even though they sit on different continents. Switch to Relative or Shadow and the rankings shuffle, because what counts as "similar shape" depends on what you measure.</p>
+
+  <div class="controls">
+    <span style="display:inline-flex;align-items:center;gap:6px">
+      <label for="focal">Focal country</label>
+      <select id="focal"></select>
+    </span>
+    <span style="display:inline-flex;align-items:center;gap:8px">
+      <label>Perspective</label>
+      <span class="pill-row">
+        <button class="pill on" data-persp="abs">Absolute</button>
+        <button class="pill"    data-persp="rel">Relative</button>
+        <button class="pill"    data-persp="shd">Shadow</button>
+      </span>
+    </span>
+    <span style="display:inline-flex;align-items:center;gap:6px">
+      <label for="topn">Top N</label>
+      <select id="topn">
+        <option value="3">3</option>
+        <option value="5" selected>5</option>
+        <option value="8">8</option>
+        <option value="10">10</option>
+      </select>
+    </span>
+  </div>
+
+  <div class="chart-box"><div id="sim-chart" style="height:440px"></div></div>
+  <div class="chart-caption" id="sim-caption">Loading.</div>
+
+  <h3 style="margin-top:28px">Ranked neighbours</h3>
+  <div id="sim-table-wrap"></div>
+
+  <h3 style="margin-top:28px">Methodology</h3>
+
+  <p><strong>What the engine does.</strong> Given a focal country, the engine finds the sovereigns whose annual trajectory most closely resembles the focal country's trajectory, on whichever of three metrics you pick. The output is a ranked list of "shape neighbours" plus an overlay chart showing the focal country and its top N neighbours together.</p>
+
+  <p>It runs in three steps.</p>
+
+  <div class="method-step">
+    <span class="step-label">Step 1</span><strong>Pick a metric.</strong> The Perspective pill switches the engine between three different time series for each country, each of which produces a different similarity ranking.
+  </div>
+  <ul>
+    <li><strong>Absolute.</strong> The raw composite score on the 0 to 60 scale, computed as the simple mean of S&amp;P, Moody's, and DBRS rating conversions. This is what most people mean by "the country's rating."</li>
+    <li><strong>Relative.</strong> M4, the within-year percentile rank against all 150 sovereigns. A country whose Absolute score moves up only as fast as the world average will have a flat Relative line. This view strips out the global trend so the engine matches on country-vs-world dynamics rather than on absolute levels.</li>
+    <li><strong>Shadow.</strong> The OLS shadow rating, also on the 0 to 60 scale. The shadow rating is what a regression on log GDP per capita, GDP growth, and FDI as a percentage of GDP would have predicted, ignoring the agencies. It is smoother than the actual rating and reacts to fundamentals before agency committees do.</li>
+  </ul>
+
+  <div class="method-step">
+    <span class="step-label">Step 2</span><strong>Z-score each country's series.</strong> For each country, we take its 26 annual values, subtract the country's own 26-year mean, and divide by its own 26-year standard deviation. After z-scoring, every country's series has mean 0 and standard deviation 1. This makes shape comparable across countries with very different rating bands. Norway (which sits near AAA the whole panel) and Argentina (which oscillates around CCC with three defaults) end up on the same vertical scale; what differs is the shape of the line.
+  </div>
+
+  <div class="method-step">
+    <span class="step-label">Step 3</span><strong>Compute Dynamic Time Warping distance.</strong> For every pair of countries, the algorithm finds the optimal alignment between their two z-scored series, allowing up to a five-year time-warp on either side. The reported distance is the square root of the sum of squared differences along that optimal alignment path. Distance of 0 would mean identical shapes after warping. In this panel the median pairwise distance is roughly 5.6 on the Absolute view; below 2.0 is "very similar," above 7 is "essentially unrelated."
+  </div>
+
+  <h4 style="margin-top:18px">Why DTW and not plain Euclidean distance</h4>
+  <p>A naive Euclidean distance forces calendar-year-to-calendar-year matching: Argentina-2001 must align with Greece-2001, even though Argentina was defaulting in 2001 and Greece was not. Under that constraint the two countries look unrelated. DTW relaxes the constraint: it lets Argentina-2001's default cliff align with Greece-2010's default cliff, which is the alignment we actually want. The five-year band, called a Sakoe and Chiba band in the DTW literature, caps the maximum allowed warp so the algorithm cannot match arbitrary unrelated shapes by stretching one beyond recognition.</p>
+
+  <h4 style="margin-top:18px">How to read the distance numbers</h4>
+  <p>The distance is a relative ranking inside a country's neighbour list, not a calibrated scale. Greece-Iceland at distance 1.1 on the Absolute view is small because their Eurozone-periphery shapes are nearly identical. Argentina-Cameroon at 4.5 is substantial; the shapes have a similar general profile (low absolute level with periodic dips) but the timing and depth diverge. The same country pair can have a quite different distance on Absolute versus Relative versus Shadow, because the underlying time series are different.</p>
+
+  <h4 style="margin-top:18px">What this is not</h4>
+  <p>This is not a causal claim and not a clustering. Two countries shaped alike are not necessarily structurally alike. The engine flags candidates for further analysis. The interesting question is always why the shapes rhyme.</p>
+
+  <h3 style="margin-top:28px">Caveats</h3>
+  <ul>
+    <li>DTW on shape ignores level. A country whose trajectory is a flat line at AAA and one whose trajectory is a flat line at default look identically "flat" after z-scoring. The engine clamps the standard deviation when it is essentially zero, so flat-line countries get a uniform similarity to every other flat-line country, which is harmless but uninteresting.</li>
+    <li>The Sakoe and Chiba bandwidth of five years is a tuning choice. Wider bands let earlier defaults rhyme with later ones; narrower bands enforce more calendar-aligned matches. The current setting is academically conservative.</li>
+    <li>The Shadow panel covers 137 countries and 23 years, slightly fewer than the Absolute and Relative panels (150 countries, 26 years). Countries without enough macro coverage to fit the OLS regression do not appear in the Shadow ranking.</li>
+    <li>Forward-fill and back-fill is used to close gaps in the panels before z-scoring. A country with a missing 2003 score gets its 2002 value carried forward. This is fine for sovereigns with mostly-complete coverage; it would be a problem for sovereigns with long gaps.</li>
+  </ul>
+</main>
+
+<footer class="site">
+  <p style="font-size:0.78rem;color:var(--muted);margin:32px 0 12px;">Sovereign Ratings &amp; Scores &middot; Y. Moitra, DAEM, Cornell &middot; <a href="index.html">home</a></p>
+</footer>
+
+<script src="shared.js"></script>
+<script src="nav.js"></script>
+<script src="extras_similarity.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => { try { renderNav("similarity.html"); } catch(e){} });</script>
+
+<script>
+(function(){
+  let SIM = null;
+  let PERSP = 'abs';
+  const FOCAL_COLOR = '#C0392B';
+  const PERSP_LABEL = { abs: 'Absolute composite (0 to 60)', rel: 'Relative M4 percentile (0 to 1)', shd: 'Shadow OLS rating (0 to 60)' };
+  const PERSP_TIP   = { abs: 'Score', rel: 'M4', shd: 'Shadow' };
+  const PERSP_YRANGE = { abs: [0, 60], rel: [0, 1], shd: [0, 60] };
+
+  function boot(){
+    if (window.SIM_DATA) {
+      SIM = window.SIM_DATA;
+      initUI();
+    } else {
+      document.getElementById('sim-caption').innerHTML =
+        '<span style="color:#C0392B">extras_similarity.js did not load. Make sure it is in the same directory as this HTML file.</span>';
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+
+  function activeData(){ return SIM[PERSP]; }
+
+  function initUI(){
+    const sel = document.getElementById('focal');
+    // Use union of countries across the three perspectives so the dropdown
+    // is stable even when the user flips to Shadow which has fewer rows.
+    const allCountries = Array.from(new Set([
+      ...SIM.abs.countries, ...SIM.rel.countries, ...SIM.shd.countries
+    ])).sort();
+    allCountries.forEach(c => sel.appendChild(new Option(c, c)));
+    if (allCountries.includes('Argentina')) sel.value = 'Argentina';
+    sel.addEventListener('change', render);
+    document.getElementById('topn').addEventListener('change', render);
+    document.querySelectorAll('.pill-row .pill').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.pill-row .pill').forEach(p => p.classList.remove('on'));
+        b.classList.add('on');
+        PERSP = b.dataset.persp;
+        render();
+      });
+    });
+    render();
+  }
+
+  function render(){
+    if (!SIM) return;
+    const D = activeData();
+    const focal = document.getElementById('focal').value;
+    const N = parseInt(document.getElementById('topn').value, 10);
+    const idx = D.countries.indexOf(focal);
+
+    if (idx < 0) {
+      // Country missing from this perspective (e.g. Shadow has fewer countries).
+      const msg = focal + ' is not in the ' + PERSP.toUpperCase() + ' panel. Try a different perspective or a different country.';
+      Plotly.purge('sim-chart');
+      document.getElementById('sim-caption').textContent = msg;
+      document.getElementById('sim-table-wrap').innerHTML = '<p style="color:var(--muted);font-style:italic;">' + msg + '</p>';
+      return;
+    }
+
+    const dists = D.distances[idx];
+    const ranked = dists.map((d, i) => ({ d: d, i: i, c: D.countries[i] }))
+                        .filter(o => o.i !== idx)
+                        .sort((a, b) => a.d - b.d);
+    const top = ranked.slice(0, N);
+
+    const traces = [{
+      x: D.years,
+      y: D.panel_raw[idx],
+      name: focal,
+      mode: 'lines+markers',
+      line: { color: FOCAL_COLOR, width: 3.2 },
+      marker: { size: 6, color: FOCAL_COLOR },
+      hovertemplate: focal + ': %{y:.2f} (%{x})<extra></extra>'
+    }];
+    top.forEach((o, k) => {
+      const color = (window.scrCountryColor ? window.scrCountryColor(o.c) : null) || pickColor(k);
+      traces.push({
+        x: D.years,
+        y: D.panel_raw[o.i],
+        name: o.c + '  (d=' + o.d.toFixed(2) + ')',
+        mode: 'lines+markers',
+        line: { color: color, width: 1.7 },
+        marker: { size: 4, color: color },
+        opacity: 0.85,
+        hovertemplate: o.c + ': %{y:.2f} (%{x})<br>DTW d=' + o.d.toFixed(3) + '<extra></extra>'
+      });
+    });
+
+    // Axis-arrow annotations: a line extension past each axis with a
+    // short label at the tip. Default rotated axis titles blanked below
+    // so there is exactly one label per axis, at the arrow tip.
+    const fg = document.body.classList.contains('dark') ? '#ececec' : '#1a1a1a';
+    const axisArrows = [
+      { xref:'paper', yref:'paper', ax:0.992, ay:0, axref:'paper', ayref:'paper',
+        x:1.045, y:0, showarrow:true, arrowhead:3, arrowsize:1.2, arrowwidth:1.4,
+        arrowcolor:fg, text:'', standoff:0, startstandoff:0 },
+      { xref:'paper', yref:'paper', x:1.05, y:0, xanchor:'left', yanchor:'middle',
+        xshift:8, showarrow:false, text:'Year',
+        font:{ size:11, color:fg, family:'Helvetica Neue, Arial, sans-serif' } },
+      { xref:'paper', yref:'paper', ax:0, ay:0.992, axref:'paper', ayref:'paper',
+        x:0, y:1.045, showarrow:true, arrowhead:3, arrowsize:1.2, arrowwidth:1.4,
+        arrowcolor:fg, text:'', standoff:0, startstandoff:0 },
+      { xref:'paper', yref:'paper', x:0, y:1.05, xanchor:'center', yanchor:'bottom',
+        yshift:6, showarrow:false, text: PERSP_TIP[PERSP],
+        font:{ size:11, color:fg, family:'Helvetica Neue, Arial, sans-serif' } }
+    ];
+
+    Plotly.newPlot('sim-chart', traces, {
+      title: {
+        text: focal + ' and its ' + N + ' DTW-nearest sovereigns, ' + PERSP_LABEL[PERSP],
+        font: { size: 13 }, x: 0.02, xanchor: 'left'
+      },
+      // Rotated default axis titles blanked so the arrow-tip labels are
+      // the only labels (no doubles).
+      xaxis: { title: { text: '' }, gridcolor: 'rgba(0,0,0,0.06)', showline: true, linecolor: fg, linewidth: 1 },
+      yaxis: { title: { text: '' }, gridcolor: 'rgba(0,0,0,0.06)', range: PERSP_YRANGE[PERSP], showline: true, linecolor: fg, linewidth: 1 },
+      annotations: axisArrows,
+      legend: { orientation: 'h', y: -0.22, x: 0.5, xanchor: 'center', font: { size: 11 } },
+      margin: { l: 64, r: 56, t: 70, b: 96 },
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
+      hovermode: 'closest'
+    }, { responsive: true, displayModeBar: true, displaylogo: false });
+
+    const closest = top[0] ? top[0].c + ' (d=' + top[0].d.toFixed(2) + ')' : 'none';
+    document.getElementById('sim-caption').innerHTML =
+      'Figure 1. ' + focal + "'s " + PERSP_LABEL[PERSP].toLowerCase() +
+      ' trajectory (red, thick) overlaid with its ' + N +
+      ' DTW-nearest sovereigns from a ' + D.countries.length + '-country panel. Closest match: <strong>' +
+      closest + '</strong>.';
+
+    let html = '<table class="sim-table"><thead><tr>' +
+               '<th class="rank">#</th><th>Country</th><th class="dist">DTW distance</th>' +
+               '</tr></thead><tbody>';
+    top.forEach((o, k) => {
+      html += '<tr><td class="rank">' + (k + 1) + '</td>' +
+              '<td>' + o.c + '</td>' +
+              '<td class="dist">' + o.d.toFixed(3) + '</td></tr>';
+    });
+    html += '</tbody></table>';
+
+    const farthest = ranked.slice(-3).reverse();
+    html += '<details style="margin-top:14px;font-family:Helvetica Neue,Arial,sans-serif;font-size:0.82rem;">' +
+            '<summary style="cursor:pointer;color:var(--muted);">Most dissimilar (3 farthest, sanity check)</summary>' +
+            '<table class="sim-table" style="margin-top:8px;"><thead><tr>' +
+            '<th class="rank">#</th><th>Country</th><th class="dist">DTW distance</th>' +
+            '</tr></thead><tbody>';
+    farthest.forEach((o, k) => {
+      html += '<tr><td class="rank">' + (k + 1) + '</td>' +
+              '<td>' + o.c + '</td>' +
+              '<td class="dist">' + o.d.toFixed(3) + '</td></tr>';
+    });
+    html += '</tbody></table></details>';
+    document.getElementById('sim-table-wrap').innerHTML = html;
+  }
+
+  function pickColor(k) {
+    const palette = ['#1B4F8A', '#2C7C3F', '#7D3C98', '#D4731A', '#1A8B8B', '#8B4513', '#4B0082', '#556B2F'];
+    return palette[k % palette.length];
+  }
+})();
+</script>
+</body></html>
