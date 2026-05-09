@@ -1,0 +1,5 @@
+[2026-05-09T15:08:46] === v95 fix start ===
+[2026-05-09T15:08:46] backed up similarity.html -> _backup_pre_v95/
+[2026-05-09T15:08:46] applied: chart margins r:56->90 t:70->88
+[2026-05-09T15:08:46] similarity.html: atomic-wrote with CRLF
+[2026-05-09T15:08:46] === v95 fix end (success) ===
