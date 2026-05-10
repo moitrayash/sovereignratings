@@ -809,22 +809,6 @@
   // plotly_afterplot — pages that call Plotly.newPlot in slider handlers wipe
   // annotations, so we re-add them. Guard against relayout itself triggering
   // afterplot infinitely with _scrInjectingArrows flag.
-  // v99: hide Plotly's rotated default axis titles ONLY on charts
-  // that we have injected arrow-tip labels into (class scr-arrow-labeled).
-  // Doing this via CSS rather than via Plotly.relayout because the
-  // dotted-key 'xaxis.title.text': '' approach silently no-ops on this
-  // Plotly version, leaving the rotated default title visible AND the
-  // tip label drawn on top of it (the v85 double-label bug).
-  function installScrArrowStyle() {
-    if (document.getElementById('scr-arrow-style')) return;
-    const s = document.createElement('style');
-    s.id = 'scr-arrow-style';
-    s.textContent =
-      '.scr-arrow-labeled .g-xtitle,' +
-      '.scr-arrow-labeled .g-ytitle { display: none !important; }';
-    document.head.appendChild(s);
-  }
-
   function applyAxisArrows(gd) {
     if (!gd || !window.Plotly) return;
     const lo = gd._fullLayout;
@@ -865,42 +849,18 @@
     // injection entirely and lets Plotly's default rotated axis titles do
     // their job (one label per axis, no overlap). Arrow line extensions
     // and the (0,0) origin label are kept because they were always clean.
-    // v99: full restoration of arrow line extensions + tip labels +
-    // (0,0) marker. The double-label bug from v84/v85 is now solved
-    // not by trying to blank the rotated default titles via Plotlys
-    // dotted-key relayout (which silently no-ops on this Plotly
-    // version) but by hiding them via CSS scoped to a class we add to
-    // the chart container below. The CSS selector is injected once
-    // per page in installScrArrowStyle().
+    // v93: arrow LINE extensions removed entirely - they were drawing
+    // a second horizontal line at paper y=0 just above (or aligned
+    // with) Plotly's native x-axis line, producing the "double axis"
+    // look Yash flagged, plus the y-arrow tip rendered as a thin
+    // cooked-looking caret. Plotly's default axis lines are already
+    // clean and need no extension. Keep only the (0,0) origin marker.
     const arrows = [
-      // X-axis line extension
-      { _scrAxisArrow: true, xref: 'paper', yref: 'paper',
-        ax: 0.992, ay: 0, axref: 'paper', ayref: 'paper',
-        x: 1.045, y: 0,
-        showarrow: true, arrowhead: 3, arrowsize: 1.2, arrowwidth: 1.4, arrowcolor: fg,
-        text: '', standoff: 0, startstandoff: 0 },
-      // X-axis tip label
-      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 1.05, y: 0,
-        xanchor: 'left', yanchor: 'middle', xshift: 8, showarrow: false,
-        text: titleX, font: { size: 11, color: fg, family: 'Helvetica Neue, Arial, sans-serif' } },
-      // Y-axis line extension
-      { _scrAxisArrow: true, xref: 'paper', yref: 'paper',
-        ax: 0, ay: 0.992, axref: 'paper', ayref: 'paper',
-        x: 0, y: 1.045,
-        showarrow: true, arrowhead: 3, arrowsize: 1.2, arrowwidth: 1.4, arrowcolor: fg,
-        text: '', standoff: 0, startstandoff: 0 },
-      // Y-axis tip label
-      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 1.05,
-        xanchor: 'center', yanchor: 'bottom', yshift: 6, showarrow: false,
-        text: titleY, font: { size: 11, color: fg, family: 'Helvetica Neue, Arial, sans-serif' } },
-      // (0,0) origin marker
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 0,
         xanchor: 'right', yanchor: 'top', xshift: -4, yshift: -4,
         showarrow: false, text: '0,0',
         font: { size: 10, color: fg, family: 'Helvetica Neue, Arial, sans-serif' }, opacity: 0.95 }
     ];
-    installScrArrowStyle();
-    if (gd.classList) gd.classList.add('scr-arrow-labeled');
     gd._scrInjectingArrows = true;
     try {
       // v93: relayout the (0,0) marker AND force showline=true on

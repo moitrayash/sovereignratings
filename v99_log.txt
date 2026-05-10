@@ -1,0 +1,10 @@
+[2026-05-10T01:41:38] === v99 fix start ===
+[2026-05-10T01:41:38] backed up shared.js -> _backup_pre_v99/
+[2026-05-10T01:41:38] applied: shared.js installScrArrowStyle helper
+[2026-05-10T01:41:38] applied: shared.js arrows array restoration
+[2026-05-10T01:41:38] shared.js: atomic-wrote with CRLF
+[2026-05-10T01:41:38] oxford comma sweep across 17 html files
+[2026-05-10T01:41:38]   citations.html: 1 oxford comma(s) inserted
+[2026-05-10T01:41:38]   stories.html: 1 oxford comma(s) inserted
+[2026-05-10T01:41:38] oxford summary: 2 insertions across 17 files
+[2026-05-10T01:41:38] === v99 fix end (success) ===
