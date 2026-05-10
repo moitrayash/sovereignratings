@@ -832,15 +832,8 @@
     if (gd._scrInjectingArrows) return;
     // Skip non-cartesian charts (geo/mapbox/polar/3d) - axis arrows make no sense there
     if (lo.geo || lo.mapbox || lo.polar || lo.scene) return;
-    // v104: use a div-level flag instead of the annotation _scrAxisArrow
-    // property because Plotly strips custom properties from
-    // _fullLayout.annotations during normalisation, which made the old
-    // hasOurs check always return false and therefore stacked a new
-    // round of arrows on every plotly_afterplot event (resize, theme,
-    // data update, etc.). The flag is reset by scrWireChart whenever
-    // the chart is re-newPlotted so legitimate re-renders still get
-    // fresh arrows.
-    if (gd._scrArrowsApplied) return;
+    const hasOurs = (lo.annotations || []).some(a => a && a._scrAxisArrow);
+    if (hasOurs) return; // arrows already present; no-op
     const fg = document.body.classList.contains('dark') ? '#ececec' : '#1a1a1a';
     function _scrAxisDim(t){
       if (!t) return '';
@@ -858,26 +851,7 @@
     }
     const titleX = _scrAxisDim((lo.xaxis && lo.xaxis.title && (lo.xaxis.title.text || '')) || '') || 'Time';
     const titleY = _scrAxisDim((lo.yaxis && lo.yaxis.title && (lo.yaxis.title.text || '')) || '') || 'Points';
-    // v104: filter out annotations matching our injected labels too,
-    // to recover from any stacked state left over from the broken
-    // pre-v104 dedup. titleX, titleY, and '0,0' are the texts we
-    // inject; the line-extension annotations have empty text so they
-    // also need to be filtered (they have showarrow:true and a tiny
-    // standoff:0 - that's our distinguishing fingerprint).
-    const _scrInjectedTexts = new Set([titleX, titleY, '0,0', '']);
-    const existing = (lo.annotations || []).filter(function(a){
-      if (!a) return false;
-      if (a._scrAxisArrow) return false; // covers the rare case it survives
-      // Drop our line-extension fingerprint: empty text + arrow + tight standoff.
-      if (a.showarrow && a.text === '' && a.standoff === 0 && a.startstandoff === 0) return false;
-      // Drop our tip-label fingerprint: matches injected titleX/titleY/'0,0'
-      // AND uses paper xref/yref AND has no showarrow. (data-coord variants
-      // post-v102 also have yref:'y' or xref:'x'; allow both.)
-      if (!a.showarrow && _scrInjectedTexts.has(a.text)) {
-        return false;
-      }
-      return true;
-    });
+    const existing = (lo.annotations || []).filter(a => !a._scrAxisArrow);
     // Each arrow IS the visual extension of its axis line: ax/ay is the start
     // point right where the axis ends, (x, y) is the tip with a chunky arrowhead.
     // Then a separate text-only annotation sits beside the arrowhead with the unit.
@@ -975,7 +949,6 @@
         if (curT < 56) _layoutPatch['margin.t'] = 56;
       } catch(e) { /* margin read failed, skip */ }
       window.Plotly.relayout(gd, _layoutPatch);
-      gd._scrArrowsApplied = true;
     } catch(e) { console.warn('axis arrows relayout failed:', e); }
     setTimeout(() => { gd._scrInjectingArrows = false; }, 80);
   }

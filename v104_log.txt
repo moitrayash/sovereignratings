@@ -1,0 +1,7 @@
+[2026-05-10T02:18:23] === v104 fix start ===
+[2026-05-10T02:18:23] backed up shared.js -> _backup_pre_v104/
+[2026-05-10T02:18:23] applied: div-level dedup flag check
+[2026-05-10T02:18:23] applied: set flag after relayout
+[2026-05-10T02:18:23] applied: fingerprint-based existing filter
+[2026-05-10T02:18:23] shared.js: atomic-wrote with CRLF
+[2026-05-10T02:18:23] === v104 fix end (success) ===
