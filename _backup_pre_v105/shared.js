@@ -935,32 +935,18 @@
     // the range read.
     try {
       var _yBot = (lo.yaxis && lo.yaxis.range) ? lo.yaxis.range[0] : 0;
-      var _yTop = (lo.yaxis && lo.yaxis.range) ? lo.yaxis.range[1] : 1;
       var _xLft = (lo.xaxis && lo.xaxis.range) ? lo.xaxis.range[0] : 0;
-      var _xRgt = (lo.xaxis && lo.xaxis.range) ? lo.xaxis.range[1] : 1;
-      // v105: pixel-perfect anchor. Arrow START sits at the exact
-      // data corner where Plotly's native axis line ends; arrow END
-      // sits past the chart edge in paper coords. Tip label sits at
-      // data corner on the axis side, paper coord on the past side.
       // arrows[0] = X line, arrows[1] = X tip label,
       // arrows[2] = Y line, arrows[3] = Y tip label,
       // arrows[4] = (0,0) marker (keep paper).
-      // X-axis arrow: from (xRgt, yBot) data to (paper 1.025, yBot data)
-      arrows[0].axref = 'x';   arrows[0].ax   = _xRgt;
-      arrows[0].ayref = 'y';   arrows[0].ay   = _yBot;
-      arrows[0].xref  = 'paper'; arrows[0].x  = 1.025;
-      arrows[0].yref  = 'y';   arrows[0].y    = _yBot;
-      // X tip label: paper x past the chart edge, data y on axis line
-      arrows[1].xref = 'paper'; arrows[1].x = 1.03;
-      arrows[1].yref = 'y';     arrows[1].y = _yBot;
-      // Y-axis arrow: from (xLft, yTop) data to (xLft data, paper 1.025)
-      arrows[2].axref = 'x';   arrows[2].ax   = _xLft;
-      arrows[2].ayref = 'y';   arrows[2].ay   = _yTop;
-      arrows[2].xref  = 'x';   arrows[2].x    = _xLft;
-      arrows[2].yref  = 'paper'; arrows[2].y  = 1.025;
-      // Y tip label: data x on axis line, paper y above the chart edge
-      arrows[3].xref = 'x';     arrows[3].x = _xLft;
-      arrows[3].yref = 'paper'; arrows[3].y = 1.035;
+      arrows[0].yref = 'y'; arrows[0].ayref = 'y';
+      arrows[0].y = _yBot;  arrows[0].ay  = _yBot;
+      arrows[1].yref = 'y';
+      arrows[1].y = _yBot;
+      arrows[2].xref = 'x'; arrows[2].axref = 'x';
+      arrows[2].x = _xLft;  arrows[2].ax  = _xLft;
+      arrows[3].xref = 'x';
+      arrows[3].x = _xLft;
     } catch(e) { /* range read failed, fall back to paper coords */ }
     gd._scrInjectingArrows = true;
     try {

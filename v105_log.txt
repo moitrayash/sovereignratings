@@ -1,0 +1,5 @@
+[2026-05-10T02:26:47] === v105 fix start ===
+[2026-05-10T02:26:47] backed up shared.js -> _backup_pre_v105/
+[2026-05-10T02:26:47] applied: pixel-perfect mixed-ref anchoring for X and Y arrows + tip labels
+[2026-05-10T02:26:47] shared.js: atomic-wrote with CRLF
+[2026-05-10T02:26:47] === v105 fix end (success) ===
