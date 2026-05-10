@@ -877,7 +877,7 @@
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper',
         ax: 0.992, ay: 0, axref: 'paper', ayref: 'paper',
         x: 1.045, y: 0,
-        showarrow: true, arrowhead: 3, arrowsize: 1.0, arrowwidth: 1, arrowcolor: fg,
+        showarrow: true, arrowhead: 3, arrowsize: 1.2, arrowwidth: 1.4, arrowcolor: fg,
         text: '', standoff: 0, startstandoff: 0 },
       // X-axis tip label
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 1.05, y: 0,
@@ -887,7 +887,7 @@
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper',
         ax: 0, ay: 0.992, axref: 'paper', ayref: 'paper',
         x: 0, y: 1.045,
-        showarrow: true, arrowhead: 3, arrowsize: 1.0, arrowwidth: 1, arrowcolor: fg,
+        showarrow: true, arrowhead: 3, arrowsize: 1.2, arrowwidth: 1.4, arrowcolor: fg,
         text: '', standoff: 0, startstandoff: 0 },
       // Y-axis tip label
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 1.05,

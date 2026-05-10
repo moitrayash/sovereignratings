@@ -1,0 +1,5 @@
+[2026-05-10T01:45:13] === v100 fix start ===
+[2026-05-10T01:45:13] backed up shared.js -> _backup_pre_v100/
+[2026-05-10T01:45:13] applied: arrow stroke 1.4->1 / size 1.2->1.0 on both X and Y line extensions (2 replacements)
+[2026-05-10T01:45:13] shared.js: atomic-wrote with CRLF
+[2026-05-10T01:45:13] === v100 fix end (success) ===
