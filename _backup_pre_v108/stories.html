@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cases: Sovereign Scores</title>
 <link rel="stylesheet" href="shared.css">
-<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>script
 <style>
   .story {
     margin-bottom: 60px;
@@ -81,8 +81,8 @@
   body.dark .story-toc { background: var(--bg-card); border-color: var(--border); }
   body.dark .story-toc h3 { color: #aaa; }
   body.dark .story-toc a { color: #ececec; }
-</style>
-<script defer src="pct_change.js"></script>
+</style>style
+<script defer src="pct_change.js"></script>script
 </head>
 <body>
 
@@ -436,10 +436,10 @@
 
 </main>
 
-<script defer src="nav.js"></script>
-<script defer src="tips.js"></script>
-<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("stories.html"));</script>
-<script defer src="shared.js"></script>
+<script defer src="nav.js"></script>script
+<script defer src="tips.js"></script>script
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("stories.html"));</script>script
+<script defer src="shared.js"></script>script
 <script>
 let EXTRAS = null;
 fetch('extras.json').then(r => r.json()).then(j => { EXTRAS = j; renderAll(); }).catch(err => {
@@ -1070,7 +1070,7 @@ function renderAll() {
   } catch (e) { console.warn('v79 arg patch:', e); }
 
 }
-</script>
+</script>script
 
 
 <script defer>
@@ -1108,7 +1108,7 @@ function renderAll() {
   obs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
   window.scrTheChartTheme = applyChartTheme;
 })();
-</script>
+</script>script
 
 
 <script defer>
@@ -1192,7 +1192,7 @@ function renderAll() {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(go, 600));
   else setTimeout(go, 600);
 })();
-</script>
+</script>script
 
 </body>
 </html>

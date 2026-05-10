@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sovereign Scores</title>
 <link rel="stylesheet" href="shared.css">
-<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
-<script src="data.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>script
+<script src="data.js"></script>script
 <style>
   /* Page-specific: explorer needs more width than the 820px shared default */
   main { max-width: 1180px !important; }
@@ -308,8 +308,8 @@
 
   /* Plotly chart bg should be dark in dark mode (charts have transparent bg, so chart-wrap shines through) */
   body.dark .chart-wrap .js-plotly-plot { background: transparent; }
-</style>
-<script defer src="pct_change.js"></script>
+</style>style
+<script defer src="pct_change.js"></script>script
 </head>
 <body>
 
@@ -447,9 +447,9 @@
     </div>
     <div class="modal-body">
       <p style="font-size:0.8rem;font-family:'Helvetica Neue',Arial,sans-serif;margin-bottom:10px;color:#555">
-        Copy and paste into your Overleaf document. Requires <code>\usepackage{booktabs}</code>.
+        Copy and paste into your Overleaf document. Requires <code>\usepackage{booktabs}</code>code.
       </p>
-      <pre id="latex-output"></pre>
+      <pre id="latex-output"></pre>pre
       <button class="btn" style="margin-top:12px" onclick="copyLatexText()">Copy to Clipboard</button>
     </div>
   </div>
@@ -1277,12 +1277,12 @@ function copyCSV() {
   });
   navigator.clipboard.writeText(csv).then(() => alert('CSV copied to clipboard.'));
 }
-</script>
+</script>script
 
-<script defer src="nav.js"></script>
-<script defer src="tips.js"></script>
-<script defer src="shared.js"></script>
-<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("index.html"));</script>
+<script defer src="nav.js"></script>script
+<script defer src="tips.js"></script>script
+<script defer src="shared.js"></script>script
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("index.html"));</script>script
 
 <script defer>
 (function(){
@@ -1524,6 +1524,6 @@ function copyCSV() {
   else setTimeout(init, 600);
   document.addEventListener('scrThemeChanged', () => setTimeout(rerender, 100));
 })();
-</script>
+</script>script
 </body>
 </html>

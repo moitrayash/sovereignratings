@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Relative HDI: Sovereign Scores</title>
 <link rel="stylesheet" href="shared.css">
-<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>script
 <style>
   .controls {
     background: #fff;
@@ -38,8 +38,8 @@
   body.dark .chart-box { background: var(--bg-card); border-color: var(--border); }
   body.dark .controls label { color: var(--ink-soft); }
   body.dark .controls select { background: var(--bg-card); color: var(--ink); border-color: var(--border); }
-</style>
-<script defer src="pct_change.js"></script>
+</style>style
+<script defer src="pct_change.js"></script>script
 </head>
 <body>
 
@@ -59,7 +59,7 @@
   <p>The Human Development Index, developed by <a href="https://en.wikipedia.org/wiki/Mahbub_ul_Haq" target="_blank" rel="noopener">Mahbub ul Haq</a> for the <a href="https://hdr.undp.org" target="_blank" rel="noopener">United Nations Development Programme</a> in 1990 and refined by <a href="https://en.wikipedia.org/wiki/Amartya_Sen" target="_blank" rel="noopener">Amartya Sen</a>, is a composite of life expectancy, education, and gross national income per capita.<sup class="note-ref"><a href="#note-1">1</a></sup> It is published annually for roughly 190 countries on a 0&ndash;1 scale, with higher values indicating greater &ldquo;human development.&rdquo; This page applies the same relative-rating logic as &sect;4 of the <a href="methodology.html#sec4">Methodology</a> to a re-scaled HDI—HDI multiplied by 100 to align with the credit-rating scale—and asks the natural question: how does a country's standing in the human-development distribution compare to its standing in the credit-rating distribution?</p>
 
   <h2 id="construction"><span class="section-num">1</span> Construction</h2>
-  <p>The 2023/24 UNDP HDR composite-indices file<sup class="note-ref"><a href="#note-2">2</a></sup> provides annual HDI values from 1990 through 2022 for 191 entities. Each value is multiplied by 100 to produce <code>HDI100</code> (range 0&ndash;100). For each country&ndash;year, the leave-one-out world mean is computed, and four relative measures follow the same definitions as the credit-rating M1&ndash;M4:</p>
+  <p>The 2023/24 UNDP HDR composite-indices file<sup class="note-ref"><a href="#note-2">2</a></sup> provides annual HDI values from 1990 through 2022 for 191 entities. Each value is multiplied by 100 to produce <code>HDI100</code>code (range 0&ndash;100). For each country&ndash;year, the leave-one-out world mean is computed, and four relative measures follow the same definitions as the credit-rating M1&ndash;M4:</p>
 
   <div class="formula-block">
     <span class="label">M1 (HDI)</span>HDI100<sub>it</sub><sup>2</sup> / LOO<sub>it</sub>
@@ -126,7 +126,7 @@
       }
       build();
     });
-  </script>
+  </script>script
 
   <p>The <strong>Compare against</strong> control above the charts lets the comparison set be re-cast on the fly. The default is the world (all 142 reporting countries). <em>Same continent</em> restricts the leave-one-out mean and the rank-based M2 / M4 to the focal country's UN-style continent (Africa, Asia, Europe, North America, Oceania, or South America); this makes the most sense for countries whose human-development trajectory is shaped primarily by regional conditions (a Gulf state versus other Gulf states, a Sub-Saharan low-income country against Sub-Saharan peers). <em>Custom subset</em> lets you build an ad-hoc comparison set ,  useful for SIDS clusters, BRICS, OECD, ASEAN, or any other peer grouping you care about. M1, M2, and M4 are recomputed client-side against whatever set is active.</p>
 
@@ -161,7 +161,7 @@
     </ol>
   </div>
 
-  <p class="page-footer">Relative HDI series are pre-computed and bundled into <code>extras.json</code>. Source: UNDP HDR 2023/24, 142 of 191 reporting countries match the credit-rating panel.</p>
+  <p class="page-footer">Relative HDI series are pre-computed and bundled into <code>extras.json</code>code. Source: UNDP HDR 2023/24, 142 of 191 reporting countries match the credit-rating panel.</p>
 
   <h2 id="downloads"><span class="section-num">6</span> Downloads</h2>
   <p>HDI panel and relative-rating computations.</p>
@@ -172,10 +172,10 @@
 
 </main>
 
-<script defer src="nav.js"></script>
-<script defer src="tips.js"></script>
-<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("relative_hdi.html"));</script>
-<script defer src="shared.js"></script>
+<script defer src="nav.js"></script>script
+<script defer src="tips.js"></script>script
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("relative_hdi.html"));</script>script
+<script defer src="shared.js"></script>script
 <script defer>
 let EXTRAS = null;
 let CUSTOM_PEERS = [];
@@ -486,7 +486,7 @@ function renderTimeScatter() {
   }, window.scrChartConfig || { responsive: true, displayModeBar: true });
 }
 
-</script>
+</script>script
 
 </body>
 </html>

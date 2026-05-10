@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shadow Ratings: Sovereign Scores</title>
 <link rel="stylesheet" href="shared.css">
-<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>script
 <style>
   .controls { background: var(--bg-card); border: 1px solid var(--border); padding: 16px 18px; margin: 18px 0; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.86rem; }
   .controls label { display: inline-block; font-weight: 700; font-size: 0.74rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft); margin-right: 6px; }
@@ -25,8 +25,8 @@
   .method-card h4 { margin-top: 0; }
   .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
   @media (max-width: 800px) { .compare-grid { grid-template-columns: 1fr; } }
-</style>
-<script defer src="pct_change.js"></script>
+</style>style
+<script defer src="pct_change.js"></script>script
 </head>
 <body>
 <header class="site">
@@ -36,10 +36,10 @@
   </div></div>
 </header>
 <nav class="site"></nav>
-<script defer src="nav.js"></script>
-<script defer src="tips.js"></script>
-<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("shadow.html"));</script>
-<script defer src="shared.js"></script>
+<script defer src="nav.js"></script>script
+<script defer src="tips.js"></script>script
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("shadow.html"));</script>script
+<script defer src="shared.js"></script>script
 
 <main>
 
@@ -75,7 +75,7 @@
   <div class="method-card">
     <h4>Method D: Random Forest / gradient boosting (referenced, not implemented here)</h4>
     <p><strong>Form:</strong> ensemble of decision trees on a richer fundamentals vector (GDPpc, growth, inflation, debt/GDP, current account, reserves/imports, governance indicators).</p>
-    <p>The random-forest specification is what S&amp;P, Moody's, and Fitch reportedly use internally as a sanity check on analyst-assigned ratings; the <a href="https://en.wikipedia.org/wiki/Bank_for_International_Settlements" target="_blank" rel="noopener">BIS</a>'s Working Paper 856 (Reusens and Croux, 2017)<sup class="note-ref"><a href="#note-4">4</a></sup> documents that a 200-tree random forest cuts shadow-rating prediction RMSE by about 35 percent versus OLS and matches agency ratings to within ±2 notches in 92 percent of country-years. Not implemented here because the project's panel does not include the full World Bank governance indicators in clean form; the tooling is in <code>relative_ratings_v2.py</code> for future runs.</p>
+    <p>The random-forest specification is what S&amp;P, Moody's, and Fitch reportedly use internally as a sanity check on analyst-assigned ratings; the <a href="https://en.wikipedia.org/wiki/Bank_for_International_Settlements" target="_blank" rel="noopener">BIS</a>'s Working Paper 856 (Reusens and Croux, 2017)<sup class="note-ref"><a href="#note-4">4</a></sup> documents that a 200-tree random forest cuts shadow-rating prediction RMSE by about 35 percent versus OLS and matches agency ratings to within ±2 notches in 92 percent of country-years. Not implemented here because the project's panel does not include the full World Bank governance indicators in clean form; the tooling is in <code>relative_ratings_v2.py</code>code for future runs.</p>
   </div>
 
   <h2 id="ols-detail"><span class="section-num">2</span> Method A worked end-to-end</h2>
@@ -120,7 +120,7 @@
   <p><strong>Step 2 &mdash; compute Euclidean distance to every other 2024 country</strong> in this 3-dimensional standardised cube:</p>
 
   <div class="copyable">
-    <pre class="code-block">distance(Pakistan, X) = √[(z_logGDPpc − z_logGDPpc_X)² + (z_growth − z_growth_X)² + (z_FDI − z_FDI_X)²]</pre>
+    <pre class="code-block">distance(Pakistan, X) = √[(z_logGDPpc − z_logGDPpc_X)² + (z_growth − z_growth_X)² + (z_FDI − z_FDI_X)²]</pre>pre
   </div>
 
   <p><strong>Step 3 &mdash; sort ascending, take the k = 10 nearest, and inverse-distance-weight their composite scores.</strong> Pakistan's 10 nearest 2024 neighbours in fundamental space (rounded distances and scores):</p>
@@ -253,7 +253,7 @@
   <p><strong>Step 3: average the leaf predictions.</strong></p>
 
   <div class="copyable">
-    <pre class="code-block">Shadow_RF = (11.2 + 13.5 + 14.8 + 10.5 + 12.0) / 5 = 62.0 / 5 = 12.40</pre>
+    <pre class="code-block">Shadow_RF = (11.2 + 13.5 + 14.8 + 10.5 + 12.0) / 5 = 62.0 / 5 = 12.40</pre>pre
   </div>
 
   <p>Pakistan's actual composite is 13.50, so the random-forest residual is <strong>13.50 − 12.40 = +1.10</strong> ,  a small <em>positive</em> residual indicating the agencies are slightly more generous than the forest predicts. This contrasts with OLS (+3.19), k-NN (−4.18), and Bayes (−8.95) for the same country-year, illustrating how four estimators that approximate the same target can disagree on the sign and magnitude of agency bias depending on what features and what functional form they use.</p>
@@ -268,7 +268,7 @@
       <li><strong>Interactions</strong>: agencies penalise weak Rule of Law more heavily when inflation is also high; OLS misses this without explicit interaction terms.</li>
       <li><strong>Threshold effects</strong>: any feature crossing a critical value (e.g., reserves dropping below 3 months of imports) triggers a notch downgrade ,  trees represent thresholds natively, OLS smooths through them.</li>
     </ol>
-    <p>To reproduce the 200-tree version programmatically, install scikit-learn and use <code>RandomForestRegressor(n_estimators=200, max_features='sqrt', random_state=42)</code>. The code is documented in <code>relative_ratings_v2.py</code> in the data bundle. Without scikit-learn, the 5-tree manual version above is the smallest meaningful demonstration of the principle.</p>
+    <p>To reproduce the 200-tree version programmatically, install scikit-learn and use <code>RandomForestRegressor(n_estimators=200, max_features='sqrt', random_state=42)</code>code. The code is documented in <code>relative_ratings_v2.py</code>code in the data bundle. Without scikit-learn, the 5-tree manual version above is the smallest meaningful demonstration of the principle.</p>
   </details>
 
   <h2 id="explorer"><span class="section-num">6</span> Live shadow explorer (all three methods)</h2>
@@ -287,7 +287,7 @@
 
   <h2 id="raw-data"><span class="section-num">4</span> Raw data table (head)</h2>
 
-  <p>First 12 rows of the OLS shadow output for the selected country, exactly as written into <code>extras.shadow.ols</code>:</p>
+  <p>First 12 rows of the OLS shadow output for the selected country, exactly as written into <code>extras.shadow.ols</code>code:</p>
 
   <div class="copyable">
     <div id="sh-table" style="overflow-x:auto"></div>
@@ -295,7 +295,7 @@
 
   <h2 id="reproducibility"><span class="section-num">6</span> Reproducibility: the raw computation</h2>
 
-  <p>Below is the exact Python script used to compute Methods A, B, and C from the project's panel. It depends on nothing but the standard library and the <code>panel_gdppc.csv</code> bundled in the data ZIP. Click <strong>Copy PNG</strong> in the upper right of the code block to grab a screenshot, or use your browser's text-select to copy the source. The script is plain-old vanilla Python: no NumPy, no pandas, no scikit-learn. <em>If you can run Python 3.8+ on your laptop, this entire section can be reproduced from raw inputs in under 30 seconds.</em></p>
+  <p>Below is the exact Python script used to compute Methods A, B, and C from the project's panel. It depends on nothing but the standard library and the <code>panel_gdppc.csv</code>code bundled in the data ZIP. Click <strong>Copy PNG</strong> in the upper right of the code block to grab a screenshot, or use your browser's text-select to copy the source. The script is plain-old vanilla Python: no NumPy, no pandas, no scikit-learn. <em>If you can run Python 3.8+ on your laptop, this entire section can be reproduced from raw inputs in under 30 seconds.</em></p>
 
   <div class="copyable">
     <pre class="code-block" id="repro-script"># shadow_ratings.py: compute three shadow rating methods from raw panel
@@ -331,11 +331,11 @@ def ols(X, y):
 # Method A OLS coefficients via normal equations, Method B k-NN by Euclidean
 # distance on standardised macro features, and Method C empirical-Bayes
 # shrinkage of country fixed-effects toward the regional mean.)
-</pre>
+</pre>pre
   </div>
 
   <h2 id="downloads"><span class="section-num">7</span> Downloads</h2>
-  <p>Data files underlying the shadow-rating analysis. CSVs are pre-computed; <code>extras_shadow.json</code> is the bundle the live explorer reads.</p>
+  <p>Data files underlying the shadow-rating analysis. CSVs are pre-computed; <code>extras_shadow.json</code>code is the bundle the live explorer reads.</p>
   <ul>
     <li><a href="shadow_panel.csv" download>shadow_panel.csv</a> &mdash; full panel of Actual / Shadow_OLS / Shadow_kNN / Shadow_Bayes / Residual by country-year.</li>
     <li><a href="shadow_per_agency.csv" download>shadow_per_agency.csv</a> &mdash; per-agency shadow regressions (S&amp;P, Moody&apos;s, DBRS).</li>
@@ -453,7 +453,7 @@ function renderShadowFor(country) {
     tableEl.innerHTML = '<table style="border-collapse:collapse;width:100%;font-size:0.9rem"><thead><tr><th style="text-align:left;padding:4px 10px;border-bottom:1px solid #777">Year</th><th style="text-align:right;padding:4px 10px;border-bottom:1px solid #777">Actual</th><th style="text-align:right;padding:4px 10px;border-bottom:1px solid #777">OLS shadow</th><th style="text-align:right;padding:4px 10px;border-bottom:1px solid #777">Residual</th></tr></thead><tbody>' + rows + '</tbody></table>';
   }
 }
-</script>
+</script>script
 
 
 <script defer>
@@ -613,7 +613,7 @@ function renderShadowFor(country) {
   else setTimeout(init, 600);
   document.addEventListener('scrThemeChanged', () => setTimeout(rerender, 100));
 })();
-</script>
+</script>script
 
 
 <script defer>
@@ -672,7 +672,7 @@ function renderShadowFor(country) {
   }
   document.addEventListener('scrThemeChanged', () => setTimeout(renderResidualsRanking, 100));
 })();
-</script>
+</script>script
 
 
 <script defer>
@@ -773,6 +773,6 @@ function renderShadowFor(country) {
   else setTimeout(renderResidualsMap, 700);
   document.addEventListener('scrThemeChanged', () => setTimeout(renderResidualsMap, 100));
 })();
-</script>
+</script>script
 </body>
 </html>

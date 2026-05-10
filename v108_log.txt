@@ -1,0 +1,8 @@
+[2026-05-10T12:38:27] === v108 fix start ===
+[2026-05-10T12:38:27]   index.html: stripped 12 appended-tag-name corruption(s)
+[2026-05-10T12:38:27]   relative_gini.html: stripped 14 appended-tag-name corruption(s)
+[2026-05-10T12:38:27]   relative_hdi.html: stripped 11 appended-tag-name corruption(s)
+[2026-05-10T12:38:27]   shadow.html: stripped 20 appended-tag-name corruption(s)
+[2026-05-10T12:38:27]   stories.html: stripped 10 appended-tag-name corruption(s)
+[2026-05-10T12:38:27] summary: 5 files cleaned, 67 corruptions removed
+[2026-05-10T12:38:27] === v108 fix end (success) ===
