@@ -873,25 +873,25 @@
     // the chart container below. The CSS selector is injected once
     // per page in installScrArrowStyle().
     const arrows = [
-      // X-axis line extension (v101: more overlap with native axis line, less past edge)
+      // X-axis line extension
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper',
-        ax: 0.96, ay: 0, axref: 'paper', ayref: 'paper',
-        x: 1.025, y: 0,
+        ax: 0.992, ay: 0, axref: 'paper', ayref: 'paper',
+        x: 1.045, y: 0,
         showarrow: true, arrowhead: 3, arrowsize: 1.0, arrowwidth: 1, arrowcolor: fg,
         text: '', standoff: 0, startstandoff: 0 },
-      // X-axis tip label (v101: closer to arrow, leaves room before clip)
-      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 1.03, y: 0,
-        xanchor: 'left', yanchor: 'middle', xshift: 4, showarrow: false,
+      // X-axis tip label
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 1.05, y: 0,
+        xanchor: 'left', yanchor: 'middle', xshift: 8, showarrow: false,
         text: titleX, font: { size: 11, color: fg, family: 'Helvetica Neue, Arial, sans-serif' } },
-      // Y-axis line extension (v101: more overlap with native axis line, less past edge)
+      // Y-axis line extension
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper',
-        ax: 0, ay: 0.96, axref: 'paper', ayref: 'paper',
-        x: 0, y: 1.025,
+        ax: 0, ay: 0.992, axref: 'paper', ayref: 'paper',
+        x: 0, y: 1.045,
         showarrow: true, arrowhead: 3, arrowsize: 1.0, arrowwidth: 1, arrowcolor: fg,
         text: '', standoff: 0, startstandoff: 0 },
-      // Y-axis tip label (v101: closer to arrow, leaves room before clip)
-      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 1.035,
-        xanchor: 'center', yanchor: 'bottom', yshift: 4, showarrow: false,
+      // Y-axis tip label
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 1.05,
+        xanchor: 'center', yanchor: 'bottom', yshift: 6, showarrow: false,
         text: titleY, font: { size: 11, color: fg, family: 'Helvetica Neue, Arial, sans-serif' } },
       // (0,0) origin marker
       { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 0,
@@ -916,17 +916,6 @@
           _layoutPatch[ax + '.linewidth']  = 1;
         }
       });
-      // v101: every chart reserves enough room for the tip labels
-      // (Time on the right edge, the y-axis dimension on the top
-      // edge). Read the current margin and only bump it if smaller;
-      // never reduce a chart that already has more room.
-      try {
-        var curM = (gd.layout && gd.layout.margin) || {};
-        var curR = (typeof curM.r === 'number') ? curM.r : 80;
-        var curT = (typeof curM.t === 'number') ? curM.t : 60;
-        if (curR < 70) _layoutPatch['margin.r'] = 70;
-        if (curT < 56) _layoutPatch['margin.t'] = 56;
-      } catch(e) { /* margin read failed, skip */ }
       window.Plotly.relayout(gd, _layoutPatch);
     } catch(e) { console.warn('axis arrows relayout failed:', e); }
     setTimeout(() => { gd._scrInjectingArrows = false; }, 80);

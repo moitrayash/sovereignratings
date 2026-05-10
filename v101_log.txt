@@ -1,0 +1,9 @@
+[2026-05-10T01:51:21] === v101 fix start ===
+[2026-05-10T01:51:21] backed up shared.js -> _backup_pre_v101/
+[2026-05-10T01:51:21] applied: X-axis line tightening
+[2026-05-10T01:51:21] applied: X-axis tip label closer
+[2026-05-10T01:51:21] applied: Y-axis line tightening
+[2026-05-10T01:51:21] applied: Y-axis tip label closer
+[2026-05-10T01:51:21] applied: margin enforcement in relayout
+[2026-05-10T01:51:21] shared.js: atomic-wrote with CRLF
+[2026-05-10T01:51:21] === v101 fix end (success) ===
