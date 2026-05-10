@@ -1,0 +1,7 @@
+[2026-05-10T01:16:12] === v96 fix start ===
+[2026-05-10T01:16:12] backed up similarity.html + shared.js -> _backup_pre_v96/
+[2026-05-10T01:16:12] applied: similarity.html demo banner removal
+[2026-05-10T01:16:12] similarity.html: atomic-wrote with CRLF
+[2026-05-10T01:16:12] applied: shared.js imprint two-line rewrite
+[2026-05-10T01:16:12] shared.js: atomic-wrote with CRLF
+[2026-05-10T01:16:12] === v96 fix end (success) ===

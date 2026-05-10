@@ -176,7 +176,7 @@
     if (document.querySelector('.imprint')) return;
     const im = document.createElement('div');
     im.className = 'imprint';
-    im.innerHTML = '<a href="mailto:ym522@cornell.edu" title="Yash Moitra · Department of Applied Economics and Management · Cornell University">Yash Moitra<br>Cornell University</a>';
+    im.innerHTML = '<a href="mailto:ym522@cornell.edu" title="Yash Moitra · Department of Applied Economics and Management · Cornell University">Y. Moitra · DAEM, Cornell</a>';
     document.body.appendChild(im);
   }
 
