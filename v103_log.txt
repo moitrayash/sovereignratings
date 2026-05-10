@@ -1,0 +1,9 @@
+[2026-05-10T02:02:52] === v103 fix start ===
+[2026-05-10T02:02:52] em-dash sweep across 17 html files
+[2026-05-10T02:02:52]   index.html: 0 numeric range em-dash(es) -> en-dash, 3 lone em-dash(es) -> ', '
+[2026-05-10T02:02:52]   relative_gini.html: 0 numeric range em-dash(es) -> en-dash, 2 lone em-dash(es) -> ', '
+[2026-05-10T02:02:52]   relative_hdi.html: 0 numeric range em-dash(es) -> en-dash, 2 lone em-dash(es) -> ', '
+[2026-05-10T02:02:52]   shadow.html: 0 numeric range em-dash(es) -> en-dash, 11 lone em-dash(es) -> ', '
+[2026-05-10T02:02:52]   stories.html: 0 numeric range em-dash(es) -> en-dash, 1 lone em-dash(es) -> ', '
+[2026-05-10T02:02:52] summary: 5 files changed; 0 numeric ranges fixed, 19 lone em-dashes replaced
+[2026-05-10T02:02:52] === v103 fix end (success) ===

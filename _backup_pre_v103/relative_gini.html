@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Relative Gini: Sovereign Scores</title>
 <link rel="stylesheet" href="shared.css">
-<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>script
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
 <style>
   .controls { background: #fff; border: 1px solid #ccc; padding: 14px 18px; margin: 18px 0; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.86rem; }
   .controls label { font-weight: 700; font-size: 0.74rem; letter-spacing: 0.05em; text-transform: uppercase; color: #555; margin-right: 6px; }
@@ -16,8 +16,8 @@
   body.dark .chart-box { background: var(--bg-card); border-color: var(--border); }
   body.dark .controls label { color: var(--ink-soft); }
   body.dark .controls select { background: var(--bg-card); color: var(--ink); border-color: var(--border); }
-</style>style
-<script defer src="pct_change.js"></script>script
+</style>
+<script defer src="pct_change.js"></script>
 </head>
 <body>
 
@@ -34,10 +34,10 @@
 <main>
 
   <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Relative Gini Index</h2>
-  <p>The Gini index, defined by Corrado Gini in 1912,<sup class="note-ref"><a href="#note-1">1</a></sup> measures inequality on a scale where 0 is perfect equality and 1 (or 100, depending on convention) is perfect concentration. The World Bank publishes a country-level income Gini under indicator <code>SI.POV.GINI</code>code, drawn from household income surveys.<sup class="note-ref"><a href="#note-2">2</a></sup> Coverage is sparse: not every country reports every year, and many low-income countries report only every five to ten years. This page applies the leave-one-out relative-rating logic of <a href="methodology.html#sec4">Methodology &sect;4</a> to the income-Gini series and asks whether a country's standing in the global inequality distribution moves with its credit rating.</p>
+  <p>The Gini index, defined by Corrado Gini in 1912,<sup class="note-ref"><a href="#note-1">1</a></sup> measures inequality on a scale where 0 is perfect equality and 1 (or 100, depending on convention) is perfect concentration. The World Bank publishes a country-level income Gini under indicator <code>SI.POV.GINI</code>, drawn from household income surveys.<sup class="note-ref"><a href="#note-2">2</a></sup> Coverage is sparse: not every country reports every year, and many low-income countries report only every five to ten years. This page applies the leave-one-out relative-rating logic of <a href="methodology.html#sec4">Methodology &sect;4</a> to the income-Gini series and asks whether a country's standing in the global inequality distribution moves with its credit rating.</p>
 
   <h2 id="construction"><span class="section-num">1</span> Construction</h2>
-  <p>The Gini convention used here is &ldquo;higher is more unequal,&rdquo; the World Bank standard. Because the relative-rating methods M1, M2, and M4 are all defined to interpret &ldquo;higher value = better,&rdquo; we invert the scale: <code>GiniInv = 100 &minus; Gini</code>code. A country with Gini = 25 (relatively equal, like the Slovak Republic) has GiniInv = 75; a country with Gini = 60 (high inequality, like South Africa) has GiniInv = 40. The leave-one-out world mean and M1&ndash;M4 then follow the standard formulas:</p>
+  <p>The Gini convention used here is &ldquo;higher is more unequal,&rdquo; the World Bank standard. Because the relative-rating methods M1, M2, and M4 are all defined to interpret &ldquo;higher value = better,&rdquo; we invert the scale: <code>GiniInv = 100 &minus; Gini</code>. A country with Gini = 25 (relatively equal, like the Slovak Republic) has GiniInv = 75; a country with Gini = 60 (high inequality, like South Africa) has GiniInv = 40. The leave-one-out world mean and M1&ndash;M4 then follow the standard formulas:</p>
 
   <div class="formula-block">
     <span class="label">M1 (Gini)</span>GiniInv<sub>it</sub><sup>2</sup> / LOO<sub>it</sub>
@@ -102,10 +102,10 @@
       }
       build();
     });
-  </script>script
+  </script>
   <div class="chart-box"><div id="gini-vs-credit" style="height:340px"></div></div>
 
-  <p>The <strong>Compare against</strong> control lets the peer set be re-cast on the fly. The default is the world (all reporters in that year). <em>Same continent</em> restricts the leave-one-out mean and the rank-based M2 / M4 to the focal country's UN-style continent ,  useful for inequality questions that are mostly regional in nature (Latin American income inequality vs. East Asian, for example). <em>Custom subset</em> lets you build an ad-hoc set; combined with Gini's spotty annual reporting this means small custom sets may yield very few country-years (when N drops below 2 in a year, the LOO is undefined and that year is dropped).</p>
+  <p>The <strong>Compare against</strong> control lets the peer set be re-cast on the fly. The default is the world (all reporters in that year). <em>Same continent</em> restricts the leave-one-out mean and the rank-based M2 / M4 to the focal country's UN-style continent — useful for inequality questions that are mostly regional in nature (Latin American income inequality vs. East Asian, for example). <em>Custom subset</em> lets you build an ad-hoc set; combined with Gini's spotty annual reporting this means small custom sets may yield very few country-years (when N drops below 2 in a year, the LOO is undefined and that year is dropped).</p>
 
   <p>The first chart plots a country's raw Gini against the leave-one-out peer-set mean; gaps in the line are years where the country did not report. The second shows the relative measures M1, M2 (rank), and M4 (percentile). The third overlays the inverted Gini against the credit composite score. The hypothesis sometimes advanced—that more equal countries enjoy better sovereign ratings—has weak support in this data: cross-sectional correlation between GiniInv and credit composite is positive but modest (r &asymp; 0.35), and within-country variation in Gini is too small over the panel window to drive credit movements.</p>
 
@@ -118,7 +118,7 @@
   <div class="chart-box"><div id="gini-hist" style="height:340px"></div></div>
 
   <h2 id="caveats"><span class="section-num">3</span> Caveats</h2>
-  <p>Income Gini is a <em>flow</em> measure, while wealth Gini (which tracks household balance-sheet inequality) is a <em>stock</em> measure; the two can diverge meaningfully and only the former is reported here. Survey methodology varies across countries (consumption vs disposable income, urban vs national coverage), and World Bank harmonisation is imperfect. The leave-one-out world mean implicitly weights every reporting country equally regardless of population, which over-represents small economies; a population-weighted variant is straightforward to compute but is not pre-bundled in <code>extras.json</code>code. Sparseness means trend reads from this page should be treated as illustrative rather than confirmatory, serious cross-country inequality work uses harmonised micro-data sources such as the <a href="https://wid.world" target="_blank" rel="noopener">World Inequality Database</a> or the <a href="https://www.lisdatacenter.org" target="_blank" rel="noopener">Luxembourg Income Study</a>.</p>
+  <p>Income Gini is a <em>flow</em> measure, while wealth Gini (which tracks household balance-sheet inequality) is a <em>stock</em> measure; the two can diverge meaningfully and only the former is reported here. Survey methodology varies across countries (consumption vs disposable income, urban vs national coverage), and World Bank harmonisation is imperfect. The leave-one-out world mean implicitly weights every reporting country equally regardless of population, which over-represents small economies; a population-weighted variant is straightforward to compute but is not pre-bundled in <code>extras.json</code>. Sparseness means trend reads from this page should be treated as illustrative rather than confirmatory—serious cross-country inequality work uses harmonised micro-data sources such as the <a href="https://wid.world" target="_blank" rel="noopener">World Inequality Database</a> or the <a href="https://www.lisdatacenter.org" target="_blank" rel="noopener">Luxembourg Income Study</a>.</p>
 
   <div class="endnotes" id="endnotes">
     <h3>Endnotes</h3>
@@ -128,7 +128,7 @@
     </ol>
   </div>
 
-  <p class="page-footer">Gini relative series are pre-computed and bundled into <code>extras.json</code>code. Source: World Bank WDI <code>SI.POV.GINI</code>code, 2000&ndash;2024; 1,858 country&times;year observations across 168 countries.</p>
+  <p class="page-footer">Gini relative series are pre-computed and bundled into <code>extras.json</code>. Source: World Bank WDI <code>SI.POV.GINI</code>, 2000&ndash;2024; 1,858 country&times;year observations across 168 countries.</p>
 
   <h2 id="downloads"><span class="section-num">4</span> Downloads</h2>
   <p>World Bank income Gini panel and relative-rating computations.</p>
@@ -139,10 +139,10 @@
 
 </main>
 
-<script defer src="nav.js"></script>script
-<script defer src="tips.js"></script>script
-<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("relative_gini.html"));</script>script
-<script defer src="shared.js"></script>script
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("relative_gini.html"));</script>
+<script defer src="shared.js"></script>
 <script defer>
 let EXTRAS = null;
 let CUSTOM_PEERS = [];
@@ -387,7 +387,7 @@ function renderLorenz() {
     legend: { orientation: 'h', y: -0.22, x: 0.5, xanchor: 'center', font: { color: t.txt } }
   }, window.scrChartConfig || { responsive: true, displayModeBar: true });
 }
-</script>script
+</script>
 
 </body>
 </html>

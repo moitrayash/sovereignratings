@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cases: Sovereign Scores</title>
 <link rel="stylesheet" href="shared.css">
-<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>script
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
 <style>
   .story {
     margin-bottom: 60px;
@@ -81,8 +81,8 @@
   body.dark .story-toc { background: var(--bg-card); border-color: var(--border); }
   body.dark .story-toc h3 { color: #aaa; }
   body.dark .story-toc a { color: #ececec; }
-</style>style
-<script defer src="pct_change.js"></script>script
+</style>
+<script defer src="pct_change.js"></script>
 </head>
 <body>
 
@@ -298,7 +298,7 @@
     <div class="chart-box"><div id="ip-shadow" style="height:300px"></div></div>
     <div class="chart-caption">Figure 6.4: Actual vs South-Asia-shadow rating. India runs slightly above shadow throughout (the agencies' India view is more generous than the regional benchmark would predict). Pakistan's gap turns sharply negative after 2008, settling at roughly −10 from 2014 onward: a persistent under-rating relative to peers.</div>
     <div class="chart-box"><div id="ip-pairwise-rel" style="height:320px"></div></div>
-    <div class="chart-caption">Figure 6.5: Asymmetric pairwise M1 relatives. M1(India — vs Pakistan-only peer set) = India² / Pakistan; M1(Pakistan — vs India-only peer set) = Pakistan² / India. With India 35 and Pakistan 14, India's pairwise M1 is 87.5 (well above 35) while Pakistan's is 5.6 (well below 14) ,  the relative-rating arithmetic flips shape when the peer set shrinks to one country.</div>
+    <div class="chart-caption">Figure 6.5: Asymmetric pairwise M1 relatives. M1(India — vs Pakistan-only peer set) = India² / Pakistan; M1(Pakistan — vs India-only peer set) = Pakistan² / India. With India 35 and Pakistan 14, India's pairwise M1 is 87.5 (well above 35) while Pakistan's is 5.6 (well below 14) — the relative-rating arithmetic flips shape when the peer set shrinks to one country.</div>
 
     <p>There is a related point about distance-graded benchmarking. South Asia as a peer group is dominated by India in mass terms; an unweighted regional average treats Bangladesh, Bhutan, Maldives, Nepal, Pakistan, and Sri Lanka equally, which inflates Pakistan's apparent peer mean (because India's high score lifts the average). A GDP-weighted regional average pulls the South Asia mean upward by another two points. Pakistan's relative-to-region rating depends sensitively on the weighting choice; the pairwise India comparison eliminates this ambiguity by collapsing the benchmark to a single, well-identified counterfactual.</p>
 
@@ -436,10 +436,10 @@
 
 </main>
 
-<script defer src="nav.js"></script>script
-<script defer src="tips.js"></script>script
-<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("stories.html"));</script>script
-<script defer src="shared.js"></script>script
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("stories.html"));</script>
+<script defer src="shared.js"></script>
 <script>
 let EXTRAS = null;
 fetch('extras.json').then(r => r.json()).then(j => { EXTRAS = j; renderAll(); }).catch(err => {
@@ -1070,7 +1070,7 @@ function renderAll() {
   } catch (e) { console.warn('v79 arg patch:', e); }
 
 }
-</script>script
+</script>
 
 
 <script defer>
@@ -1108,7 +1108,7 @@ function renderAll() {
   obs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
   window.scrTheChartTheme = applyChartTheme;
 })();
-</script>script
+</script>
 
 
 <script defer>
@@ -1192,7 +1192,7 @@ function renderAll() {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(go, 600));
   else setTimeout(go, 600);
 })();
-</script>script
+</script>
 
 </body>
 </html>

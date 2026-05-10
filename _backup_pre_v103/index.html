@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sovereign Scores</title>
 <link rel="stylesheet" href="shared.css">
-<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>script
-<script src="data.js"></script>script
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+<script src="data.js"></script>
 <style>
   /* Page-specific: explorer needs more width than the 820px shared default */
   main { max-width: 1180px !important; }
@@ -308,8 +308,8 @@
 
   /* Plotly chart bg should be dark in dark mode (charts have transparent bg, so chart-wrap shines through) */
   body.dark .chart-wrap .js-plotly-plot { background: transparent; }
-</style>style
-<script defer src="pct_change.js"></script>script
+</style>
+<script defer src="pct_change.js"></script>
 </head>
 <body>
 
@@ -381,7 +381,7 @@
 
     <!-- Mode A layout: headline chart with view-switcher (default Shadow) + relative detail grid -->
     <div id="charts-a">
-            <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Relative methods ,  M1, M2, ΔM1, M4 detail</div>
+            <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Relative methods — M1, M2, ΔM1, M4 detail</div>
       <div class="charts-grid-2">
         <div class="chart-wrap"><div id="chart-a2"></div></div>
         <div class="chart-wrap"><div id="chart-a3"></div></div>
@@ -392,7 +392,7 @@
 
     <!-- Mode B layout: headline chart with view-switcher (default Shadow) + relative detail -->
     <div id="charts-b" style="display:none">
-            <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Relative methods ,  M1 + M4 detail</div>
+            <div class="chart-method-tag" style="font-size:0.72rem;letter-spacing:0.04em;color:var(--muted);text-transform:uppercase;margin:6px 2px 4px;">Relative methods — M1 + M4 detail</div>
       <div class="charts-grid-2">
         <div class="chart-wrap"><div id="chart-b2"></div></div>
         <div class="chart-wrap"><div id="chart-b3"></div></div>
@@ -423,7 +423,7 @@
   </div>
   <h2 id="heatmap"><span class="section-num">H</span> Composite × HDI heatmap</h2>
 
-  <p>The joint distribution of composite credit score and the UN Human Development Index across all country-years (2010&ndash;2022, n ≈ 1,800). Cell colour = count of country-years falling in that bin. The diagonal-ish concentration confirms the strong positive correlation between rating and HDI (Spearman ρ ≈ 0.81); off-diagonal cells are countries the agencies treat very differently from what their HDI level would predict ,  candidate cases for further shadow-rating diagnostic. Each country's latest-year position is overlaid in white text so the heatmap reads as a country atlas as well as a density plot.</p>
+  <p>The joint distribution of composite credit score and the UN Human Development Index across all country-years (2010&ndash;2022, n ≈ 1,800). Cell colour = count of country-years falling in that bin. The diagonal-ish concentration confirms the strong positive correlation between rating and HDI (Spearman ρ ≈ 0.81); off-diagonal cells are countries the agencies treat very differently from what their HDI level would predict — candidate cases for further shadow-rating diagnostic. Each country's latest-year position is overlaid in white text so the heatmap reads as a country atlas as well as a density plot.</p>
 
   <div class="chart-box"><div id="heatmap-chart" style="height:560px"></div></div>
   <div class="chart-caption">Figure H.1: Joint frequency heatmap of composite credit score (x-axis) and HDI (y-axis). Hot cells = many country-years cluster there; cool cells = unusual combinations of rating and human-development outcomes. Defaults to the relative (M4 percentile) view on both axes; switch to absolute or shadow with the pills above the chart.</div>
@@ -447,9 +447,9 @@
     </div>
     <div class="modal-body">
       <p style="font-size:0.8rem;font-family:'Helvetica Neue',Arial,sans-serif;margin-bottom:10px;color:#555">
-        Copy and paste into your Overleaf document. Requires <code>\usepackage{booktabs}</code>code.
+        Copy and paste into your Overleaf document. Requires <code>\usepackage{booktabs}</code>.
       </p>
-      <pre id="latex-output"></pre>pre
+      <pre id="latex-output"></pre>
       <button class="btn" style="margin-top:12px" onclick="copyLatexText()">Copy to Clipboard</button>
     </div>
   </div>
@@ -1277,12 +1277,12 @@ function copyCSV() {
   });
   navigator.clipboard.writeText(csv).then(() => alert('CSV copied to clipboard.'));
 }
-</script>script
+</script>
 
-<script defer src="nav.js"></script>script
-<script defer src="tips.js"></script>script
-<script defer src="shared.js"></script>script
-<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("index.html"));</script>script
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer src="shared.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("index.html"));</script>
 
 <script defer>
 (function(){
@@ -1524,6 +1524,6 @@ function copyCSV() {
   else setTimeout(init, 600);
   document.addEventListener('scrThemeChanged', () => setTimeout(rerender, 100));
 })();
-</script>script
+</script>
 </body>
 </html>

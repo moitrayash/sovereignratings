@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shadow Ratings: Sovereign Scores</title>
 <link rel="stylesheet" href="shared.css">
-<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>script
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
 <style>
   .controls { background: var(--bg-card); border: 1px solid var(--border); padding: 16px 18px; margin: 18px 0; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 0.86rem; }
   .controls label { display: inline-block; font-weight: 700; font-size: 0.74rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-soft); margin-right: 6px; }
@@ -25,8 +25,8 @@
   .method-card h4 { margin-top: 0; }
   .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
   @media (max-width: 800px) { .compare-grid { grid-template-columns: 1fr; } }
-</style>style
-<script defer src="pct_change.js"></script>script
+</style>
+<script defer src="pct_change.js"></script>
 </head>
 <body>
 <header class="site">
@@ -36,10 +36,10 @@
   </div></div>
 </header>
 <nav class="site"></nav>
-<script defer src="nav.js"></script>script
-<script defer src="tips.js"></script>script
-<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("shadow.html"));</script>script
-<script defer src="shared.js"></script>script
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("shadow.html"));</script>
+<script defer src="shared.js"></script>
 
 <main>
 
@@ -75,7 +75,7 @@
   <div class="method-card">
     <h4>Method D: Random Forest / gradient boosting (referenced, not implemented here)</h4>
     <p><strong>Form:</strong> ensemble of decision trees on a richer fundamentals vector (GDPpc, growth, inflation, debt/GDP, current account, reserves/imports, governance indicators).</p>
-    <p>The random-forest specification is what S&amp;P, Moody's, and Fitch reportedly use internally as a sanity check on analyst-assigned ratings; the <a href="https://en.wikipedia.org/wiki/Bank_for_International_Settlements" target="_blank" rel="noopener">BIS</a>'s Working Paper 856 (Reusens and Croux, 2017)<sup class="note-ref"><a href="#note-4">4</a></sup> documents that a 200-tree random forest cuts shadow-rating prediction RMSE by about 35 percent versus OLS and matches agency ratings to within ±2 notches in 92 percent of country-years. Not implemented here because the project's panel does not include the full World Bank governance indicators in clean form; the tooling is in <code>relative_ratings_v2.py</code>code for future runs.</p>
+    <p>The random-forest specification is what S&amp;P, Moody's, and Fitch reportedly use internally as a sanity check on analyst-assigned ratings; the <a href="https://en.wikipedia.org/wiki/Bank_for_International_Settlements" target="_blank" rel="noopener">BIS</a>'s Working Paper 856 (Reusens and Croux, 2017)<sup class="note-ref"><a href="#note-4">4</a></sup> documents that a 200-tree random forest cuts shadow-rating prediction RMSE by about 35 percent versus OLS and matches agency ratings to within ±2 notches in 92 percent of country-years. Not implemented here because the project's panel does not include the full World Bank governance indicators in clean form; the tooling is in <code>relative_ratings_v2.py</code> for future runs.</p>
   </div>
 
   <h2 id="ols-detail"><span class="section-num">2</span> Method A worked end-to-end</h2>
@@ -120,7 +120,7 @@
   <p><strong>Step 2 &mdash; compute Euclidean distance to every other 2024 country</strong> in this 3-dimensional standardised cube:</p>
 
   <div class="copyable">
-    <pre class="code-block">distance(Pakistan, X) = √[(z_logGDPpc − z_logGDPpc_X)² + (z_growth − z_growth_X)² + (z_FDI − z_FDI_X)²]</pre>pre
+    <pre class="code-block">distance(Pakistan, X) = √[(z_logGDPpc − z_logGDPpc_X)² + (z_growth − z_growth_X)² + (z_FDI − z_FDI_X)²]</pre>
   </div>
 
   <p><strong>Step 3 &mdash; sort ascending, take the k = 10 nearest, and inverse-distance-weight their composite scores.</strong> Pakistan's 10 nearest 2024 neighbours in fundamental space (rounded distances and scores):</p>
@@ -148,7 +148,7 @@
 
   <p><strong>Step 4 &mdash; the k-NN shadow rating for Pakistan in 2024 is 17.68</strong>, capped to [0, 60]. Pakistan's actual composite is 13.5, so the k-NN residual is <em>13.5 − 17.68 = −4.18</em> &mdash; the agencies are rating Pakistan <strong>more conservatively</strong> than its nearest peer-fundamentals neighbours would predict.</p>
 
-  <p><em>Why is the OLS residual positive (+3.19) and the k-NN residual negative (−4.18) for the same country in the same year?</em> The OLS regression pools across all 3,066 country-years and is dominated by the GDPpc &rarr; rating slope: log GDPpc 7.36 puts Pakistan deep in the low-income tier where the OLS prediction is also very low (≈10.3), so 13.5 looks generous against the average global mapping. The k-NN finds country-years that resemble Pakistan on <em>multiple</em> fundamentals simultaneously and notes that those neighbours (Bangladesh, Egypt, Bolivia, Honduras) all carry materially higher composites ,  so 13.5 looks <strong>conservative</strong> against the empirical practice of the agencies on similar countries. Both are correct; they answer different questions.</p>
+  <p><em>Why is the OLS residual positive (+3.19) and the k-NN residual negative (−4.18) for the same country in the same year?</em> The OLS regression pools across all 3,066 country-years and is dominated by the GDPpc &rarr; rating slope: log GDPpc 7.36 puts Pakistan deep in the low-income tier where the OLS prediction is also very low (≈10.3), so 13.5 looks generous against the average global mapping. The k-NN finds country-years that resemble Pakistan on <em>multiple</em> fundamentals simultaneously and notes that those neighbours (Bangladesh, Egypt, Bolivia, Honduras) all carry materially higher composites — so 13.5 looks <strong>conservative</strong> against the empirical practice of the agencies on similar countries. Both are correct; they answer different questions.</p>
 
   <details class="example">
     <summary>Even more detail: how the inverse-distance weights are normalised</summary>
@@ -164,7 +164,7 @@
                 = 15.20<br><br>
     Ŝ<sub>kNN</sub> = 268.42 / 15.20 ≈ 17.66</p>
     <p>Bangladesh contributes about 53.23/268.42 ≈ 19.8% of the predicted score because it is the closest peer (z-distance 0.31). Bolivia, the 10th-nearest, contributes only 13.20/268.42 ≈ 4.9%. The shape of the kernel (1/d) means the closest 3 neighbours together account for 42% of the predicted value; the &ldquo;long tail&rdquo; of distant neighbours mostly cancels.</p>
-    <p>To verify hand-calculation: re-run the script in §6 with k=10 for Pakistan 2024 ,  you'll get 17.68 (rounded), matching the table above. The 0.02 discrepancy with the worked example here is rounding in the displayed distances.</p>
+    <p>To verify hand-calculation: re-run the script in §6 with k=10 for Pakistan 2024 — you'll get 17.68 (rounded), matching the table above. The 0.02 discrepancy with the worked example here is rounding in the displayed distances.</p>
   </details>
 
   <h2 id="bayes-detail"><span class="section-num">4</span> Method C worked end-to-end</h2>
@@ -198,7 +198,7 @@
     <tbody>
       <tr><td>Norway (high-grade)</td><td>60.00</td><td>31.21</td><td>45.61</td><td><strong>+14.39</strong> (agencies generous vs mean)</td></tr>
       <tr><td>Pakistan (frontier)</td><td>13.50</td><td>31.40</td><td>22.45</td><td><strong>−8.95</strong> (conservative vs mean)</td></tr>
-      <tr><td>Sri Lanka (default)</td><td>13.50</td><td>31.40</td><td>22.45</td><td><strong>−8.95</strong> (same ,  Bayes can't distinguish two sovereigns at the same own-score)</td></tr>
+      <tr><td>Sri Lanka (default)</td><td>13.50</td><td>31.40</td><td>22.45</td><td><strong>−8.95</strong> (same — Bayes can't distinguish two sovereigns at the same own-score)</td></tr>
     </tbody>
   </table>
   </div>
@@ -209,11 +209,11 @@
     <ul>
       <li><strong>β = 1</strong>: no shrinkage. Shadow = own rating. Residual is always 0. Useless as a benchmark.</li>
       <li><strong>β = 0</strong>: full shrinkage to peer mean. Shadow = global average. Residual = (own − μ̄), a re-centred score. Discards all country-specific signal.</li>
-      <li><strong>β = 0.5</strong>: balanced James-Stein prior. The classical empirical-Bayes literature (Efron &amp; Morris 1973) shows this is optimal when individual signals have variance comparable to between-group variance ,  the natural assumption when no prior knowledge favours one side.</li>
-      <li><strong>β = 0.62</strong>: empirical Bayes optimum from leave-one-out CV on this specific panel. RMSE drops from 7.5 to 7.4 on the 60-point scale ,  improvement is tiny, so we stay with β = 0.5 for interpretability.</li>
+      <li><strong>β = 0.5</strong>: balanced James-Stein prior. The classical empirical-Bayes literature (Efron &amp; Morris 1973) shows this is optimal when individual signals have variance comparable to between-group variance — the natural assumption when no prior knowledge favours one side.</li>
+      <li><strong>β = 0.62</strong>: empirical Bayes optimum from leave-one-out CV on this specific panel. RMSE drops from 7.5 to 7.4 on the 60-point scale — improvement is tiny, so we stay with β = 0.5 for interpretability.</li>
     </ul>
-    <p><em>Why Bayes residuals are systematically smaller in magnitude than OLS or k-NN residuals:</em> by construction, residual = own − [β·own + (1−β)·μ̄] = (1−β)·(own − μ̄). At β = 0.5, every Bayes residual is exactly <strong>half</strong> the raw gap between own rating and peer mean. For Pakistan: gap = 13.50 − 31.40 = −17.90; residual = 0.5·(−17.90) = −8.95. ✓ This is why Bayes is most useful for smoothing noisy short-history sovereigns rather than for outlier detection ,  the OLS or k-NN residuals are less attenuated and therefore more diagnostic.</p>
-    <p><em>Why Norway and Sri Lanka with the same own-score get the same residual:</em> Bayes only knows two numbers per country (own rating, peer mean). Two countries with identical own ratings have identical Bayes shadows by construction. To distinguish them, the model needs additional inputs ,  which is exactly what Method A (OLS on macro fundamentals) and Method B (k-NN in fundamentals space) provide.</p>
+    <p><em>Why Bayes residuals are systematically smaller in magnitude than OLS or k-NN residuals:</em> by construction, residual = own − [β·own + (1−β)·μ̄] = (1−β)·(own − μ̄). At β = 0.5, every Bayes residual is exactly <strong>half</strong> the raw gap between own rating and peer mean. For Pakistan: gap = 13.50 − 31.40 = −17.90; residual = 0.5·(−17.90) = −8.95. ✓ This is why Bayes is most useful for smoothing noisy short-history sovereigns rather than for outlier detection — the OLS or k-NN residuals are less attenuated and therefore more diagnostic.</p>
+    <p><em>Why Norway and Sri Lanka with the same own-score get the same residual:</em> Bayes only knows two numbers per country (own rating, peer mean). Two countries with identical own ratings have identical Bayes shadows by construction. To distinguish them, the model needs additional inputs — which is exactly what Method A (OLS on macro fundamentals) and Method B (k-NN in fundamentals space) provide.</p>
   </details>
 
   <h2 id="rf-detail"><span class="section-num">5</span> Method D worked end-to-end</h2>
@@ -253,22 +253,22 @@
   <p><strong>Step 3: average the leaf predictions.</strong></p>
 
   <div class="copyable">
-    <pre class="code-block">Shadow_RF = (11.2 + 13.5 + 14.8 + 10.5 + 12.0) / 5 = 62.0 / 5 = 12.40</pre>pre
+    <pre class="code-block">Shadow_RF = (11.2 + 13.5 + 14.8 + 10.5 + 12.0) / 5 = 62.0 / 5 = 12.40</pre>
   </div>
 
-  <p>Pakistan's actual composite is 13.50, so the random-forest residual is <strong>13.50 − 12.40 = +1.10</strong> ,  a small <em>positive</em> residual indicating the agencies are slightly more generous than the forest predicts. This contrasts with OLS (+3.19), k-NN (−4.18), and Bayes (−8.95) for the same country-year, illustrating how four estimators that approximate the same target can disagree on the sign and magnitude of agency bias depending on what features and what functional form they use.</p>
+  <p>Pakistan's actual composite is 13.50, so the random-forest residual is <strong>13.50 − 12.40 = +1.10</strong> — a small <em>positive</em> residual indicating the agencies are slightly more generous than the forest predicts. This contrasts with OLS (+3.19), k-NN (−4.18), and Bayes (−8.95) for the same country-year, illustrating how four estimators that approximate the same target can disagree on the sign and magnitude of agency bias depending on what features and what functional form they use.</p>
 
   <details class="example">
     <summary>Even more detail: why a random forest typically outperforms OLS, and how to scale this from 5 to 200 trees</summary>
-    <p>A real random forest uses 100–500 trees (the BIS Working Paper 856 referenced earlier uses 200) trained on bootstrap samples of the panel. Each tree sees roughly 63% of the rows (sampling with replacement makes the rest "out-of-bag"). At each split, the tree picks the BEST feature from a random subset of √(total features) ,  for our 5-feature vector, each split considers ~2 random features. This randomisation decorrelates the trees and reduces ensemble variance.</p>
-    <p>Reusens &amp; Croux (2017) report that on a comparable cross-country sovereign-rating panel, a 200-tree forest cuts shadow-rating prediction RMSE from ~8.0 (OLS) to ~5.2 (RF) ,  a 35% reduction. The forest matches actual agency ratings to within ±2 notches in 92% of country-years; OLS achieves the same precision in only 71%.</p>
+    <p>A real random forest uses 100–500 trees (the BIS Working Paper 856 referenced earlier uses 200) trained on bootstrap samples of the panel. Each tree sees roughly 63% of the rows (sampling with replacement makes the rest "out-of-bag"). At each split, the tree picks the BEST feature from a random subset of √(total features) — for our 5-feature vector, each split considers ~2 random features. This randomisation decorrelates the trees and reduces ensemble variance.</p>
+    <p>Reusens &amp; Croux (2017) report that on a comparable cross-country sovereign-rating panel, a 200-tree forest cuts shadow-rating prediction RMSE from ~8.0 (OLS) to ~5.2 (RF) — a 35% reduction. The forest matches actual agency ratings to within ±2 notches in 92% of country-years; OLS achieves the same precision in only 71%.</p>
     <p>Why the gain? Three sources:</p>
     <ol>
       <li><strong>Non-linearities</strong>: rating is roughly linear in log(GDPpc) above $8,000 but flatter below; a linear OLS averages those two regimes and underfits both.</li>
       <li><strong>Interactions</strong>: agencies penalise weak Rule of Law more heavily when inflation is also high; OLS misses this without explicit interaction terms.</li>
-      <li><strong>Threshold effects</strong>: any feature crossing a critical value (e.g., reserves dropping below 3 months of imports) triggers a notch downgrade ,  trees represent thresholds natively, OLS smooths through them.</li>
+      <li><strong>Threshold effects</strong>: any feature crossing a critical value (e.g., reserves dropping below 3 months of imports) triggers a notch downgrade — trees represent thresholds natively, OLS smooths through them.</li>
     </ol>
-    <p>To reproduce the 200-tree version programmatically, install scikit-learn and use <code>RandomForestRegressor(n_estimators=200, max_features='sqrt', random_state=42)</code>code. The code is documented in <code>relative_ratings_v2.py</code>code in the data bundle. Without scikit-learn, the 5-tree manual version above is the smallest meaningful demonstration of the principle.</p>
+    <p>To reproduce the 200-tree version programmatically, install scikit-learn and use <code>RandomForestRegressor(n_estimators=200, max_features='sqrt', random_state=42)</code>. The code is documented in <code>relative_ratings_v2.py</code> in the data bundle. Without scikit-learn, the 5-tree manual version above is the smallest meaningful demonstration of the principle.</p>
   </details>
 
   <h2 id="explorer"><span class="section-num">6</span> Live shadow explorer (all three methods)</h2>
@@ -287,7 +287,7 @@
 
   <h2 id="raw-data"><span class="section-num">4</span> Raw data table (head)</h2>
 
-  <p>First 12 rows of the OLS shadow output for the selected country, exactly as written into <code>extras.shadow.ols</code>code:</p>
+  <p>First 12 rows of the OLS shadow output for the selected country, exactly as written into <code>extras.shadow.ols</code>:</p>
 
   <div class="copyable">
     <div id="sh-table" style="overflow-x:auto"></div>
@@ -295,7 +295,7 @@
 
   <h2 id="reproducibility"><span class="section-num">6</span> Reproducibility: the raw computation</h2>
 
-  <p>Below is the exact Python script used to compute Methods A, B, and C from the project's panel. It depends on nothing but the standard library and the <code>panel_gdppc.csv</code>code bundled in the data ZIP. Click <strong>Copy PNG</strong> in the upper right of the code block to grab a screenshot, or use your browser's text-select to copy the source. The script is plain-old vanilla Python: no NumPy, no pandas, no scikit-learn. <em>If you can run Python 3.8+ on your laptop, this entire section can be reproduced from raw inputs in under 30 seconds.</em></p>
+  <p>Below is the exact Python script used to compute Methods A, B, and C from the project's panel. It depends on nothing but the standard library and the <code>panel_gdppc.csv</code> bundled in the data ZIP. Click <strong>Copy PNG</strong> in the upper right of the code block to grab a screenshot, or use your browser's text-select to copy the source. The script is plain-old vanilla Python: no NumPy, no pandas, no scikit-learn. <em>If you can run Python 3.8+ on your laptop, this entire section can be reproduced from raw inputs in under 30 seconds.</em></p>
 
   <div class="copyable">
     <pre class="code-block" id="repro-script"># shadow_ratings.py: compute three shadow rating methods from raw panel
@@ -331,11 +331,11 @@ def ols(X, y):
 # Method A OLS coefficients via normal equations, Method B k-NN by Euclidean
 # distance on standardised macro features, and Method C empirical-Bayes
 # shrinkage of country fixed-effects toward the regional mean.)
-</pre>pre
+</pre>
   </div>
 
   <h2 id="downloads"><span class="section-num">7</span> Downloads</h2>
-  <p>Data files underlying the shadow-rating analysis. CSVs are pre-computed; <code>extras_shadow.json</code>code is the bundle the live explorer reads.</p>
+  <p>Data files underlying the shadow-rating analysis. CSVs are pre-computed; <code>extras_shadow.json</code> is the bundle the live explorer reads.</p>
   <ul>
     <li><a href="shadow_panel.csv" download>shadow_panel.csv</a> &mdash; full panel of Actual / Shadow_OLS / Shadow_kNN / Shadow_Bayes / Residual by country-year.</li>
     <li><a href="shadow_per_agency.csv" download>shadow_per_agency.csv</a> &mdash; per-agency shadow regressions (S&amp;P, Moody&apos;s, DBRS).</li>
@@ -453,7 +453,7 @@ function renderShadowFor(country) {
     tableEl.innerHTML = '<table style="border-collapse:collapse;width:100%;font-size:0.9rem"><thead><tr><th style="text-align:left;padding:4px 10px;border-bottom:1px solid #777">Year</th><th style="text-align:right;padding:4px 10px;border-bottom:1px solid #777">Actual</th><th style="text-align:right;padding:4px 10px;border-bottom:1px solid #777">OLS shadow</th><th style="text-align:right;padding:4px 10px;border-bottom:1px solid #777">Residual</th></tr></thead><tbody>' + rows + '</tbody></table>';
   }
 }
-</script>script
+</script>
 
 
 <script defer>
@@ -613,7 +613,7 @@ function renderShadowFor(country) {
   else setTimeout(init, 600);
   document.addEventListener('scrThemeChanged', () => setTimeout(rerender, 100));
 })();
-</script>script
+</script>
 
 
 <script defer>
@@ -672,7 +672,7 @@ function renderShadowFor(country) {
   }
   document.addEventListener('scrThemeChanged', () => setTimeout(renderResidualsRanking, 100));
 })();
-</script>script
+</script>
 
 
 <script defer>
@@ -773,6 +773,6 @@ function renderShadowFor(country) {
   else setTimeout(renderResidualsMap, 700);
   document.addEventListener('scrThemeChanged', () => setTimeout(renderResidualsMap, 100));
 })();
-</script>script
+</script>
 </body>
 </html>
