@@ -86,6 +86,8 @@
   <div id="dist-map-legend" class="dist-map-legend" style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:0.78rem;padding:8px 0;color:var(--ink-soft);line-height:1.5"></div>
   <div class="chart-caption">Figure 1: Kernel-weight visualisation. Concentric blue rings = isodistance contours at weight 0.75, 0.50, 0.25, 0.10. Dot size = w<sub>ij</sub> at the current (λ, p) setting. Hover any dot for the country, distance, and exact weight.</div>
 
+  <p>The kernel is a continuous spatial filter: there is no hard cutoff. India's distance-graded benchmark always includes Iceland with some non-zero weight; that weight is just <em>very</em> small: at λ=0.6, p=1, Iceland's weight is roughly e<sup>−0.6 × 6.4</sup> ≈ 0.022, compared to Pakistan's ≈ 0.69 and Bangladesh's ≈ 0.78. The benchmark is a continuous gradient from neighbours to far-flung peers, not a binary in/out decision.</p>
+
   <div class="controls">
     <label for="distc">Country</label>
     <select id="distc"></select>
@@ -108,19 +110,11 @@
       <div class="val" id="alp-v">1.00</div>
       <div class="desc">Multiplier on the focal score. α=1 produces a centred difference; α&gt;1 amplifies absolute level vs benchmark.</div>
     </div>
-    <div class="slider-row">
-      <label for="topn">peer set N</label>
-      <input type="range" id="topn" min="5" max="149" step="1" value="30">
-      <div class="val" id="topn-v">30</div>
-      <div class="desc">How many peers to render on the map and rank on the bar chart. The kernel itself has no hard cutoff so this only affects the visualisation, not the underlying benchmark calculation. Min 5 = nearest neighbours only; max 149 = every other sovereign in the panel.</div>
-    </div>
   </div>
 
   <div class="stat-strip" id="dist-stats"></div>
   <div class="chart-box"><div id="dist-chart" style="height:380px"></div></div>
   <div class="chart-box"><div id="dist-weights" style="height:300px"></div></div>
-
-  <p>The kernel is a continuous spatial filter: there is no hard cutoff. India's distance-graded benchmark always includes Iceland with some non-zero weight; that weight is just <em>very</em> small: at λ=0.6, p=1, Iceland's weight is roughly e<sup>−0.6 × 6.4</sup> ≈ 0.022, compared to Pakistan's ≈ 0.69 and Bangladesh's ≈ 0.78. The benchmark is a continuous gradient from neighbours to far-flung peers, not a binary in/out decision.</p>
 
   <h2 id="caveats"><span class="section-num">2</span> Caveats</h2>
   <p>Capital coordinates approximate the geographic centre of a sovereign and ignore second cities, dispersed populations, or extra-territorial dependencies. The kernel does not distinguish overland from maritime distance. For most analytical purposes the distortion is small at the regional scale; for federations and archipelagos a population-weighted centroid would be a closer proxy and is left for future work. The kernel parameters (λ, p, α) are not estimated&mdash;they are user-chosen, exploratory. A formal fit would require a target variable (such as bond spreads or capital-flow elasticity) against which to optimise the kernel; that exercise is documented in <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">De</a>, <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Mohapatra</a>, and <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Ratha</a> (2020) but is not reproduced here.</p>
@@ -178,12 +172,9 @@ function initDist() {
     // Mirror the two selectors: changing one updates the other and re-renders
     mapSel.onchange = () => { sel.value = mapSel.value; renderDist(); };
   }
-  ['lam','exp','alp','topn'].forEach(id => {
+  ['lam','exp','alp'].forEach(id => {
     document.getElementById(id).oninput = () => {
-      const v = document.getElementById(id).value;
-      // topn is integer, the kernel sliders are floats with 2 decimals
-      document.getElementById(id+'-v').textContent =
-        (id === 'topn') ? parseInt(v, 10) : parseFloat(v).toFixed(2);
+      document.getElementById(id+'-v').textContent = parseFloat(document.getElementById(id).value).toFixed(2);
       renderDist();
     };
   });
@@ -311,16 +302,11 @@ function renderDist() {
   // the user can flip after parameter changes too.
   _distState = { c, xs, own, bench, rel, focalColor, lam, exp, alp };
   ensureDistSwitcher();
-  // v98: Top-N peers slider drives the bar slice and the legend text.
-  // Re-read at render time so each kernel-parameter change picks up
-  // the current N without needing a separate event handler.
-  const topN = parseInt((document.getElementById('topn')||{value:30}).value, 10);
-  const _topPeers = weights.slice(0, topN).sort((a,b)=>b.w-a.w);
   Plotly.newPlot('dist-weights', [
-    {x:_topPeers.map(t=>t.country), y:_topPeers.map(t=>t.w), type:'bar', marker:{color:focalColor},
+    {x:weights.slice(0,30).sort((a,b)=>b.w-a.w).map(t=>t.country), y:weights.slice(0,30).sort((a,b)=>b.w-a.w).map(t=>t.w), type:'bar', marker:{color:focalColor},
      hovertemplate:'%{x}<br>weight: %{y:.4f}<extra></extra>'}
   ], Object.assign({}, baseLayout, {
-    title:{text:'Top '+topN+' peer weights (kernel: λ='+lam.toFixed(2)+', p='+exp.toFixed(2)+')', font:{size:13}},
+    title:{text:'Top 30 peer weights (kernel: λ='+lam.toFixed(2)+', p='+exp.toFixed(2)+')', font:{size:13}},
     xaxis:{tickangle:-45, tickfont:{size:9}},
     yaxis:{title:'w(i,j)',gridcolor:'rgba(128,128,128,0.2)'},
     margin:{l:50,r:20,t:40,b:120}
@@ -354,9 +340,7 @@ function renderDistMap(c, weights, focalColor) {
   if (!EXTRAS || !EXTRAS.capitals || !EXTRAS.capitals[c]) return;
   const caps = EXTRAS.capitals;
   const [lat0, lon0] = caps[c];
-  // v98: respect the Top-N peers slider for how many peer markers to draw.
-  const _topNMap = parseInt((document.getElementById('topn')||{value:30}).value, 10);
-  const top = weights.filter(w => caps[w.country]).slice().sort((a,b) => b.w - a.w).slice(0, _topNMap);
+  const top = weights.filter(w => caps[w.country]).slice().sort((a,b) => b.w - a.w).slice(0, 30);
   const cfg = window.scrChartConfig || { responsive: true, displayModeBar: true };
   const OCEAN = 'rgba(248,240,220,0.95)';
   const LAND  = 'rgba(232,215,180,0.85)';
@@ -436,7 +420,7 @@ function renderDistMap(c, weights, focalColor) {
   if (titleEl) titleEl.textContent = c + ': distance-graded peer map';
   const legEl = document.getElementById('dist-map-legend');
   if (legEl) legEl.textContent =
-    'Sepia equirectangular projection with lat/long graticule (every 30\u00b0). \u2020 = focal country. \u00d7 = top-' + _topNMap + ' peers, sized by kernel weight w. Dotted concentric rings are equidistant isodistance contours every 2,000 km from 2,000 km out to 20,000 km (antipodal). Dashed lines = equator (lat 0) and prime meridian (lon 0). Kernel parameters: \u03bb=' +
+    'Sepia equirectangular projection with lat/long graticule (every 30\u00b0). \u2020 = focal country. \u00d7 = top-30 peers, sized by kernel weight w. Dotted concentric rings are equidistant isodistance contours every 2,000 km from 2,000 km out to 20,000 km (antipodal). Dashed lines = equator (lat 0) and prime meridian (lon 0). Kernel parameters: \u03bb=' +
     lam.toFixed(2) + ', p=' + exp_.toFixed(2) + '.';
 }
 </script>

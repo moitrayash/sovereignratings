@@ -1,0 +1,12 @@
+[2026-05-10T01:31:50] === v98 fix start ===
+[2026-05-10T01:31:50] backed up distance_graded.html -> _backup_pre_v98/
+[2026-05-10T01:31:50] applied: A. cut prose para from above-controls
+[2026-05-10T01:31:50] applied: A. paste prose para after dist-weights
+[2026-05-10T01:31:50] applied: B. add Top-N slider HTML
+[2026-05-10T01:31:50] applied: B. wire topn into event-listener array
+[2026-05-10T01:31:50] applied: B. value-display update for integer topn
+[2026-05-10T01:31:50] applied: B. bar chart slice + title use topN
+[2026-05-10T01:31:50] applied: B. map peer slice use topN
+[2026-05-10T01:31:50] applied: B. map legend text use dynamic N
+[2026-05-10T01:31:50] distance_graded.html: atomic-wrote with CRLF
+[2026-05-10T01:31:50] === v98 fix end (success) ===
