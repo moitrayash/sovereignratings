@@ -1,0 +1,21 @@
+[2026-05-10T01:16:16] === v97 fix start ===
+[2026-05-10T01:16:16] scanning 17 html files at top level
+[2026-05-10T01:16:16]   citations.html: rewrote sub-tagline
+[2026-05-10T01:16:16]   data_acknowledgement.html: rewrote sub-tagline
+[2026-05-10T01:16:16]   distance_graded.html: rewrote sub-tagline
+[2026-05-10T01:16:16]   glossary.html: rewrote sub-tagline
+[2026-05-10T01:16:16]   index.html: rewrote sub-tagline
+[2026-05-10T01:16:16]   land_acknowledgement.html: rewrote sub-tagline
+[2026-05-10T01:16:16]   methodology.html: rewrote sub-tagline
+[2026-05-10T01:16:16]   paired_grouped_regional.html: rewrote sub-tagline
+[2026-05-10T01:16:16]   pairwise.html: no sub-tagline match, skipping
+[2026-05-10T01:16:16]   relative_gini.html: rewrote sub-tagline
+[2026-05-10T01:16:16]   relative_hdi.html: rewrote sub-tagline
+[2026-05-10T01:16:16]   relative_ppi.html: rewrote sub-tagline
+[2026-05-10T01:16:16]   shadow.html: rewrote sub-tagline
+[2026-05-10T01:16:16]   similarity.html: rewrote sub-tagline
+[2026-05-10T01:16:16]   stories.html: rewrote sub-tagline
+[2026-05-10T01:16:16]   terms.html: rewrote sub-tagline
+[2026-05-10T01:16:16]   verra.html: rewrote sub-tagline
+[2026-05-10T01:16:16] summary: 16 files changed, 1 skipped (no match or already-applied)
+[2026-05-10T01:16:16] === v97 fix end (success) ===
