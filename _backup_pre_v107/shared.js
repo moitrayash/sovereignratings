@@ -826,47 +826,157 @@
   }
 
   function applyAxisArrows(gd) {
-    // v107: arrows DROPPED. Plotly's default cartesian axes are
-    // sufficient. The v80m-through-v106 arrow system caused cascading
-    // bugs (autorange chicken-and-egg, intermediate-range stamping,
-    // hover-shrinks-chart, duplicate stacking) so v107 keeps only
-    // (1) cleanup of leftover arrow annotations from prior versions,
-    // (2) showline=true enforcement so dual-axis charts get a visible
-    // right-axis line, (3) margin trim so charts that previously had
-    // bumped margins for tip labels reclaim that space.
     if (!gd || !window.Plotly) return;
     const lo = gd._fullLayout;
     if (!lo) return;
     if (gd._scrInjectingArrows) return;
+    // Skip non-cartesian charts (geo/mapbox/polar/3d) - axis arrows make no sense there
     if (lo.geo || lo.mapbox || lo.polar || lo.scene) return;
-    if (gd._scrArrowsApplied) return;
-
+    // v106: range-stamp dedup. Recompute a stamp from current
+    // xaxis/yaxis ranges at the start of each call. If the stamp
+    // matches the previous stamp, we have already applied arrows for
+    // these ranges - return early. If the stamp differs, the ranges
+    // have settled to a new value (e.g. Plotly's autorange settled
+    // after the first afterplot fired with intermediate values) -
+    // proceed to inject and update the stamp. This way arrows always
+    // land on the correct native-axis-line position, not on the
+    // intermediate value the first afterplot saw.
+    var _y0Stamp = (lo.yaxis && lo.yaxis.range) ? lo.yaxis.range[0] : 0;
+    var _y1Stamp = (lo.yaxis && lo.yaxis.range) ? lo.yaxis.range[1] : 1;
+    var _x0Stamp = (lo.xaxis && lo.xaxis.range) ? lo.xaxis.range[0] : 0;
+    var _x1Stamp = (lo.xaxis && lo.xaxis.range) ? lo.xaxis.range[1] : 1;
+    var _curStamp = _y0Stamp.toFixed(4) + ',' + _y1Stamp.toFixed(4) +
+                    ',' + _x0Stamp.toFixed(4) + ',' + _x1Stamp.toFixed(4);
+    if (gd._scrArrowsStamp === _curStamp) return;
     const fg = document.body.classList.contains('dark') ? '#ececec' : '#1a1a1a';
-
-    // Filter any annotations matching the old arrow/label fingerprint
-    // so cached pages with stacked annotations get cleaned up on the
-    // next render.
-    const _scrLeftoverTexts = new Set(['', '0,0', 'Time', 'Year',
-      'Points', 'Score', 'Rank', 'Percentile', 'HDI', 'Gini', 'PPI',
-      'M1', 'M2', 'M3', 'M4']);
+    function _scrAxisDim(t){
+      if (!t) return '';
+      const s = String(t).toLowerCase();
+      if (s.indexOf('year') >= 0 || s.indexOf('time') >= 0) return 'Time';
+      if (s.indexOf('percentile') >= 0) return 'Percentile';
+      if (s.indexOf('rank') >= 0) return 'Rank';
+      if (s.indexOf('residual') >= 0 || s.indexOf('composite') >= 0 || s.indexOf('score') >= 0 || s.indexOf('points') >= 0 || s.indexOf('0-60') >= 0 || s.indexOf('0\u201360') >= 0) return 'Points';
+      if (s.indexOf('hdi') >= 0) return 'HDI';
+      if (s.indexOf('gini') >= 0) return 'Gini';
+      if (s.indexOf('ppi') >= 0) return 'PPI';
+      if (s.indexOf('m1') >= 0) return 'M1';
+      if (s.indexOf('m4') >= 0) return 'M4';
+      return t;
+    }
+    const titleX = _scrAxisDim((lo.xaxis && lo.xaxis.title && (lo.xaxis.title.text || '')) || '') || 'Time';
+    const titleY = _scrAxisDim((lo.yaxis && lo.yaxis.title && (lo.yaxis.title.text || '')) || '') || 'Points';
+    // v104: filter out annotations matching our injected labels too,
+    // to recover from any stacked state left over from the broken
+    // pre-v104 dedup. titleX, titleY, and '0,0' are the texts we
+    // inject; the line-extension annotations have empty text so they
+    // also need to be filtered (they have showarrow:true and a tiny
+    // standoff:0 - that's our distinguishing fingerprint).
+    const _scrInjectedTexts = new Set([titleX, titleY, '0,0', '']);
     const existing = (lo.annotations || []).filter(function(a){
-      if (!a) return true;
-      if (a._scrAxisArrow) return false;
-      // Old line-extension fingerprint: showarrow + empty text + tight standoff.
+      if (!a) return false;
+      if (a._scrAxisArrow) return false; // covers the rare case it survives
+      // Drop our line-extension fingerprint: empty text + arrow + tight standoff.
       if (a.showarrow && a.text === '' && a.standoff === 0 && a.startstandoff === 0) return false;
-      // Old tip-label fingerprint: text matches one of the old dim labels AND no arrow.
-      if (!a.showarrow && _scrLeftoverTexts.has(a.text)) return false;
+      // Drop our tip-label fingerprint: matches injected titleX/titleY/'0,0'
+      // AND uses paper xref/yref AND has no showarrow. (data-coord variants
+      // post-v102 also have yref:'y' or xref:'x'; allow both.)
+      if (!a.showarrow && _scrInjectedTexts.has(a.text)) {
+        return false;
+      }
       return true;
     });
-
+    // Each arrow IS the visual extension of its axis line: ax/ay is the start
+    // point right where the axis ends, (x, y) is the tip with a chunky arrowhead.
+    // Then a separate text-only annotation sits beside the arrowhead with the unit.
+    // v88: arrow LINE extensions on each axis only - the v84/v85 arrow-tip
+    // text labels (titleX/titleY) plus the v85 rotated-title blanking
+    // produced a double-label bug because the 'xaxis.title.text': ''
+    // dotted-key relayout did not actually clear the rotated default title
+    // on the deployed Plotly version, so every chart rendered BOTH the
+    // rotated default y-axis title AND the v84 tip label stacked on top
+    // ("FFcints" / "PoMints" garbled appearance). v88 reverts the tip-text
+    // injection entirely and lets Plotly's default rotated axis titles do
+    // their job (one label per axis, no overlap). Arrow line extensions
+    // and the (0,0) origin label are kept because they were always clean.
+    // v99: full restoration of arrow line extensions + tip labels +
+    // (0,0) marker. The double-label bug from v84/v85 is now solved
+    // not by trying to blank the rotated default titles via Plotlys
+    // dotted-key relayout (which silently no-ops on this Plotly
+    // version) but by hiding them via CSS scoped to a class we add to
+    // the chart container below. The CSS selector is injected once
+    // per page in installScrArrowStyle().
+    const arrows = [
+      // X-axis line extension (v101: more overlap with native axis line, less past edge)
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper',
+        ax: 0.96, ay: 0, axref: 'paper', ayref: 'paper',
+        x: 1.025, y: 0,
+        showarrow: true, arrowhead: 3, arrowsize: 1.0, arrowwidth: 1, arrowcolor: fg,
+        text: '', standoff: 0, startstandoff: 0 },
+      // X-axis tip label (v101: closer to arrow, leaves room before clip)
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 1.03, y: 0,
+        xanchor: 'left', yanchor: 'middle', xshift: 4, showarrow: false,
+        text: titleX, font: { size: 11, color: fg, family: 'Helvetica Neue, Arial, sans-serif' } },
+      // Y-axis line extension (v101: more overlap with native axis line, less past edge)
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper',
+        ax: 0, ay: 0.96, axref: 'paper', ayref: 'paper',
+        x: 0, y: 1.025,
+        showarrow: true, arrowhead: 3, arrowsize: 1.0, arrowwidth: 1, arrowcolor: fg,
+        text: '', standoff: 0, startstandoff: 0 },
+      // Y-axis tip label (v101: closer to arrow, leaves room before clip)
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 1.035,
+        xanchor: 'center', yanchor: 'bottom', yshift: 4, showarrow: false,
+        text: titleY, font: { size: 11, color: fg, family: 'Helvetica Neue, Arial, sans-serif' } },
+      // (0,0) origin marker
+      { _scrAxisArrow: true, xref: 'paper', yref: 'paper', x: 0, y: 0,
+        xanchor: 'right', yanchor: 'top', xshift: -4, yshift: -4,
+        showarrow: false, text: '0,0',
+        font: { size: 10, color: fg, family: 'Helvetica Neue, Arial, sans-serif' }, opacity: 0.95 }
+    ];
+    installScrArrowStyle();
+    if (gd.classList) gd.classList.add('scr-arrow-labeled');
+    // v102: re-anchor the X-axis arrow + tip label to data y so they
+    // align with Plotly's native x-axis line (which is drawn at data
+    // y = bottom of the y-axis range, NOT at paper y=0). Same for the
+    // Y-axis arrow + tip label, anchored to data x = left of the
+    // x-axis range. Use _fullLayout (already typed and resolved) for
+    // the range read.
+    try {
+      var _yBot = (lo.yaxis && lo.yaxis.range) ? lo.yaxis.range[0] : 0;
+      var _yTop = (lo.yaxis && lo.yaxis.range) ? lo.yaxis.range[1] : 1;
+      var _xLft = (lo.xaxis && lo.xaxis.range) ? lo.xaxis.range[0] : 0;
+      var _xRgt = (lo.xaxis && lo.xaxis.range) ? lo.xaxis.range[1] : 1;
+      // v105: pixel-perfect anchor. Arrow START sits at the exact
+      // data corner where Plotly's native axis line ends; arrow END
+      // sits past the chart edge in paper coords. Tip label sits at
+      // data corner on the axis side, paper coord on the past side.
+      // arrows[0] = X line, arrows[1] = X tip label,
+      // arrows[2] = Y line, arrows[3] = Y tip label,
+      // arrows[4] = (0,0) marker (keep paper).
+      // X-axis arrow: from (xRgt, yBot) data to (paper 1.025, yBot data)
+      arrows[0].axref = 'x';   arrows[0].ax   = _xRgt;
+      arrows[0].ayref = 'y';   arrows[0].ay   = _yBot;
+      arrows[0].xref  = 'paper'; arrows[0].x  = 1.025;
+      arrows[0].yref  = 'y';   arrows[0].y    = _yBot;
+      // X tip label: paper x past the chart edge, data y on axis line
+      arrows[1].xref = 'paper'; arrows[1].x = 1.03;
+      arrows[1].yref = 'y';     arrows[1].y = _yBot;
+      // Y-axis arrow: from (xLft, yTop) data to (xLft data, paper 1.025)
+      arrows[2].axref = 'x';   arrows[2].ax   = _xLft;
+      arrows[2].ayref = 'y';   arrows[2].ay   = _yTop;
+      arrows[2].xref  = 'x';   arrows[2].x    = _xLft;
+      arrows[2].yref  = 'paper'; arrows[2].y  = 1.025;
+      // Y tip label: data x on axis line, paper y above the chart edge
+      arrows[3].xref = 'x';     arrows[3].x = _xLft;
+      arrows[3].yref = 'paper'; arrows[3].y = 1.035;
+    } catch(e) { /* range read failed, fall back to paper coords */ }
     gd._scrInjectingArrows = true;
     try {
-      var _layoutPatch = {};
-      // If the existing-filter dropped any leftover arrows, push the
-      // cleaned annotations array back so the chart redraws without them.
-      if ((lo.annotations || []).length !== existing.length) {
-        _layoutPatch.annotations = existing;
-      }
+      // v93: relayout the (0,0) marker AND force showline=true on
+      // every cartesian axis present in the layout so dual-axis charts
+      // (yaxis2 with pairwise spread on India-Pakistan, etc.) get a
+      // proper visible right-side axis line instead of floating tick
+      // labels with no axis line.
+      var _layoutPatch = { annotations: existing.concat(arrows) };
       ['xaxis','yaxis','xaxis2','yaxis2','xaxis3','yaxis3'].forEach(function(ax){
         if (lo[ax]) {
           _layoutPatch[ax + '.showline']   = true;
@@ -874,14 +984,21 @@
           _layoutPatch[ax + '.linewidth']  = 1;
         }
       });
-      // Margin trim: if we previously bumped r to 70 / t to 56 to make
-      // room for tip labels, now those margins are unused. Don't shrink
-      // below 50/40 to preserve room for axis titles + modebar.
-      if (Object.keys(_layoutPatch).length > 0) {
-        window.Plotly.relayout(gd, _layoutPatch);
-      }
-      gd._scrArrowsApplied = true;
-    } catch(e) { console.warn('axis showline relayout failed:', e); }
+      // v101: every chart reserves enough room for the tip labels
+      // (Time on the right edge, the y-axis dimension on the top
+      // edge). Read the current margin and only bump it if smaller;
+      // never reduce a chart that already has more room.
+      try {
+        var curM = (gd.layout && gd.layout.margin) || {};
+        var curR = (typeof curM.r === 'number') ? curM.r : 80;
+        var curT = (typeof curM.t === 'number') ? curM.t : 60;
+        if (curR < 70) _layoutPatch['margin.r'] = 70;
+        if (curT < 56) _layoutPatch['margin.t'] = 56;
+      } catch(e) { /* margin read failed, skip */ }
+      window.Plotly.relayout(gd, _layoutPatch);
+      gd._scrArrowsStamp = _curStamp;
+      gd._scrArrowsApplied = true; // kept for backward-compat with scrWireChart reset
+    } catch(e) { console.warn('axis arrows relayout failed:', e); }
     setTimeout(() => { gd._scrInjectingArrows = false; }, 80);
   }
   window.scrApplyAxisArrows = applyAxisArrows;

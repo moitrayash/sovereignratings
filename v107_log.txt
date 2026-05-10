@@ -1,0 +1,5 @@
+[2026-05-10T02:41:19] === v107 fix start ===
+[2026-05-10T02:41:19] backed up shared.js -> _backup_pre_v107/
+[2026-05-10T02:41:19] applied: replaced applyAxisArrows function body with v107 minimal version
+[2026-05-10T02:41:19] shared.js: atomic-wrote with CRLF
+[2026-05-10T02:41:19] === v107 fix end (success) ===
