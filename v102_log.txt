@@ -1,0 +1,5 @@
+[2026-05-10T02:02:49] === v102 fix start ===
+[2026-05-10T02:02:49] backed up shared.js -> _backup_pre_v102/
+[2026-05-10T02:02:49] applied: data-coord re-anchor for X and Y arrows + tip labels
+[2026-05-10T02:02:49] shared.js: atomic-wrote with CRLF
+[2026-05-10T02:02:49] === v102 fix end (success) ===

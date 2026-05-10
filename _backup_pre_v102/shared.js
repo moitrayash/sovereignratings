@@ -901,27 +901,6 @@
     ];
     installScrArrowStyle();
     if (gd.classList) gd.classList.add('scr-arrow-labeled');
-    // v102: re-anchor the X-axis arrow + tip label to data y so they
-    // align with Plotly's native x-axis line (which is drawn at data
-    // y = bottom of the y-axis range, NOT at paper y=0). Same for the
-    // Y-axis arrow + tip label, anchored to data x = left of the
-    // x-axis range. Use _fullLayout (already typed and resolved) for
-    // the range read.
-    try {
-      var _yBot = (lo.yaxis && lo.yaxis.range) ? lo.yaxis.range[0] : 0;
-      var _xLft = (lo.xaxis && lo.xaxis.range) ? lo.xaxis.range[0] : 0;
-      // arrows[0] = X line, arrows[1] = X tip label,
-      // arrows[2] = Y line, arrows[3] = Y tip label,
-      // arrows[4] = (0,0) marker (keep paper).
-      arrows[0].yref = 'y'; arrows[0].ayref = 'y';
-      arrows[0].y = _yBot;  arrows[0].ay  = _yBot;
-      arrows[1].yref = 'y';
-      arrows[1].y = _yBot;
-      arrows[2].xref = 'x'; arrows[2].axref = 'x';
-      arrows[2].x = _xLft;  arrows[2].ax  = _xLft;
-      arrows[3].xref = 'x';
-      arrows[3].x = _xLft;
-    } catch(e) { /* range read failed, fall back to paper coords */ }
     gd._scrInjectingArrows = true;
     try {
       // v93: relayout the (0,0) marker AND force showline=true on
