@@ -1,0 +1,6 @@
+[2026-05-10T02:36:28] === v106 fix start ===
+[2026-05-10T02:36:28] backed up shared.js -> _backup_pre_v106/
+[2026-05-10T02:36:28] applied: range-stamp dedup replacing boolean flag
+[2026-05-10T02:36:28] applied: set stamp after relayout
+[2026-05-10T02:36:28] shared.js: atomic-wrote with CRLF
+[2026-05-10T02:36:28] === v106 fix end (success) ===

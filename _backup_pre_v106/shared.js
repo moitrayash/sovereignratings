@@ -832,22 +832,15 @@
     if (gd._scrInjectingArrows) return;
     // Skip non-cartesian charts (geo/mapbox/polar/3d) - axis arrows make no sense there
     if (lo.geo || lo.mapbox || lo.polar || lo.scene) return;
-    // v106: range-stamp dedup. Recompute a stamp from current
-    // xaxis/yaxis ranges at the start of each call. If the stamp
-    // matches the previous stamp, we have already applied arrows for
-    // these ranges - return early. If the stamp differs, the ranges
-    // have settled to a new value (e.g. Plotly's autorange settled
-    // after the first afterplot fired with intermediate values) -
-    // proceed to inject and update the stamp. This way arrows always
-    // land on the correct native-axis-line position, not on the
-    // intermediate value the first afterplot saw.
-    var _y0Stamp = (lo.yaxis && lo.yaxis.range) ? lo.yaxis.range[0] : 0;
-    var _y1Stamp = (lo.yaxis && lo.yaxis.range) ? lo.yaxis.range[1] : 1;
-    var _x0Stamp = (lo.xaxis && lo.xaxis.range) ? lo.xaxis.range[0] : 0;
-    var _x1Stamp = (lo.xaxis && lo.xaxis.range) ? lo.xaxis.range[1] : 1;
-    var _curStamp = _y0Stamp.toFixed(4) + ',' + _y1Stamp.toFixed(4) +
-                    ',' + _x0Stamp.toFixed(4) + ',' + _x1Stamp.toFixed(4);
-    if (gd._scrArrowsStamp === _curStamp) return;
+    // v104: use a div-level flag instead of the annotation _scrAxisArrow
+    // property because Plotly strips custom properties from
+    // _fullLayout.annotations during normalisation, which made the old
+    // hasOurs check always return false and therefore stacked a new
+    // round of arrows on every plotly_afterplot event (resize, theme,
+    // data update, etc.). The flag is reset by scrWireChart whenever
+    // the chart is re-newPlotted so legitimate re-renders still get
+    // fresh arrows.
+    if (gd._scrArrowsApplied) return;
     const fg = document.body.classList.contains('dark') ? '#ececec' : '#1a1a1a';
     function _scrAxisDim(t){
       if (!t) return '';
@@ -996,8 +989,7 @@
         if (curT < 56) _layoutPatch['margin.t'] = 56;
       } catch(e) { /* margin read failed, skip */ }
       window.Plotly.relayout(gd, _layoutPatch);
-      gd._scrArrowsStamp = _curStamp;
-      gd._scrArrowsApplied = true; // kept for backward-compat with scrWireChart reset
+      gd._scrArrowsApplied = true;
     } catch(e) { console.warn('axis arrows relayout failed:', e); }
     setTimeout(() => { gd._scrInjectingArrows = false; }, 80);
   }
