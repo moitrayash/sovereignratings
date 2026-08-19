@@ -1,0 +1,19 @@
+[2026-08-19T21:56:56] === v110 fix start ===
+[2026-08-19T21:56:56] applied: erratum 1 - Ratha/Prabal De/Mohapatra 2007 (+2011 journal version) in methodology.html sec12+note-9, glossary.html Shadow Rating, citations.html Ratha entry; same wrong author string also fixed in data_acknowledgement.html lineage and shadow.html Method A link
+[2026-08-19T21:56:56] applied: erratum 2 - Dadush and Dasgupta 2001 recited to Capital Flows Without Crisis? (Routledge, ed. Dasgupta/Uzan/Wilson) in citations.html
+[2026-08-19T21:56:56] applied: erratum 3 - Basu-Yi Sun and Center for Sustainable Investment Research records struck; corrected GoI DEA/MoF Basu/Bisen/De/Ghosh/Shweta 2012 entry added in citations.html; CRIS update PDF button carried over with provenance note
+[2026-08-19T21:56:56] applied: erratum 4 - BIS Annual Economic Report 2015 struck; Amstad and Packer 2015 (BIS Quarterly Review, December 2015) cited in citations.html and methodology.html score_20 row
+[2026-08-19T21:56:56] applied: erratum 5 - Reusens and Croux recited as JBF 77: 108-121 (no RF results); ML performance re-anchored to Overes and van der Wel 2023 (Computational Economics 61(3): 1273-1303) with verified figures (MLP 68% exact / 86% within 1 notch vs OL 33% / 57%; CART 59% / 76%) in shadow.html Method D and details block; RMSE-35% and 92%-within-±2 claims struck
+[2026-08-19T21:56:56] applied: erratum 6 - k-NN estimator re-anchored to Fix and Hodges 1951 and Cover and Hart 1967; Bhatia 2002 retained for the methodology audit only; IMF/World Bank contingent-rating-tools claim struck (shadow.html Method B)
+[2026-08-19T21:56:56] applied: erratum 7 - ordered logit/probit re-anchored to Aitchison-Silvey 1957, McKelvey-Zavoina 1975, McCullagh 1980; McFadden 1974 retained for discrete-choice foundation (methodology.html sec8+note-6, glossary.html Ordered Logit/Probit)
+[2026-08-19T21:56:56] applied: erratum 8 - Wikipedia derivation struck; Ceriani and Verme 2012 and Deaton 1997 cited (methodology.html note-4)
+[2026-08-19T21:56:56] applied: erratum 9 - Barbados IMF WP 20/34 reattributed to Anthony, Impavido, and van Selm with corrected title (stories.html note-20)
+[2026-08-19T21:56:56] applied: erratum 10 - Orphanides 2014 recited as LSE Financial Markets Group Special Paper 232, also CEPR DP 9993 (stories.html note-5, paired_grouped_regional.html note-4)
+[2026-08-19T21:56:56] applied: erratum 11 - capabilities-approach citation switched from Sen 1977 to Sen 1999 Development as Freedom (relative_hdi.html note-1); Sen 1999 added to citations.html; Sen 1977 retained in methodology sec9 only
+[2026-08-19T21:56:56] verified: erratum 12 - no Journal of Fixed Income printing of Cantor and Packer found anywhere on the site; Economic Policy Review printing already held throughout; no change
+[2026-08-19T21:56:56] applied: erratum 13 - score_17 scale reattributed to Afonso, Gomes, and Rother 2011 (IJFE 16(1): 1-15) in methodology.html scale table+worked example and glossary.html Alternative Scales; AGR entry added to citations.html; AFG 2011 retained for market-linkage results only
+[2026-08-19T21:56:56] applied: erratum 14 - stories.html note-7 author string expanded to Horn, Parks, Reinhart, and Trebesch, matching note-12
+[2026-08-19T21:56:56] applied: erratum 15 - unpinned ECB-working-papers attribution struck; 21-notch scale claim narrowed to Reinhart and Rogoff 2009 (methodology.html sec1)
+[2026-08-19T21:56:56] stamped: Last updated August 2026 on methodology.html and citations.html footers
+[2026-08-19T21:56:56] backup: pre-v110 copies of the 8 edited files in _backup_pre_v110/
+[2026-08-19T21:56:56] === v110 fix end ===
