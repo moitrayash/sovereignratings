@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relative HDI: Sovereign Scores</title>
+<link rel="stylesheet" href="shared.css">
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<style>
+  .controls {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 14px 18px;
+    margin: 18px 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.86rem;
+  }
+  .controls label {
+    font-weight: 700;
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #555;
+    margin-right: 6px;
+  }
+  .controls select {
+    font-family: inherit;
+    font-size: 0.86rem;
+    padding: 4px 8px;
+    border: 1px solid #aaa;
+    background: #fff;
+    margin-right: 14px;
+  }
+  .chart-box { background: #fff; border: 1px solid #ccc; padding: 8px; margin: 14px 0; }
+
+  /* Dark-mode overrides */
+  body.dark .controls,
+  body.dark .chart-box { background: var(--bg-card); border-color: var(--border); }
+  body.dark .controls label { color: var(--ink-soft); }
+  body.dark .controls select { background: var(--bg-card); color: var(--ink); border-color: var(--border); }
+</style>
+<script defer src="pct_change.js"></script>
+</head>
+<body>
+
+<header class="site">
+  <div class="head-row">
+    <div class="head-text">
+      <h1>Sovereign Ratings &amp; Scores</h1>
+            <p class="sub-tagline">151 countries &middot; 2000&ndash;2025</p>
+    </div>
+  </div>
+</header>
+<nav class="site"></nav>
+
+<main>
+
+  <h2 id="top" style="margin-top:8px"><span class="section-num">&sect;</span> Relative Human Development Index</h2>
+  <p>The Human Development Index, developed by <a href="https://en.wikipedia.org/wiki/Mahbub_ul_Haq" target="_blank" rel="noopener">Mahbub ul Haq</a> for the <a href="https://hdr.undp.org" target="_blank" rel="noopener">United Nations Development Programme</a> in 1990 and refined by <a href="https://en.wikipedia.org/wiki/Amartya_Sen" target="_blank" rel="noopener">Amartya Sen</a>, is a composite of life expectancy, education, and gross national income per capita.<sup class="note-ref"><a href="#note-1">1</a></sup> It is published annually for roughly 190 countries on a 0&ndash;1 scale, with higher values indicating greater &ldquo;human development.&rdquo; This page applies the same relative-rating logic as &sect;4 of the <a href="methodology.html#sec4">Methodology</a> to a re-scaled HDI—HDI multiplied by 100 to align with the credit-rating scale—and asks the natural question: how does a country's standing in the human-development distribution compare to its standing in the credit-rating distribution?</p>
+
+  <h2 id="construction"><span class="section-num">1</span> Construction</h2>
+  <p>The 2023/24 UNDP HDR composite-indices file<sup class="note-ref"><a href="#note-2">2</a></sup> provides annual HDI values from 1990 through 2022 for 191 entities. Each value is multiplied by 100 to produce <code>HDI100</code> (range 0&ndash;100). For each country&ndash;year, the leave-one-out world mean is computed, and four relative measures follow the same definitions as the credit-rating M1&ndash;M4:</p>
+
+  <div class="formula-block">
+    <span class="label">M1 (HDI)</span>HDI100<sub>it</sub><sup>2</sup> / LOO<sub>it</sub>
+    <br><span class="label">M2 (HDI)</span>rank of HDI100<sub>it</sub> within world, year <em>t</em>
+    <br><span class="label">M4 (HDI)</span>M2 / N
+  </div>
+
+  <p>Inflating to 100 rather than 60 is a deliberate choice: HDI varies over a wider relative range than credit ratings (some sub-Saharan countries are below 0.4, while Norway tops 0.96), so the squared-numerator method is better-behaved on a 0&ndash;100 scale than on 0&ndash;60. Otherwise the metric is identical.</p>
+
+  <details class="example">
+    <summary>Worked example: India HDI100 in one country-year</summary>
+    <p><strong>Step 1: start with the focal value.</strong> If India's HDI is 0.644, then HDI100 = 0.644 &times; 100 = 64.4. Suppose the leave-one-out peer mean for the active peer set in that year is 73.2.</p>
+    <p><strong>Step 2: compute M1.</strong> M1 = focal&sup2; / peer mean = 64.4&sup2; / 73.2 = 4147.36 / 73.2 = <strong>56.66</strong>. M1 sits below the peer mean, so India is performing below the peer benchmark on the squared-magnitude metric.</p>
+    <p><strong>Step 3: compute M2.</strong> Sort all peer-set countries from lowest to highest HDI100 in that year. If India ranks 86th out of 142 reporting countries, M2 = <strong>86</strong>.</p>
+    <p><strong>Step 4: compute M4.</strong> M4 = M2 / N = 86 / 142 = <strong>0.606</strong>. India sits at roughly the 61st percentile of the peer distribution.</p>
+    <p><strong>Reading.</strong> The arithmetic separates level from position. M1 reports how far the value stands above or below the leave-one-out benchmark; M4 reports where it sits in the ranked cross-section. Missing-reporting years are skipped rather than imputed.</p>
+  </details>
+
+  <h2 id="explorer"><span class="section-num">2</span> Country explorer</h2>
+
+  <div class="controls">
+    <label for="country">Country</label>
+    <select id="country"></select>
+    <label for="peerset" style="margin-left:14px">Compare against</label>
+    <select id="peerset">
+      <optgroup label="Geographic">
+        <option value="world">World (all reporting countries)</option>
+        <option value="region">Same continent</option>
+      </optgroup>
+      <optgroup label="Multilateral / political / economic" id="peerset-presets">
+        <!-- presets injected at runtime from SCR_PRESET_ORDER -->
+      </optgroup>
+      <optgroup label="Custom">
+        <option value="custom">Custom subset…</option>
+      </optgroup>
+    </select>
+    <span id="peer-info" style="margin-left:10px;color:#888;font-size:0.78rem"></span>
+  </div>
+
+  <div id="custom-picker" class="controls" style="display:none;margin-top:-6px">
+    <label for="custom-countries" style="display:block;margin-bottom:4px">Custom peer set (Cmd/Ctrl-click to multi-select; min 2)</label>
+    <select id="custom-countries" multiple style="height:130px;width:100%;max-width:520px"></select>
+    <div style="margin-top:6px">
+      <button type="button" id="custom-apply" style="padding:4px 10px;font-size:0.78rem;cursor:pointer">Apply</button>
+      <button type="button" id="custom-clear" style="padding:4px 10px;font-size:0.78rem;cursor:pointer;margin-left:6px">Clear</button>
+    </div>
+  </div>
+
+  <div id="hdi-headline-switcher" style="margin-top:8px"></div>
+  <div class="chart-box" id="hdi-abs-box"><div id="hdi-abs" style="height:340px"></div></div>
+  <div class="chart-box" id="hdi-rel-box"><div id="hdi-rel" style="height:340px"></div></div>
+  <div class="chart-box"><div id="hdi-vs-credit" style="height:340px"></div></div>
+  <script>
+    // Wire up Relative · Absolute switcher above the headline panel — default Relative.
+    document.addEventListener('DOMContentLoaded', function() {
+      const wrap = document.getElementById('hdi-headline-switcher');
+      function applyView(v) {
+        document.getElementById('hdi-abs-box').style.display = (v === 'absolute') ? '' : 'none';
+        document.getElementById('hdi-rel-box').style.display = (v === 'relative') ? '' : 'none';
+      }
+      function build() {
+        if (!window.scrMakeViewSwitcher) { setTimeout(build, 80); return; }
+        window.scrMakeViewSwitcher(wrap, { keys: ['relative','absolute'], default: 'relative', onChange: applyView });
+      }
+      build();
+    });
+  </script>
+
+  <p>The <strong>Compare against</strong> control above the charts lets the comparison set be re-cast on the fly. The default is the world (all 142 reporting countries). <em>Same continent</em> restricts the leave-one-out mean and the rank-based M2 / M4 to the focal country's UN-style continent (Africa, Asia, Europe, North America, Oceania, or South America); this makes the most sense for countries whose human-development trajectory is shaped primarily by regional conditions (a Gulf state versus other Gulf states, a Sub-Saharan low-income country against Sub-Saharan peers). <em>Custom subset</em> lets you build an ad-hoc comparison set ,  useful for SIDS clusters, BRICS, OECD, ASEAN, or any other peer grouping you care about. M1, M2, and M4 are recomputed client-side against whatever set is active.</p>
+
+  <p>The first chart shows absolute HDI100 over time alongside the leave-one-out peer-set mean. The second plots the M1, M2 (rank), and M4 (percentile) trajectories. The third overlays HDI100 on the credit composite score for the same country, both on the 0&ndash;100 scale (credit scaled up by 5/3) so the two are visually comparable. Most countries' HDI evolves slowly and monotonically; the credit score is more reactive and can fall sharply on a default. Where the two diverge sharply within a short window, the underlying story is almost always a financial crisis whose human-development consequences are absorbed only over several subsequent years, Argentina 2001, Iceland 2009, Greece 2012, Ghana 2022.<sup class="note-ref"><a href="#note-3">3</a></sup></p>
+
+
+  <h2 id="distribution"><span class="section-num">3</span> Distribution shape (latest year)</h2>
+  <p>Three views of how HDI values are distributed across the world in the most recent year of the panel: the <span class="term" data-term="cdf">empirical CDF</span> sorts every reporting country and shows the cumulative share at each value; the <a href="https://en.wikipedia.org/wiki/Lorenz_curve" target="_blank" rel="noopener">Lorenz-style curve</a> with the inequality quotient (twice the area between the 45° equality line and the curve, computed on HDI100 values rather than incomes); and the histogram with a fitted <span class="term" data-term="normal-distribution">normal density</span> overlay.</p>
+
+  <div class="chart-box"><div id="hdi-cdf" style="height:340px"></div></div>
+  <div class="chart-box"><div id="hdi-lorenz" style="height:340px"></div></div>
+  <div class="chart-box"><div id="hdi-hist" style="height:340px"></div></div>
+
+  <h2 id="evolution"><span class="section-num">4</span> HDI evolution over time</h2>
+  <p>Two animated views of how the HDI distribution moves year by year. The first is a horizontal racing bar of the top-25 HDI countries; the second is a scatter of HDI&times;100 against M4 percentile (rank within the active peer set), with each country a dot. Both respect the <strong>Compare against</strong> selector at the top of the page &mdash; pick a peer set there, then press Play below to watch ranks shift across the panel.</p>
+
+  <div class="chart-box"><div id="hdi-time-bars" style="height:560px"></div></div>
+  <div class="chart-caption">Figure 4.1: Top-25 by HDI&times;100 in the active peer set. Press Play or drag the slider to scrub through years. Bar order re-sorts each frame, so countries visibly overtake or fall behind one another as the panel advances.</div>
+
+  <div class="chart-box"><div id="hdi-time-scatter" style="height:480px"></div></div>
+  <div class="chart-caption">Figure 4.2: HDI&times;100 (x) vs M4 percentile within the active peer set (y), one dot per country, colored by continent. The diagonal cloud means HDI level and within-peer rank track closely; vertical movement at fixed HDI shows a country gaining or losing rank because its peers moved, not because it did.</div>
+
+  <h2 id="caveats"><span class="section-num">5</span> Caveats</h2>
+  <p>The HDI is updated annually but is methodologically backward-looking: the latest year's value typically reflects life-expectancy and education data released with a one-to-three year lag. The HDI panel here ends in 2022 because UNDP HDR 2023/24 had not yet released subsequent vintages at the time of this build; updates would extend the series without changing the methodology. The world used for the leave-one-out mean is the union of HDI-reporting countries (191), which is broader than the 150 rated by the three credit-rating agencies. Restricting the HDI benchmark to the rated subset shifts the world mean upward by approximately 4 HDI100 points but leaves country-level relative ranks essentially unchanged.</p>
+
+  <div class="endnotes" id="endnotes">
+    <h3>Endnotes</h3>
+    <ol>
+      <li id="note-1">Mahbub ul Haq's original 1990 framing of the HDI is documented in the inaugural <em>Human Development Report</em>; subsequent refinements (the inequality-adjusted HDI, the gender development index) are surveyed in UNDP's <a href="https://hdr.undp.org/data-center/documentation-and-downloads" target="_blank" rel="noopener">Documentation &amp; Downloads</a> page. For Amartya Sen's contribution to the underlying capabilities approach see Sen (1977), cited on the <a href="citations.html">Citations</a> page.</li>
+      <li id="note-2">United Nations Development Programme, <em>Human Development Report 2023/2024: Composite Indices Time Series</em>, accessed via the HDRO data centre.</li>
+      <li id="note-3">See the <a href="stories.html">Cases</a> page for narrative reconstructions of these episodes.</li>
+    </ol>
+  </div>
+
+  <p class="page-footer">Relative HDI series are pre-computed and bundled into <code>extras.json</code>. Source: UNDP HDR 2023/24, 142 of 191 reporting countries match the credit-rating panel.</p>
+
+  <h2 id="downloads"><span class="section-num">6</span> Downloads</h2>
+  <p>HDI panel and relative-rating computations.</p>
+  <ul>
+    <li><a href="hdi_relative.csv" download>hdi_relative.csv</a> &mdash; HDI x 100 plus M1, M2, M4 by country-year.</li>
+    <li><a href="extras_hdi.json" download>extras_hdi.json</a> &mdash; bundle used by this page.</li>
+  </ul>
+
+</main>
+
+<script defer src="nav.js"></script>
+<script defer src="tips.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", () => renderNav("relative_hdi.html"));</script>
+<script defer src="shared.js"></script>
+<script defer>
+let EXTRAS = null;
+let CUSTOM_PEERS = [];
+window.addEventListener('load', () => {
+  if (!window.scrLoadExtras) {
+    document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">shared.js failed to load.</p>');
+    return;
+  }
+  window.scrLoadExtras().then(j => {
+    EXTRAS = j;
+    populateCountries();
+    wirePeerControls();
+    renderDistributions();
+  }).catch(err => {
+    document.querySelectorAll('.chart-box').forEach(b => b.innerHTML = '<p style="padding:20px;color:#888">Could not load extras.json: ' + err.message + '</p>');
+  });
+});
+
+function populateCountries() {
+  const sel = document.getElementById('country');
+  if (!sel) return;
+  const countries = Array.from(new Set(EXTRAS.hdi_rel.map(r => r.Country))).sort();
+  sel.innerHTML = '';
+  countries.forEach(c => sel.appendChild(new Option(c, c)));
+  const def = countries.includes('Norway') ? 'Norway' : countries[0];
+  sel.value = def;
+  sel.onchange = () => { renderExplorer(sel.value); renderDistributions(); };
+  renderExplorer(def);
+}
+
+function wirePeerControls() {
+  const peerSel = document.getElementById('peerset');
+  const customBox = document.getElementById('custom-picker');
+  const customSel = document.getElementById('custom-countries');
+  const all = Array.from(new Set(EXTRAS.hdi_rel.map(r => r.Country))).sort();
+  customSel.innerHTML = '';
+  all.forEach(c => customSel.appendChild(new Option(c, c)));
+  const presetOg = document.getElementById('peerset-presets');
+  if (presetOg && window.SCR_PRESET_ORDER) {
+    presetOg.innerHTML = '';
+    window.SCR_PRESET_ORDER.forEach(name => {
+      const members = (window.SCR_PRESET_GROUPS[name] || []).filter(c => all.includes(c));
+      if (!members.length) return;
+      presetOg.appendChild(new Option(name + ' (' + members.length + ')', 'preset:' + name));
+    });
+  }
+  peerSel.onchange = () => {
+    customBox.style.display = (peerSel.value === 'custom') ? 'block' : 'none';
+    if (peerSel.value !== 'custom') {
+      renderExplorer(document.getElementById('country').value);
+      renderDistributions();
+    }
+  };
+  document.getElementById('custom-apply').onclick = () => {
+    const sel = Array.from(customSel.selectedOptions).map(o => o.value);
+    if (sel.length < 2) { alert('Choose at least 2 countries'); return; }
+    CUSTOM_PEERS = sel;
+    peerSel.value = 'custom';
+    renderExplorer(document.getElementById('country').value);
+    renderDistributions();
+  };
+  document.getElementById('custom-clear').onclick = () => {
+    Array.from(customSel.options).forEach(o => o.selected = false);
+    CUSTOM_PEERS = [];
+  };
+}
+
+function currentPeerSet(focal) {
+  const mode = document.getElementById('peerset').value;
+  const all = Array.from(new Set(EXTRAS.hdi_rel.map(r => r.Country))).sort();
+  if (mode === 'world') return all;
+  if (mode === 'region' && window.SCR_REGION_OF && window.SCR_COUNTRIES_IN) {
+    const region = window.SCR_REGION_OF[focal];
+    if (region) return window.SCR_COUNTRIES_IN(region).filter(c => all.includes(c));
+  }
+  if (mode.startsWith('preset:') && window.SCR_PRESET_GROUPS) {
+    return (window.SCR_PRESET_GROUPS[mode.slice(7)] || []).filter(c => all.includes(c));
+  }
+  if (mode === 'custom') return CUSTOM_PEERS.length ? CUSTOM_PEERS : all;
+  return all;
+}
+
+function peerRowsFor(country, peerCountries) {
+  const peerSet = new Set(peerCountries);
+  return EXTRAS.hdi.filter(r => peerSet.has(r.Country) && r.Country === country).sort((a, b) => a.Year - b.Year);
+}
+
+function peerLOOFor(peerCountries) {
+  const peerSet = new Set(peerCountries);
+  const byYear = {};
+  EXTRAS.hdi.filter(r => peerSet.has(r.Country)).forEach(r => {
+    (byYear[r.Year] = byYear[r.Year] || []).push(r.Value);
+  });
+  return Object.keys(byYear).sort((a, b) => +a - +b).map(y => ({
+    Year: +y,
+    mean: byYear[y].reduce((a, b) => a + b, 0) / byYear[y].length
+  }));
+}
+
+function hdiTheme() {
+  const dark = document.body.classList.contains('dark');
+  const txt = dark ? '#ececec' : '#333';
+  const grid = dark ? 'rgba(255,255,255,0.10)' : '#eee';
+  return {
+    plot_bgcolor: 'rgba(0,0,0,0)', paper_bgcolor: 'rgba(0,0,0,0)',
+    font: { family: 'Helvetica Neue, Arial, sans-serif', size: 11, color: txt },
+    grid: grid, txt: txt
+  };
+}
+
+function renderExplorer(country) {
+  const peerSet = currentPeerSet(country);
+  renderAbsolute(country, peerSet);
+  renderRelative(country, peerSet);
+  renderVsCredit(country);
+}
+
+function renderAbsolute(country, peerCountries) {
+  if (!document.getElementById('hdi-abs')) return;
+  const focal = peerRowsFor(country, peerCountries);
+  const peerMean = peerLOOFor(peerCountries);
+  const t = hdiTheme();
+  Plotly.newPlot('hdi-abs', [
+    { x: focal.map(r => r.Year), y: focal.map(r => r.Value), name: country, mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor(country)) || '#1a1a1a', width: 2.4 }, marker: { size: 5 } },
+    { x: peerMean.map(r => r.Year), y: peerMean.map(r => r.mean), name: 'Peer-set LOO mean', mode: 'lines', line: { color: '#888', width: 2, dash: 'dash' } }
+  ], {
+    title: { text: country + ': HDI\u00d7100 vs peer-set leave-one-out mean', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+    xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
+    yaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
+    plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
+    margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 },
+    legend: { orientation: 'h', y: -0.28, x: 0.5, xanchor: 'center', font: { color: t.txt } }
+  }, window.scrChartConfig || { responsive: true, displayModeBar: true });
+}
+
+function renderRelative(country, peerCountries) {
+  if (!document.getElementById('hdi-rel')) return;
+  const peerSet = new Set(peerCountries);
+  const rel = EXTRAS.hdi_rel.filter(r => r.Country === country && peerSet.has(r.Country)).sort((a, b) => a.Year - b.Year);
+  const t = hdiTheme();
+  Plotly.newPlot('hdi-rel', [
+    { x: rel.map(r => r.Year), y: rel.map(r => r.M1), name: 'M1 (squared / LOO)', mode: 'lines+markers', line: { color: (window.scrCountryColor && window.scrCountryColor(country)) || '#1a1a1a', width: 2 }, marker: { size: 4 } },
+    { x: rel.map(r => r.Year), y: rel.map(r => r.M4), name: 'M4 percentile (0-1)', mode: 'lines+markers', line: { color: '#888', width: 2, dash: 'dot' }, marker: { size: 4 }, yaxis: 'y2' }
+  ], {
+    title: { text: country + ': M1 and M4 percentile', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+    xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
+    yaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
+    yaxis2: { title: '', overlaying: 'y', side: 'right', range: [0, 1], gridcolor: 'rgba(0,0,0,0)', tickfont: { color: t.txt } },
+    plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
+    margin: { l: 64, r: 64, t: 84, b: 72, pad: 6 },
+    legend: { orientation: 'h', y: -0.28, x: 0.5, xanchor: 'center', font: { color: t.txt } }
+  }, window.scrChartConfig || { responsive: true, displayModeBar: true });
+}
+
+function renderDistributions() {
+  const years = Array.from(new Set(EXTRAS.hdi.map(r => +r.Year))).sort();
+  const latest = years[years.length - 1];
+  const allCountries = Array.from(new Set(EXTRAS.hdi_rel.map(r => r.Country))).sort();
+  const points = EXTRAS.hdi.filter(r => +r.Year === latest && allCountries.includes(r.Country) && isFinite(r.Value)).map(r => ({ Country: r.Country, Value: r.Value })).sort((a, b) => a.Value - b.Value);
+  const cumShare = points.map((p, i) => (i + 1) / points.length);
+  const cumPct = cumShare.map(s => s * 100);
+  const medianIdx = cumShare.findIndex(s => s >= 0.5);
+  const medianVal = (medianIdx >= 0 && points[medianIdx]) ? points[medianIdx].Value : null;
+  const t = hdiTheme();
+
+  if (document.getElementById('hdi-cdf')) {
+    Plotly.newPlot('hdi-cdf', [{
+      x: points.map(p => p.Value), y: cumPct, mode: 'lines', name: 'CDF',
+      line: { color: t.txt, width: 2 },
+      hovertemplate: '%{customdata}<br>HDI×100: %{x:.2f}<br>Cumulative: %{y:.1f}%<extra></extra>',
+      customdata: points.map(p => p.Country)
+    }], {
+      title: { text: 'Empirical CDF of HDI×100, ' + latest, font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+      xaxis: { title: { text: 'HDI×100', font: { color: t.txt } }, gridcolor: t.grid, tickfont: { color: t.txt } },
+      yaxis: { title: { text: 'Cumulative share (%)', font: { color: t.txt } }, range: [0, 100], gridcolor: t.grid, tickfont: { color: t.txt } },
+      shapes: medianVal != null ? [{ type: 'line', x0: medianVal, x1: medianVal, y0: 0, y1: 100, line: { color: '#C0392B', width: 1, dash: 'dash' } }] : [],
+      annotations: medianVal != null ? [{ x: medianVal, y: 50, text: 'median ' + medianVal.toFixed(1), showarrow: false, xanchor: 'left', xshift: 6, font: { size: 10, color: '#C0392B' } }] : [],
+      plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
+      margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 }
+    }, window.scrChartConfig || { responsive: true, displayModeBar: true });
+  }
+  if (document.getElementById('hdi-hist')) {
+    Plotly.newPlot('hdi-hist', [{
+      x: points.map(p => p.Value), type: 'histogram', nbinsx: 24, marker: { color: '#888' },
+      hovertemplate: 'HDI\u00d7100 bin: %{x}<br>Countries: %{y}<extra></extra>'
+    }], {
+      title: { text: 'Histogram of HDI\u00d7100, ' + latest, font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+      xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
+      yaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
+      plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
+      margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 }
+    }, window.scrChartConfig || { responsive: true, displayModeBar: true });
+  }
+  // v82: also kick the Lorenz, time-bars, time-scatter renderers from here
+  try { renderLorenz(); } catch(e) { console.warn('renderLorenz failed:', e); }
+  try { renderTimeBars(); } catch(e) { console.warn('renderTimeBars failed:', e); }
+  try { renderTimeScatter(); } catch(e) { console.warn('renderTimeScatter failed:', e); }
+}
+
+function renderVsCredit(country) {
+  if (!document.getElementById('hdi-vs-credit')) return;
+  const sm = EXTRAS.score_matrix || {};
+  const yrs = Object.keys(sm).map(Number).sort((a, b) => a - b);
+  const credit = [];
+  yrs.forEach(y => {
+    if (sm[y] && sm[y][country] != null) credit.push({ Year: y, Value: sm[y][country] });
+  });
+  const hdi = EXTRAS.hdi.filter(r => r.Country === country).sort((a, b) => a.Year - b.Year);
+  const t = hdiTheme();
+  Plotly.newPlot('hdi-vs-credit', [
+    { x: hdi.map(r => r.Year), y: hdi.map(r => r.Value), name: country + ' HDI\u00d7100', mode: 'lines+markers', line: { color: '#1B4F8A', width: 2 }, marker: { size: 4 } },
+    { x: credit.map(r => r.Year), y: credit.map(r => r.Value * 5 / 3), name: country + ' credit composite (\u00d75/3)', mode: 'lines+markers', line: { color: '#C0392B', width: 2, dash: 'dash' }, marker: { size: 4 } }
+  ], {
+    title: { text: country + ': HDI\u00d7100 vs credit composite (both on 0-100 scale)', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+    xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
+    yaxis: { title: '', range: [0, 100], gridcolor: t.grid, tickfont: { color: t.txt } },
+    plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
+    margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 },
+    legend: { orientation: 'h', y: -0.28, x: 0.5, xanchor: 'center', font: { color: t.txt } }
+  }, window.scrChartConfig || { responsive: true, displayModeBar: true });
+}
+
+function renderLorenz() {
+  if (!document.getElementById('hdi-lorenz')) return;
+  const years = Array.from(new Set(EXTRAS.hdi.map(r => +r.Year))).sort();
+  const latest = years[years.length - 1];
+  const vals = EXTRAS.hdi.filter(r => +r.Year === latest && isFinite(r.Value)).map(r => r.Value).sort((a, b) => a - b);
+  if (!vals.length) return;
+  const total = vals.reduce((a, b) => a + b, 0);
+  const cumPop = vals.map((_, i) => (i + 1) / vals.length);
+  const cumVal = [];
+  let running = 0;
+  vals.forEach(v => { running += v; cumVal.push(running / total); });
+  const t = hdiTheme();
+  Plotly.newPlot('hdi-lorenz', [
+    { x: cumPop, y: cumVal, mode: 'lines', name: 'Lorenz of HDI\u00d7100', line: { color: t.txt, width: 2 } },
+    { x: [0, 1], y: [0, 1], mode: 'lines', name: 'Equality (45\u00b0)', line: { color: '#888', width: 1, dash: 'dash' } }
+  ], {
+    title: { text: 'Lorenz curve of HDI\u00d7100 across reporting countries, ' + latest, font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+    xaxis: { title: '', range: [0, 1], gridcolor: t.grid, tickfont: { color: t.txt } },
+    yaxis: { title: '', range: [0, 1], gridcolor: t.grid, tickfont: { color: t.txt } },
+    plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
+    margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 },
+    legend: { orientation: 'h', y: -0.22, x: 0.5, xanchor: 'center', font: { color: t.txt } }
+  }, window.scrChartConfig || { responsive: true, displayModeBar: true });
+}
+
+function renderTimeBars() {
+  if (!document.getElementById('hdi-time-bars')) return;
+  if (!EXTRAS || !EXTRAS.hdi) return;
+  const t = hdiTheme();
+  // Top-25 by latest-year HDI*100 in active peer set, with frames per year.
+  const peerSel = document.getElementById('peerset');
+  const sel = peerSel && peerSel.value && peerSel.value !== '' ? peerSel.value : 'global';
+  let peerList = null;
+  if (sel === 'custom' && Array.isArray(CUSTOM_PEERS) && CUSTOM_PEERS.length >= 2) peerList = CUSTOM_PEERS;
+  else if (sel.indexOf('preset:') === 0 && window.SCR_PRESET_GROUPS) peerList = window.SCR_PRESET_GROUPS[sel.slice(7)];
+  const allCountries = Array.from(new Set(EXTRAS.hdi_rel.map(r => r.Country))).sort();
+  const universe = peerList ? peerList.filter(c => allCountries.includes(c)) : allCountries;
+  const years = Array.from(new Set(EXTRAS.hdi.map(r => +r.Year))).sort();
+  if (!years.length) return;
+  const latest = years[years.length - 1];
+  const byYear = {};
+  EXTRAS.hdi.forEach(r => { if (universe.includes(r.Country) && isFinite(r.Value)) { (byYear[r.Year] = byYear[r.Year] || {})[r.Country] = r.Value; } });
+  const latestRow = byYear[latest] || {};
+  const top25 = Object.keys(latestRow).sort((a,b) => latestRow[b] - latestRow[a]).slice(0, 25);
+  function frameFor(y){
+    const row = byYear[y] || {};
+    return [{ type: 'bar', orientation: 'h', y: top25.slice().reverse(), x: top25.slice().reverse().map(c => row[c] != null ? row[c] : 0), marker: { color: '#1B4F8A' }, hovertemplate: '%{y}: %{x:.2f}<extra></extra>' }];
+  }
+  const frames = years.map(y => ({ name: String(y), data: frameFor(y) }));
+  const sliderSteps = years.map(y => ({ method: 'animate', label: String(y), args: [[String(y)], { mode: 'immediate', frame: { duration: 0, redraw: true }, transition: { duration: 0 } }] }));
+  Plotly.newPlot('hdi-time-bars', frameFor(latest), {
+    title: { text: 'Top-25 HDI×100 over time, current peer set', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+    xaxis: { title: { text: 'HDI×100', font: { color: t.txt } }, range: [0, 100], gridcolor: t.grid, tickfont: { color: t.txt } },
+    yaxis: { title: '', tickfont: { color: t.txt, size: 9 }, automargin: true },
+    plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
+    margin: { l: 140, r: 40, t: 84, b: 90, pad: 6 },
+    sliders: [{ active: years.length - 1, pad: { t: 40, b: 10 }, currentvalue: { prefix: 'Year: ', font: { size: 12, color: t.txt } }, steps: sliderSteps, font: { color: t.txt } }]
+  }, window.scrChartConfig || { responsive: true, displayModeBar: true })
+  .then(() => Plotly.addFrames('hdi-time-bars', frames));
+}
+
+function renderTimeScatter() {
+  if (!document.getElementById('hdi-time-scatter')) return;
+  if (!EXTRAS || !EXTRAS.hdi) return;
+  const t = hdiTheme();
+  const allCountries = Array.from(new Set(EXTRAS.hdi.map(r => r.Country))).sort();
+  // One trace per country, light gray; overlay focal country in accent.
+  const focal = (document.getElementById('country') || {}).value || allCountries[0];
+  const focalCol = '#C0392B';
+  const traces = [];
+  allCountries.forEach(c => {
+    if (c === focal) return;
+    const rows = EXTRAS.hdi.filter(r => r.Country === c && isFinite(r.Value)).sort((a,b) => a.Year - b.Year);
+    if (rows.length < 2) return;
+    traces.push({ x: rows.map(r => r.Year), y: rows.map(r => r.Value), mode: 'lines', line: { color: 'rgba(120,120,120,0.18)', width: 0.7 }, hoverinfo: 'skip', showlegend: false });
+  });
+  const fr = EXTRAS.hdi.filter(r => r.Country === focal && isFinite(r.Value)).sort((a,b) => a.Year - b.Year);
+  if (fr.length) traces.push({ x: fr.map(r => r.Year), y: fr.map(r => r.Value), name: focal, mode: 'lines+markers', line: { color: focalCol, width: 2.4 }, marker: { color: focalCol, size: 5 } });
+  Plotly.newPlot('hdi-time-scatter', traces, {
+    title: { text: focal + ' (red) vs every other country (gray) on HDI×100', font: { size: 13, color: t.txt }, x: 0.02, xanchor: 'left', y: 0.97, yanchor: 'top', pad: { l: 4, t: 4 } },
+    xaxis: { title: '', gridcolor: t.grid, tickfont: { color: t.txt } },
+    yaxis: { title: { text: 'HDI×100', font: { color: t.txt } }, range: [0, 100], gridcolor: t.grid, tickfont: { color: t.txt } },
+    plot_bgcolor: t.plot_bgcolor, paper_bgcolor: t.paper_bgcolor, font: t.font,
+    margin: { l: 64, r: 56, t: 84, b: 72, pad: 6 },
+    legend: { orientation: 'h', y: -0.18, x: 0.5, xanchor: 'center', font: { color: t.txt } }
+  }, window.scrChartConfig || { responsive: true, displayModeBar: true });
+}
+
+</script>
+
+</body>
+</html>
