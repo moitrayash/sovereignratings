@@ -107,7 +107,7 @@
       <div class="entry" data-terms="alternative scales numerical rating scale 21 17 16 logpd basu mirror">
         <dt>Alternative Scales</dt>
         <dd>
-          <p>Eight numerical representations of the same underlying letter-grade ratings, used in the literature: 0&ndash;60 (this project), 1&ndash;21, 0&ndash;20 (BIS), 1&ndash;17 (Ant&oacute;nio Afonso, Davide Furceri, and Pedro Gomes 2011), 1&ndash;16 (Richard Cantor and Frank Packer 1996), 1&ndash;60 directional (Kaushik Basu et al. 2013 mirror), 0&ndash;1 normalised, and 0&ndash;11.5 (log default probability). Pairwise correlations are r &ge; 0.99 for all monotone transforms. Re-running Models A&ndash;D under each scale leaves every coefficient identical in sign and significance&mdash;the qualitative paper conclusions are invariant to scale choice. See <a href="methodology.html#sec9">Methodology &sect;9</a>.</p>
+          <p>Eight numerical representations of the same underlying letter-grade ratings, used in the literature: 0&ndash;60 (this project), 1&ndash;21, 0&ndash;20 (BIS), 1&ndash;17 (Ant&oacute;nio Afonso, Pedro Gomes, and Philipp Rother 2011), 1&ndash;16 (Richard Cantor and Frank Packer 1996), 1&ndash;60 directional (Kaushik Basu et al. 2013 mirror), 0&ndash;1 normalised, and 0&ndash;11.5 (log default probability). Pairwise correlations are r &ge; 0.99 for all monotone transforms. Re-running Models A&ndash;D under each scale leaves every coefficient identical in sign and significance&mdash;the qualitative paper conclusions are invariant to scale choice. See <a href="methodology.html#sec9">Methodology &sect;9</a>.</p>
         </dd>
       </div>
 
@@ -392,7 +392,7 @@
       <div class="entry" data-terms="ordered logit probit transition model">
         <dt>Ordered Logit / Probit</dt>
         <dd>
-          <p>A model for an ordinal outcome&mdash;here, the annual rating transition: downgrade (&minus;1), stable (0), or upgrade (+1). The ordered logit and probit produce nearly identical results (AIC &asymp; 4560 vs 4562), as expected for symmetric distributions. The functional form follows Daniel McFadden (1974). Estimated on N = 2,922 country&ndash;year transitions, 2000&ndash;2025.</p>
+          <p>A model for an ordinal outcome&mdash;here, the annual rating transition: downgrade (&minus;1), stable (0), or upgrade (+1). The ordered logit and probit produce nearly identical results (AIC &asymp; 4560 vs 4562), as expected for symmetric distributions. The functional form follows J. Aitchison and S. D. Silvey (1957), Richard D. McKelvey and William Zavoina (1975), and Peter McCullagh (1980); Daniel McFadden (1974) supplies the discrete-choice foundation. Estimated on N = 2,922 country&ndash;year transitions, 2000&ndash;2025.</p>
         </dd>
       </div>
 
@@ -494,7 +494,7 @@
       <div class="entry" data-terms="shadow rating predicted rating fundamentals model ratha de mohapatra">
         <dt>Shadow Rating</dt>
         <dd>
-          <p>The rating implied by a country's macro and institutional fundamentals, estimated by OLS regression of the observed composite score on a set of structural covariates and then applied to all 150 countries&mdash;including those rated by no agency or only one. Following <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a>, <a href="https://www.worldbank.org/en/about/people/s/supriyo-de" target="_blank" rel="noopener">Supriyo De</a>, and <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a> in <a href="https://openknowledge.worldbank.org/handle/10986/7363" target="_blank" rel="noopener">World Bank Policy Research Working Paper 4269</a> (2007).</p>
+          <p>The rating implied by a country's macro and institutional fundamentals, estimated by OLS regression of the observed composite score on a set of structural covariates and then applied to all 150 countries&mdash;including those rated by no agency or only one. Following <a href="https://en.wikipedia.org/wiki/Dilip_Ratha" target="_blank" rel="noopener">Dilip Ratha</a>, Prabal De, and <a href="https://www.researchgate.net/profile/Sanket-Mohapatra" target="_blank" rel="noopener">Sanket Mohapatra</a> in <a href="https://openknowledge.worldbank.org/handle/10986/7363" target="_blank" rel="noopener">World Bank Policy Research Working Paper 4269</a> (2007).</p>
           <p>Five nested specifications S0&ndash;S4 are estimated with cluster-robust standard errors at the country level. <strong>S2 is the preferred benchmark</strong>: log GDPpc, GDP growth, 5-yr growth volatility, inflation, Rule of Law, and current account % GDP, fit on N = 2,578 country&ndash;years with R&sup2; = 0.76 and RMSE = 8.05 points (&asymp; 2.7 letter-grade notches). Saved in <code>shadow_panel.csv</code>. See <a href="methodology.html#sec12">Methodology &sect;12</a>.</p>
         </dd>
       </div>
